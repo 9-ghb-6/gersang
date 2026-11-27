@@ -1,2224 +1,2887 @@
-6px 18px rgba(0, 0, 0, 0.22);
-white-space: nowrap;
-}
-.ultimate-btn.ready {
-background: linear-gradient(135deg, #c97a16 0%, #e63946 100%);
-color: #fff;
-border-color: #fff3b0;
-animation: pulseGlow 1.1s infinite alternate;
-}
-@keyframes pulseGlow {
-from { transform: scale(1); }
-to { transform: scale(1.05); }
-}
-/* 우측 관리/도감 패널 */
-#side-pane {
-flex: 1;
-min-width: 320px;
-max-width: var(--side-max);
-height: 100%;
-background: var(--bg-panel);
-border-left: 2px solid rgba(184, 130, 29, 0.45);
-display: flex;
-flex-direction: column;
-overflow: hidden;
-transition: max-width 0.2s ease, height 0.2s ease;
-}
-.top-resource-strip {
-display: flex;
-justify-content: space-between;
-align-items: center;
-padding: 8px 12px;
-background: #f1eadc;
-border-bottom: 1px solid var(--border-soft);
-font-size: 12px;
-font-weight: 700;
-gap: 8px;
-flex-wrap: wrap;
-}
-.nav-tabs {
-display: grid;
-grid-template-columns: repeat(5, 1fr);
-gap: 4px;
-padding: 8px;
-background: #f6f1e7;
-border-bottom: 1px solid var(--border-soft);
-}
-.nav-tab {
-border: 1px solid var(--border-soft);
-background: var(--bg-card);
-color: var(--ink-sub);
-border-radius: 10px;
-padding: 8px 4px;
-font-size: 12px;
-font-weight: 700;
-cursor: pointer;
-text-align: center;
-white-space: nowrap;
-}
-.nav-tab.active {
-background: #223029;
-color: #fff;
-border-color: #223029;
-}
-#tab-content {
-flex: 1;
-overflow-y: auto;
-padding: 12px;
-display: flex;
-flex-direction: column;
-gap: 10px;
-}
-.section-card {
-background: var(--bg-card);
-border: 1px solid var(--border-soft);
-border-radius: 14px;
-padding: 12px;
-box-shadow: var(--shadow-card);
-}
-.section-title {
-margin: 0 0 8px 0;
-font-size: 14px;
-font-weight: 800;
-display: flex;
-justify-content: space-between;
-align-items: center;
-gap: 6px;
-flex-wrap: wrap;
-}
-.preset-row {
-display: flex;
-gap: 6px;
-margin-bottom: 8px;
-flex-wrap: wrap;
-}
-.preset-box {
-flex: 1;
-min-width: 96px;
-border: 1px solid var(--border-soft);
-background: #faf6ee;
-border-radius: 10px;
-padding: 6px 8px;
-font-size: 11px;
-display: flex;
-flex-direction: column;
-gap: 4px;
-}
-.slot-selector-grid {
-display: grid;
-grid-template-columns: repeat(2, 1fr);
-gap: 8px;
-margin-bottom: 8px;
-}
-.slot-box {
-border: 2px solid var(--border-soft);
-background: #fffdf9;
-border-radius: 12px;
-padding: 8px;
-cursor: pointer;
-text-align: left;
-display: flex;
-flex-direction: column;
-gap: 4px;
-}
-.slot-box.selected {
-border-color: var(--accent-jade);
-background: var(--accent-jade-soft);
-}
-.slot-header {
-display: flex;
-justify-content: space-between;
-align-items: center;
-font-size: 11px;
-font-weight: 800;
-color: var(--ink-sub);
-}
-.slot-hero-name {
-font-size: 13px;
-font-weight: 800;
-color: var(--ink-main);
-}
-.synergy-guide-box {
-background: #faf6ee;
-border: 1px dashed rgba(184, 130, 29, 0.45);
-border-radius: 10px;
-padding: 8px 10px;
-margin-bottom: 8px;
-font-size: 11px;
-color: var(--ink-sub);
-line-height: 1.45;
-}
-.synergy-list {
-display: flex;
-flex-wrap: wrap;
-gap: 6px;
-}
-.synergy-badge {
-font-size: 11px;
-font-weight: 700;
-padding: 4px 8px;
-border-radius: 8px;
-background: #f3efe8;
-color: var(--ink-sub);
-border: 1px solid var(--border-soft);
-}
-.synergy-badge.on {
-background: var(--accent-gold-soft);
-color: var(--ink-main);
-border-color: rgba(184, 130, 29, 0.45);
-}
-.nation-filter-bar {
-display: flex;
-gap: 6px;
-flex-wrap: wrap;
-margin-bottom: 10px;
-}
-.nation-chip {
-border: 1px solid var(--border-soft);
-background: #faf6ee;
-color: var(--ink-sub);
-border-radius: 999px;
-padding: 5px 10px;
-font-size: 12px;
-font-weight: 700;
-cursor: pointer;
-}
-.nation-chip.active {
-background: var(--accent-gold);
-color: #fff;
-border-color: var(--accent-gold);
-}
-.hero-grid {
-display: grid;
-grid-template-columns: repeat(auto-fill, minmax(145px, 1fr));
-gap: 8px;
-}
-.hero-card {
-border: 1px solid var(--border-soft);
-border-radius: 12px;
-padding: 8px;
-background: #fffdf9;
-display: flex;
-flex-direction: column;
-gap: 6px;
-}
-.hero-card.synergy-match {
-border-color: rgba(30, 122, 101, 0.55);
-box-shadow: 0 0 0 1px rgba(30, 122, 101, 0.2);
-}
-.hero-card.locked {
-opacity: 0.72;
-background: #f3efe8;
-}
-.hero-thumb {
-width: 100%;
-height: 84px;
-border-radius: 8px;
-object-fit: cover;
-background: #e7decb;
-}
-.hero-name {
-font-size: 13px;
-font-weight: 800;
-display: flex;
-justify-content: space-between;
-align-items: center;
-}
-.hero-meta {
-font-size: 11px;
-color: var(--ink-sub);
-}
-.hero-syn-tag {
-font-size: 10px;
-font-weight: 700;
-color: var(--accent-jade);
-background: var(--accent-jade-soft);
-border-radius: 6px;
-padding: 3px 6px;
-}
-.btn-row {
-display: flex;
-gap: 4px;
-flex-wrap: wrap;
-}
-.mini-btn {
-flex: 1;
-border: 1px solid var(--border-soft);
-background: #f5efe3;
-color: var(--ink-main);
-border-radius: 8px;
-padding: 6px 6px;
-font-size: 11px;
-font-weight: 700;
-cursor: pointer;
-}
-.mini-btn.primary {
-background: var(--accent-jade);
-color: #fff;
-border-color: transparent;
-}
-.mini-btn.gold {
-background: var(--accent-gold);
-color: #fff;
-border-color: transparent;
-}
-.mini-btn.danger {
-background: var(--accent-crimson);
-color: #fff;
-border-color: transparent;
-}
-.mini-btn:disabled {
-opacity: 0.45;
-cursor: not-allowed;
-}
-.backup-textarea {
-width: 100%;
-min-height: 68px;
-border: 1px solid var(--border-soft);
-border-radius: 10px;
-padding: 8px;
-font-size: 11px;
-font-family: monospace;
-background: #faf6ee;
-color: var(--ink-main);
-resize: vertical;
-}
-.toast {
-position: fixed;
-left: 50%;
-bottom: 64px;
-transform: translateX(-50%);
-background: rgba(34, 29, 24, 0.92);
-color: #fff;
-padding: 8px 16px;
-border-radius: 999px;
-font-size: 12px;
-font-weight: 700;
-z-index: 999;
-display: none;
-}
-.modal-backdrop {
-position: fixed;
-inset: 0;
-background: rgba(15, 12, 9, 0.62);
-backdrop-filter: blur(4px);
-display: none;
-align-items: center;
-justify-content: center;
-z-index: 120;
-padding: 16px;
-}
-.modal-backdrop.open {
-display: flex;
-}
-.modal-box {
-width: 100%;
-max-width: 480px;
-max-height: 86vh;
-overflow-y: auto;
-background: var(--bg-panel);
-border-radius: 18px;
-padding: 16px;
-border: 1px solid var(--border-soft);
-box-shadow: 0 16px 40px rgba(0, 0, 0, 0.35);
-display: flex;
-flex-direction: column;
-gap: 10px;
-animation: modalPop 0.2s ease-out;
-}
-@keyframes modalPop {
-from { opacity: 0; transform: scale(0.95); }
-to { opacity: 1; transform: scale(1); }
-}
-.diff-item {
-border: 1px solid var(--border-soft);
-background: #fff;
-border-radius: 10px;
-padding: 10px 12px;
-display: flex;
-justify-content: space-between;
-align-items: center;
-cursor: pointer;
-text-align: left;
-gap: 8px;
-}
-.diff-item.active {
-border-color: var(--accent-gold);
-background: var(--accent-gold-soft);
-}
-.summon-result-grid {
-display: grid;
-grid-template-columns: repeat(auto-fill, minmax(112px, 1fr));
-gap: 8px;
-}
-.summon-item-card {
-border: 1px solid var(--border-soft);
-border-radius: 12px;
-padding: 8px;
-background: #fff;
-text-align: center;
-display: flex;
-flex-direction: column;
-gap: 4px;
-animation: cardReveal 0.26s ease both;
-}
-.summon-item-card.new-hero {
-border-color: var(--accent-gold);
-background: #fffaf0;
-box-shadow: 0 0 0 2px rgba(184, 130, 29, 0.18);
-}
-@keyframes cardReveal {
-from { opacity: 0; transform: translateY(8px); }
-to { opacity: 1; transform: translateY(0); }
-}
-#dungeon-transition {
-position: fixed;
-inset: 0;
-background: radial-gradient(circle at center, #281d38 0%, #120e1a 100%);
-color: #fff;
-z-index: 200;
-display: none;
-flex-direction: column;
-align-items: center;
-justify-content: center;
-gap: 14px;
-padding: 24px;
-text-align: center;
-}
-#dungeon-transition.active {
-display: flex;
-animation: fadeScreen 0.25s ease;
-}
-@keyframes fadeScreen {
-from { opacity: 0; }
-to { opacity: 1; }
-}
-.portal-ring {
-width: 78px;
-height: 78px;
-border-radius: 50%;
-border: 4px solid rgba(255, 215, 115, 0.25);
-border-top-color: #ffd166;
-border-right-color: #48cae4;
-animation: spinRing 0.95s linear infinite;
-}
-@keyframes spinRing {
-to { transform: rotate(360deg); }
-}
-.dungeon-progress-wrap {
-width: 100%;
-max-width: 280px;
-height: 8px;
-border-radius: 999px;
-background: rgba(255, 255, 255, 0.16);
-overflow: hidden;
-}
-.dungeon-progress-bar {
-height: 100%;
-width: 0%;
-background: linear-gradient(90deg, #ffd166, #06d6a0);
-transition: width 0.12s linear;
-}
-@media (max-width: 820px) {
-#app {
-flex-direction: column;
-}
-#battle-pane {
-flex: none;
-height: var(--mobile-battle-h, 44%);
-width: 100%;
-}
-#side-pane {
-flex: 1;
-min-width: 0;
-max-width: none;
-width: 100%;
-border-left: none;
-border-top: 2px solid rgba(184, 130, 29, 0.45);
-}
-}
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<title>천하제일거상 : 제국 리마스터 v3</title>
+<style>
+  :root {
+    --bg-cream: #f4efe6;
+    --bg-panel: #fbf8f2;
+    --bg-card: #ffffff;
+    --ink-main: #221d18;
+    --ink-sub: #665d53;
+    --ink-muted: #8f8477;
+    --accent-gold: #b8821d;
+    --accent-gold-soft: rgba(184, 130, 29, 0.14);
+    --accent-jade: #1e7a65;
+    --accent-jade-soft: rgba(30, 122, 101, 0.14);
+    --accent-crimson: #b83227;
+    --accent-crimson-soft: rgba(184, 50, 39, 0.14);
+    --border-soft: rgba(74, 58, 38, 0.16);
+    --shadow-card: 0 4px 14px rgba(42, 31, 18, 0.07);
+    --battle-flex: 1.15;
+    --side-max: 580px;
+  }
+
+  * {
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background: var(--bg-cream);
+    color: var(--ink-main);
+    font-family: -apple-system, BlinkMacSystemFont, "Malgun Gothic", "Apple SD Gothic Neo", sans-serif;
+  }
+
+  #app {
+    display: flex;
+    width: 100%;
+    height: 100%;
+  }
+
+  #battle-pane {
+    position: relative;
+    flex: var(--battle-flex);
+    min-width: 0;
+    height: 100%;
+    overflow: hidden;
+    background: linear-gradient(180deg, #8ecae6 0%, #cde8f5 52%, #e8dcc4 53%, #cbb896 100%);
+    transition: flex 0.2s ease, height 0.2s ease;
+  }
+
+  #battle-canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+  }
+
+  .hud-top-bar {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    right: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 8px;
+    pointer-events: none;
+    z-index: 10;
+  }
+
+  .hud-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    pointer-events: auto;
+  }
+
+  .hud-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+
+  .pill-btn {
+    border: 1px solid var(--border-soft);
+    background: rgba(251, 248, 242, 0.92);
+    backdrop-filter: blur(8px);
+    color: var(--ink-main);
+    border-radius: 999px;
+    padding: 6px 11px;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .pill-btn:hover {
+    background: #fffdf8;
+  }
+
+  .pill-btn.danger {
+    background: rgba(184, 50, 39, 0.92);
+    color: #fff;
+    border-color: transparent;
+  }
+
+  .pill-btn.active {
+    background: var(--accent-jade);
+    color: #fff;
+    border-color: transparent;
+  }
+
+  .combo-pill {
+    background: rgba(34, 29, 24, 0.86);
+    color: #ffe299;
+    border: 1px solid rgba(255, 226, 153, 0.45);
+    border-radius: 999px;
+    padding: 4px 10px;
+    font-size: 11px;
+    font-weight: 800;
+  }
+
+  .stage-badge {
+    background: rgba(251, 248, 242, 0.94);
+    border: 1px solid var(--border-soft);
+    border-radius: 12px;
+    padding: 6px 10px;
+    font-size: 12px;
+    font-weight: 700;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 158px;
+  }
+
+  .wave-bar-wrap {
+    width: 100%;
+    height: 6px;
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 999px;
+    overflow: hidden;
+  }
+
+  .wave-bar-fill {
+    height: 100%;
+    width: 20%;
+    background: linear-gradient(90deg, var(--accent-gold), var(--accent-jade));
+    transition: width 0.25s ease;
+  }
+
+  .hud-bottom-bar {
+    position: absolute;
+    bottom: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+    pointer-events: auto;
+  }
+
+  .ultimate-btn {
+    border: 2px solid #d49b27;
+    background: linear-gradient(135deg, #2b2118 0%, #4d3519 100%);
+    color: #ffe299;
+    border-radius: 999px;
+    padding: 9px 18px;
+    font-size: 13px;
+    font-weight: 800;
+    cursor: pointer;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.22);
+    white-space: nowrap;
+  }
+
+  .ultimate-btn.ready {
+    background: linear-gradient(135deg, #c97a16 0%, #e63946 100%);
+    color: #fff;
+    border-color: #fff3b0;
+    animation: pulseGlow 1.1s infinite alternate;
+  }
+
+  @keyframes pulseGlow {
+    from { transform: scale(1); }
+    to { transform: scale(1.05); }
+  }
+
+  #side-pane {
+    flex: 1;
+    min-width: 320px;
+    max-width: var(--side-max);
+    height: 100%;
+    background: var(--bg-panel);
+    border-left: 2px solid rgba(184, 130, 29, 0.45);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    transition: max-width 0.2s ease, height 0.2s ease;
+  }
+
+  .top-resource-strip {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 12px;
+    background: #f1eadc;
+    border-bottom: 1px solid var(--border-soft);
+    font-size: 12px;
+    font-weight: 700;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .nav-tabs {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 4px;
+    padding: 8px;
+    background: #f6f1e7;
+    border-bottom: 1px solid var(--border-soft);
+  }
+
+  .nav-tab {
+    border: 1px solid var(--border-soft);
+    background: var(--bg-card);
+    color: var(--ink-sub);
+    border-radius: 10px;
+    padding: 8px 4px;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    text-align: center;
+    white-space: nowrap;
+  }
+
+  .nav-tab.active {
+    background: #223029;
+    color: #fff;
+    border-color: #223029;
+  }
+
+  #tab-content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .section-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-soft);
+    border-radius: 14px;
+    padding: 12px;
+    box-shadow: var(--shadow-card);
+  }
+
+  .section-title {
+    margin: 0 0 8px 0;
+    font-size: 14px;
+    font-weight: 800;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+
+  .preset-row {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 8px;
+    flex-wrap: wrap;
+  }
+
+  .preset-box {
+    flex: 1;
+    min-width: 96px;
+    border: 1px solid var(--border-soft);
+    background: #faf6ee;
+    border-radius: 10px;
+    padding: 6px 8px;
+    font-size: 11px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .slot-selector-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+    margin-bottom: 8px;
+  }
+
+  .slot-box {
+    border: 2px solid var(--border-soft);
+    background: #fffdf9;
+    border-radius: 12px;
+    padding: 8px;
+    cursor: pointer;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .slot-box.selected {
+    border-color: var(--accent-jade);
+    background: var(--accent-jade-soft);
+  }
+
+  .slot-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 11px;
+    font-weight: 800;
+    color: var(--ink-sub);
+  }
+
+  .slot-hero-name {
+    font-size: 13px;
+    font-weight: 800;
+    color: var(--ink-main);
+  }
+
+  .synergy-guide-box {
+    background: #faf6ee;
+    border: 1px dashed rgba(184, 130, 29, 0.45);
+    border-radius: 10px;
+    padding: 8px 10px;
+    margin-bottom: 8px;
+    font-size: 11px;
+    color: var(--ink-sub);
+    line-height: 1.45;
+  }
+
+  .synergy-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .synergy-badge {
+    font-size: 11px;
+    font-weight: 700;
+    padding: 4px 8px;
+    border-radius: 8px;
+    background: #f3efe8;
+    color: var(--ink-sub);
+    border: 1px solid var(--border-soft);
+  }
+
+  .synergy-badge.on {
+    background: var(--accent-gold-soft);
+    color: var(--ink-main);
+    border-color: rgba(184, 130, 29, 0.45);
+  }
+
+  .nation-filter-bar {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-bottom: 10px;
+  }
+
+  .nation-chip {
+    border: 1px solid var(--border-soft);
+    background: #faf6ee;
+    color: var(--ink-sub);
+    border-radius: 999px;
+    padding: 5px 10px;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+  }
+
+  .nation-chip.active {
+    background: var(--accent-gold);
+    color: #fff;
+    border-color: var(--accent-gold);
+  }
+
+  .hero-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(145px, 1fr));
+    gap: 8px;
+  }
+
+  .hero-card {
+    border: 1px solid var(--border-soft);
+    border-radius: 12px;
+    padding: 8px;
+    background: #fffdf9;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .hero-card.synergy-match {
+    border-color: rgba(30, 122, 101, 0.55);
+    box-shadow: 0 0 0 1px rgba(30, 122, 101, 0.2);
+  }
+
+  .hero-card.locked {
+    opacity: 0.72;
+    background: #f3efe8;
+  }
+
+  .hero-thumb {
+    width: 100%;
+    height: 84px;
+    border-radius: 8px;
+    object-fit: cover;
+    background: #e7decb;
+  }
+
+  .hero-name {
+    font-size: 13px;
+    font-weight: 800;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .hero-meta {
+    font-size: 11px;
+    color: var(--ink-sub);
+  }
+
+  .hero-syn-tag {
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--accent-jade);
+    background: var(--accent-jade-soft);
+    border-radius: 6px;
+    padding: 3px 6px;
+  }
+
+  .btn-row {
+    display: flex;
+    gap: 4px;
+    flex-wrap: wrap;
+  }
+
+  .mini-btn {
+    flex: 1;
+    border: 1px solid var(--border-soft);
+    background: #f5efe3;
+    color: var(--ink-main);
+    border-radius: 8px;
+    padding: 6px 6px;
+    font-size: 11px;
+    font-weight: 700;
+    cursor: pointer;
+  }
+
+  .mini-btn.primary {
+    background: var(--accent-jade);
+    color: #fff;
+    border-color: transparent;
+  }
+
+  .mini-btn.gold {
+    background: var(--accent-gold);
+    color: #fff;
+    border-color: transparent;
+  }
+
+  .mini-btn.danger {
+    background: var(--accent-crimson);
+    color: #fff;
+    border-color: transparent;
+  }
+
+  .mini-btn:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+  }
+
+  .backup-textarea {
+    width: 100%;
+    min-height: 68px;
+    border: 1px solid var(--border-soft);
+    border-radius: 10px;
+    padding: 8px;
+    font-size: 11px;
+    font-family: monospace;
+    background: #faf6ee;
+    color: var(--ink-main);
+    resize: vertical;
+  }
+
+  .toast {
+    position: fixed;
+    left: 50%;
+    bottom: 64px;
+    transform: translateX(-50%);
+    background: rgba(34, 29, 24, 0.92);
+    color: #fff;
+    padding: 8px 16px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 700;
+    z-index: 999;
+    display: none;
+  }
+
+  .modal-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 12, 9, 0.62);
+    backdrop-filter: blur(4px);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 120;
+    padding: 16px;
+  }
+
+  .modal-backdrop.open {
+    display: flex;
+  }
+
+  .modal-box {
+    width: 100%;
+    max-width: 480px;
+    max-height: 86vh;
+    overflow-y: auto;
+    background: var(--bg-panel);
+    border-radius: 18px;
+    padding: 16px;
+    border: 1px solid var(--border-soft);
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.35);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    animation: modalPop 0.2s ease-out;
+  }
+
+  @keyframes modalPop {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
+  }
+
+  .diff-item {
+    border: 1px solid var(--border-soft);
+    background: #fff;
+    border-radius: 10px;
+    padding: 10px 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    text-align: left;
+    gap: 8px;
+  }
+
+  .diff-item.active {
+    border-color: var(--accent-gold);
+    background: var(--accent-gold-soft);
+  }
+
+  .summon-result-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(112px, 1fr));
+    gap: 8px;
+  }
+
+  .summon-item-card {
+    border: 1px solid var(--border-soft);
+    border-radius: 12px;
+    padding: 8px;
+    background: #fff;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    animation: cardReveal 0.26s ease both;
+  }
+
+  .summon-item-card.new-hero {
+    border-color: var(--accent-gold);
+    background: #fffaf0;
+    box-shadow: 0 0 0 2px rgba(184, 130, 29, 0.18);
+  }
+
+  @keyframes cardReveal {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  #dungeon-transition {
+    position: fixed;
+    inset: 0;
+    background: radial-gradient(circle at center, #281d38 0%, #120e1a 100%);
+    color: #fff;
+    z-index: 200;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    padding: 24px;
+    text-align: center;
+  }
+
+  #dungeon-transition.active {
+    display: flex;
+    animation: fadeScreen 0.25s ease;
+  }
+
+  @keyframes fadeScreen {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  .portal-ring {
+    width: 78px;
+    height: 78px;
+    border-radius: 50%;
+    border: 4px solid rgba(255, 215, 115, 0.25);
+    border-top-color: #ffd166;
+    border-right-color: #48cae4;
+    animation: spinRing 0.95s linear infinite;
+  }
+
+  @keyframes spinRing {
+    to { transform: rotate(360deg); }
+  }
+
+  .dungeon-progress-wrap {
+    width: 100%;
+    max-width: 280px;
+    height: 8px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.16);
+    overflow: hidden;
+  }
+
+  .dungeon-progress-bar {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, #ffd166, #06d6a0);
+    transition: width 0.12s linear;
+  }
+
+  @media (max-width: 820px) {
+    #app {
+      flex-direction: column;
+    }
+    #battle-pane {
+      flex: none;
+      height: var(--mobile-battle-h, 44%);
+      width: 100%;
+    }
+    #side-pane {
+      flex: 1;
+      min-width: 0;
+      max-width: none;
+      width: 100%;
+      border-left: none;
+      border-top: 2px solid rgba(184, 130, 29, 0.45);
+    }
+  }
 </style>
 </head>
 <body>
 <div id="app">
-<!-- 좌측 전장 -->
-<section id="battle-pane">
-<canvas id="battle-canvas"></canvas>
-<div class="hud-top-bar">
-<div class="hud-group">
-<div class="hud-row">
-<button id="btn-diff-modal" class="pill-btn" type="button">난이도: 입문 ▾</button>
-<button id="btn-speed" class="pill-btn active" type="button">⚡ 1x</button>
-<button id="btn-sound" class="pill-btn active" type="button">🔊 소리 ON</button>
-<button id="btn-layout" class="pill-btn" type="button">📐 분할</button>
-<button id="btn-bg-upload" class="pill-btn" type="button" title="배경 이미지 변경">🏞️</button>
-<input id="file-bg-input" type="file" accept="image/*" style="display:none" />
+  <section id="battle-pane">
+    <canvas id="battle-canvas"></canvas>
+
+    <div class="hud-top-bar">
+      <div class="hud-group">
+        <div class="hud-row">
+          <button id="btn-diff-modal" class="pill-btn" type="button">난이도: 입문 ▾</button>
+          <button id="btn-speed" class="pill-btn active" type="button">⚡ 1x</button>
+          <button id="btn-sound" class="pill-btn active" type="button">🔊 소리 ON</button>
+          <button id="btn-layout" class="pill-btn" type="button">📐 분할</button>
+          <button id="btn-bg-upload" class="pill-btn" type="button" title="배경 이미지 변경">🏞️</button>
+          <input id="file-bg-input" type="file" accept="image/*" style="display:none" />
+        </div>
+        <div class="hud-row">
+          <button id="btn-prev-stage" class="pill-btn" type="button">◀ 이전</button>
+          <button id="btn-boss-now" class="pill-btn danger" type="button">👹 보스즉시</button>
+          <button id="btn-next-stage" class="pill-btn" type="button">다음 ▶</button>
+          <span id="combo-badge" class="combo-pill">0 COMBO</span>
+        </div>
+      </div>
+
+      <div class="hud-group" style="align-items:flex-end;">
+        <div class="stage-badge">
+          <div id="stage-label">1-1 한양성 외곽 (1/5)</div>
+          <div class="wave-bar-wrap">
+            <div id="wave-bar" class="wave-bar-fill"></div>
+          </div>
+        </div>
+        <button id="btn-auto-stage" class="pill-btn active" type="button">🔄 자동진행 ON</button>
+      </div>
+    </div>
+
+    <div class="hud-bottom-bar">
+      <button id="btn-ultimate" class="ultimate-btn" type="button">⚡ 천지개벽 협동필살 공명 0%</button>
+    </div>
+  </section>
+
+  <aside id="side-pane">
+    <div class="top-resource-strip">
+      <span id="res-gold">💰 1,500냥</span>
+      <span id="res-gem">💎 360옥</span>
+      <span id="res-soul">🔥 영혼석 20</span>
+    </div>
+
+    <nav class="nav-tabs" aria-label="주요 메뉴">
+      <button class="nav-tab active" data-tab="squad" type="button">⚔️ 출전부대</button>
+      <button class="nav-tab" data-tab="roster" type="button">📜 장수·용병</button>
+      <button class="nav-tab" data-tab="summon" type="button">🔮 태극소환</button>
+      <button class="nav-tab" data-tab="dungeon" type="button">📖 각성던전</button>
+      <button class="nav-tab" data-tab="merchant" type="button">🏛️ 상단·제련</button>
+    </nav>
+
+    <main id="tab-content"></main>
+  </aside>
 </div>
-<div class="hud-row">
-<button id="btn-prev-stage" class="pill-btn" type="button">◀ 이전</button>
-<button id="btn-boss-now" class="pill-btn danger" type="button">👹 보스즉시</button>
-<button id="btn-next-stage" class="pill-btn" type="button">다음 ▶</button>
-<span id="combo-badge" class="combo-pill">0 COMBO</span>
-</div>
-</div>
-<div class="hud-group" style="align-items:flex-end;">
-<div class="stage-badge">
-<div id="stage-label">1-1 한양성 외곽 (1/5)</div>
-<div class="wave-bar-wrap">
-<div id="wave-bar" class="wave-bar-fill"></div>
-</div>
-</div>
-<button id="btn-auto-stage" class="pill-btn active" type="button">🔄 자동진행 ON</button>
-</div>
-</div>
-<div class="hud-bottom-bar">
-<button id="btn-ultimate" class="ultimate-btn" type="button">⚡ 천지개벽 협동필살 공명 0%</button>
-</div>
-</section>
-<!-- 우측 관리 패널 -->
-<aside id="side-pane">
-<div class="top-resource-strip">
-<span id="res-gold">💰 1,500냥</span>
-<span id="res-gem">💎 360옥</span>
-<span id="res-soul">🔥 영혼석 20</span>
-</div>
-<nav class="nav-tabs" aria-label="주요 메뉴">
-<button class="nav-tab active" data-tab="squad" type="button">⚔️ 출전부대</button>
-<button class="nav-tab" data-tab="roster" type="button">📜 장수·용병</button>
-<button class="nav-tab" data-tab="summon" type="button">🔮 태극소환</button>
-<button class="nav-tab" data-tab="dungeon" type="button">📖 각성던전</button>
-<button class="nav-tab" data-tab="merchant" type="button">🏛️ 상단·제련</button>
-</nav>
-<main id="tab-content"></main>
-</aside>
-</div>
-<!-- 난이도 선택 모달 -->
+
 <div id="diff-modal" class="modal-backdrop" role="dialog" aria-modal="true" aria-label="난이도 선택">
-<div class="modal-box">
-<div class="section-title">
-<span>전장 난이도 선택</span>
-<button id="btn-close-diff" class="mini-btn" type="button">닫기</button>
+  <div class="modal-box">
+    <div class="section-title">
+      <span>전장 난이도 선택</span>
+      <button id="btn-close-diff" class="mini-btn" type="button">닫기</button>
+    </div>
+    <div id="diff-list"></div>
+  </div>
 </div>
-<div id="diff-list"></div>
-</div>
-</div>
-<!-- 태극소환 전용 소환창 모달 -->
+
 <div id="summon-modal" class="modal-backdrop" role="dialog" aria-modal="true" aria-label="태극소환 결과창">
-<div class="modal-box">
-<div class="section-title">
-<span id="summon-modal-title">🔮 태극소환 제단</span>
-<button id="btn-close-summon" class="mini-btn" type="button">닫기</button>
+  <div class="modal-box">
+    <div class="section-title">
+      <span id="summon-modal-title">🔮 태극소환 제단</span>
+      <button id="btn-close-summon" class="mini-btn" type="button">닫기</button>
+    </div>
+    <div id="summon-modal-summary" style="font-size:12px;color:var(--ink-sub);"></div>
+    <div id="summon-modal-grid" class="summon-result-grid"></div>
+    <div class="btn-row" style="margin-top:4px;">
+      <button id="btn-modal-summon-1" class="mini-btn primary" type="button">1회 추가 (20옥)</button>
+      <button id="btn-modal-summon-10" class="mini-btn gold" type="button">10회 추가 (180옥)</button>
+    </div>
+  </div>
 </div>
-<div id="summon-modal-summary" style="font-size:12px;color:var(--ink-sub);"></div>
-<div id="summon-modal-grid" class="summon-result-grid"></div>
-<div class="btn-row" style="margin-top:4px;">
-<button id="btn-modal-summon-1" class="mini-btn primary" type="button">1회 추가 (20옥)</button>
-<button id="btn-modal-summon-10" class="mini-btn gold" type="button">10회 추가 (180옥)</button>
-</div>
-</div>
-</div>
-<!-- 시련 결계 전환 로딩 오버레이 -->
+
 <div id="dungeon-transition" aria-live="polite">
-<div class="portal-ring"></div>
-<div id="dungeon-tr-title" style="font-size:18px;font-weight:800;color:#ffe299;">시련 결계로 진입 중...</div>
-<div id="dungeon-tr-sub" style="font-size:12px;color:rgba(255,255,255,0.78);">천지 기운을 모아 시련의 문을 여는 중입니다</div>
-<div class="dungeon-progress-wrap">
-<div id="dungeon-tr-bar" class="dungeon-progress-bar"></div>
+  <div class="portal-ring"></div>
+  <div id="dungeon-tr-title" style="font-size:18px;font-weight:800;color:#ffe299;">시련 결계로 진입 중...</div>
+  <div id="dungeon-tr-sub" style="font-size:12px;color:rgba(255,255,255,0.78);">천지 기운을 모아 시련의 문을 여는 중입니다</div>
+  <div class="dungeon-progress-wrap">
+    <div id="dungeon-tr-bar" class="dungeon-progress-bar"></div>
+  </div>
 </div>
-</div>
-<!-- 장수 개별 이미지 교체용 숨김 input -->
+
 <input id="file-hero-input" type="file" accept="image/*" style="display:none" />
 <div id="toast" class="toast"></div>
+
 <script>
 (function () {
-"use strict";
-const STORAGE_KEY = "cheonha_gersang_empire_v3_save";
-const SPEEDS = [1, 2, 3];
-const LAYOUTS = [
-{ name: "균형 분할", battleFlex: "1.15", sideMax: "580px", mobileH: "44%" },
-{ name: "전장 집중", battleFlex: "1.65", sideMax: "480px", mobileH: "54%" },
-{ name: "관리 집중", battleFlex: "0.85", sideMax: "720px", mobileH: "34%" }
-];
-const DIFFICULTIES = [
-{ id: 0, name: "입문", mult: 1, hpPow: 1.0, rewardMult: 1 },
-{ id: 1, name: "정예", mult: 8, hpPow: 1.12, rewardMult: 2.5 },
-{ id: 2, name: "무쌍", mult: 45, hpPow: 1.24, rewardMult: 6 },
-{ id: 3, name: "패왕", mult: 220, hpPow: 1.38, rewardMult: 15 },
-{ id: 4, name: "신화", mult: 950, hpPow: 1.52, rewardMult: 40 },
-{ id: 5, name: "천마강림", mult: 2800, hpPow: 1.68, rewardMult: 100 }
-];
-const STAGE_TITLES = [
-"한양성 외곽", "경복궁 누각", "임진강 나루", "남한산성길", "백두산 기슭",
-"용문객잔 앞", "황하 상류", "장안성 성문", "낙양 만리교", "천상 낙원"
-];
-const CHAPTER_NAMES = [
-"제1장 조선 건국", "제2장 대륙 정벌", "제3장 사해 패권", "제4장 천상 개벽"
-];
-const NATIONS = ["전체", "조선", "명나라", "일본", "몽골", "천상"];
-const HERO_POOL = [
-{ id: "yi_sunsin", name: "이순신", nation: "조선", role: "지휘관", element: "수(水)", skillName: "거북선 포격", cd: 4.5, baseAtk: 145, baseHp: 1400, color: "#1d4ed8", unlockedDefault: true },
-{ id: "seondeok", name: "선덕여왕", nation: "조선", role: "책략가", element: "화(火)", skillName: "첨성대 성화", cd: 4.0, baseAtk: 132, baseHp: 1050, color: "#dc2626", unlockedDefault: true },
-{ id: "hwang_jini", name: "황진이", nation: "조선", role: "책략가", element: "풍(風)", skillName: "현가 선풍", cd: 3.8, baseAtk: 124, baseHp: 960, color: "#be185d", unlockedDefault: true },
-{ id: "kwon_yul", name: "권율", nation: "조선", role: "수호장", element: "토(土)", skillName: "행주 대지진", cd: 5.0, baseAtk: 136, baseHp: 1480, color: "#3f6212", unlockedDefault: false },
-{ id: "guan_yu", name: "관우", nation: "명나라", role: "돌격장", element: "목(木)", skillName: "청룡 언월참", cd: 4.2, baseAtk: 155, baseHp: 1320, color: "#15803d", unlockedDefault: true },
-{ id: "zhuge_liang", name: "제갈량", nation: "명나라", role: "책략가", element: "풍(風)", skillName: "팔괘 질풍진", cd: 3.6, baseAtk: 148, baseHp: 980, color: "#0f766e", unlockedDefault: true },
-{ id: "zhao_yun", name: "조운", nation: "명나라", role: "선봉장", element: "뇌(雷)", skillName: "용담 뇌격창", cd: 4.0, baseAtk: 160, baseHp: 1180, color: "#0284c7", unlockedDefault: false },
-{ id: "oda", name: "오다 노부나가", nation: "일본", role: "선봉장", element: "화(火)", skillName: "천하포무 화염", cd: 3.9, baseAtk: 162, baseHp: 1120, color: "#b45309", unlockedDefault: true },
-{ id: "uesugi", name: "우에스기 겐신", nation: "일본", role: "돌격장", element: "수(水)", skillName: "비룡 한빙검", cd: 4.3, baseAtk: 154, baseHp: 1220, color: "#1e40af", unlockedDefault: false },
-{ id: "miyamoto", name: "미야모토 무사시", nation: "일본", role: "선봉장", element: "풍(風)", skillName: "이도 회오리", cd: 3.7, baseAtk: 168, baseHp: 1080, color: "#7c2d12", unlockedDefault: false },
-{ id: "genghis", name: "칭기즈칸", nation: "몽골", role: "돌격장", element: "풍(風)", skillName: "초원 폭풍기병", cd: 4.1, baseAtk: 158, baseHp: 1250, color: "#0369a1", unlockedDefault: true },
-{ id: "subutai", name: "수부타이", nation: "몽골", role: "선봉장", element: "화(火)", skillName: "맹화 유성우", cd: 4.4, baseAtk: 150, baseHp: 1140, color: "#9a3412", unlockedDefault: false },
-{ id: "jebe", name: "제베", nation: "몽골", role: "책략가", element: "뇌(雷)", skillName: "신궁 낙뢰시", cd: 3.9, baseAtk: 146, baseHp: 1020, color: "#1d4ed8", unlockedDefault: false },
-{ id: "sacheonwang", name: "다문천왕", nation: "천상", role: "지휘관", element: "뇌(雷)", skillName: "천둥보탑 심판", cd: 4.0, baseAtk: 185, baseHp: 1650, color: "#6d28d9", unlockedDefault: true },
-{ id: "ji_guk", name: "지국천왕", nation: "천상", role: "수호장", element: "목(木)", skillName: "동방 신목결계", cd: 4.6, baseAtk: 176, baseHp: 1720, color: "#047857", unlockedDefault: false },
-{ id: "gwang_mok", name: "광목천왕", nation: "천상", role: "책략가", element: "화(火)", skillName: "업화 천안광", cd: 3.8, baseAtk: 192, baseHp: 1490, color: "#b91c1c", unlockedDefault: false }
-];
-const DUNGEON_TRIALS = [
-{ id: "trial_1", name: "청룡 시련 회랑", desc: "동방 청룡의 기운을 모아 영혼석을 수확합니다.", soulReward: 10, gemReward: 20, goldReward: 400 },
-{ id: "trial_2", name: "백호 무혼 전당", desc: "백호의 예리한 기백으로 영혼석과 옥을 획득합니다.", soulReward: 16, gemReward: 35, goldReward: 900 },
-{ id: "trial_3", name: "천상 신단 관문", desc: "천상계 시련을 돌파해 대량의 영혼석과 옥을 얻습니다.", soulReward: 25, gemReward: 60, goldReward: 2000 }
-];
-const RAID_BOSSES = [
-{ id: "raid_1", name: "도전 토벌: 흑룡장군", desc: "거대 흑룡장군 토벌 시 영혼석·옥·냥 대량 지급", soulReward: 18, gemReward: 45, goldReward: 1500 },
-{ id: "raid_2", name: "도전 토벌: 마천황제", desc: "최상위 토벌 보스 격파 시 파격 보상 지급", soulReward: 30, gemReward: 80, goldReward: 3500 }
-];
-const MISSION_DEFS = [
-{ id: "m_kills", title: "적 25마리 토벌", targetKey: "kills", target: 25, gold: 500, soul: 4, gem: 15 },
-{ id: "m_summons", title: "태극소환 5회 진행", targetKey: "summons", target: 5, gold: 400, soul: 6, gem: 20 },
-{ id: "m_forges", title: "상단 제련 3회 달성", targetKey: "forges", target: 3, gold: 700, soul: 5, gem: 25 }
-];
-// Web Audio 효과음 엔진
-const SFX = (() => {
-let ctx = null;
-let lastHitTime = 0;
-let lastChainTime = 0;
-function ensureCtx() {
-if (!state.soundEnabled) return null;
-const AudioCtx = window.AudioContext || window.webkitAudioContext;
-if (!AudioCtx) return null;
-if (!ctx) ctx = new AudioCtx();
-if (ctx.state === "suspended") {
-ctx.resume().catch(() => {});
-}
-return ctx;
-}
-function tone(freqStart, freqEnd, duration, type = "triangle", gainPeak = 0.06, delay = 0) {
-const c = ensureCtx();
-if (!c) return;
-const now = c.currentTime + delay;
-const osc = c.createOscillator();
-const gain = c.createGain();
-osc.type = type;
-osc.frequency.setValueAtTime(Math.max(40, freqStart), now);
-osc.frequency.exponentialRampToValueAtTime(Math.max(40, freqEnd), now + duration);
-gain.gain.setValueAtTime(0.0001, now);
-gain.gain.linearRampToValueAtTime(gainPeak, now + 0.012);
-gain.gain.exponentialRampToValueAtTime(0.0001, now + duration);
-osc.connect(gain);
-gain.connect(c.destination);
-osc.start(now);
-osc.stop(now + duration + 0.02);
-}
-return {
-hit() {
-const t = performance.now();
-if (t - lastHitTime < 95) return;
-lastHitTime = t;
-tone(220 + Math.random() * 60, 95, 0.07, "square", 0.025);
-},
-chain() {
-const t = performance.now();
-if (t - lastChainTime < 220) return;
-lastChainTime = t;
-tone(520, 980, 0.14, "sawtooth", 0.045);
-tone(780, 1240, 0.12, "sine", 0.035, 0.05);
-},
-skill() {
-tone(340, 760, 0.18, "triangle", 0.06);
-tone(510, 1020, 0.16, "sine", 0.04, 0.04);
-},
-ultimate() {
-tone(140, 580, 0.28, "sawtooth", 0.08);
-tone(280, 920, 0.34, "triangle", 0.07, 0.06);
-tone(440, 1320, 0.38, "sine", 0.06, 0.12);
-},
-clear() {
-tone(523.25, 523.25, 0.11, "triangle", 0.06, 0);
-tone(659.25, 659.25, 0.11, "triangle", 0.06, 0.09);
-tone(783.99, 1046.5, 0.22, "triangle", 0.07, 0.18);
-},
-summon() {
-tone(440, 880, 0.16, "sine", 0.055, 0);
-tone(660, 1320, 0.2, "triangle", 0.05, 0.08);
-},
-upgrade() {
-tone(390, 620, 0.12, "triangle", 0.055);
-},
-portal() {
-tone(220, 660, 0.35, "sine", 0.06);
-}
-};
-})();
-const state = {
-gold: 1500,
-gem: 360,
-soul: 20,
-difficultyIdx: 0,
-speedIdx: 0,
-layoutIdx: 0,
-soundEnabled: true,
-chapter: 1,
-stageNum: 1,
-wave: 1,
-maxWave: 5,
-autoStage: true,
-resonance: 0,
-combo: 0,
-comboTimer: 0,
-shakeTime: 0,
-shakeMag: 0,
-activeTab: "squad",
-selectedNation: "전체",
-selectedSlotIdx: 0,
-squadSlots: ["yi_sunsin", "seondeok", "guan_yu", null],
-presets: {
-1: ["yi_sunsin", "seondeok", "guan_yu", null],
-2: ["yi_sunsin", "seondeok", "hwang_jini", "guan_yu"],
-3: ["sacheonwang", "genghis", "oda", "guan_yu"]
-},
-skillTimers: {},
-forge: {
-weaponLv: 0,
-armorLv: 0,
-tradeLv: 0
-},
-stats: {
-kills: 0,
-summons: 0,
-forges: 0
-},
-claimedMissions: {},
-heroes: {},
-customImages: {},
-bgImageSrc: "./assets/bg_day.png",
-pendingHeroImageId: null,
-dungeonRunning: false,
-offlineReward: null,
-lastSavedAt: Date.now(),
-enemies: [],
-projectiles: [],
-effects: [],
-sparks: [],
-lightningBolts: [],
-chainTexts: [],
-floatingDamages: [],
-lastTime: performance.now(),
-waveTimer: 0
-};
-function initHeroes() {
-state.heroes = {};
-state.skillTimers = {};
-for (const h of HERO_POOL) {
-state.heroes[h.id] = {
-unlocked: Boolean(h.unlockedDefault),
-level: 1,
-star: 1
-};
-state.skillTimers[h.id] = 0;
-}
-}
-function sanitizeSlots(arr) {
-if (!Array.isArray(arr)) return ["yi_sunsin", "seondeok", "guan_yu", null];
-const out = [null, null, null, null];
-for (let i = 0; i < 4; i++) {
-const id = arr[i];
-if (id && HERO_POOL.some(h => h.id === id)) out[i] = id;
-}
-return out;
-}
-function exportSaveCode() {
-const payload = {
-gold: state.gold,
-gem: state.gem,
-soul: state.soul,
-difficultyIdx: state.difficultyIdx,
-speedIdx: state.speedIdx,
-layoutIdx: state.layoutIdx,
-soundEnabled: state.soundEnabled,
-chapter: state.chapter,
-stageNum: state.stageNum,
-wave: state.wave,
-autoStage: state.autoStage,
-resonance: state.resonance,
-squadSlots: state.squadSlots,
-presets: state.presets,
-forge: state.forge,
-stats: state.stats,
-claimedMissions: state.claimedMissions,
-heroes: state.heroes,
-lastSavedAt: Date.now()
-};
-return btoa(unescape(encodeURIComponent(JSON.stringify(payload))));
-}
-function applySaveObject(d) {
-if (!d || typeof d !== "object") return false;
-if (typeof d.gold === "number") state.gold = Math.max(0, d.gold);
-if (typeof d.gem === "number") state.gem = Math.max(0, d.gem);
-if (typeof d.soul === "number") state.soul = Math.max(0, d.soul);
-if (typeof d.difficultyIdx === "number") state.difficultyIdx = Math.min(DIFFICULTIES.length - 1, Math.max(0, d.difficultyIdx));
-if (typeof d.speedIdx === "number") state.speedIdx = Math.min(SPEEDS.length - 1, Math.max(0, d.speedIdx));
-if (typeof d.layoutIdx === "number") state.layoutIdx = Math.min(LAYOUTS.length - 1, Math.max(0, d.layoutIdx));
-if (typeof d.soundEnabled === "boolean") state.soundEnabled = d.soundEnabled;
-if (typeof d.chapter === "number" && d.chapter >= 1) state.chapter = d.chapter;
-if (typeof d.stageNum === "number" && d.stageNum >= 1 && d.stageNum <= 10) state.stageNum = d.stageNum;
-if (typeof d.wave === "number" && d.wave >= 1 && d.wave <= 5) state.wave = d.wave;
-if (typeof d.autoStage === "boolean") state.autoStage = d.autoStage;
-if (typeof d.resonance === "number") state.resonance = Math.min(100, Math.max(0, d.resonance));
-state.squadSlots = sanitizeSlots(d.squadSlots);
-if (!state.squadSlots.some(Boolean)) state.squadSlots[0] = "yi_sunsin";
-if (d.presets && typeof d.presets === "object") {
-state.presets = {
-1: sanitizeSlots(d.presets[1]),
-2: sanitizeSlots(d.presets[2]),
-3: sanitizeSlots(d.presets[3])
-};
-}
-if (d.forge && typeof d.forge === "object") {
-state.forge.weaponLv = Math.max(0, Number(d.forge.weaponLv) || 0);
-state.forge.armorLv = Math.max(0, Number(d.forge.armorLv) || 0);
-state.forge.tradeLv = Math.max(0, Number(d.forge.tradeLv) || 0);
-}
-if (d.stats && typeof d.stats === "object") {
-state.stats.kills = Math.max(0, Number(d.stats.kills) || 0);
-state.stats.summons = Math.max(0, Number(d.stats.summons) || 0);
-state.stats.forges = Math.max(0, Number(d.stats.forges) || 0);
-}
-if (d.claimedMissions && typeof d.claimedMissions === "object") {
-state.claimedMissions = { ...d.claimedMissions };
-}
-if (d.heroes && typeof d.heroes === "object") {
-for (const h of HERO_POOL) {
-if (d.heroes[h.id]) {
-state.heroes[h.id] = {
-unlocked: Boolean(d.heroes[h.id].unlocked),
-level: Math.max(1, Number(d.heroes[h.id].level) || 1),
-star: Math.min(6, Math.max(1, Number(d.heroes[h.id].star) || 1))
-};
-}
-}
-}
-return true;
-}
-function saveGame() {
-try {
-localStorage.setItem(STORAGE_KEY, exportSaveCode());
-} catch (_) {}
-}
-function loadGame() {
-initHeroes();
-try {
-const raw = localStorage.getItem(STORAGE_KEY);
-if (!raw) return;
-let parsed = null;
-try {
-parsed = JSON.parse(decodeURIComponent(escape(atob(raw))));
-} catch (_) {
-parsed = JSON.parse(raw);
-}
-if (!parsed || typeof parsed !== "object") return;
-applySaveObject(parsed);
-if (typeof parsed.lastSavedAt === "number") {
-const elapsedSec = Math.floor((Date.now() - parsed.lastSavedAt) / 1000);
-if (elapsedSec >= 10) {
-const cappedSec = Math.min(elapsedSec, 3600 * 12);
-const mins = Math.max(1, Math.floor(cappedSec / 60));
-const diff = DIFFICULTIES[state.difficultyIdx] || DIFFICULTIES[0];
-const tradeBonus = 1 + state.forge.tradeLv * 0.12;
-state.offlineReward = {
-minutes: mins,
-gold: Math.round(mins * 25 * diff.rewardMult * tradeBonus),
-soul: Math.max(1, Math.floor(mins / 5) * 2),
-gem: Math.max(1, Math.floor(mins / 10) * 5)
-};
-}
-}
-} catch (_) {}
-}
-function importSaveCode(codeStr) {
-const trimmed = (codeStr || "").trim();
-if (!trimmed) {
-showToast("복원할 세이브 코드를 입력하세요.");
-return;
-}
-try {
-let obj = null;
-try {
-obj = JSON.parse(decodeURIComponent(escape(atob(trimmed))));
-} catch () {
-obj = JSON.parse(trimmed);
-}
-if (!applySaveObject(obj)) {
-showToast("올바르지 않은 세이브 코드입니다.");
-return;
-}
-saveGame();
-applyLayout();
-spawnWaveEnemies(false);
-updateHud();
-renderTabContent();
-showToast("세이브 데이터가 복원되었습니다!");
-} catch () {
-showToast("세이브 코드 형식을 확인해 주세요.");
-}
-}
-function resetAllData() {
-try { localStorage.removeItem(STORAGE_KEY); } catch (_) {}
-state.gold = 1500;
-state.gem = 360;
-state.soul = 20;
-state.difficultyIdx = 0;
-state.speedIdx = 0;
-state.layoutIdx = 0;
-state.soundEnabled = true;
-state.chapter = 1;
-state.stageNum = 1;
-state.wave = 1;
-state.autoStage = true;
-state.resonance = 0;
-state.combo = 0;
-state.squadSlots = ["yi_sunsin", "seondeok", "guan_yu", null];
-state.presets = {
-1: ["yi_sunsin", "seondeok", "guan_yu", null],
-2: ["yi_sunsin", "seondeok", "hwang_jini", "guan_yu"],
-3: ["sacheonwang", "genghis", "oda", "guan_yu"]
-};
-state.forge = { weaponLv: 0, armorLv: 0, tradeLv: 0 };
-state.stats = { kills: 0, summons: 0, forges: 0 };
-state.claimedMissions = {};
-state.offlineReward = null;
-initHeroes();
-applyLayout();
-spawnWaveEnemies(false);
-updateHud();
-renderTabContent();
-showToast("데이터가 초기화되었습니다.");
-}
-loadGame();
-function getActiveSquadIds() {
-return state.squadSlots.filter(Boolean);
-}
-function getElementChains(squadIds) {
-const elems = new Set();
-for (const hid of squadIds) {
-const h = HERO_POOL.find(x => x.id === hid);
-if (!h || !h.element) continue;
-if (h.element.startsWith("수")) elems.add("수");
-else if (h.element.startsWith("뇌")) elems.add("뇌");
-else if (h.element.startsWith("화")) elems.add("화");
-else if (h.element.startsWith("풍")) elems.add("풍");
-else if (h.element.startsWith("목")) elems.add("목");
-}
-const chains = [];
-let chainBonusPct = 0;
-if (elems.has("수") && elems.has("뇌")) {
-chains.push({ id: "shock", name: "⚡ 감전 연쇄 (수+뇌)", bonus: 25, color: "#38bdf8" });
-chainBonusPct += 25;
-}
-if (elems.has("화") && elems.has("풍")) {
-chains.push({ id: "gale", name: "🌪️ 열풍 폭발 (화+풍)", bonus: 25, color: "#fb923c" });
-chainBonusPct += 25;
-}
-if (elems.has("목") && elems.has("화")) {
-chains.push({ id: "burn", name: "🔥 화목 연소 (목+화)", bonus: 20, color: "#f87171" });
-chainBonusPct += 20;
-}
-return { chains, chainBonusPct };
-}
-function getSynergySummary(squadIds) {
-const nationCount = {};
-const roleCount = {};
-for (const hid of squadIds) {
-const h = HERO_POOL.find(x => x.id === hid);
-if (!h) continue;
-nationCount[h.nation] = (nationCount[h.nation] || 0) + 1;
-roleCount[h.role] = (roleCount[h.role] || 0) + 1;
-}
-const activeItems = [];
-let atkBonusPct = state.forge.weaponLv * 8;
-let hpBonusPct = state.forge.armorLv * 10;
-for (const [nat, cnt] of Object.entries(nationCount)) {
-if (cnt >= 2) {
-const bonus = cnt * 12;
-atkBonusPct += bonus;
-activeItems.push({ label: ${nat} ${cnt}인 결속 (공격 +${bonus}%), on: true });
-}
-}
-for (const [role, cnt] of Object.entries(roleCount)) {
-if (cnt >= 2) {
-const bonus = cnt * 14;
-hpBonusPct += bonus;
-activeItems.push({ label: ${role} 진형 (체력 +${bonus}%), on: true });
-}
-}
-const elemInfo = getElementChains(squadIds);
-atkBonusPct += elemInfo.chainBonusPct;
-for (const ch of elemInfo.chains) {
-activeItems.push({ label: ${ch.name} (공격 +${ch.bonus}%), on: true });
-}
-if (activeItems.length === 0) {
-activeItems.push({ label: "시너지 대기중 · 국적/역할 2인↑ 또는 수+뇌/화+풍/목+화 조합", on: false });
-}
-return { nationCount, roleCount, activeItems, atkBonusPct, hpBonusPct, chains: elemInfo.chains };
-}
-function getHeroSynergyHint(hero) {
-const activeIds = getActiveSquadIds();
-const syn = getSynergySummary(activeIds);
-const sameNat = syn.nationCount[hero.nation] || 0;
-const sameRole = syn.roleCount[hero.role] || 0;
-const isInSquad = activeIds.includes(hero.id);
-if (isInSquad) {
-if (sameNat >= 2 && sameRole >= 2) return 출전중 · ${hero.nation}·${hero.role} 이중 시너지 활성;
-if (sameNat >= 2) return 출전중 · ${hero.nation} 결속 활성;
-if (sameRole >= 2) return 출전중 · ${hero.role} 진형 활성;
-return 출전중 · 스킬: ${hero.skillName} (${hero.cd}초);
-}
-if (sameNat >= 1 || sameRole >= 1) {
-return 합류 시 ${sameNat >= 1 ? {hero.nation} 결속` : ""}${sameNat >= 1 && sameRole >= 1 ? " + " : ""}${sameRole >= 1 ? `{hero.role} 진형 : ""} 활성!;
-}
-return 스킬: ${hero.skillName} · ${hero.nation}/${hero.role} 2인↑ 시너지;
-}
-function savePreset(slotKey) {
-state.presets[slotKey] = [...state.squadSlots];
-SFX.upgrade();
-saveGame();
-renderTabContent();
-showToast(프리셋 ${slotKey}번 저장 완료!);
-}
-function loadPreset(slotKey) {
-const raw = state.presets[slotKey];
-const sanitized = sanitizeSlots(raw);
-if (!sanitized.some(Boolean)) {
-showToast(프리셋 ${slotKey}번이 비어 있습니다.);
-return;
-}
-state.squadSlots = sanitized;
-SFX.upgrade();
-saveGame();
-renderTabContent();
-showToast(프리셋 ${slotKey}번 불러오기 완료!);
-}
-function autoAssignSquad() {
-const owned = HERO_POOL.filter(h => state.heroes[h.id] && state.heroes[h.id].unlocked);
-if (owned.length === 0) return;
-const nationGroups = {};
-for (const h of owned) {
-if (!nationGroups[h.nation]) nationGroups[h.nation] = [];
-nationGroups[h.nation].push(h);
-}
-const sortedNations = Object.values(nationGroups).sort((a, b) => b.length - a.length);
-const picked = [];
-const usedIds = new Set();
-for (const grp of sortedNations) {
-const grpSorted = [...grp].sort((x, y) => getHeroPower(y.id).atk - getHeroPower(x.id).atk);
-for (const h of grpSorted) {
-if (picked.length < 4 && !usedIds.has(h.id)) {
-picked.push(h.id);
-usedIds.add(h.id);
-}
-}
-}
-const remainSorted = [...owned].sort((x, y) => getHeroPower(y.id).atk - getHeroPower(x.id).atk);
-for (const h of remainSorted) {
-if (picked.length < 4 && !usedIds.has(h.id)) {
-picked.push(h.id);
-usedIds.add(h.id);
-}
-}
-state.squadSlots = [picked[0] || null, picked[1] || null, picked[2] || null, picked[3] || null];
-SFX.upgrade();
-saveGame();
-renderTabContent();
-showToast("⚡ 시너지 중심 자동배치 완료!");
-}
-const imgCache = new Map();
-function getLoadedImage(src) {
-if (!src) return null;
-if (imgCache.has(src)) {
-const entry = imgCache.get(src);
-return entry.ready ? entry.img : null;
-}
-const img = new Image();
-const entry = { img, ready: false };
-img.onload = () => { entry.ready = true; };
-img.onerror = () => { entry.ready = false; };
-img.src = src;
-imgCache.set(src, entry);
-return null;
-}
-function getHeroImageSrc(heroId) {
-if (state.customImages[heroId]) return state.customImages[heroId];
-return ./assets/${heroId}.png;
-}
-function renderHeroVisualHtml(hero, heightPx = 84) {
-const imgSrc = getHeroImageSrc(hero.id);
-const loadedImg = getLoadedImage(imgSrc);
-if (loadedImg && imgSrc) {
-return <img class="hero-thumb" style="height:${heightPx}px;" src="${imgSrc}" alt="${hero.name}" />;
-}
-return <div class="hero-thumb" style="height:${heightPx}px;display:flex;align-items:center;justify-content:center;background:${hero.color};color:#fff;font-weight:800;font-size:18px;">${hero.name[0]}</div>;
-}
-function showToast(msg) {
-const el = document.getElementById("toast");
-if (!el) return;
-el.textContent = msg;
-el.style.display = "block";
-clearTimeout(showToast._timer);
-showToast._timer = setTimeout(() => {
-el.style.display = "none";
-}, 1800);
-}
-function formatNum(n) {
-return Math.floor(n).toLocaleString("ko-KR");
-}
-function getStageIndex() {
-return (state.chapter - 1) * 10 + (state.stageNum - 1);
-}
-function getStageName() {
-const title = STAGE_TITLES[(state.stageNum - 1) % STAGE_TITLES.length];
-return ${state.chapter}-${state.stageNum} ${title} (${state.wave}/${state.maxWave});
-}
-function getHeroPower(heroId) {
-const base = HERO_POOL.find(h => h.id === heroId);
-const st = state.heroes[heroId];
-if (!base || !st) return { atk: 100, maxHp: 1000 };
-const lvScale = 1 + (st.level - 1) * 0.15;
-const starScale = 1 + (st.star - 1) * 0.35;
-return {
-atk: Math.round(base.baseAtk * lvScale * starScale),
-maxHp: Math.round(base.baseHp * lvScale * starScale)
-};
-}
-function getTotalSquadDps() {
-const activeIds = getActiveSquadIds();
-const syn = getSynergySummary(activeIds);
-let baseSum = 0;
-for (const hid of activeIds) {
-baseSum += getHeroPower(hid).atk;
-}
-return Math.round(baseSum * (1 + syn.atkBonusPct / 100));
-}
-function triggerShake(duration = 0.14, mag = 4) {
-state.shakeTime = Math.max(state.shakeTime, duration);
-state.shakeMag = Math.max(state.shakeMag, mag);
-}
-function spawnHitSparks(xRatio, yRatio, color = "#fde047", count = 7) {
-for (let i = 0; i < count; i++) {
-const ang = (Math.PI * 2 * i) / count + (Math.random() - 0.5) * 0.5;
-const spd = 0.14 + Math.random() * 0.22;
-state.sparks.push({
-xRatio,
-yRatio,
-vx: Math.cos(ang) * spd,
-vy: Math.sin(ang) * spd - 0.06,
-alpha: 1,
-size: 2.5 + Math.random() * 2.5,
-color
-});
-}
-}
-function spawnChainEffect(chainObj, xRatio, yRatio) {
-SFX.chain();
-if (chainObj.id === "shock") {
-state.lightningBolts.push({
-xRatio,
-yRatio,
-alpha: 1,
-color: "#38bdf8"
-});
-spawnHitSparks(xRatio, yRatio, "#38bdf8", 10);
-} else if (chainObj.id === "gale") {
-state.effects.push({
-xRatio,
-yRatio,
-radius: 18,
-maxRadius: 72,
-alpha: 0.95,
-color: "#fb923c"
-});
-spawnHitSparks(xRatio, yRatio, "#fb923c", 9);
-} else {
-state.effects.push({
-xRatio,
-yRatio,
-radius: 14,
-maxRadius: 56,
-alpha: 0.9,
-color: "#f87171"
-});
-spawnHitSparks(xRatio, yRatio, "#f87171", 9);
-}
-}
-function pushDamagePopup(xRatio, yRatio, amount, label = "") {
-const dmgVal = Math.max(1, Math.round(amount));
-state.combo += 1;
-state.comboTimer = 2.4;
-state.floatingDamages.push({
-text: label ? ${label} -${formatNum(dmgVal)} : -${formatNum(dmgVal)},
-xRatio: xRatio + (Math.random() - 0.5) * 0.06,
-yRatio: Math.max(0.18, yRatio - 0.06),
-alpha: 1,
-isSkill: Boolean(label)
-});
-if (state.floatingDamages.length > 28) {
-state.floatingDamages.shift();
-}
-}
-function spawnWaveEnemies(isBossForce = false) {
-const diff = DIFFICULTIES[state.difficultyIdx] || DIFFICULTIES[0];
-const sIdx = getStageIndex();
-const isBoss = isBossForce || state.wave === state.maxWave;
-const count = isBoss ? 1 : 3;
-const baseHp = Math.round(320 * Math.pow(1.22, sIdx) * Math.pow(diff.hpPow, sIdx) * (isBoss ? 3.6 : 1));
-const baseAtk = Math.round(28 * Math.pow(1.16, sIdx) * Math.sqrt(diff.mult) * (isBoss ? 1.5 : 1));
-state.enemies = [];
-for (let i = 0; i < count; i++) {
-state.enemies.push({
-id: "e_" + Math.random().toString(36).slice(2, 8),
-name: isBoss ? ${getStageName().split(" ")[1]} 수호신 : 흉수 ${i + 1},
-isBoss,
-hp: baseHp,
-maxHp: baseHp,
-atk: baseAtk,
-xRatio: 0.72 + i * 0.08,
-yRatio: isBoss ? 0.64 : 0.56 + i * 0.11,
-hitFlash: 0
-});
-}
-}
-function advanceStage(delta) {
-const nextTotal = getStageIndex() + delta;
-const clamped = Math.max(0, nextTotal);
-state.chapter = Math.floor(clamped / 10) + 1;
-state.stageNum = (clamped % 10) + 1;
-state.wave = 1;
-spawnWaveEnemies(false);
-SFX.upgrade();
-saveGame();
-updateHud();
-showToast(스테이지 이동: ${state.chapter}-${state.stageNum});
-}
-function onWaveCleared() {
-SFX.clear();
-triggerShake(0.16, 5);
-const diff = DIFFICULTIES[state.difficultyIdx] || DIFFICULTIES[0];
-const tradeMult = 1 + state.forge.tradeLv * 0.12;
-const goldGain = Math.round((120 + getStageIndex() * 35) * diff.rewardMult * tradeMult);
-const gemGain = state.wave === state.maxWave ? Math.max(5, Math.round(10 * Math.sqrt(diff.rewardMult) * tradeMult)) : 0;
-state.gold += goldGain;
-state.gem += gemGain;
-state.resonance = Math.min(100, state.resonance + 25);
-if (state.wave < state.maxWave) {
-state.wave += 1;
-spawnWaveEnemies(false);
-showToast(웨이브 클리어! +${formatNum(goldGain)}냥);
-} else if (state.autoStage) {
-const nextTotal = getStageIndex() + 1;
-state.chapter = Math.floor(nextTotal / 10) + 1;
-state.stageNum = (nextTotal % 10) + 1;
-state.wave = 1;
-spawnWaveEnemies(false);
-showToast(스테이지 돌파! +${formatNum(goldGain)}냥${gemGain ?  · +${gemGain}옥 : ""});
-} else {
-state.wave = 1;
-spawnWaveEnemies(false);
-showToast(보스 토벌 완료! +${formatNum(goldGain)}냥);
-}
-saveGame();
-updateHud();
-if (state.activeTab === "squad" || state.activeTab === "roster") {
-renderTabContent();
-}
-}
-function triggerUltimate() {
-if (state.resonance < 100) {
-showToast("공명 게이지 100% 달성 시 발동 가능!");
-return;
-}
-state.resonance = 0;
-SFX.ultimate();
-triggerShake(0.28, 8);
-const totalDmg = Math.max(250, getTotalSquadDps() * 3);
-for (const en of state.enemies) {
-en.hp -= totalDmg;
-en.hitFlash = 0.25;
-pushDamagePopup(en.xRatio, en.yRatio, totalDmg, "⚡천지개벽");
-spawnHitSparks(en.xRatio, en.yRatio, "#fde047", 14);
-state.effects.push({
-xRatio: en.xRatio,
-yRatio: en.yRatio,
-radius: en.isBoss ? 78 : 52,
-maxRadius: 120,
-alpha: 0.95,
-color: "#f59e0b"
-});
-}
-const beforeLen = state.enemies.length;
-state.enemies = state.enemies.filter(e => e.hp > 0);
-state.stats.kills += Math.max(0, beforeLen - state.enemies.length);
-saveGame();
-showToast(⚡ 천지개벽 협동필살! (${formatNum(totalDmg)} 피해));
-if (state.enemies.length === 0) {
-onWaveCleared();
-}
-updateHud();
-}
-function assignHeroToSelectedSlot(heroId) {
-const st = state.heroes[heroId];
-const heroObj = HERO_POOL.find(h => h.id === heroId);
-if (!st || !st.unlocked || !heroObj) {
-showToast("미보유 장수입니다. 태극소환에서 영입하세요!");
-return;
-}
-const slotIdx = state.selectedSlotIdx;
-const currentInSlot = state.squadSlots[slotIdx];
-const existingSlotIdx = state.squadSlots.indexOf(heroId);
-if (currentInSlot === heroId) {
-if (getActiveSquadIds().length <= 1) {
-showToast("최소 1명 이상은 출전을 유지해야 합니다.");
-return;
-}
-state.squadSlots[slotIdx] = null;
-showToast(${slotIdx + 1}슬롯에서 ${heroObj.name} 편성을 해제했습니다.);
-} else if (existingSlotIdx >= 0) {
-state.squadSlots[existingSlotIdx] = currentInSlot;
-state.squadSlots[slotIdx] = heroId;
-showToast(${slotIdx + 1}슬롯과 ${existingSlotIdx + 1}슬롯 배치를 맞바꿨습니다.);
-} else {
-state.squadSlots[slotIdx] = heroId;
-showToast(${slotIdx + 1}슬롯에 ${heroObj.name} 배치 완료!);
-}
-SFX.upgrade();
-saveGame();
-renderTabContent();
-}
-function clearSelectedSlot() {
-const slotIdx = state.selectedSlotIdx;
-if (!state.squadSlots[slotIdx]) {
-showToast(${slotIdx + 1}슬롯이 이미 비어 있습니다.);
-return;
-}
-if (getActiveSquadIds().length <= 1) {
-showToast("최소 1명 이상은 출전을 유지해야 합니다.");
-return;
-}
-state.squadSlots[slotIdx] = null;
-SFX.upgrade();
-saveGame();
-showToast(${slotIdx + 1}슬롯을 비웠습니다.);
-renderTabContent();
-}
-function levelUpHero(heroId) {
-const st = state.heroes[heroId];
-if (!st || !st.unlocked) return;
-const cost = st.level * 150;
-if (state.gold < cost) {
-showToast("냥이 부족합니다!");
-return;
-}
-state.gold -= cost;
-st.level += 1;
-SFX.upgrade();
-saveGame();
-updateHud();
-renderTabContent();
-showToast(Lv.${st.level} 달성!);
-}
-function upgradeAllSquadHeroes() {
-const activeIds = getActiveSquadIds();
-let count = 0;
-for (const hid of activeIds) {
-const st = state.heroes[hid];
-if (!st || !st.unlocked) continue;
-const cost = st.level * 150;
-if (state.gold >= cost) {
-state.gold -= cost;
-st.level += 1;
-count += 1;
-}
-}
-if (count === 0) {
-showToast("강화할 냥이 부족합니다.");
-return;
-}
-SFX.upgrade();
-saveGame();
-updateHud();
-renderTabContent();
-showToast(출전 장수 ${count}명 일괄 강화 완료!);
-}
-function promoteStarHero(heroId) {
-const st = state.heroes[heroId];
-if (!st || !st.unlocked) return;
-if (st.star >= 6) {
-showToast("이미 ★6 최고 성급입니다.");
-return;
-}
-const cost = st.star * 10;
-if (state.soul < cost) {
-showToast(영혼석 ${cost}개가 필요합니다.);
-return;
-}
-state.soul -= cost;
-st.star += 1;
-SFX.summon();
-saveGame();
-updateHud();
-renderTabContent();
-showToast(★${st.star} 성급 돌파 성공!);
-}
-function openSummonModal(results, count) {
-const modal = document.getElementById("summon-modal");
-const titleEl = document.getElementById("summon-modal-title");
-const sumEl = document.getElementById("summon-modal-summary");
-const gridEl = document.getElementById("summon-modal-grid");
-if (!modal || !gridEl) return;
-const newCount = results.filter(r => r.isNew).length;
-const soulGain = results.reduce((acc, r) => acc + r.soulBonus, 0);
-titleEl.textContent = 🔮 태극소환 ${count}연 결과;
-sumEl.textContent = 신규 영입 ${newCount}명 · 중복 변환 영혼석 +${soulGain};
-gridEl.innerHTML = "";
-results.forEach((item, idx) => {
-const card = document.createElement("div");
-card.className = summon-item-card ${item.isNew ? "new-hero" : ""};
-card.style.animationDelay = ${Math.min(idx * 35, 300)}ms;
-card.innerHTML = ${renderHeroVisualHtml(item.hero, 64)} <div style="font-size:12px;font-weight:800;">${item.hero.name}</div> <div style="font-size:10px;color:var(--ink-sub);">${item.hero.nation} · ${item.hero.element}</div> <div style="font-size:10px;font-weight:700;color:${item.isNew ? "var(--accent-gold)" : "var(--accent-jade)"};"> ${item.isNew ? "✨ 신규 영입" :영혼석 +${item.soulBonus}} </div> ;
-gridEl.appendChild(card);
-});
-modal.classList.add("open");
-}
-function doSummon(count) {
-const cost = count === 10 ? 180 : 20;
-if (state.gem < cost) {
-showToast("옥이 부족합니다!");
-return;
-}
-state.gem -= cost;
-state.stats.summons += count;
-SFX.summon();
-const results = [];
-for (let i = 0; i < count; i++) {
-const pick = HERO_POOL[Math.floor(Math.random() * HERO_POOL.length)];
-const st = state.heroes[pick.id];
-let isNew = false;
-let soulBonus = 0;
-if (!st.unlocked) {
-st.unlocked = true;
-isNew = true;
-} else {
-soulBonus = 4;
-state.soul += soulBonus;
-}
-results.push({ hero: pick, isNew, soulBonus });
-}
-saveGame();
-updateHud();
-if (state.activeTab === "roster" || state.activeTab === "squad" || state.activeTab === "dungeon") {
-renderTabContent();
-}
-openSummonModal(results, count);
-}
-function enterDungeonTransition(titleText, subText, onComplete) {
-if (state.dungeonRunning) return;
-state.dungeonRunning = true;
-SFX.portal();
-const overlay = document.getElementById("dungeon-transition");
-const titleEl = document.getElementById("dungeon-tr-title");
-const subEl = document.getElementById("dungeon-tr-sub");
-const barEl = document.getElementById("dungeon-tr-bar");
-titleEl.textContent = titleText;
-subEl.textContent = subText;
-barEl.style.width = "0%";
-overlay.classList.add("active");
-let progress = 0;
-const timer = setInterval(() => {
-progress += 15;
-barEl.style.width = ${Math.min(100, progress)}%;
-if (progress >= 100) {
-clearInterval(timer);
-setTimeout(() => {
-overlay.classList.remove("active");
-state.dungeonRunning = false;
-SFX.clear();
-onComplete();
-saveGame();
-updateHud();
-}, 160);
-}
-}, 85);
-}
-function enterDungeonTrial(trial) {
-enterDungeonTransition(
-${trial.name} 진입 중...,
-"차원 결계를 전개하고 시련의 수호자를 소환합니다",
-() => {
-state.soul += trial.soulReward;
-state.gem += trial.gemReward;
-state.gold += trial.goldReward;
-state.resonance = Math.min(100, state.resonance + 20);
-showToast(${trial.name} 돌파! 영혼석 +${trial.soulReward} · 옥 +${trial.gemReward} · +${formatNum(trial.goldReward)}냥);
-}
-);
-}
-function fightRaidBoss(boss) {
-enterDungeonTransition(
-${boss.name} 결계 전개 중...,
-"거대 토벌 보스와 결전을 준비합니다",
-() => {
-state.soul += boss.soulReward;
-state.gem += boss.gemReward;
-state.gold += boss.goldReward;
-state.resonance = 100;
-showToast(👹 ${boss.name} 격파! 영혼석 +${boss.soulReward} · 옥 +${boss.gemReward} · +${formatNum(boss.goldReward)}냥);
-}
-);
-}
-function claimMission(mDef) {
-const curVal = state.stats[mDef.targetKey] || 0;
-if (curVal < mDef.target) {
-showToast("아직 목표를 달성하지 못했습니다.");
-return;
-}
-if (state.claimedMissions[mDef.id]) {
-showToast("이미 수령한 미션입니다.");
-return;
-}
-state.claimedMissions[mDef.id] = true;
-state.gold += mDef.gold;
-state.soul += mDef.soul;
-state.gem += mDef.gem;
-SFX.clear();
-saveGame();
-updateHud();
-renderTabContent();
-showToast(미션 보상 수령! +${formatNum(mDef.gold)}냥 · +${mDef.soul}석 · +${mDef.gem}옥);
-}
-function renderHeroCard(hero, mode) {
-const st = state.heroes[hero.id] || { unlocked: false, level: 1, star: 1 };
-const pwr = getHeroPower(hero.id);
-const slotIdx = state.squadSlots.indexOf(hero.id);
-const isDeployed = slotIdx >= 0;
-const lvCost = st.level * 150;
-const starCost = st.star * 10;
-const synHint = getHeroSynergyHint(hero);
-const matchesCurrent = synHint.includes("활성");
-const div = document.createElement("div");
-div.className = hero-card ${st.unlocked ? "" : "locked"} ${matchesCurrent ? "synergy-match" : ""};
-let deployBtnText = "미보유";
-let deployBtnClass = "mini-btn";
-if (st.unlocked) {
-if (slotIdx === state.selectedSlotIdx) {
-deployBtnText = ${slotIdx + 1}칸 해제;
-deployBtnClass = "mini-btn gold";
-} else if (isDeployed) {
-deployBtnText = ${slotIdx + 1}칸 배치됨;
-deployBtnClass = "mini-btn gold";
-} else {
-deployBtnText = ${state.selectedSlotIdx + 1}칸 지정;
-deployBtnClass = "mini-btn primary";
-}
-}
-div.innerHTML = ${renderHeroVisualHtml(hero, 82)} <div class="hero-name"> <span>${hero.name}</span> <span>★${st.star}</span> </div> <div class="hero-meta">${hero.nation} · ${hero.role} · ${hero.element}</div> <div class="hero-meta">Lv.${st.level} · 공 ${formatNum(pwr.atk)} · 체 ${formatNum(pwr.maxHp)}</div> <div class="hero-syn-tag">${synHint}</div> <div class="btn-row"> <button class="${deployBtnClass}" data-act="deploy" data-id="${hero.id}" ${st.unlocked ? "" : "disabled"}> ${deployBtnText} </button> <button class="mini-btn" data-act="photo" data-id="${hero.id}" title="이미지 교체">📷</button> </div> ${st.unlocked && mode === "roster" ?
-<div class="btn-row">
-<button class="mini-btn" data-act="lvup" data-id="${hero.id}">강화 ({lvCost}냥)</button>
-<button class="mini-btn" data-act="starup" data-id="{hero.id}" {st.star >= 6 ? "disabled" : ""}>돌파 ({starCost}석)</button>
-</div>
-: ""};
-div.querySelectorAll("button[data-act]").forEach(btn => {
-btn.addEventListener("click", () => {
-const act = btn.getAttribute("data-act");
-const id = btn.getAttribute("data-id");
-if (act === "deploy") assignHeroToSelectedSlot(id);
-else if (act === "lvup") levelUpHero(id);
-else if (act === "starup") promoteStarHero(id);
-else if (act === "photo") {
-state.pendingHeroImageId = id;
-document.getElementById("file-hero-input").click();
-}
-});
-});
-return div;
-}
-function renderTabContent() {
-const container = document.getElementById("tab-content");
-if (!container) return;
-container.innerHTML = "";
-if (state.offlineReward) {
-const rew = state.offlineReward;
-const offCard = document.createElement("div");
-offCard.className = "section-card";
-offCard.style.borderColor = "var(--accent-gold)";
-offCard.innerHTML = <h3 class="section-title"> <span>🎁 오프라인 방치 보상 (${rew.minutes}분 경과)</span> <button id="btn-claim-offline" class="mini-btn gold" type="button" style="flex:none;padding:6px 10px;">보상 수령</button> </h3> <div class="hero-meta">+${formatNum(rew.gold)}냥 · +${formatNum(rew.soul)} 영혼석 · +${formatNum(rew.gem)} 옥</div>;
-offCard.querySelector("#btn-claim-offline").addEventListener("click", () => {
-state.gold += rew.gold;
-state.soul += rew.soul;
-state.gem += rew.gem;
-state.offlineReward = null;
-SFX.clear();
-saveGame();
-updateHud();
-renderTabContent();
-showToast("오프라인 방치 보상을 받았습니다!");
-});
-container.appendChild(offCard);
-}
-if (state.activeTab === "squad") {
-const syn = getSynergySummary(getActiveSquadIds());
-const slotCard = document.createElement("div");
-slotCard.className = "section-card";
-slotCard.innerHTML = <h3 class="section-title"> <span>출전 칸 지정 (${getActiveSquadIds().length}/4)</span> <div style="display:flex;gap:4px;flex-wrap:wrap;"> <button id="btn-auto-squad" class="mini-btn primary" type="button" style="flex:none;padding:4px 9px;">⚡ 자동배치</button> <button id="btn-upgrade-all" class="mini-btn gold" type="button" style="flex:none;padding:4px 9px;">▲ 출전 전체 강화</button> <button id="btn-clear-slot" class="mini-btn" type="button" style="flex:none;padding:4px 8px;">선택 칸 비우기</button> </div> </h3> <div class="preset-row" id="preset-row"></div> <div class="synergy-guide-box"> <strong>시너지 &amp; 속성 연쇄:</strong> 같은 <strong>국적</strong> 2명↑(공격 +12%/인), 같은 <strong>역할군</strong> 2명↑(체력 +14%/인), <strong>수+뇌(감전 +25%) · 화+풍(열풍 +25%) · 목+화(연소 +20%)</strong> 및 <strong>고유 스킬</strong>이 적용됩니다. <div style="margin-top:4px;color:var(--ink-main);font-weight:700;"> 총 공격 보정 +${syn.atkBonusPct}% · 체력 보정 +${syn.hpBonusPct}% · 부대 DPS ${formatNum(getTotalSquadDps())} </div> </div> <div id="slot-grid" class="slot-selector-grid"></div> <div class="synergy-list"> ${syn.activeItems.map(item =><span class="synergy-badge {item.on ? "on" : ""}">{item.label}</span>).join("")} </div> ;
-const presetRow = slotCard.querySelector("#preset-row");
-[1, 2, 3].forEach(pKey => {
-const names = sanitizeSlots(state.presets[pKey])
-.map(id => (id ? (HERO_POOL.find(h => h.id === id)?.name || "") : ""))
-.filter(Boolean)
-.join(", ");
-const pBox = document.createElement("div");
-pBox.className = "preset-box";
-pBox.innerHTML = <strong>프리셋 ${pKey}</strong> <div class="hero-meta" style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${names || "비어 있음"}</div> <div class="btn-row"> <button class="mini-btn primary" data-p-load="${pKey}" type="button">불러오기</button> <button class="mini-btn" data-p-save="${pKey}" type="button">저장</button> </div>;
-pBox.querySelector([data-p-load="${pKey}"]).addEventListener("click", () => loadPreset(pKey));
-pBox.querySelector([data-p-save="${pKey}"]).addEventListener("click", () => savePreset(pKey));
-presetRow.appendChild(pBox);
-});
-slotCard.querySelector("#btn-auto-squad").addEventListener("click", autoAssignSquad);
-slotCard.querySelector("#btn-upgrade-all").addEventListener("click", upgradeAllSquadHeroes);
-slotCard.querySelector("#btn-clear-slot").addEventListener("click", clearSelectedSlot);
-const slotGrid = slotCard.querySelector("#slot-grid");
-state.squadSlots.forEach((hid, idx) => {
-const h = hid ? HERO_POOL.find(x => x.id === hid) : null;
-const pwr = hid ? getHeroPower(hid) : null;
-const box = document.createElement("button");
-box.type = "button";
-box.className = slot-box ${state.selectedSlotIdx === idx ? "selected" : ""};
-box.innerHTML = <div class="slot-header"> <span>${idx + 1}번 칸</span> <span>${state.selectedSlotIdx === idx ? "선택됨" : "클릭해 지정"}</span> </div> <div class="slot-hero-name">${h ?{h.name} ({h.nation}·${h.element}): "빈 칸 (미배치)"}</div> <div class="hero-meta">${h && pwr ?공 ${formatNum(pwr.atk)} · 스킬: ${h.skillName}: "아래에서 장수를 선택하세요"}</div>;
-box.addEventListener("click", () => {
-state.selectedSlotIdx = idx;
-renderTabContent();
-});
-slotGrid.appendChild(box);
-});
-container.appendChild(slotCard);
-const pickCard = document.createElement("div");
-pickCard.className = "section-card";
-pickCard.innerHTML = <h3 class="section-title"> <span>${state.selectedSlotIdx + 1}번 칸 배치 장수 선택</span> <span style="font-size:11px;color:var(--ink-sub);">${CHAPTER_NAMES[(state.chapter - 1) % CHAPTER_NAMES.length]}</span> </h3> <div id="pick-hero-grid" class="hero-grid"></div>;
-const pickGrid = pickCard.querySelector("#pick-hero-grid");
-const ownedHeroes = HERO_POOL.filter(h => state.heroes[h.id] && state.heroes[h.id].unlocked);
-for (const h of ownedHeroes) {
-pickGrid.appendChild(renderHeroCard(h, "squad"));
-}
-container.appendChild(pickCard);
-} else if (state.activeTab === "roster") {
-const card = document.createElement("div");
-card.className = "section-card";
-const ownedCount = HERO_POOL.filter(h => state.heroes[h.id] && state.heroes[h.id].unlocked).length;
-card.innerHTML = <h3 class="section-title"> <span>국적별 장수·용병 도감 (대상: ${state.selectedSlotIdx + 1}칸)</span> <span style="font-size:12px;color:var(--accent-jade);">보유 ${ownedCount}/${HERO_POOL.length}</span> </h3> <div id="nation-filters" class="nation-filter-bar"></div> <div id="roster-grid" class="hero-grid"></div>;
-const filterBar = card.querySelector("#nation-filters");
-for (const nat of NATIONS) {
-const chip = document.createElement("button");
-chip.type = "button";
-chip.className = nation-chip ${state.selectedNation === nat ? "active" : ""};
-const countForNat = nat === "전체"
-? HERO_POOL.length
-: HERO_POOL.filter(h => h.nation === nat).length;
-chip.textContent = ${nat} (${countForNat});
-chip.addEventListener("click", () => {
-state.selectedNation = nat;
-renderTabContent();
-});
-filterBar.appendChild(chip);
-}
-const grid = card.querySelector("#roster-grid");
-const filtered = HERO_POOL.filter(h => state.selectedNation === "전체" || h.nation === state.selectedNation);
-for (const h of filtered) {
-grid.appendChild(renderHeroCard(h, "roster"));
-}
-container.appendChild(card);
-} else if (state.activeTab === "summon") {
-const ownedCount = HERO_POOL.filter(h => state.heroes[h.id] && state.heroes[h.id].unlocked).length;
-const card = document.createElement("div");
-card.className = "section-card";
-card.innerHTML = <h3 class="section-title"> <span>🔮 태극 장수 소환</span> <span style="font-size:12px;color:var(--ink-sub);">도감 ${ownedCount}/${HERO_POOL.length}</span> </h3> <p style="margin:0 0 10px 0;font-size:12px;color:var(--ink-sub);"> 소환 버튼을 누르면 전용 소환창에서 영입 결과를 바로 확인할 수 있습니다. 중복 장수는 영혼석 +4로 변환됩니다. </p> <div class="btn-row"> <button id="btn-summon-1" class="mini-btn primary" type="button">1회 소환 (20옥)</button> <button id="btn-summon-10" class="mini-btn gold" type="button">10회 소환 (180옥)</button> </div>;
-card.querySelector("#btn-summon-1").addEventListener("click", () => doSummon(1));
-card.querySelector("#btn-summon-10").addEventListener("click", () => doSummon(10));
-container.appendChild(card);
-} else if (state.activeTab === "dungeon") {
-const trialCard = document.createElement("div");
-trialCard.className = "section-card";
-trialCard.innerHTML = <h3 class="section-title">📖 시련 결계</h3> <div id="dungeon-trial-list" style="display:flex;flex-direction:column;gap:8px;"></div>;
-const listEl = trialCard.querySelector("#dungeon-trial-list");
-for (const tr of DUNGEON_TRIALS) {
-const row = document.createElement("div");
-row.className = "diff-item";
-row.innerHTML = <div> <strong>${tr.name}</strong> <div style="font-size:11px;color:var(--ink-sub);">${tr.desc}</div> <div style="font-size:11px;font-weight:700;color:var(--accent-jade);margin-top:2px;"> 영혼석 +${tr.soulReward} · 옥 +${tr.gemReward} · +${formatNum(tr.goldReward)}냥 </div> </div> <button class="mini-btn primary" type="button" style="flex:none;padding:8px 12px;">결계 진입</button>;
-row.querySelector("button").addEventListener("click", () => enterDungeonTrial(tr));
-listEl.appendChild(row);
-}
-container.appendChild(trialCard);
-const raidCard = document.createElement("div");
-raidCard.className = "section-card";
-raidCard.innerHTML = <h3 class="section-title">👹 도전 토벌 보스</h3> <div id="raid-boss-list" style="display:flex;flex-direction:column;gap:8px;"></div>;
-const raidList = raidCard.querySelector("#raid-boss-list");
-for (const rb of RAID_BOSSES) {
-const row = document.createElement("div");
-row.className = "diff-item";
-row.innerHTML = <div> <strong>${rb.name}</strong> <div style="font-size:11px;color:var(--ink-sub);">${rb.desc}</div> <div style="font-size:11px;font-weight:700;color:var(--accent-gold);margin-top:2px;"> 영혼석 +${rb.soulReward} · 옥 +${rb.gemReward} · +${formatNum(rb.goldReward)}냥 </div> </div> <button class="mini-btn gold" type="button" style="flex:none;padding:8px 12px;">토벌 도전</button>;
-row.querySelector("button").addEventListener("click", () => fightRaidBoss(rb));
-raidList.appendChild(row);
-}
-container.appendChild(raidCard);
-const missionCard = document.createElement("div");
-missionCard.className = "section-card";
-missionCard.innerHTML = <h3 class="section-title">🎯 도전 미션</h3> <div id="mission-list" style="display:flex;flex-direction:column;gap:8px;"></div>;
-const mList = missionCard.querySelector("#mission-list");
-for (const mDef of MISSION_DEFS) {
-const cur = state.stats[mDef.targetKey] || 0;
-const done = cur >= mDef.target;
-const claimed = Boolean(state.claimedMissions[mDef.id]);
-const row = document.createElement("div");
-row.className = "diff-item";
-row.innerHTML = <div> <strong>${mDef.title} (${Math.min(cur, mDef.target)}/${mDef.target})</strong> <div style="font-size:11px;font-weight:700;color:var(--accent-jade);margin-top:2px;"> 보상: +${formatNum(mDef.gold)}냥 · +${mDef.soul}석 · +${mDef.gem}옥 </div> </div> <button class="mini-btn ${claimed ? "" : (done ? "gold" : "primary")}" type="button" style="flex:none;padding:8px 12px;" ${!done || claimed ? "disabled" : ""}> ${claimed ? "수령완료" : (done ? "보상받기" : "진행중")} </button>;
-row.querySelector("button").addEventListener("click", () => claimMission(mDef));
-mList.appendChild(row);
-}
-container.appendChild(missionCard);
-} else if (state.activeTab === "merchant") {
-const forgeCard = document.createElement("div");
-forgeCard.className = "section-card";
-const wCost = (state.forge.weaponLv + 1) * 500;
-const aCost = (state.forge.armorLv + 1) * 500;
-const tCost = (state.forge.tradeLv + 1) * 600;
-forgeCard.innerHTML = <h3 class="section-title">⚒️ 상단 제련 (전체 부대 적용)</h3> <div style="display:flex;flex-direction:column;gap:8px;"> <div class="diff-item"> <div> <strong>무기 제련 Lv.${state.forge.weaponLv}</strong> <div style="font-size:11px;color:var(--ink-sub);">전체 공격력 +${state.forge.weaponLv * 8}% (다음 +8%)</div> </div> <button id="btn-forge-w" class="mini-btn gold" type="button" style="flex:none;padding:8px 10px;">${formatNum(wCost)}냥</button> </div> <div class="diff-item"> <div> <strong>방구 제련 Lv.${state.forge.armorLv}</strong> <div style="font-size:11px;color:var(--ink-sub);">전체 체력 +${state.forge.armorLv * 10}% (다음 +10%)</div> </div> <button id="btn-forge-a" class="mini-btn primary" type="button" style="flex:none;padding:8px 10px;">${formatNum(aCost)}냥</button> </div> <div class="diff-item"> <div> <strong>상단 교역 Lv.${state.forge.tradeLv}</strong> <div style="font-size:11px;color:var(--ink-sub);">전투 보상 +${state.forge.tradeLv * 12}% (다음 +12%)</div> </div> <button id="btn-forge-t" class="mini-btn" type="button" style="flex:none;padding:8px 10px;">${formatNum(tCost)}냥</button> </div> </div>;
-forgeCard.querySelector("#btn-forge-w").addEventListener("click", () => {
-if (state.gold < wCost) { showToast("냥이 부족합니다."); return; }
-state.gold -= wCost;
-state.forge.weaponLv += 1;
-state.stats.forges += 1;
-SFX.upgrade();
-saveGame();
-updateHud();
-renderTabContent();
-showToast("무기 제련 완료!");
-});
-forgeCard.querySelector("#btn-forge-a").addEventListener("click", () => {
-if (state.gold < aCost) { showToast("냥이 부족합니다."); return; }
-state.gold -= aCost;
-state.forge.armorLv += 1;
-state.stats.forges += 1;
-SFX.upgrade();
-saveGame();
-updateHud();
-renderTabContent();
-showToast("방구 제련 완료!");
-});
-forgeCard.querySelector("#btn-forge-t").addEventListener("click", () => {
-if (state.gold < tCost) { showToast("냥이 부족합니다."); return; }
-state.gold -= tCost;
-state.forge.tradeLv += 1;
-state.stats.forges += 1;
-SFX.upgrade();
-saveGame();
-updateHud();
-renderTabContent();
-showToast("상단 교역 레벨 상승!");
-});
-container.appendChild(forgeCard);
-const exCard = document.createElement("div");
-exCard.className = "section-card";
-exCard.innerHTML = <h3 class="section-title">🏛️ 제국 상단·환전 &amp; 저장 백업</h3> <div class="btn-row" style="margin-bottom:8px;"> <button id="btn-buy-gem" class="mini-btn gold" type="button">옥 +50 (800냥)</button> <button id="btn-buy-soul" class="mini-btn primary" type="button">영혼석 +6 (600냥)</button> </div> <textarea id="save-code-box" class="backup-textarea" placeholder="세이브 코드 내보내기/불러오기">${exportSaveCode()}</textarea> <div class="btn-row" style="margin-top:6px;margin-bottom:8px;"> <button id="btn-export-save" class="mini-btn primary" type="button">코드 복사/갱신</button> <button id="btn-import-save" class="mini-btn gold" type="button">코드 불러오기</button> </div> <button id="btn-reset-data" class="mini-btn danger" type="button" style="width:100%;">저장 데이터 초기화</button>;
-exCard.querySelector("#btn-buy-gem").addEventListener("click", () => {
-if (state.gold < 800) { showToast("냥이 부족합니다."); return; }
-state.gold -= 800;
-state.gem += 50;
-SFX.upgrade();
-saveGame();
-updateHud();
-showToast("옥 +50 교환 완료!");
-});
-exCard.querySelector("#btn-buy-soul").addEventListener("click", () => {
-if (state.gold < 600) { showToast("냥이 부족합니다."); return; }
-state.gold -= 600;
-state.soul += 6;
-SFX.upgrade();
-saveGame();
-updateHud();
-showToast("영혼석 +6 교환 완료!");
-});
-exCard.querySelector("#btn-export-save").addEventListener("click", () => {
-const ta = document.getElementById("save-code-box");
-const code = exportSaveCode();
-if (ta) {
-ta.value = code;
-ta.select();
-}
-if (navigator.clipboard && navigator.clipboard.writeText) {
-navigator.clipboard.writeText(code).catch(() => {});
-}
-SFX.upgrade();
-showToast("세이브 코드가 갱신·복사되었습니다.");
-});
-exCard.querySelector("#btn-import-save").addEventListener("click", () => {
-const ta = document.getElementById("save-code-box");
-importSaveCode(ta ? ta.value : "");
-});
-exCard.querySelector("#btn-reset-data").addEventListener("click", resetAllData);
-container.appendChild(exCard);
-}
-}
-function renderDifficultyModal() {
-const list = document.getElementById("diff-list");
-if (!list) return;
-list.innerHTML = "";
-for (const d of DIFFICULTIES) {
-const btn = document.createElement("button");
-btn.type = "button";
-btn.className = diff-item ${state.difficultyIdx === d.id ? "active" : ""};
-btn.innerHTML = <div> <strong>${d.id + 1}. ${d.name}</strong> <div style="font-size:11px;color:var(--ink-sub);">적 전투 배율 ×${formatNum(d.mult)}</div> </div> <span style="font-size:12px;font-weight:700;color:var(--accent-jade);">보상 ×${d.rewardMult}</span>;
-btn.addEventListener("click", () => {
-state.difficultyIdx = d.id;
-spawnWaveEnemies(false);
-SFX.upgrade();
-saveGame();
-updateHud();
-renderDifficultyModal();
-document.getElementById("diff-modal").classList.remove("open");
-showToast(난이도 변경: ${d.name});
-});
-list.appendChild(btn);
-}
-}
-function applyLayout() {
-const lay = LAYOUTS[state.layoutIdx] || LAYOUTS[0];
-document.documentElement.style.setProperty("--battle-flex", lay.battleFlex);
-document.documentElement.style.setProperty("--side-max", lay.sideMax);
-document.documentElement.style.setProperty("--mobile-battle-h", lay.mobileH);
-resizeCanvas();
-}
-function updateHud() {
-const diff = DIFFICULTIES[state.difficultyIdx] || DIFFICULTIES[0];
-const spd = SPEEDS[state.speedIdx] || 1;
-const lay = LAYOUTS[state.layoutIdx] || LAYOUTS[0];
-document.getElementById("btn-diff-modal").textContent = 난이도: ${diff.name} ▾;
-document.getElementById("btn-speed").textContent = ⚡ ${spd}x;
-const soundBtn = document.getElementById("btn-sound");
-soundBtn.textContent = state.soundEnabled ? "🔊 소리 ON" : "🔇 소리 OFF";
-soundBtn.classList.toggle("active", state.soundEnabled);
-soundBtn.classList.toggle("muted", !state.soundEnabled);
-document.getElementById("btn-layout").textContent = 📐 ${lay.name};
-document.getElementById("combo-badge").textContent = ${state.combo} COMBO;
-document.getElementById("stage-label").textContent = getStageName();
-document.getElementById("wave-bar").style.width = ${(state.wave / state.maxWave) * 100}%;
-const autoBtn = document.getElementById("btn-auto-stage");
-autoBtn.textContent = 🔄 자동진행 ${state.autoStage ? "ON" : "OFF"};
-autoBtn.classList.toggle("active", state.autoStage);
-const ultBtn = document.getElementById("btn-ultimate");
-ultBtn.textContent = ⚡ 천지개벽 협동필살 공명 ${Math.min(100, Math.floor(state.resonance))}%;
-ultBtn.classList.toggle("ready", state.resonance >= 100);
-document.getElementById("res-gold").textContent = 💰 ${formatNum(state.gold)}냥;
-document.getElementById("res-gem").textContent = 💎 ${formatNum(state.gem)}옥;
-document.getElementById("res-soul").textContent = 🔥 영혼석 ${formatNum(state.soul)};
-}
-const canvas = document.getElementById("battle-canvas");
-const ctx = canvas.getContext("2d");
-function resizeCanvas() {
-const pane = document.getElementById("battle-pane");
-if (!pane || !canvas) return;
-const dpr = Math.min(window.devicePixelRatio || 1, 2);
-const w = pane.clientWidth;
-const h = pane.clientHeight;
-canvas.width = Math.max(1, Math.floor(w * dpr));
-canvas.height = Math.max(1, Math.floor(h * dpr));
-ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-}
-function stepBattle(rawDt) {
-if (state.dungeonRunning) return;
-const spd = SPEEDS[state.speedIdx] || 1;
-const dt = rawDt * spd;
-if (state.shakeTime > 0) {
-state.shakeTime = Math.max(0, state.shakeTime - rawDt);
-}
-if (state.comboTimer > 0) {
-state.comboTimer -= dt;
-if (state.comboTimer <= 0) {
-state.comboTimer = 0;
-state.combo = 0;
-}
-}
-if (state.enemies.length === 0) {
-state.waveTimer += dt;
-if (state.waveTimer > 0.6) {
-state.waveTimer = 0;
-spawnWaveEnemies(false);
-}
-return;
-}
-const totalDps = getTotalSquadDps();
-const deal = totalDps * dt * 1.15;
-const target = state.enemies[0];
-if (target) {
-target.hp -= deal;
-target.hitFlash = Math.max(0, target.hitFlash - dt);
-state.resonance = Math.min(100, state.resonance + dt * 9);
-if (Math.random() < dt * 4) {
-state.projectiles.push({
-x: 0.28,
-y: 0.6,
-tx: target.xRatio,
-ty: target.yRatio,
-t: 0
-});
-SFX.hit();
-spawnHitSparks(target.xRatio, target.yRatio, "#fde047", 5);
-pushDamagePopup(target.xRatio, target.yRatio, Math.max(12, totalDps * 0.28));
-}
-for (const hid of getActiveSquadIds()) {
-const hero = HERO_POOL.find(x => x.id === hid);
-if (!hero) continue;
-state.skillTimers[hid] = (state.skillTimers[hid] || 0) + dt;
-if (state.skillTimers[hid] >= hero.cd) {
-state.skillTimers[hid] = 0;
-SFX.skill();
-triggerShake(0.1, 3);
-const skillDmg = Math.max(80, Math.round(getHeroPower(hid).atk * 2.2));
-for (const en of state.enemies) {
-en.hp -= skillDmg;
-en.hitFlash = 0.2;
-}
-pushDamagePopup(target.xRatio, target.yRatio, skillDmg, ${hero.name}·${hero.skillName});
-spawnHitSparks(target.xRatio, target.yRatio, hero.color, 9);
-state.effects.push({
-xRatio: target.xRatio,
-yRatio: target.yRatio,
-radius: 20,
-maxRadius: 68,
-alpha: 0.9,
-color: hero.color
-});
-}
-}
-const chains = getElementChains(getActiveSquadIds()).chains;
-if (chains.length > 0 && Math.random() < dt * 1.6) {
-const pickedChain = chains[Math.floor(Math.random() * chains.length)];
-spawnChainEffect(pickedChain, target.xRatio, target.yRatio);
-state.chainTexts.push({
-text: pickedChain.name,
-xRatio: target.xRatio,
-yRatio: Math.max(0.2, target.yRatio - 0.12),
-alpha: 1
-});
-}
-}
-const prevEnemies = state.enemies.length;
-state.enemies = state.enemies.filter(e => e.hp > 0);
-const defeated = Math.max(0, prevEnemies - state.enemies.length);
-if (defeated > 0) {
-state.stats.kills += defeated;
-}
-if (state.enemies.length === 0) {
-onWaveCleared();
-}
-for (const p of state.projectiles) {
-p.t = Math.min(1, p.t + dt * 4.5);
-}
-state.projectiles = state.projectiles.filter(p => p.t < 1);
-for (const ef of state.effects) {
-ef.alpha -= dt * 2.1;
-const maxR = ef.maxRadius || 90;
-ef.radius += (maxR - ef.radius) * Math.min(1, dt * 8);
-}
-state.effects = state.effects.filter(ef => ef.alpha > 0);
-for (const sp of state.sparks) {
-sp.xRatio += sp.vx * dt;
-sp.yRatio += sp.vy * dt;
-sp.vy += 0.45 * dt;
-sp.alpha -= dt * 2.6;
-}
-state.sparks = state.sparks.filter(sp => sp.alpha > 0);
-for (const lb of state.lightningBolts) {
-lb.alpha -= dt * 3.4;
-}
-state.lightningBolts = state.lightningBolts.filter(lb => lb.alpha > 0);
-for (const ct of state.chainTexts) {
-ct.yRatio -= dt * 0.08;
-ct.alpha -= dt * 1.1;
-}
-state.chainTexts = state.chainTexts.filter(ct => ct.alpha > 0);
-for (const fd of state.floatingDamages) {
-fd.yRatio -= dt * 0.12;
-fd.alpha -= dt * 1.25;
-}
-state.floatingDamages = state.floatingDamages.filter(fd => fd.alpha > 0);
-const comboEl = document.getElementById("combo-badge");
-if (comboEl) comboEl.textContent = ${state.combo} COMBO;
-}
-function drawBattle() {
-const pane = document.getElementById("battle-pane");
-if (!pane || !ctx) return;
-const w = pane.clientWidth;
-const h = pane.clientHeight;
-ctx.clearRect(0, 0, w, h);
-ctx.save();
-if (state.shakeTime > 0) {
-const dx = (Math.random() - 0.5) * state.shakeMag * 2;
-const dy = (Math.random() - 0.5) * state.shakeMag * 2;
-ctx.translate(dx, dy);
-}
-const bgImg = getLoadedImage(state.bgImageSrc);
-if (bgImg) {
-ctx.drawImage(bgImg, 0, 0, w, h);
-} else {
-const sky = ctx.createLinearGradient(0, 0, 0, h * 0.56);
-sky.addColorStop(0, "#7ec8e3");
-sky.addColorStop(1, "#e0f2fe");
-ctx.fillStyle = sky;
-ctx.fillRect(0, 0, w, h * 0.56);
-const ground = ctx.createLinearGradient(0, h * 0.56, 0, h);
-ground.addColorStop(0, "#dfd2b5");
-ground.addColorStop(1, "#c2b08d");
-ctx.fillStyle = ground;
-ctx.fillRect(0, h * 0.56, w, h * 0.44);
-}
-state.squadSlots.forEach((hid, idx) => {
-if (!hid) return;
-const hero = HERO_POOL.find(x => x.id === hid);
-if (!hero) return;
-const x = w * (0.16 + (idx % 2) * 0.09);
-const y = h * (0.56 + Math.floor(idx / 2) * 0.16);
-const hImg = getLoadedImage(getHeroImageSrc(hid));
-if (hImg) {
-ctx.save();
-ctx.beginPath();
-ctx.arc(x, y - 16, 26, 0, Math.PI * 2);
-ctx.closePath();
-ctx.clip();
-ctx.drawImage(hImg, x - 26, y - 42, 52, 52);
-ctx.restore();
-} else {
-ctx.fillStyle = hero.color;
-ctx.beginPath();
-ctx.arc(x, y - 16, 22, 0, Math.PI * 2);
-ctx.fill();
-}
-const cdRatio = Math.min(1, (state.skillTimers[hid] || 0) / Math.max(0.1, hero.cd));
-ctx.fillStyle = "rgba(0,0,0,0.45)";
-ctx.fillRect(x - 20, y + 6, 40, 4);
-ctx.fillStyle = "#38bdf8";
-ctx.fillRect(x - 20, y + 6, 40 * cdRatio, 4);
-ctx.fillStyle = "rgba(255,255,255,0.92)";
-ctx.font = "bold 11px sans-serif";
-ctx.textAlign = "center";
-ctx.fillText(${idx + 1}.${hero.name}, x, y + 22);
-});
-for (const en of state.enemies) {
-const x = w * en.xRatio;
-const y = h * en.yRatio;
-const r = en.isBoss ? 32 : 20;
-ctx.fillStyle = en.hitFlash > 0 ? "#fde047" : (en.isBoss ? "#991b1b" : "#4b5563");
-ctx.beginPath();
-ctx.arc(x, y, r, 0, Math.PI * 2);
-ctx.fill();
-const ratio = Math.max(0, en.hp / en.maxHp);
-const barW = en.isBoss ? 68 : 44;
-ctx.fillStyle = "rgba(0,0,0,0.45)";
-ctx.fillRect(x - barW / 2, y - r - 12, barW, 6);
-ctx.fillStyle = "#ef4444";
-ctx.fillRect(x - barW / 2, y - r - 12, barW * ratio, 6);
-ctx.fillStyle = "#fff";
-ctx.font = "bold 11px sans-serif";
-ctx.textAlign = "center";
-ctx.fillText(en.name, x, y + r + 14);
-}
-for (const p of state.projectiles) {
-const cx = w * (p.x + (p.tx - p.x) * p.t);
-const cy = h * (p.y + (p.ty - p.y) * p.t);
-ctx.fillStyle = "#fbbf24";
-ctx.beginPath();
-ctx.arc(cx, cy, 5, 0, Math.PI * 2);
-ctx.fill();
-}
-for (const ef of state.effects) {
-ctx.strokeStyle = ef.color || "#f59e0b";
-ctx.globalAlpha = Math.max(0, ef.alpha);
-ctx.lineWidth = 4;
-ctx.beginPath();
-ctx.arc(w * ef.xRatio, h * ef.yRatio, ef.radius, 0, Math.PI * 2);
-ctx.stroke();
-ctx.globalAlpha = 1;
-}
-for (const sp of state.sparks) {
-ctx.globalAlpha = Math.max(0, sp.alpha);
-ctx.fillStyle = sp.color;
-ctx.beginPath();
-ctx.arc(w * sp.xRatio, h * sp.yRatio, sp.size, 0, Math.PI * 2);
-ctx.fill();
-ctx.globalAlpha = 1;
-}
-for (const lb of state.lightningBolts) {
-const lx = w * lb.xRatio;
-const ly = h * lb.yRatio;
-ctx.save();
-ctx.globalAlpha = Math.max(0, lb.alpha);
-ctx.strokeStyle = lb.color;
-ctx.lineWidth = 3;
-ctx.beginPath();
-ctx.moveTo(lx - 18, ly - 58);
-ctx.lineTo(lx + 6, ly - 32);
-ctx.lineTo(lx - 10, ly - 16);
-ctx.lineTo(lx + 12, ly + 8);
-ctx.stroke();
-ctx.restore();
-}
-for (const ct of state.chainTexts) {
-ctx.save();
-ctx.globalAlpha = Math.max(0, ct.alpha);
-ctx.fillStyle = "#fef08a";
-ctx.strokeStyle = "rgba(0,0,0,0.65)";
-ctx.lineWidth = 3;
-ctx.font = "bold 12px sans-serif";
-ctx.textAlign = "center";
-const tx = w * ct.xRatio;
-const ty = h * ct.yRatio;
-ctx.strokeText(ct.text, tx, ty);
-ctx.fillText(ct.text, tx, ty);
-ctx.restore();
-}
-for (const fd of state.floatingDamages) {
-ctx.save();
-ctx.globalAlpha = Math.max(0, fd.alpha);
-ctx.fillStyle = fd.isSkill ? "#fde047" : "#ffffff";
-ctx.strokeStyle = "rgba(0,0,0,0.7)";
-ctx.lineWidth = 3;
-ctx.font = fd.isSkill ? "bold 12px sans-serif" : "bold 11px sans-serif";
-ctx.textAlign = "center";
-const fx = w * fd.xRatio;
-const fy = h * fd.yRatio;
-ctx.strokeText(fd.text, fx, fy);
-ctx.fillText(fd.text, fx, fy);
-ctx.restore();
-}
-ctx.restore();
-}
-function loop(now) {
-const dt = Math.min(0.1, Math.max(0.001, (now - state.lastTime) / 1000));
-state.lastTime = now;
-stepBattle(dt);
-drawBattle();
-requestAnimationFrame(loop);
-}
-function bindEvents() {
-window.addEventListener("resize", resizeCanvas);
-window.addEventListener("beforeunload", saveGame);
-document.querySelectorAll(".nav-tab").forEach(btn => {
-btn.addEventListener("click", () => {
-document.querySelectorAll(".nav-tab").forEach(b => b.classList.remove("active"));
-btn.classList.add("active");
-state.activeTab = btn.getAttribute("data-tab") || "squad";
-renderTabContent();
-});
-});
-document.getElementById("btn-speed").addEventListener("click", () => {
-state.speedIdx = (state.speedIdx + 1) % SPEEDS.length;
-SFX.upgrade();
-saveGame();
-updateHud();
-showToast(전투 배속: ${SPEEDS[state.speedIdx]}x);
-});
-document.getElementById("btn-sound").addEventListener("click", () => {
-state.soundEnabled = !state.soundEnabled;
-if (state.soundEnabled) SFX.upgrade();
-saveGame();
-updateHud();
-showToast(state.soundEnabled ? "효과음 켜짐" : "효과음 꺼짐");
-});
-document.getElementById("btn-layout").addEventListener("click", () => {
-state.layoutIdx = (state.layoutIdx + 1) % LAYOUTS.length;
-applyLayout();
-SFX.upgrade();
-saveGame();
-updateHud();
-showToast(화면 분할: ${LAYOUTS[state.layoutIdx].name});
-});
-document.getElementById("btn-diff-modal").addEventListener("click", () => {
-renderDifficultyModal();
-document.getElementById("diff-modal").classList.add("open");
-});
-document.getElementById("btn-close-diff").addEventListener("click", () => {
-document.getElementById("diff-modal").classList.remove("open");
-});
-document.getElementById("btn-close-summon").addEventListener("click", () => {
-document.getElementById("summon-modal").classList.remove("open");
-});
-document.getElementById("btn-modal-summon-1").addEventListener("click", () => doSummon(1));
-document.getElementById("btn-modal-summon-10").addEventListener("click", () => doSummon(10));
-document.getElementById("btn-prev-stage").addEventListener("click", () => advanceStage(-1));
-document.getElementById("btn-next-stage").addEventListener("click", () => advanceStage(1));
-document.getElementById("btn-boss-now").addEventListener("click", () => {
-state.wave = state.maxWave;
-spawnWaveEnemies(true);
-SFX.skill();
-updateHud();
-showToast("보스 즉시 소환!");
-});
-document.getElementById("btn-auto-stage").addEventListener("click", () => {
-state.autoStage = !state.autoStage;
-SFX.upgrade();
-saveGame();
-updateHud();
-});
-document.getElementById("btn-ultimate").addEventListener("click", triggerUltimate);
-document.getElementById("btn-bg-upload").addEventListener("click", () => {
-document.getElementById("file-bg-input").click();
-});
-document.getElementById("file-bg-input").addEventListener("change", e => {
-const file = e.target.files && e.target.files[0];
-if (!file) return;
-const reader = new FileReader();
-reader.onload = ev => {
-if (ev.target && typeof ev.target.result === "string") {
-state.bgImageSrc = ev.target.result;
-SFX.upgrade();
-showToast("전장 배경이 변경되었습니다.");
-}
-};
-reader.readAsDataURL(file);
-e.target.value = "";
-});
-document.getElementById("file-hero-input").addEventListener("change", e => {
-const file = e.target.files && e.target.files[0];
-const targetId = state.pendingHeroImageId;
-state.pendingHeroImageId = null;
-if (!file || !targetId) return;
-const reader = new FileReader();
-reader.onload = ev => {
-if (ev.target && typeof ev.target.result === "string") {
-state.customImages[targetId] = ev.target.result;
-SFX.upgrade();
-renderTabContent();
-showToast("장수 일러스트가 변경되었습니다.");
-}
-};
-reader.readAsDataURL(file);
-e.target.value = "";
-});
-}
-applyLayout();
-bindEvents();
-spawnWaveEnemies(false);
-updateHud();
-renderTabContent();
-requestAnimationFrame(loop);
+  "use strict";
+
+  const STORAGE_KEY = "cheonha_gersang_empire_v3_save";
+  const SPEEDS = [1, 2, 3];
+  const LAYOUTS = [
+    { name: "균형 분할", battleFlex: "1.15", sideMax: "580px", mobileH: "44%" },
+    { name: "전장 집중", battleFlex: "1.65", sideMax: "480px", mobileH: "54%" },
+    { name: "관리 집중", battleFlex: "0.85", sideMax: "720px", mobileH: "34%" }
+  ];
+
+  const DIFFICULTIES = [
+    { id: 0, name: "입문", mult: 1, hpPow: 1.0, rewardMult: 1 },
+    { id: 1, name: "정예", mult: 8, hpPow: 1.12, rewardMult: 2.5 },
+    { id: 2, name: "무쌍", mult: 45, hpPow: 1.24, rewardMult: 6 },
+    { id: 3, name: "패왕", mult: 220, hpPow: 1.38, rewardMult: 15 },
+    { id: 4, name: "신화", mult: 950, hpPow: 1.52, rewardMult: 40 },
+    { id: 5, name: "천마강림", mult: 2800, hpPow: 1.68, rewardMult: 100 }
+  ];
+
+  const STAGE_TITLES = [
+    "한양성 외곽", "경복궁 누각", "임진강 나루", "남한산성길", "백두산 기슭",
+    "용문객잔 앞", "황하 상류", "장안성 성문", "낙양 만리교", "천상 낙원"
+  ];
+
+  const CHAPTER_NAMES = [
+    "제1장 조선 건국", "제2장 대륙 정벌", "제3장 사해 패권", "제4장 천상 개벽"
+  ];
+
+  const NATIONS = ["전체", "조선", "명나라", "일본", "몽골", "천상"];
+
+  const HERO_POOL = [
+    { id: "yi_sunsin", name: "이순신", nation: "조선", role: "지휘관", element: "수(水)", skillName: "거북선 포격", cd: 4.5, baseAtk: 145, baseHp: 1400, color: "#1d4ed8", emblem: "⚓", unlockedDefault: true },
+    { id: "seondeok", name: "선덕여왕", nation: "조선", role: "책략가", element: "화(火)", skillName: "첨성대 성화", cd: 4.0, baseAtk: 132, baseHp: 1050, color: "#dc2626", emblem: "🌙", unlockedDefault: true },
+    { id: "hwang_jini", name: "황진이", nation: "조선", role: "책략가", element: "풍(風)", skillName: "현가 선풍", cd: 3.8, baseAtk: 124, baseHp: 960, color: "#be185d", emblem: "🎐", unlockedDefault: true },
+    { id: "kwon_yul", name: "권율", nation: "조선", role: "수호장", element: "토(土)", skillName: "행주 대지진", cd: 5.0, baseAtk: 136, baseHp: 1480, color: "#3f6212", emblem: "🛡️", unlockedDefault: false },
+
+    { id: "guan_yu", name: "관우", nation: "명나라", role: "돌격장", element: "목(木)", skillName: "청룡 언월참", cd: 4.2, baseAtk: 155, baseHp: 1320, color: "#15803d", emblem: "🐉", unlockedDefault: true },
+    { id: "zhuge_liang", name: "제갈량", nation: "명나라", role: "책략가", element: "풍(風)", skillName: "팔괘 질풍진", cd: 3.6, baseAtk: 148, baseHp: 980, color: "#0f766e", emblem: "🪶", unlockedDefault: true },
+    { id: "zhao_yun", name: "조운", nation: "명나라", role: "선봉장", element: "뇌(雷)", skillName: "용담 뇌격창", cd: 4.0, baseAtk: 160, baseHp: 1180, color: "#0284c7", emblem: "⚡", unlockedDefault: false },
+
+    { id: "oda", name: "오다 노부나가", nation: "일본", role: "선봉장", element: "화(火)", skillName: "천하포무 화염", cd: 3.9, baseAtk: 162, baseHp: 1120, color: "#b45309", emblem: "🔥", unlockedDefault: true },
+    { id: "uesugi", name: "우에스기 겐신", nation: "일본", role: "돌격장", element: "수(水)", skillName: "비룡 한빙검", cd: 4.3, baseAtk: 154, baseHp: 1220, color: "#1e40af", emblem: "❄️", unlockedDefault: false },
+    { id: "miyamoto", name: "미야모토 무사시", nation: "일본", role: "선봉장", element: "풍(風)", skillName: "이도 회오리", cd: 3.7, baseAtk: 168, baseHp: 1080, color: "#7c2d12", emblem: "⚔️", unlockedDefault: false },
+
+    { id: "genghis", name: "칭기즈칸", nation: "몽골", role: "돌격장", element: "풍(風)", skillName: "초원 폭풍기병", cd: 4.1, baseAtk: 158, baseHp: 1250, color: "#0369a1", emblem: "🐎", unlockedDefault: true },
+    { id: "subutai", name: "수부타이", nation: "몽골", role: "선봉장", element: "화(火)", skillName: "맹화 유성우", cd: 4.4, baseAtk: 150, baseHp: 1140, color: "#9a3412", emblem: "☄️", unlockedDefault: false },
+    { id: "jebe", name: "제베", nation: "몽골", role: "책략가", element: "뇌(雷)", skillName: "신궁 낙뢰시", cd: 3.9, baseAtk: 146, baseHp: 1020, color: "#1d4ed8", emblem: "🏹", unlockedDefault: false },
+
+    { id: "sacheonwang", name: "다문천왕", nation: "천상", role: "지휘관", element: "뇌(雷)", skillName: "천둥보탑 심판", cd: 4.0, baseAtk: 185, baseHp: 1650, color: "#6d28d9", emblem: "👑", unlockedDefault: true },
+    { id: "ji_guk", name: "지국천왕", nation: "천상", role: "수호장", element: "목(木)", skillName: "동방 신목결계", cd: 4.6, baseAtk: 176, baseHp: 1720, color: "#047857", emblem: "🌿", unlockedDefault: false },
+    { id: "gwang_mok", name: "광목천왕", nation: "천상", role: "책략가", element: "화(火)", skillName: "업화 천안광", cd: 3.8, baseAtk: 192, baseHp: 1490, color: "#b91c1c", emblem: "☀️", unlockedDefault: false }
+  ];
+
+  const DUNGEON_TRIALS = [
+    { id: "trial_1", name: "청룡 시련 회랑", desc: "동방 청룡의 기운을 모아 영혼석을 수확합니다.", soulReward: 10, gemReward: 20, goldReward: 400 },
+    { id: "trial_2", name: "백호 무혼 전당", desc: "백호의 예리한 기백으로 영혼석과 옥을 획득합니다.", soulReward: 16, gemReward: 35, goldReward: 900 },
+    { id: "trial_3", name: "천상 신단 관문", desc: "천상계 시련을 돌파해 대량의 영혼석과 옥을 얻습니다.", soulReward: 25, gemReward: 60, goldReward: 2000 }
+  ];
+
+  const RAID_BOSSES = [
+    { id: "raid_1", name: "도전 토벌: 흑룡장군", desc: "거대 흑룡장군 토벌 시 영혼석·옥·냥 대량 지급", soulReward: 18, gemReward: 45, goldReward: 1500 },
+    { id: "raid_2", name: "도전 토벌: 마천황제", desc: "최상위 토벌 보스 격파 시 파격 보상 지급", soulReward: 30, gemReward: 80, goldReward: 3500 }
+  ];
+
+  const MISSION_DEFS = [
+    { id: "m_kills", title: "적 25마리 토벌", targetKey: "kills", target: 25, gold: 500, soul: 4, gem: 15 },
+    { id: "m_summons", title: "태극소환 5회 진행", targetKey: "summons", target: 5, gold: 400, soul: 6, gem: 20 },
+    { id: "m_forges", title: "상단 제련 3회 달성", targetKey: "forges", target: 3, gold: 700, soul: 5, gem: 25 }
+  ];
+
+  const SFX = (() => {
+    let ctx = null;
+    let lastHitTime = 0;
+    let lastChainTime = 0;
+
+    function ensureCtx() {
+      if (!state.soundEnabled) return null;
+      const AudioCtx = window.AudioContext || window.webkitAudioContext;
+      if (!AudioCtx) return null;
+      if (!ctx) ctx = new AudioCtx();
+      if (ctx.state === "suspended") {
+        ctx.resume().catch(() => {});
+      }
+      return ctx;
+    }
+
+    function tone(freqStart, freqEnd, duration, type = "triangle", gainPeak = 0.06, delay = 0) {
+      const c = ensureCtx();
+      if (!c) return;
+      const now = c.currentTime + delay;
+      const osc = c.createOscillator();
+      const gain = c.createGain();
+      osc.type = type;
+      osc.frequency.setValueAtTime(Math.max(40, freqStart), now);
+      osc.frequency.exponentialRampToValueAtTime(Math.max(40, freqEnd), now + duration);
+
+      gain.gain.setValueAtTime(0.0001, now);
+      gain.gain.linearRampToValueAtTime(gainPeak, now + 0.012);
+      gain.gain.exponentialRampToValueAtTime(0.0001, now + duration);
+
+      osc.connect(gain);
+      gain.connect(c.destination);
+      osc.start(now);
+      osc.stop(now + duration + 0.02);
+    }
+
+    return {
+      hit() {
+        const t = performance.now();
+        if (t - lastHitTime < 95) return;
+        lastHitTime = t;
+        tone(220 + Math.random() * 60, 95, 0.07, "square", 0.025);
+      },
+      tapStrike() {
+        tone(310, 140, 0.09, "sawtooth", 0.045);
+      },
+      chain() {
+        const t = performance.now();
+        if (t - lastChainTime < 220) return;
+        lastChainTime = t;
+        tone(520, 980, 0.14, "sawtooth", 0.045);
+        tone(780, 1240, 0.12, "sine", 0.035, 0.05);
+      },
+      skill() {
+        tone(340, 760, 0.18, "triangle", 0.06);
+        tone(510, 1020, 0.16, "sine", 0.04, 0.04);
+      },
+      ultimate() {
+        tone(140, 580, 0.28, "sawtooth", 0.08);
+        tone(280, 920, 0.34, "triangle", 0.07, 0.06);
+        tone(440, 1320, 0.38, "sine", 0.06, 0.12);
+      },
+      clear() {
+        tone(523.25, 523.25, 0.11, "triangle", 0.06, 0);
+        tone(659.25, 659.25, 0.11, "triangle", 0.06, 0.09);
+        tone(783.99, 1046.5, 0.22, "triangle", 0.07, 0.18);
+      },
+      summon() {
+        tone(440, 880, 0.16, "sine", 0.055, 0);
+        tone(660, 1320, 0.2, "triangle", 0.05, 0.08);
+      },
+      upgrade() {
+        tone(390, 620, 0.12, "triangle", 0.055);
+      },
+      portal() {
+        tone(220, 660, 0.35, "sine", 0.06);
+      }
+    };
+  })();
+
+  const state = {
+    gold: 1500,
+    gem: 360,
+    soul: 20,
+    difficultyIdx: 0,
+    speedIdx: 0,
+    layoutIdx: 0,
+    soundEnabled: true,
+    chapter: 1,
+    stageNum: 1,
+    wave: 1,
+    maxWave: 5,
+    autoStage: true,
+    resonance: 0,
+    combo: 0,
+    comboTimer: 0,
+    shakeTime: 0,
+    shakeMag: 0,
+    activeTab: "squad",
+    selectedNation: "전체",
+    selectedSlotIdx: 0,
+    squadSlots: ["yi_sunsin", "seondeok", "guan_yu", null],
+    presets: {
+      1: ["yi_sunsin", "seondeok", "guan_yu", null],
+      2: ["yi_sunsin", "seondeok", "hwang_jini", "guan_yu"],
+      3: ["sacheonwang", "genghis", "oda", "guan_yu"]
+    },
+    skillTimers: {},
+    forge: {
+      weaponLv: 0,
+      armorLv: 0,
+      tradeLv: 0
+    },
+    stats: {
+      kills: 0,
+      summons: 0,
+      forges: 0
+    },
+    claimedMissions: {},
+    heroes: {},
+    customImages: {},
+    bgImageSrc: "./assets/bg_day.png",
+    pendingHeroImageId: null,
+    dungeonRunning: false,
+    offlineReward: null,
+    lastSavedAt: Date.now(),
+    enemies: [],
+    projectiles: [],
+    effects: [],
+    sparks: [],
+    lightningBolts: [],
+    chainTexts: [],
+    floatingDamages: [],
+    lastTime: performance.now(),
+    waveTimer: 0
+  };
+
+  function initHeroes() {
+    state.heroes = {};
+    state.skillTimers = {};
+    for (const h of HERO_POOL) {
+      state.heroes[h.id] = {
+        unlocked: Boolean(h.unlockedDefault),
+        level: 1,
+        star: 1
+      };
+      state.skillTimers[h.id] = 0;
+    }
+  }
+
+  function sanitizeSlots(arr) {
+    if (!Array.isArray(arr)) return ["yi_sunsin", "seondeok", "guan_yu", null];
+    const out = [null, null, null, null];
+    for (let i = 0; i < 4; i++) {
+      const id = arr[i];
+      if (id && HERO_POOL.some(h => h.id === id)) out[i] = id;
+    }
+    return out;
+  }
+
+  function exportSaveCode() {
+    const payload = {
+      gold: state.gold,
+      gem: state.gem,
+      soul: state.soul,
+      difficultyIdx: state.difficultyIdx,
+      speedIdx: state.speedIdx,
+      layoutIdx: state.layoutIdx,
+      soundEnabled: state.soundEnabled,
+      chapter: state.chapter,
+      stageNum: state.stageNum,
+      wave: state.wave,
+      autoStage: state.autoStage,
+      resonance: state.resonance,
+      squadSlots: state.squadSlots,
+      presets: state.presets,
+      forge: state.forge,
+      stats: state.stats,
+      claimedMissions: state.claimedMissions,
+      heroes: state.heroes,
+      lastSavedAt: Date.now()
+    };
+    return btoa(unescape(encodeURIComponent(JSON.stringify(payload))));
+  }
+
+  function applySaveObject(d) {
+    if (!d || typeof d !== "object") return false;
+    if (typeof d.gold === "number") state.gold = Math.max(0, d.gold);
+    if (typeof d.gem === "number") state.gem = Math.max(0, d.gem);
+    if (typeof d.soul === "number") state.soul = Math.max(0, d.soul);
+    if (typeof d.difficultyIdx === "number") state.difficultyIdx = Math.min(DIFFICULTIES.length - 1, Math.max(0, d.difficultyIdx));
+    if (typeof d.speedIdx === "number") state.speedIdx = Math.min(SPEEDS.length - 1, Math.max(0, d.speedIdx));
+    if (typeof d.layoutIdx === "number") state.layoutIdx = Math.min(LAYOUTS.length - 1, Math.max(0, d.layoutIdx));
+    if (typeof d.soundEnabled === "boolean") state.soundEnabled = d.soundEnabled;
+    if (typeof d.chapter === "number" && d.chapter >= 1) state.chapter = d.chapter;
+    if (typeof d.stageNum === "number" && d.stageNum >= 1 && d.stageNum <= 10) state.stageNum = d.stageNum;
+    if (typeof d.wave === "number" && d.wave >= 1 && d.wave <= 5) state.wave = d.wave;
+    if (typeof d.autoStage === "boolean") state.autoStage = d.autoStage;
+    if (typeof d.resonance === "number") state.resonance = Math.min(100, Math.max(0, d.resonance));
+
+    state.squadSlots = sanitizeSlots(d.squadSlots);
+    if (!state.squadSlots.some(Boolean)) state.squadSlots[0] = "yi_sunsin";
+
+    if (d.presets && typeof d.presets === "object") {
+      state.presets = {
+        1: sanitizeSlots(d.presets[1]),
+        2: sanitizeSlots(d.presets[2]),
+        3: sanitizeSlots(d.presets[3])
+      };
+    }
+
+    if (d.forge && typeof d.forge === "object") {
+      state.forge.weaponLv = Math.max(0, Number(d.forge.weaponLv) || 0);
+      state.forge.armorLv = Math.max(0, Number(d.forge.armorLv) || 0);
+      state.forge.tradeLv = Math.max(0, Number(d.forge.tradeLv) || 0);
+    }
+
+    if (d.stats && typeof d.stats === "object") {
+      state.stats.kills = Math.max(0, Number(d.stats.kills) || 0);
+      state.stats.summons = Math.max(0, Number(d.stats.summons) || 0);
+      state.stats.forges = Math.max(0, Number(d.stats.forges) || 0);
+    }
+
+    if (d.claimedMissions && typeof d.claimedMissions === "object") {
+      state.claimedMissions = { ...d.claimedMissions };
+    }
+
+    if (d.heroes && typeof d.heroes === "object") {
+      for (const h of HERO_POOL) {
+        if (d.heroes[h.id]) {
+          state.heroes[h.id] = {
+            unlocked: Boolean(d.heroes[h.id].unlocked),
+            level: Math.max(1, Number(d.heroes[h.id].level) || 1),
+            star: Math.min(6, Math.max(1, Number(d.heroes[h.id].star) || 1))
+          };
+        }
+      }
+    }
+    return true;
+  }
+
+  function saveGame() {
+    try {
+      localStorage.setItem(STORAGE_KEY, exportSaveCode());
+    } catch (_) {}
+  }
+
+  function loadGame() {
+    initHeroes();
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (!raw) return;
+      let parsed = null;
+      try {
+        parsed = JSON.parse(decodeURIComponent(escape(atob(raw))));
+      } catch (_) {
+        parsed = JSON.parse(raw);
+      }
+      if (!parsed || typeof parsed !== "object") return;
+      applySaveObject(parsed);
+
+      if (typeof parsed.lastSavedAt === "number") {
+        const elapsedSec = Math.floor((Date.now() - parsed.lastSavedAt) / 1000);
+        if (elapsedSec >= 10) {
+          const cappedSec = Math.min(elapsedSec, 3600 * 12);
+          const mins = Math.max(1, Math.floor(cappedSec / 60));
+          const diff = DIFFICULTIES[state.difficultyIdx] || DIFFICULTIES[0];
+          const tradeBonus = 1 + state.forge.tradeLv * 0.12;
+          state.offlineReward = {
+            minutes: mins,
+            gold: Math.round(mins * 25 * diff.rewardMult * tradeBonus),
+            soul: Math.max(1, Math.floor(mins / 5) * 2),
+            gem: Math.max(1, Math.floor(mins / 10) * 5)
+          };
+        }
+      }
+    } catch (_) {}
+  }
+
+  function importSaveCode(codeStr) {
+    const trimmed = (codeStr || "").trim();
+    if (!trimmed) {
+      showToast("복원할 세이브 코드를 입력하세요.");
+      return;
+    }
+    try {
+      let obj = null;
+      try {
+        obj = JSON.parse(decodeURIComponent(escape(atob(trimmed))));
+      } catch (_) {
+        obj = JSON.parse(trimmed);
+      }
+      if (!applySaveObject(obj)) {
+        showToast("올바르지 않은 세이브 코드입니다.");
+        return;
+      }
+      saveGame();
+      applyLayout();
+      spawnWaveEnemies(false);
+      updateHud();
+      renderTabContent();
+      showToast("세이브 데이터가 복원되었습니다!");
+    } catch (_) {
+      showToast("세이브 코드 형식을 확인해 주세요.");
+    }
+  }
+
+  function resetAllData() {
+    try { localStorage.removeItem(STORAGE_KEY); } catch (_) {}
+    state.gold = 1500;
+    state.gem = 360;
+    state.soul = 20;
+    state.difficultyIdx = 0;
+    state.speedIdx = 0;
+    state.layoutIdx = 0;
+    state.soundEnabled = true;
+    state.chapter = 1;
+    state.stageNum = 1;
+    state.wave = 1;
+    state.autoStage = true;
+    state.resonance = 0;
+    state.combo = 0;
+    state.squadSlots = ["yi_sunsin", "seondeok", "guan_yu", null];
+    state.presets = {
+      1: ["yi_sunsin", "seondeok", "guan_yu", null],
+      2: ["yi_sunsin", "seondeok", "hwang_jini", "guan_yu"],
+      3: ["sacheonwang", "genghis", "oda", "guan_yu"]
+    };
+    state.forge = { weaponLv: 0, armorLv: 0, tradeLv: 0 };
+    state.stats = { kills: 0, summons: 0, forges: 0 };
+    state.claimedMissions = {};
+    state.offlineReward = null;
+    initHeroes();
+    applyLayout();
+    spawnWaveEnemies(false);
+    updateHud();
+    renderTabContent();
+    showToast("데이터가 초기화되었습니다.");
+  }
+
+  loadGame();
+
+  // 16명 장수·용병 전용 SVG 데이터 URL 초상화 생성기 (파일/외부 생성 없이 고유 초상화 제공)
+  const builtInPortraitCache = new Map();
+  function getBuiltInPortraitUrl(hero) {
+    if (builtInPortraitCache.has(hero.id)) {
+      return builtInPortraitCache.get(hero.id);
+    }
+    const nationBadge = {
+      "조선": "#1d4ed8",
+      "명나라": "#15803d",
+      "일본": "#b45309",
+      "몽골": "#0369a1",
+      "천상": "#6d28d9"
+    }[hero.nation] || "#334155";
+
+    const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128">
+      <defs>
+        <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stop-color="${hero.color}"/>
+          <stop offset="100%" stop-color="#1e1b18"/>
+        </linearGradient>
+      </defs>
+      <rect width="128" height="128" rx="16" fill="url(#g)"/>
+      <circle cx="64" cy="54" r="30" fill="rgba(255,255,255,0.14)" stroke="#fde68a" stroke-width="2.5"/>
+      <text x="64" y="64" text-anchor="middle" font-size="28" font-weight="800" fill="#fff">${hero.name[0]}</text>
+      <rect x="14" y="92" width="100" height="24" rx="10" fill="${nationBadge}" stroke="rgba(255,255,255,0.4)" stroke-width="1"/>
+      <text x="64" y="108" text-anchor="middle" font-size="12" font-weight="700" fill="#fef9c3">${hero.emblem} ${hero.nation}</text>
+    </svg>`;
+    const url = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(svg);
+    builtInPortraitCache.set(hero.id, url);
+    return url;
+  }
+
+  function getActiveSquadIds() {
+    return state.squadSlots.filter(Boolean);
+  }
+
+  function getElementChains(squadIds) {
+    const elems = new Set();
+    for (const hid of squadIds) {
+      const h = HERO_POOL.find(x => x.id === hid);
+      if (!h || !h.element) continue;
+      if (h.element.startsWith("수")) elems.add("수");
+      else if (h.element.startsWith("뇌")) elems.add("뇌");
+      else if (h.element.startsWith("화")) elems.add("화");
+      else if (h.element.startsWith("풍")) elems.add("풍");
+      else if (h.element.startsWith("목")) elems.add("목");
+    }
+
+    const chains = [];
+    let chainBonusPct = 0;
+    if (elems.has("수") && elems.has("뇌")) {
+      chains.push({ id: "shock", name: "⚡ 감전 연쇄 (수+뇌)", bonus: 25, color: "#38bdf8" });
+      chainBonusPct += 25;
+    }
+    if (elems.has("화") && elems.has("풍")) {
+      chains.push({ id: "gale", name: "🌪️ 열풍 폭발 (화+풍)", bonus: 25, color: "#fb923c" });
+      chainBonusPct += 25;
+    }
+    if (elems.has("목") && elems.has("화")) {
+      chains.push({ id: "burn", name: "🔥 화목 연소 (목+화)", bonus: 20, color: "#f87171" });
+      chainBonusPct += 20;
+    }
+    return { chains, chainBonusPct };
+  }
+
+  function getSynergySummary(squadIds) {
+    const nationCount = {};
+    const roleCount = {};
+    for (const hid of squadIds) {
+      const h = HERO_POOL.find(x => x.id === hid);
+      if (!h) continue;
+      nationCount[h.nation] = (nationCount[h.nation] || 0) + 1;
+      roleCount[h.role] = (roleCount[h.role] || 0) + 1;
+    }
+
+    const activeItems = [];
+    let atkBonusPct = state.forge.weaponLv * 8;
+    let hpBonusPct = state.forge.armorLv * 10;
+
+    for (const [nat, cnt] of Object.entries(nationCount)) {
+      if (cnt >= 2) {
+        const bonus = cnt * 12;
+        atkBonusPct += bonus;
+        activeItems.push({ label: `${nat} ${cnt}인 결속 (공격 +${bonus}%)`, on: true });
+      }
+    }
+    for (const [role, cnt] of Object.entries(roleCount)) {
+      if (cnt >= 2) {
+        const bonus = cnt * 14;
+        hpBonusPct += bonus;
+        activeItems.push({ label: `${role} 진형 (체력 +${bonus}%)`, on: true });
+      }
+    }
+
+    const elemInfo = getElementChains(squadIds);
+    atkBonusPct += elemInfo.chainBonusPct;
+    for (const ch of elemInfo.chains) {
+      activeItems.push({ label: `${ch.name} (공격 +${ch.bonus}%)`, on: true });
+    }
+
+    if (activeItems.length === 0) {
+      activeItems.push({ label: "시너지 대기중 · 국적/역할 2인↑ 또는 수+뇌/화+풍/목+화 조합", on: false });
+    }
+
+    return { nationCount, roleCount, activeItems, atkBonusPct, hpBonusPct, chains: elemInfo.chains };
+  }
+
+  function getHeroSynergyHint(hero) {
+    const activeIds = getActiveSquadIds();
+    const syn = getSynergySummary(activeIds);
+    const sameNat = syn.nationCount[hero.nation] || 0;
+    const sameRole = syn.roleCount[hero.role] || 0;
+    const isInSquad = activeIds.includes(hero.id);
+
+    if (isInSquad) {
+      if (sameNat >= 2 && sameRole >= 2) return `출전중 · ${hero.nation}·${hero.role} 이중 시너지 활성`;
+      if (sameNat >= 2) return `출전중 · ${hero.nation} 결속 활성`;
+      if (sameRole >= 2) return `출전중 · ${hero.role} 진형 활성`;
+      return `출전중 · 스킬: ${hero.skillName} (${hero.cd}초)`;
+    }
+
+    if (sameNat >= 1 || sameRole >= 1) {
+      return `합류 시 ${sameNat >= 1 ? `${hero.nation} 결속` : ""}${sameNat >= 1 && sameRole >= 1 ? " + " : ""}${sameRole >= 1 ? `${hero.role} 진형` : ""} 활성!`;
+    }
+    return `스킬: ${hero.skillName} · ${hero.nation}/${hero.role} 2인↑ 시너지`;
+  }
+
+  function savePreset(slotKey) {
+    state.presets[slotKey] = [...state.squadSlots];
+    SFX.upgrade();
+    saveGame();
+    renderTabContent();
+    showToast(`프리셋 ${slotKey}번 저장 완료!`);
+  }
+
+  function loadPreset(slotKey) {
+    const raw = state.presets[slotKey];
+    const sanitized = sanitizeSlots(raw);
+    if (!sanitized.some(Boolean)) {
+      showToast(`프리셋 ${slotKey}번이 비어 있습니다.`);
+      return;
+    }
+    state.squadSlots = sanitized;
+    SFX.upgrade();
+    saveGame();
+    renderTabContent();
+    showToast(`프리셋 ${slotKey}번 불러오기 완료!`);
+  }
+
+  function autoAssignSquad() {
+    const owned = HERO_POOL.filter(h => state.heroes[h.id] && state.heroes[h.id].unlocked);
+    if (owned.length === 0) return;
+
+    const nationGroups = {};
+    for (const h of owned) {
+      if (!nationGroups[h.nation]) nationGroups[h.nation] = [];
+      nationGroups[h.nation].push(h);
+    }
+
+    const sortedNations = Object.values(nationGroups).sort((a, b) => b.length - a.length);
+    const picked = [];
+    const usedIds = new Set();
+
+    for (const grp of sortedNations) {
+      const grpSorted = [...grp].sort((x, y) => getHeroPower(y.id).atk - getHeroPower(x.id).atk);
+      for (const h of grpSorted) {
+        if (picked.length < 4 && !usedIds.has(h.id)) {
+          picked.push(h.id);
+          usedIds.add(h.id);
+        }
+      }
+    }
+
+    const remainSorted = [...owned].sort((x, y) => getHeroPower(y.id).atk - getHeroPower(x.id).atk);
+    for (const h of remainSorted) {
+      if (picked.length < 4 && !usedIds.has(h.id)) {
+        picked.push(h.id);
+        usedIds.add(h.id);
+      }
+    }
+
+    state.squadSlots = [picked[0] || null, picked[1] || null, picked[2] || null, picked[3] || null];
+    SFX.upgrade();
+    saveGame();
+    renderTabContent();
+    showToast("⚡ 시너지 중심 자동배치 완료!");
+  }
+
+  const imgCache = new Map();
+  function getLoadedImage(src) {
+    if (!src) return null;
+    if (imgCache.has(src)) {
+      const entry = imgCache.get(src);
+      return entry.ready ? entry.img : null;
+    }
+    const img = new Image();
+    const entry = { img, ready: false };
+    img.onload = () => { entry.ready = true; };
+    img.onerror = () => { entry.ready = false; };
+    img.src = src;
+    imgCache.set(src, entry);
+    return null;
+  }
+
+  function getHeroImageSrc(heroId) {
+    if (state.customImages[heroId]) return state.customImages[heroId];
+    return `./assets/${heroId}.png`;
+  }
+
+  function renderHeroVisualHtml(hero, heightPx = 84) {
+    const imgSrc = getHeroImageSrc(hero.id);
+    const loadedImg = getLoadedImage(imgSrc);
+    const displaySrc = (loadedImg && imgSrc) ? imgSrc : getBuiltInPortraitUrl(hero);
+    return `<img class="hero-thumb" style="height:${heightPx}px;" src="${displaySrc}" alt="${hero.name}" />`;
+  }
+
+  function showToast(msg) {
+    const el = document.getElementById("toast");
+    if (!el) return;
+    el.textContent = msg;
+    el.style.display = "block";
+    clearTimeout(showToast._timer);
+    showToast._timer = setTimeout(() => {
+      el.style.display = "none";
+    }, 1800);
+  }
+
+  function formatNum(n) {
+    return Math.floor(n).toLocaleString("ko-KR");
+  }
+
+  function getStageIndex() {
+    return (state.chapter - 1) * 10 + (state.stageNum - 1);
+  }
+
+  function getStageName() {
+    const title = STAGE_TITLES[(state.stageNum - 1) % STAGE_TITLES.length];
+    return `${state.chapter}-${state.stageNum} ${title} (${state.wave}/${state.maxWave})`;
+  }
+
+  function getHeroPower(heroId) {
+    const base = HERO_POOL.find(h => h.id === heroId);
+    const st = state.heroes[heroId];
+    if (!base || !st) return { atk: 100, maxHp: 1000 };
+    const lvScale = 1 + (st.level - 1) * 0.15;
+    const starScale = 1 + (st.star - 1) * 0.35;
+    return {
+      atk: Math.round(base.baseAtk * lvScale * starScale),
+      maxHp: Math.round(base.baseHp * lvScale * starScale)
+    };
+  }
+
+  function getTotalSquadDps() {
+    const activeIds = getActiveSquadIds();
+    const syn = getSynergySummary(activeIds);
+    let baseSum = 0;
+    for (const hid of activeIds) {
+      baseSum += getHeroPower(hid).atk;
+    }
+    return Math.round(baseSum * (1 + syn.atkBonusPct / 100));
+  }
+
+  function triggerShake(duration = 0.14, mag = 4) {
+    state.shakeTime = Math.max(state.shakeTime, duration);
+    state.shakeMag = Math.max(state.shakeMag, mag);
+  }
+
+  function spawnHitSparks(xRatio, yRatio, color = "#fde047", count = 7) {
+    for (let i = 0; i < count; i++) {
+      const ang = (Math.PI * 2 * i) / count + (Math.random() - 0.5) * 0.5;
+      const spd = 0.14 + Math.random() * 0.22;
+      state.sparks.push({
+        xRatio,
+        yRatio,
+        vx: Math.cos(ang) * spd,
+        vy: Math.sin(ang) * spd - 0.06,
+        alpha: 1,
+        size: 2.5 + Math.random() * 2.5,
+        color
+      });
+    }
+  }
+
+  function spawnChainEffect(chainObj, xRatio, yRatio) {
+    SFX.chain();
+    if (chainObj.id === "shock") {
+      state.lightningBolts.push({
+        xRatio,
+        yRatio,
+        alpha: 1,
+        color: "#38bdf8"
+      });
+      spawnHitSparks(xRatio, yRatio, "#38bdf8", 10);
+    } else if (chainObj.id === "gale") {
+      state.effects.push({
+        xRatio,
+        yRatio,
+        radius: 18,
+        maxRadius: 72,
+        alpha: 0.95,
+        color: "#fb923c"
+      });
+      spawnHitSparks(xRatio, yRatio, "#fb923c", 9);
+    } else {
+      state.effects.push({
+        xRatio,
+        yRatio,
+        radius: 14,
+        maxRadius: 56,
+        alpha: 0.9,
+        color: "#f87171"
+      });
+      spawnHitSparks(xRatio, yRatio, "#f87171", 9);
+    }
+  }
+
+  function pushDamagePopup(xRatio, yRatio, amount, label = "") {
+    const dmgVal = Math.max(1, Math.round(amount));
+    state.combo += 1;
+    state.comboTimer = 2.4;
+    state.floatingDamages.push({
+      text: label ? `${label} -${formatNum(dmgVal)}` : `-${formatNum(dmgVal)}`,
+      xRatio: xRatio + (Math.random() - 0.5) * 0.06,
+      yRatio: Math.max(0.18, yRatio - 0.06),
+      alpha: 1,
+      isSkill: Boolean(label)
+    });
+    if (state.floatingDamages.length > 28) {
+      state.floatingDamages.shift();
+    }
+  }
+
+  // 전장 단순 탭/클릭 일격 (목표 지정 없이 바로 범위 타격 + 공명 충전)
+  function handleBattleTap(e) {
+    if (state.dungeonRunning || state.enemies.length === 0) return;
+    const rect = canvas.getBoundingClientRect();
+    if (!rect.width || !rect.height) return;
+    const xRatio = Math.min(0.92, Math.max(0.12, (e.clientX - rect.left) / rect.width));
+    const yRatio = Math.min(0.86, Math.max(0.24, (e.clientY - rect.top) / rect.height));
+
+    SFX.tapStrike();
+    triggerShake(0.08, 2.5);
+    state.resonance = Math.min(100, state.resonance + 3);
+
+    const tapDmg = Math.max(40, Math.round(getTotalSquadDps() * 0.45));
+    for (const en of state.enemies) {
+      en.hp -= tapDmg;
+      en.hitFlash = 0.16;
+    }
+
+    pushDamagePopup(xRatio, yRatio, tapDmg, "⚔️일격");
+    spawnHitSparks(xRatio, yRatio, "#fde047", 8);
+    state.effects.push({
+      xRatio,
+      yRatio,
+      radius: 14,
+      maxRadius: 54,
+      alpha: 0.85,
+      color: "#fde047"
+    });
+
+    const prevEnemies = state.enemies.length;
+    state.enemies = state.enemies.filter(en => en.hp > 0);
+    state.stats.kills += Math.max(0, prevEnemies - state.enemies.length);
+    if (state.enemies.length === 0) {
+      onWaveCleared();
+    }
+    updateHud();
+  }
+
+  function spawnWaveEnemies(isBossForce = false) {
+    const diff = DIFFICULTIES[state.difficultyIdx] || DIFFICULTIES[0];
+    const sIdx = getStageIndex();
+    const isBoss = isBossForce || state.wave === state.maxWave;
+    const count = isBoss ? 1 : 3;
+    const baseHp = Math.round(320 * Math.pow(1.22, sIdx) * Math.pow(diff.hpPow, sIdx) * (isBoss ? 3.6 : 1));
+    const baseAtk = Math.round(28 * Math.pow(1.16, sIdx) * Math.sqrt(diff.mult) * (isBoss ? 1.5 : 1));
+
+    state.enemies = [];
+    for (let i = 0; i < count; i++) {
+      state.enemies.push({
+        id: "e_" + Math.random().toString(36).slice(2, 8),
+        name: isBoss ? `${getStageName().split(" ")[1]} 수호신` : `흉수 ${i + 1}`,
+        isBoss,
+        hp: baseHp,
+        maxHp: baseHp,
+        atk: baseAtk,
+        xRatio: 0.72 + i * 0.08,
+        yRatio: isBoss ? 0.64 : 0.56 + i * 0.11,
+        hitFlash: 0
+      });
+    }
+  }
+
+  function advanceStage(delta) {
+    const nextTotal = getStageIndex() + delta;
+    const clamped = Math.max(0, nextTotal);
+    state.chapter = Math.floor(clamped / 10) + 1;
+    state.stageNum = (clamped % 10) + 1;
+    state.wave = 1;
+    spawnWaveEnemies(false);
+    SFX.upgrade();
+    saveGame();
+    updateHud();
+    showToast(`스테이지 이동: ${state.chapter}-${state.stageNum}`);
+  }
+
+  function onWaveCleared() {
+    SFX.clear();
+    triggerShake(0.16, 5);
+    const diff = DIFFICULTIES[state.difficultyIdx] || DIFFICULTIES[0];
+    const tradeMult = 1 + state.forge.tradeLv * 0.12;
+    const goldGain = Math.round((120 + getStageIndex() * 35) * diff.rewardMult * tradeMult);
+    const gemGain = state.wave === state.maxWave ? Math.max(5, Math.round(10 * Math.sqrt(diff.rewardMult) * tradeMult)) : 0;
+    state.gold += goldGain;
+    state.gem += gemGain;
+    state.resonance = Math.min(100, state.resonance + 25);
+
+    if (state.wave < state.maxWave) {
+      state.wave += 1;
+      spawnWaveEnemies(false);
+      showToast(`웨이브 클리어! +${formatNum(goldGain)}냥`);
+    } else if (state.autoStage) {
+      const nextTotal = getStageIndex() + 1;
+      state.chapter = Math.floor(nextTotal / 10) + 1;
+      state.stageNum = (nextTotal % 10) + 1;
+      state.wave = 1;
+      spawnWaveEnemies(false);
+      showToast(`스테이지 돌파! +${formatNum(goldGain)}냥${gemGain ? ` · +${gemGain}옥` : ""}`);
+    } else {
+      state.wave = 1;
+      spawnWaveEnemies(false);
+      showToast(`보스 토벌 완료! +${formatNum(goldGain)}냥`);
+    }
+    saveGame();
+    updateHud();
+    if (state.activeTab === "squad" || state.activeTab === "roster") {
+      renderTabContent();
+    }
+  }
+
+  function triggerUltimate() {
+    if (state.resonance < 100) {
+      showToast("공명 게이지 100% 달성 시 발동 가능!");
+      return;
+    }
+    state.resonance = 0;
+    SFX.ultimate();
+    triggerShake(0.28, 8);
+    const totalDmg = Math.max(250, getTotalSquadDps() * 3);
+
+    for (const en of state.enemies) {
+      en.hp -= totalDmg;
+      en.hitFlash = 0.25;
+      pushDamagePopup(en.xRatio, en.yRatio, totalDmg, "⚡천지개벽");
+      spawnHitSparks(en.xRatio, en.yRatio, "#fde047", 14);
+      state.effects.push({
+        xRatio: en.xRatio,
+        yRatio: en.yRatio,
+        radius: en.isBoss ? 78 : 52,
+        maxRadius: 120,
+        alpha: 0.95,
+        color: "#f59e0b"
+      });
+    }
+    const beforeLen = state.enemies.length;
+    state.enemies = state.enemies.filter(e => e.hp > 0);
+    state.stats.kills += Math.max(0, beforeLen - state.enemies.length);
+    saveGame();
+    showToast(`⚡ 천지개벽 협동필살! (${formatNum(totalDmg)} 피해)`);
+    if (state.enemies.length === 0) {
+      onWaveCleared();
+    }
+    updateHud();
+  }
+
+  function assignHeroToSelectedSlot(heroId) {
+    const st = state.heroes[heroId];
+    const heroObj = HERO_POOL.find(h => h.id === heroId);
+    if (!st || !st.unlocked || !heroObj) {
+      showToast("미보유 장수입니다. 태극소환에서 영입하세요!");
+      return;
+    }
+
+    const slotIdx = state.selectedSlotIdx;
+    const currentInSlot = state.squadSlots[slotIdx];
+    const existingSlotIdx = state.squadSlots.indexOf(heroId);
+
+    if (currentInSlot === heroId) {
+      if (getActiveSquadIds().length <= 1) {
+        showToast("최소 1명 이상은 출전을 유지해야 합니다.");
+        return;
+      }
+      state.squadSlots[slotIdx] = null;
+      showToast(`${slotIdx + 1}슬롯에서 ${heroObj.name} 편성을 해제했습니다.`);
+    } else if (existingSlotIdx >= 0) {
+      state.squadSlots[existingSlotIdx] = currentInSlot;
+      state.squadSlots[slotIdx] = heroId;
+      showToast(`${slotIdx + 1}슬롯과 ${existingSlotIdx + 1}슬롯 배치를 맞바꿨습니다.`);
+    } else {
+      state.squadSlots[slotIdx] = heroId;
+      showToast(`${slotIdx + 1}슬롯에 ${heroObj.name} 배치 완료!`);
+    }
+
+    SFX.upgrade();
+    saveGame();
+    renderTabContent();
+  }
+
+  function clearSelectedSlot() {
+    const slotIdx = state.selectedSlotIdx;
+    if (!state.squadSlots[slotIdx]) {
+      showToast(`${slotIdx + 1}슬롯이 이미 비어 있습니다.`);
+      return;
+    }
+    if (getActiveSquadIds().length <= 1) {
+      showToast("최소 1명 이상은 출전을 유지해야 합니다.");
+      return;
+    }
+    state.squadSlots[slotIdx] = null;
+    SFX.upgrade();
+    saveGame();
+    showToast(`${slotIdx + 1}슬롯을 비웠습니다.`);
+    renderTabContent();
+  }
+
+  function levelUpHero(heroId) {
+    const st = state.heroes[heroId];
+    if (!st || !st.unlocked) return;
+    const cost = st.level * 150;
+    if (state.gold < cost) {
+      showToast("냥이 부족합니다!");
+      return;
+    }
+    state.gold -= cost;
+    st.level += 1;
+    SFX.upgrade();
+    saveGame();
+    updateHud();
+    renderTabContent();
+    showToast(`Lv.${st.level} 달성!`);
+  }
+
+  function upgradeAllSquadHeroes() {
+    const activeIds = getActiveSquadIds();
+    let count = 0;
+    for (const hid of activeIds) {
+      const st = state.heroes[hid];
+      if (!st || !st.unlocked) continue;
+      const cost = st.level * 150;
+      if (state.gold >= cost) {
+        state.gold -= cost;
+        st.level += 1;
+        count += 1;
+      }
+    }
+    if (count === 0) {
+      showToast("강화할 냥이 부족합니다.");
+      return;
+    }
+    SFX.upgrade();
+    saveGame();
+    updateHud();
+    renderTabContent();
+    showToast(`출전 장수 ${count}명 일괄 강화 완료!`);
+  }
+
+  function promoteStarHero(heroId) {
+    const st = state.heroes[heroId];
+    if (!st || !st.unlocked) return;
+    if (st.star >= 6) {
+      showToast("이미 ★6 최고 성급입니다.");
+      return;
+    }
+    const cost = st.star * 10;
+    if (state.soul < cost) {
+      showToast(`영혼석 ${cost}개가 필요합니다.`);
+      return;
+    }
+    state.soul -= cost;
+    st.star += 1;
+    SFX.summon();
+    saveGame();
+    updateHud();
+    renderTabContent();
+    showToast(`★${st.star} 성급 돌파 성공!`);
+  }
+
+  function openSummonModal(results, count) {
+    const modal = document.getElementById("summon-modal");
+    const titleEl = document.getElementById("summon-modal-title");
+    const sumEl = document.getElementById("summon-modal-summary");
+    const gridEl = document.getElementById("summon-modal-grid");
+    if (!modal || !gridEl) return;
+
+    const newCount = results.filter(r => r.isNew).length;
+    const soulGain = results.reduce((acc, r) => acc + r.soulBonus, 0);
+
+    titleEl.textContent = `🔮 태극소환 ${count}연 결과`;
+    sumEl.textContent = `신규 영입 ${newCount}명 · 중복 변환 영혼석 +${soulGain}`;
+    gridEl.innerHTML = "";
+
+    results.forEach((item, idx) => {
+      const card = document.createElement("div");
+      card.className = `summon-item-card ${item.isNew ? "new-hero" : ""}`;
+      card.style.animationDelay = `${Math.min(idx * 35, 300)}ms`;
+      card.innerHTML = `
+        ${renderHeroVisualHtml(item.hero, 64)}
+        <div style="font-size:12px;font-weight:800;">${item.hero.name}</div>
+        <div style="font-size:10px;color:var(--ink-sub);">${item.hero.nation} · ${item.hero.element}</div>
+        <div style="font-size:10px;font-weight:700;color:${item.isNew ? "var(--accent-gold)" : "var(--accent-jade)"};">
+          ${item.isNew ? "✨ 신규 영입" : `영혼석 +${item.soulBonus}`}
+        </div>
+      `;
+      gridEl.appendChild(card);
+    });
+
+    modal.classList.add("open");
+  }
+
+  function doSummon(count) {
+    const cost = count === 10 ? 180 : 20;
+    if (state.gem < cost) {
+      showToast("옥이 부족합니다!");
+      return;
+    }
+    state.gem -= cost;
+    state.stats.summons += count;
+    SFX.summon();
+
+    const results = [];
+    for (let i = 0; i < count; i++) {
+      const pick = HERO_POOL[Math.floor(Math.random() * HERO_POOL.length)];
+      const st = state.heroes[pick.id];
+      let isNew = false;
+      let soulBonus = 0;
+      if (!st.unlocked) {
+        st.unlocked = true;
+        isNew = true;
+      } else {
+        soulBonus = 4;
+        state.soul += soulBonus;
+      }
+      results.push({ hero: pick, isNew, soulBonus });
+    }
+    saveGame();
+    updateHud();
+    if (state.activeTab === "roster" || state.activeTab === "squad" || state.activeTab === "dungeon") {
+      renderTabContent();
+    }
+    openSummonModal(results, count);
+  }
+
+  function enterDungeonTransition(titleText, subText, onComplete) {
+    if (state.dungeonRunning) return;
+    state.dungeonRunning = true;
+    SFX.portal();
+
+    const overlay = document.getElementById("dungeon-transition");
+    const titleEl = document.getElementById("dungeon-tr-title");
+    const subEl = document.getElementById("dungeon-tr-sub");
+    const barEl = document.getElementById("dungeon-tr-bar");
+
+    titleEl.textContent = titleText;
+    subEl.textContent = subText;
+    barEl.style.width = "0%";
+    overlay.classList.add("active");
+
+    let progress = 0;
+    const timer = setInterval(() => {
+      progress += 15;
+      barEl.style.width = `${Math.min(100, progress)}%`;
+      if (progress >= 100) {
+        clearInterval(timer);
+        setTimeout(() => {
+          overlay.classList.remove("active");
+          state.dungeonRunning = false;
+          SFX.clear();
+          onComplete();
+          saveGame();
+          updateHud();
+        }, 160);
+      }
+    }, 85);
+  }
+
+  function enterDungeonTrial(trial) {
+    enterDungeonTransition(
+      `${trial.name} 진입 중...`,
+      "차원 결계를 전개하고 시련의 수호자를 소환합니다",
+      () => {
+        state.soul += trial.soulReward;
+        state.gem += trial.gemReward;
+        state.gold += trial.goldReward;
+        state.resonance = Math.min(100, state.resonance + 20);
+        showToast(`${trial.name} 돌파! 영혼석 +${trial.soulReward} · 옥 +${trial.gemReward} · +${formatNum(trial.goldReward)}냥`);
+      }
+    );
+  }
+
+  function fightRaidBoss(boss) {
+    enterDungeonTransition(
+      `${boss.name} 결계 전개 중...`,
+      "거대 토벌 보스와 결전을 준비합니다",
+      () => {
+        state.soul += boss.soulReward;
+        state.gem += boss.gemReward;
+        state.gold += boss.goldReward;
+        state.resonance = 100;
+        showToast(`👹 ${boss.name} 격파! 영혼석 +${boss.soulReward} · 옥 +${boss.gemReward} · +${formatNum(boss.goldReward)}냥`);
+      }
+    );
+  }
+
+  function claimMission(mDef) {
+    const curVal = state.stats[mDef.targetKey] || 0;
+    if (curVal < mDef.target) {
+      showToast("아직 목표를 달성하지 못했습니다.");
+      return;
+    }
+    if (state.claimedMissions[mDef.id]) {
+      showToast("이미 수령한 미션입니다.");
+      return;
+    }
+    state.claimedMissions[mDef.id] = true;
+    state.gold += mDef.gold;
+    state.soul += mDef.soul;
+    state.gem += mDef.gem;
+    SFX.clear();
+    saveGame();
+    updateHud();
+    renderTabContent();
+    showToast(`미션 보상 수령! +${formatNum(mDef.gold)}냥 · +${mDef.soul}석 · +${mDef.gem}옥`);
+  }
+
+  function renderHeroCard(hero, mode) {
+    const st = state.heroes[hero.id] || { unlocked: false, level: 1, star: 1 };
+    const pwr = getHeroPower(hero.id);
+    const slotIdx = state.squadSlots.indexOf(hero.id);
+    const isDeployed = slotIdx >= 0;
+    const lvCost = st.level * 150;
+    const starCost = st.star * 10;
+    const synHint = getHeroSynergyHint(hero);
+    const matchesCurrent = synHint.includes("활성");
+
+    const div = document.createElement("div");
+    div.className = `hero-card ${st.unlocked ? "" : "locked"} ${matchesCurrent ? "synergy-match" : ""}`;
+
+    let deployBtnText = "미보유";
+    let deployBtnClass = "mini-btn";
+    if (st.unlocked) {
+      if (slotIdx === state.selectedSlotIdx) {
+        deployBtnText = `${slotIdx + 1}칸 해제`;
+        deployBtnClass = "mini-btn gold";
+      } else if (isDeployed) {
+        deployBtnText = `${slotIdx + 1}칸 배치됨`;
+        deployBtnClass = "mini-btn gold";
+      } else {
+        deployBtnText = `${state.selectedSlotIdx + 1}칸 지정`;
+        deployBtnClass = "mini-btn primary";
+      }
+    }
+
+    div.innerHTML = `
+      ${renderHeroVisualHtml(hero, 82)}
+      <div class="hero-name">
+        <span>${hero.name}</span>
+        <span>★${st.star}</span>
+      </div>
+      <div class="hero-meta">${hero.nation} · ${hero.role} · ${hero.element}</div>
+      <div class="hero-meta">Lv.${st.level} · 공 ${formatNum(pwr.atk)} · 체 ${formatNum(pwr.maxHp)}</div>
+      <div class="hero-syn-tag">${synHint}</div>
+      <div class="btn-row">
+        <button class="${deployBtnClass}" data-act="deploy" data-id="${hero.id}" ${st.unlocked ? "" : "disabled"}>
+          ${deployBtnText}
+        </button>
+        <button class="mini-btn" data-act="photo" data-id="${hero.id}" title="이미지 교체">📷</button>
+      </div>
+      ${st.unlocked && mode === "roster" ? `
+        <div class="btn-row">
+          <button class="mini-btn" data-act="lvup" data-id="${hero.id}">강화 (${lvCost}냥)</button>
+          <button class="mini-btn" data-act="starup" data-id="${hero.id}" ${st.star >= 6 ? "disabled" : ""}>돌파 (${starCost}석)</button>
+        </div>
+      ` : ""}
+    `;
+
+    div.querySelectorAll("button[data-act]").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const act = btn.getAttribute("data-act");
+        const id = btn.getAttribute("data-id");
+        if (act === "deploy") assignHeroToSelectedSlot(id);
+        else if (act === "lvup") levelUpHero(id);
+        else if (act === "starup") promoteStarHero(id);
+        else if (act === "photo") {
+          state.pendingHeroImageId = id;
+          document.getElementById("file-hero-input").click();
+        }
+      });
+    });
+
+    return div;
+  }
+
+  function renderTabContent() {
+    const container = document.getElementById("tab-content");
+    if (!container) return;
+    container.innerHTML = "";
+
+    if (state.offlineReward) {
+      const rew = state.offlineReward;
+      const offCard = document.createElement("div");
+      offCard.className = "section-card";
+      offCard.style.borderColor = "var(--accent-gold)";
+      offCard.innerHTML = `
+        <h3 class="section-title">
+          <span>🎁 오프라인 방치 보상 (${rew.minutes}분 경과)</span>
+          <button id="btn-claim-offline" class="mini-btn gold" type="button" style="flex:none;padding:6px 10px;">보상 수령</button>
+        </h3>
+        <div class="hero-meta">+${formatNum(rew.gold)}냥 · +${formatNum(rew.soul)} 영혼석 · +${formatNum(rew.gem)} 옥</div>
+      `;
+      offCard.querySelector("#btn-claim-offline").addEventListener("click", () => {
+        state.gold += rew.gold;
+        state.soul += rew.soul;
+        state.gem += rew.gem;
+        state.offlineReward = null;
+        SFX.clear();
+        saveGame();
+        updateHud();
+        renderTabContent();
+        showToast("오프라인 방치 보상을 받았습니다!");
+      });
+      container.appendChild(offCard);
+    }
+
+    if (state.activeTab === "squad") {
+      const syn = getSynergySummary(getActiveSquadIds());
+
+      const slotCard = document.createElement("div");
+      slotCard.className = "section-card";
+      slotCard.innerHTML = `
+        <h3 class="section-title">
+          <span>출전 칸 지정 (${getActiveSquadIds().length}/4)</span>
+          <div style="display:flex;gap:4px;flex-wrap:wrap;">
+            <button id="btn-auto-squad" class="mini-btn primary" type="button" style="flex:none;padding:4px 9px;">⚡ 자동배치</button>
+            <button id="btn-upgrade-all" class="mini-btn gold" type="button" style="flex:none;padding:4px 9px;">▲ 출전 전체 강화</button>
+            <button id="btn-clear-slot" class="mini-btn" type="button" style="flex:none;padding:4px 8px;">선택 칸 비우기</button>
+          </div>
+        </h3>
+        <div class="preset-row" id="preset-row"></div>
+        <div class="synergy-guide-box">
+          <strong>시너지 &amp; 속성 연쇄:</strong> 같은 <strong>국적</strong> 2명↑(공격 +12%/인), 같은 <strong>역할군</strong> 2명↑(체력 +14%/인), <strong>수+뇌(감전 +25%) · 화+풍(열풍 +25%) · 목+화(연소 +20%)</strong> 및 <strong>고유 스킬</strong>이 적용됩니다.
+          <div style="margin-top:4px;color:var(--ink-main);font-weight:700;">
+            총 공격 보정 +${syn.atkBonusPct}% · 체력 보정 +${syn.hpBonusPct}% · 부대 DPS ${formatNum(getTotalSquadDps())}
+          </div>
+        </div>
+        <div id="slot-grid" class="slot-selector-grid"></div>
+        <div class="synergy-list">
+          ${syn.activeItems.map(item => `<span class="synergy-badge ${item.on ? "on" : ""}">${item.label}</span>`).join("")}
+        </div>
+      `;
+
+      const presetRow = slotCard.querySelector("#preset-row");
+      [1, 2, 3].forEach(pKey => {
+        const names = sanitizeSlots(state.presets[pKey])
+          .map(id => (id ? (HERO_POOL.find(h => h.id === id)?.name || "") : ""))
+          .filter(Boolean)
+          .join(", ");
+        const pBox = document.createElement("div");
+        pBox.className = "preset-box";
+        pBox.innerHTML = `
+          <strong>프리셋 ${pKey}</strong>
+          <div class="hero-meta" style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${names || "비어 있음"}</div>
+          <div class="btn-row">
+            <button class="mini-btn primary" data-p-load="${pKey}" type="button">불러오기</button>
+            <button class="mini-btn" data-p-save="${pKey}" type="button">저장</button>
+          </div>
+        `;
+        pBox.querySelector(`[data-p-load="${pKey}"]`).addEventListener("click", () => loadPreset(pKey));
+        pBox.querySelector(`[data-p-save="${pKey}"]`).addEventListener("click", () => savePreset(pKey));
+        presetRow.appendChild(pBox);
+      });
+
+      slotCard.querySelector("#btn-auto-squad").addEventListener("click", autoAssignSquad);
+      slotCard.querySelector("#btn-upgrade-all").addEventListener("click", upgradeAllSquadHeroes);
+      slotCard.querySelector("#btn-clear-slot").addEventListener("click", clearSelectedSlot);
+
+      const slotGrid = slotCard.querySelector("#slot-grid");
+      state.squadSlots.forEach((hid, idx) => {
+        const h = hid ? HERO_POOL.find(x => x.id === hid) : null;
+        const pwr = hid ? getHeroPower(hid) : null;
+        const box = document.createElement("button");
+        box.type = "button";
+        box.className = `slot-box ${state.selectedSlotIdx === idx ? "selected" : ""}`;
+        box.innerHTML = `
+          <div class="slot-header">
+            <span>${idx + 1}번 칸</span>
+            <span>${state.selectedSlotIdx === idx ? "선택됨" : "클릭해 지정"}</span>
+          </div>
+          <div class="slot-hero-name">${h ? `${h.name} (${h.nation}·${h.element})` : "빈 칸 (미배치)"}</div>
+          <div class="hero-meta">${h && pwr ? `공 ${formatNum(pwr.atk)} · 스킬: ${h.skillName}` : "아래에서 장수를 선택하세요"}</div>
+        `;
+        box.addEventListener("click", () => {
+          state.selectedSlotIdx = idx;
+          renderTabContent();
+        });
+        slotGrid.appendChild(box);
+      });
+
+      container.appendChild(slotCard);
+
+      const pickCard = document.createElement("div");
+      pickCard.className = "section-card";
+      pickCard.innerHTML = `
+        <h3 class="section-title">
+          <span>${state.selectedSlotIdx + 1}번 칸 배치 장수 선택</span>
+          <span style="font-size:11px;color:var(--ink-sub);">${CHAPTER_NAMES[(state.chapter - 1) % CHAPTER_NAMES.length]}</span>
+        </h3>
+        <div id="pick-hero-grid" class="hero-grid"></div>
+      `;
+      const pickGrid = pickCard.querySelector("#pick-hero-grid");
+      const ownedHeroes = HERO_POOL.filter(h => state.heroes[h.id] && state.heroes[h.id].unlocked);
+      for (const h of ownedHeroes) {
+        pickGrid.appendChild(renderHeroCard(h, "squad"));
+      }
+      container.appendChild(pickCard);
+    } else if (state.activeTab === "roster") {
+      const card = document.createElement("div");
+      card.className = "section-card";
+      const ownedCount = HERO_POOL.filter(h => state.heroes[h.id] && state.heroes[h.id].unlocked).length;
+      card.innerHTML = `
+        <h3 class="section-title">
+          <span>국적별 장수·용병 도감 (대상: ${state.selectedSlotIdx + 1}칸)</span>
+          <span style="font-size:12px;color:var(--accent-jade);">보유 ${ownedCount}/${HERO_POOL.length}</span>
+        </h3>
+        <div id="nation-filters" class="nation-filter-bar"></div>
+        <div id="roster-grid" class="hero-grid"></div>
+      `;
+
+      const filterBar = card.querySelector("#nation-filters");
+      for (const nat of NATIONS) {
+        const chip = document.createElement("button");
+        chip.type = "button";
+        chip.className = `nation-chip ${state.selectedNation === nat ? "active" : ""}`;
+        const countForNat = nat === "전체"
+          ? HERO_POOL.length
+          : HERO_POOL.filter(h => h.nation === nat).length;
+        chip.textContent = `${nat} (${countForNat})`;
+        chip.addEventListener("click", () => {
+          state.selectedNation = nat;
+          renderTabContent();
+        });
+        filterBar.appendChild(chip);
+      }
+
+      const grid = card.querySelector("#roster-grid");
+      const filtered = HERO_POOL.filter(h => state.selectedNation === "전체" || h.nation === state.selectedNation);
+      for (const h of filtered) {
+        grid.appendChild(renderHeroCard(h, "roster"));
+      }
+      container.appendChild(card);
+    } else if (state.activeTab === "summon") {
+      const ownedCount = HERO_POOL.filter(h => state.heroes[h.id] && state.heroes[h.id].unlocked).length;
+      const card = document.createElement("div");
+      card.className = "section-card";
+      card.innerHTML = `
+        <h3 class="section-title">
+          <span>🔮 태극 장수 소환</span>
+          <span style="font-size:12px;color:var(--ink-sub);">도감 ${ownedCount}/${HERO_POOL.length}</span>
+        </h3>
+        <p style="margin:0 0 10px 0;font-size:12px;color:var(--ink-sub);">
+          소환 버튼을 누르면 전용 소환창에서 영입 결과를 바로 확인할 수 있습니다. 중복 장수는 영혼석 +4로 변환됩니다.
+        </p>
+        <div class="btn-row">
+          <button id="btn-summon-1" class="mini-btn primary" type="button">1회 소환 (20옥)</button>
+          <button id="btn-summon-10" class="mini-btn gold" type="button">10회 소환 (180옥)</button>
+        </div>
+      `;
+      card.querySelector("#btn-summon-1").addEventListener("click", () => doSummon(1));
+      card.querySelector("#btn-summon-10").addEventListener("click", () => doSummon(10));
+      container.appendChild(card);
+    } else if (state.activeTab === "dungeon") {
+      const trialCard = document.createElement("div");
+      trialCard.className = "section-card";
+      trialCard.innerHTML = `
+        <h3 class="section-title">📖 시련 결계</h3>
+        <div id="dungeon-trial-list" style="display:flex;flex-direction:column;gap:8px;"></div>
+      `;
+      const listEl = trialCard.querySelector("#dungeon-trial-list");
+      for (const tr of DUNGEON_TRIALS) {
+        const row = document.createElement("div");
+        row.className = "diff-item";
+        row.innerHTML = `
+          <div>
+            <strong>${tr.name}</strong>
+            <div style="font-size:11px;color:var(--ink-sub);">${tr.desc}</div>
+            <div style="font-size:11px;font-weight:700;color:var(--accent-jade);margin-top:2px;">
+              영혼석 +${tr.soulReward} · 옥 +${tr.gemReward} · +${formatNum(tr.goldReward)}냥
+            </div>
+          </div>
+          <button class="mini-btn primary" type="button" style="flex:none;padding:8px 12px;">결계 진입</button>
+        `;
+        row.querySelector("button").addEventListener("click", () => enterDungeonTrial(tr));
+        listEl.appendChild(row);
+      }
+      container.appendChild(trialCard);
+
+      const raidCard = document.createElement("div");
+      raidCard.className = "section-card";
+      raidCard.innerHTML = `
+        <h3 class="section-title">👹 도전 토벌 보스</h3>
+        <div id="raid-boss-list" style="display:flex;flex-direction:column;gap:8px;"></div>
+      `;
+      const raidList = raidCard.querySelector("#raid-boss-list");
+      for (const rb of RAID_BOSSES) {
+        const row = document.createElement("div");
+        row.className = "diff-item";
+        row.innerHTML = `
+          <div>
+            <strong>${rb.name}</strong>
+            <div style="font-size:11px;color:var(--ink-sub);">${rb.desc}</div>
+            <div style="font-size:11px;font-weight:700;color:var(--accent-gold);margin-top:2px;">
+              영혼석 +${rb.soulReward} · 옥 +${rb.gemReward} · +${formatNum(rb.goldReward)}냥
+            </div>
+          </div>
+          <button class="mini-btn gold" type="button" style="flex:none;padding:8px 12px;">토벌 도전</button>
+        `;
+        row.querySelector("button").addEventListener("click", () => fightRaidBoss(rb));
+        raidList.appendChild(row);
+      }
+      container.appendChild(raidCard);
+
+      const missionCard = document.createElement("div");
+      missionCard.className = "section-card";
+      missionCard.innerHTML = `
+        <h3 class="section-title">🎯 도전 미션</h3>
+        <div id="mission-list" style="display:flex;flex-direction:column;gap:8px;"></div>
+      `;
+      const mList = missionCard.querySelector("#mission-list");
+      for (const mDef of MISSION_DEFS) {
+        const cur = state.stats[mDef.targetKey] || 0;
+        const done = cur >= mDef.target;
+        const claimed = Boolean(state.claimedMissions[mDef.id]);
+        const row = document.createElement("div");
+        row.className = "diff-item";
+        row.innerHTML = `
+          <div>
+            <strong>${mDef.title} (${Math.min(cur, mDef.target)}/${mDef.target})</strong>
+            <div style="font-size:11px;font-weight:700;color:var(--accent-jade);margin-top:2px;">
+              보상: +${formatNum(mDef.gold)}냥 · +${mDef.soul}석 · +${mDef.gem}옥
+            </div>
+          </div>
+          <button class="mini-btn ${claimed ? "" : (done ? "gold" : "primary")}" type="button" style="flex:none;padding:8px 12px;" ${!done || claimed ? "disabled" : ""}>
+            ${claimed ? "수령완료" : (done ? "보상받기" : "진행중")}
+          </button>
+        `;
+        row.querySelector("button").addEventListener("click", () => claimMission(mDef));
+        mList.appendChild(row);
+      }
+      container.appendChild(missionCard);
+    } else if (state.activeTab === "merchant") {
+      const forgeCard = document.createElement("div");
+      forgeCard.className = "section-card";
+      const wCost = (state.forge.weaponLv + 1) * 500;
+      const aCost = (state.forge.armorLv + 1) * 500;
+      const tCost = (state.forge.tradeLv + 1) * 600;
+
+      forgeCard.innerHTML = `
+        <h3 class="section-title">⚒️ 상단 제련 (전체 부대 적용)</h3>
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          <div class="diff-item">
+            <div>
+              <strong>무기 제련 Lv.${state.forge.weaponLv}</strong>
+              <div style="font-size:11px;color:var(--ink-sub);">전체 공격력 +${state.forge.weaponLv * 8}% (다음 +8%)</div>
+            </div>
+            <button id="btn-forge-w" class="mini-btn gold" type="button" style="flex:none;padding:8px 10px;">${formatNum(wCost)}냥</button>
+          </div>
+          <div class="diff-item">
+            <div>
+              <strong>방구 제련 Lv.${state.forge.armorLv}</strong>
+              <div style="font-size:11px;color:var(--ink-sub);">전체 체력 +${state.forge.armorLv * 10}% (다음 +10%)</div>
+            </div>
+            <button id="btn-forge-a" class="mini-btn primary" type="button" style="flex:none;padding:8px 10px;">${formatNum(aCost)}냥</button>
+          </div>
+          <div class="diff-item">
+            <div>
+              <strong>상단 교역 Lv.${state.forge.tradeLv}</strong>
+              <div style="font-size:11px;color:var(--ink-sub);">전투 보상 +${state.forge.tradeLv * 12}% (다음 +12%)</div>
+            </div>
+            <button id="btn-forge-t" class="mini-btn" type="button" style="flex:none;padding:8px 10px;">${formatNum(tCost)}냥</button>
+          </div>
+        </div>
+      `;
+
+      forgeCard.querySelector("#btn-forge-w").addEventListener("click", () => {
+        if (state.gold < wCost) { showToast("냥이 부족합니다."); return; }
+        state.gold -= wCost;
+        state.forge.weaponLv += 1;
+        state.stats.forges += 1;
+        SFX.upgrade();
+        saveGame();
+        updateHud();
+        renderTabContent();
+        showToast("무기 제련 완료!");
+      });
+      forgeCard.querySelector("#btn-forge-a").addEventListener("click", () => {
+        if (state.gold < aCost) { showToast("냥이 부족합니다."); return; }
+        state.gold -= aCost;
+        state.forge.armorLv += 1;
+        state.stats.forges += 1;
+        SFX.upgrade();
+        saveGame();
+        updateHud();
+        renderTabContent();
+        showToast("방구 제련 완료!");
+      });
+      forgeCard.querySelector("#btn-forge-t").addEventListener("click", () => {
+        if (state.gold < tCost) { showToast("냥이 부족합니다."); return; }
+        state.gold -= tCost;
+        state.forge.tradeLv += 1;
+        state.stats.forges += 1;
+        SFX.upgrade();
+        saveGame();
+        updateHud();
+        renderTabContent();
+        showToast("상단 교역 레벨 상승!");
+      });
+      container.appendChild(forgeCard);
+
+      const exCard = document.createElement("div");
+      exCard.className = "section-card";
+      exCard.innerHTML = `
+        <h3 class="section-title">🏛️ 제국 상단·환전 &amp; 저장 백업</h3>
+        <div class="btn-row" style="margin-bottom:8px;">
+          <button id="btn-buy-gem" class="mini-btn gold" type="button">옥 +50 (800냥)</button>
+          <button id="btn-buy-soul" class="mini-btn primary" type="button">영혼석 +6 (600냥)</button>
+        </div>
+        <textarea id="save-code-box" class="backup-textarea" placeholder="세이브 코드 내보내기/불러오기">${exportSaveCode()}</textarea>
+        <div class="btn-row" style="margin-top:6px;margin-bottom:8px;">
+          <button id="btn-export-save" class="mini-btn primary" type="button">코드 복사/갱신</button>
+          <button id="btn-import-save" class="mini-btn gold" type="button">코드 불러오기</button>
+        </div>
+        <button id="btn-reset-data" class="mini-btn danger" type="button" style="width:100%;">저장 데이터 초기화</button>
+      `;
+      exCard.querySelector("#btn-buy-gem").addEventListener("click", () => {
+        if (state.gold < 800) { showToast("냥이 부족합니다."); return; }
+        state.gold -= 800;
+        state.gem += 50;
+        SFX.upgrade();
+        saveGame();
+        updateHud();
+        showToast("옥 +50 교환 완료!");
+      });
+      exCard.querySelector("#btn-buy-soul").addEventListener("click", () => {
+        if (state.gold < 600) { showToast("냥이 부족합니다."); return; }
+        state.gold -= 600;
+        state.soul += 6;
+        SFX.upgrade();
+        saveGame();
+        updateHud();
+        showToast("영혼석 +6 교환 완료!");
+      });
+      exCard.querySelector("#btn-export-save").addEventListener("click", () => {
+        const ta = document.getElementById("save-code-box");
+        const code = exportSaveCode();
+        if (ta) {
+          ta.value = code;
+          ta.select();
+        }
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(code).catch(() => {});
+        }
+        SFX.upgrade();
+        showToast("세이브 코드가 갱신·복사되었습니다.");
+      });
+      exCard.querySelector("#btn-import-save").addEventListener("click", () => {
+        const ta = document.getElementById("save-code-box");
+        importSaveCode(ta ? ta.value : "");
+      });
+      exCard.querySelector("#btn-reset-data").addEventListener("click", resetAllData);
+      container.appendChild(exCard);
+    }
+  }
+
+  function renderDifficultyModal() {
+    const list = document.getElementById("diff-list");
+    if (!list) return;
+    list.innerHTML = "";
+    for (const d of DIFFICULTIES) {
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = `diff-item ${state.difficultyIdx === d.id ? "active" : ""}`;
+      btn.innerHTML = `
+        <div>
+          <strong>${d.id + 1}. ${d.name}</strong>
+          <div style="font-size:11px;color:var(--ink-sub);">적 전투 배율 ×${formatNum(d.mult)}</div>
+        </div>
+        <span style="font-size:12px;font-weight:700;color:var(--accent-jade);">보상 ×${d.rewardMult}</span>
+      `;
+      btn.addEventListener("click", () => {
+        state.difficultyIdx = d.id;
+        spawnWaveEnemies(false);
+        SFX.upgrade();
+        saveGame();
+        updateHud();
+        renderDifficultyModal();
+        document.getElementById("diff-modal").classList.remove("open");
+        showToast(`난이도 변경: ${d.name}`);
+      });
+      list.appendChild(btn);
+    }
+  }
+
+  function applyLayout() {
+    const lay = LAYOUTS[state.layoutIdx] || LAYOUTS[0];
+    document.documentElement.style.setProperty("--battle-flex", lay.battleFlex);
+    document.documentElement.style.setProperty("--side-max", lay.sideMax);
+    document.documentElement.style.setProperty("--mobile-battle-h", lay.mobileH);
+    resizeCanvas();
+  }
+
+  function updateHud() {
+    const diff = DIFFICULTIES[state.difficultyIdx] || DIFFICULTIES[0];
+    const spd = SPEEDS[state.speedIdx] || 1;
+    const lay = LAYOUTS[state.layoutIdx] || LAYOUTS[0];
+
+    document.getElementById("btn-diff-modal").textContent = `난이도: ${diff.name} ▾`;
+    document.getElementById("btn-speed").textContent = `⚡ ${spd}x`;
+
+    const soundBtn = document.getElementById("btn-sound");
+    soundBtn.textContent = state.soundEnabled ? "🔊 소리 ON" : "🔇 소리 OFF";
+    soundBtn.classList.toggle("active", state.soundEnabled);
+
+    document.getElementById("btn-layout").textContent = `📐 ${lay.name}`;
+    document.getElementById("combo-badge").textContent = `${state.combo} COMBO`;
+    document.getElementById("stage-label").textContent = getStageName();
+    document.getElementById("wave-bar").style.width = `${(state.wave / state.maxWave) * 100}%`;
+
+    const autoBtn = document.getElementById("btn-auto-stage");
+    autoBtn.textContent = `🔄 자동진행 ${state.autoStage ? "ON" : "OFF"}`;
+    autoBtn.classList.toggle("active", state.autoStage);
+
+    const ultBtn = document.getElementById("btn-ultimate");
+    ultBtn.textContent = `⚡ 천지개벽 협동필살 공명 ${Math.min(100, Math.floor(state.resonance))}%`;
+    ultBtn.classList.toggle("ready", state.resonance >= 100);
+
+    document.getElementById("res-gold").textContent = `💰 ${formatNum(state.gold)}냥`;
+    document.getElementById("res-gem").textContent = `💎 ${formatNum(state.gem)}옥`;
+    document.getElementById("res-soul").textContent = `🔥 영혼석 ${formatNum(state.soul)}`;
+  }
+
+  const canvas = document.getElementById("battle-canvas");
+  const ctx = canvas.getContext("2d");
+
+  function resizeCanvas() {
+    const pane = document.getElementById("battle-pane");
+    if (!pane || !canvas) return;
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    const w = pane.clientWidth;
+    const h = pane.clientHeight;
+    canvas.width = Math.max(1, Math.floor(w * dpr));
+    canvas.height = Math.max(1, Math.floor(h * dpr));
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+
+  function stepBattle(rawDt) {
+    if (state.dungeonRunning) return;
+    const spd = SPEEDS[state.speedIdx] || 1;
+    const dt = rawDt * spd;
+
+    if (state.shakeTime > 0) {
+      state.shakeTime = Math.max(0, state.shakeTime - rawDt);
+    }
+
+    if (state.comboTimer > 0) {
+      state.comboTimer -= dt;
+      if (state.comboTimer <= 0) {
+        state.comboTimer = 0;
+        state.combo = 0;
+      }
+    }
+
+    if (state.enemies.length === 0) {
+      state.waveTimer += dt;
+      if (state.waveTimer > 0.6) {
+        state.waveTimer = 0;
+        spawnWaveEnemies(false);
+      }
+      return;
+    }
+
+    const totalDps = getTotalSquadDps();
+    const deal = totalDps * dt * 1.15;
+    const target = state.enemies[0];
+    if (target) {
+      target.hp -= deal;
+      target.hitFlash = Math.max(0, target.hitFlash - dt);
+      state.resonance = Math.min(100, state.resonance + dt * 9);
+
+      if (Math.random() < dt * 4) {
+        state.projectiles.push({
+          x: 0.28,
+          y: 0.6,
+          tx: target.xRatio,
+          ty: target.yRatio,
+          t: 0
+        });
+        SFX.hit();
+        spawnHitSparks(target.xRatio, target.yRatio, "#fde047", 5);
+        pushDamagePopup(target.xRatio, target.yRatio, Math.max(12, totalDps * 0.28));
+      }
+
+      for (const hid of getActiveSquadIds()) {
+        const hero = HERO_POOL.find(x => x.id === hid);
+        if (!hero) continue;
+        state.skillTimers[hid] = (state.skillTimers[hid] || 0) + dt;
+        if (state.skillTimers[hid] >= hero.cd) {
+          state.skillTimers[hid] = 0;
+          SFX.skill();
+          triggerShake(0.1, 3);
+          const skillDmg = Math.max(80, Math.round(getHeroPower(hid).atk * 2.2));
+          for (const en of state.enemies) {
+            en.hp -= skillDmg;
+            en.hitFlash = 0.2;
+          }
+          pushDamagePopup(target.xRatio, target.yRatio, skillDmg, `${hero.name}·${hero.skillName}`);
+          spawnHitSparks(target.xRatio, target.yRatio, hero.color, 9);
+          state.effects.push({
+            xRatio: target.xRatio,
+            yRatio: target.yRatio,
+            radius: 20,
+            maxRadius: 68,
+            alpha: 0.9,
+            color: hero.color
+          });
+        }
+      }
+
+      const chains = getElementChains(getActiveSquadIds()).chains;
+      if (chains.length > 0 && Math.random() < dt * 1.6) {
+        const pickedChain = chains[Math.floor(Math.random() * chains.length)];
+        spawnChainEffect(pickedChain, target.xRatio, target.yRatio);
+        state.chainTexts.push({
+          text: pickedChain.name,
+          xRatio: target.xRatio,
+          yRatio: Math.max(0.2, target.yRatio - 0.12),
+          alpha: 1
+        });
+      }
+    }
+
+    const prevEnemies = state.enemies.length;
+    state.enemies = state.enemies.filter(e => e.hp > 0);
+    const defeated = Math.max(0, prevEnemies - state.enemies.length);
+    if (defeated > 0) {
+      state.stats.kills += defeated;
+    }
+
+    if (state.enemies.length === 0) {
+      onWaveCleared();
+    }
+
+    for (const p of state.projectiles) {
+      p.t = Math.min(1, p.t + dt * 4.5);
+    }
+    state.projectiles = state.projectiles.filter(p => p.t < 1);
+
+    for (const ef of state.effects) {
+      ef.alpha -= dt * 2.1;
+      const maxR = ef.maxRadius || 90;
+      ef.radius += (maxR - ef.radius) * Math.min(1, dt * 8);
+    }
+    state.effects = state.effects.filter(ef => ef.alpha > 0);
+
+    for (const sp of state.sparks) {
+      sp.xRatio += sp.vx * dt;
+      sp.yRatio += sp.vy * dt;
+      sp.vy += 0.45 * dt;
+      sp.alpha -= dt * 2.6;
+    }
+    state.sparks = state.sparks.filter(sp => sp.alpha > 0);
+
+    for (const lb of state.lightningBolts) {
+      lb.alpha -= dt * 3.4;
+    }
+    state.lightningBolts = state.lightningBolts.filter(lb => lb.alpha > 0);
+
+    for (const ct of state.chainTexts) {
+      ct.yRatio -= dt * 0.08;
+      ct.alpha -= dt * 1.1;
+    }
+    state.chainTexts = state.chainTexts.filter(ct => ct.alpha > 0);
+
+    for (const fd of state.floatingDamages) {
+      fd.yRatio -= dt * 0.12;
+      fd.alpha -= dt * 1.25;
+    }
+    state.floatingDamages = state.floatingDamages.filter(fd => fd.alpha > 0);
+
+    const comboEl = document.getElementById("combo-badge");
+    if (comboEl) comboEl.textContent = `${state.combo} COMBO`;
+  }
+
+  function drawBattle() {
+    const pane = document.getElementById("battle-pane");
+    if (!pane || !ctx) return;
+    const w = pane.clientWidth;
+    const h = pane.clientHeight;
+    ctx.clearRect(0, 0, w, h);
+
+    ctx.save();
+    if (state.shakeTime > 0) {
+      const dx = (Math.random() - 0.5) * state.shakeMag * 2;
+      const dy = (Math.random() - 0.5) * state.shakeMag * 2;
+      ctx.translate(dx, dy);
+    }
+
+    const bgImg = getLoadedImage(state.bgImageSrc);
+    if (bgImg) {
+      ctx.drawImage(bgImg, 0, 0, w, h);
+    } else {
+      const sky = ctx.createLinearGradient(0, 0, 0, h * 0.56);
+      sky.addColorStop(0, "#7ec8e3");
+      sky.addColorStop(1, "#e0f2fe");
+      ctx.fillStyle = sky;
+      ctx.fillRect(0, 0, w, h * 0.56);
+
+      const ground = ctx.createLinearGradient(0, h * 0.56, 0, h);
+      ground.addColorStop(0, "#dfd2b5");
+      ground.addColorStop(1, "#c2b08d");
+      ctx.fillStyle = ground;
+      ctx.fillRect(0, h * 0.56, w, h * 0.44);
+    }
+
+    state.squadSlots.forEach((hid, idx) => {
+      if (!hid) return;
+      const hero = HERO_POOL.find(x => x.id === hid);
+      if (!hero) return;
+      const x = w * (0.16 + (idx % 2) * 0.09);
+      const y = h * (0.56 + Math.floor(idx / 2) * 0.16);
+      const fileImg = getLoadedImage(getHeroImageSrc(hid));
+      const portraitImg = fileImg || getLoadedImage(getBuiltInPortraitUrl(hero));
+
+      if (portraitImg) {
+        ctx.save();
+        ctx.beginPath();
+        ctx.arc(x, y - 16, 25, 0, Math.PI * 2);
+        ctx.closePath();
+        ctx.clip();
+        ctx.drawImage(portraitImg, x - 25, y - 41, 50, 50);
+        ctx.restore();
+      } else {
+        ctx.fillStyle = hero.color;
+        ctx.beginPath();
+        ctx.arc(x, y - 16, 22, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      const cdRatio = Math.min(1, (state.skillTimers[hid] || 0) / Math.max(0.1, hero.cd));
+      ctx.fillStyle = "rgba(0,0,0,0.45)";
+      ctx.fillRect(x - 20, y + 6, 40, 4);
+      ctx.fillStyle = "#38bdf8";
+      ctx.fillRect(x - 20, y + 6, 40 * cdRatio, 4);
+
+      ctx.fillStyle = "rgba(255,255,255,0.92)";
+      ctx.font = "bold 11px sans-serif";
+      ctx.textAlign = "center";
+      ctx.fillText(`${idx + 1}.${hero.name}`, x, y + 22);
+    });
+
+    for (const en of state.enemies) {
+      const x = w * en.xRatio;
+      const y = h * en.yRatio;
+      const r = en.isBoss ? 32 : 20;
+
+      ctx.fillStyle = en.hitFlash > 0 ? "#fde047" : (en.isBoss ? "#991b1b" : "#4b5563");
+      ctx.beginPath();
+      ctx.arc(x, y, r, 0, Math.PI * 2);
+      ctx.fill();
+
+      const ratio = Math.max(0, en.hp / en.maxHp);
+      const barW = en.isBoss ? 68 : 44;
+      ctx.fillStyle = "rgba(0,0,0,0.45)";
+      ctx.fillRect(x - barW / 2, y - r - 12, barW, 6);
+      ctx.fillStyle = "#ef4444";
+      ctx.fillRect(x - barW / 2, y - r - 12, barW * ratio, 6);
+
+      ctx.fillStyle = "#fff";
+      ctx.font = "bold 11px sans-serif";
+      ctx.textAlign = "center";
+      ctx.fillText(en.name, x, y + r + 14);
+    }
+
+    for (const p of state.projectiles) {
+      const cx = w * (p.x + (p.tx - p.x) * p.t);
+      const cy = h * (p.y + (p.ty - p.y) * p.t);
+      ctx.fillStyle = "#fbbf24";
+      ctx.beginPath();
+      ctx.arc(cx, cy, 5, 0, Math.PI * 2);
+      ctx.fill();
+    }
+
+    for (const ef of state.effects) {
+      ctx.strokeStyle = ef.color || "#f59e0b";
+      ctx.globalAlpha = Math.max(0, ef.alpha);
+      ctx.lineWidth = 4;
+      ctx.beginPath();
+      ctx.arc(w * ef.xRatio, h * ef.yRatio, ef.radius, 0, Math.PI * 2);
+      ctx.stroke();
+      ctx.globalAlpha = 1;
+    }
+
+    for (const sp of state.sparks) {
+      ctx.globalAlpha = Math.max(0, sp.alpha);
+      ctx.fillStyle = sp.color;
+      ctx.beginPath();
+      ctx.arc(w * sp.xRatio, h * sp.yRatio, sp.size, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.globalAlpha = 1;
+    }
+
+    for (const lb of state.lightningBolts) {
+      const lx = w * lb.xRatio;
+      const ly = h * lb.yRatio;
+      ctx.save();
+      ctx.globalAlpha = Math.max(0, lb.alpha);
+      ctx.strokeStyle = lb.color;
+      ctx.lineWidth = 3;
+      ctx.beginPath();
+      ctx.moveTo(lx - 18, ly - 58);
+      ctx.lineTo(lx + 6, ly - 32);
+      ctx.lineTo(lx - 10, ly - 16);
+      ctx.lineTo(lx + 12, ly + 8);
+      ctx.stroke();
+      ctx.restore();
+    }
+
+    for (const ct of state.chainTexts) {
+      ctx.save();
+      ctx.globalAlpha = Math.max(0, ct.alpha);
+      ctx.fillStyle = "#fef08a";
+      ctx.strokeStyle = "rgba(0,0,0,0.65)";
+      ctx.lineWidth = 3;
+      ctx.font = "bold 12px sans-serif";
+      ctx.textAlign = "center";
+      const tx = w * ct.xRatio;
+      const ty = h * ct.yRatio;
+      ctx.strokeText(ct.text, tx, ty);
+      ctx.fillText(ct.text, tx, ty);
+      ctx.restore();
+    }
+
+    for (const fd of state.floatingDamages) {
+      ctx.save();
+      ctx.globalAlpha = Math.max(0, fd.alpha);
+      ctx.fillStyle = fd.isSkill ? "#fde047" : "#ffffff";
+      ctx.strokeStyle = "rgba(0,0,0,0.7)";
+      ctx.lineWidth = 3;
+      ctx.font = fd.isSkill ? "bold 12px sans-serif" : "bold 11px sans-serif";
+      ctx.textAlign = "center";
+      const fx = w * fd.xRatio;
+      const fy = h * fd.yRatio;
+      ctx.strokeText(fd.text, fx, fy);
+      ctx.fillText(fd.text, fx, fy);
+      ctx.restore();
+    }
+
+    ctx.restore();
+  }
+
+  function loop(now) {
+    const dt = Math.min(0.1, Math.max(0.001, (now - state.lastTime) / 1000));
+    state.lastTime = now;
+    stepBattle(dt);
+    drawBattle();
+    requestAnimationFrame(loop);
+  }
+
+  function bindEvents() {
+    window.addEventListener("resize", resizeCanvas);
+    window.addEventListener("beforeunload", saveGame);
+    canvas.addEventListener("click", handleBattleTap);
+
+    document.querySelectorAll(".nav-tab").forEach(btn => {
+      btn.addEventListener("click", () => {
+        document.querySelectorAll(".nav-tab").forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        state.activeTab = btn.getAttribute("data-tab") || "squad";
+        renderTabContent();
+      });
+    });
+
+    document.getElementById("btn-speed").addEventListener("click", () => {
+      state.speedIdx = (state.speedIdx + 1) % SPEEDS.length;
+      SFX.upgrade();
+      saveGame();
+      updateHud();
+      showToast(`전투 배속: ${SPEEDS[state.speedIdx]}x`);
+    });
+
+    document.getElementById("btn-sound").addEventListener("click", () => {
+      state.soundEnabled = !state.soundEnabled;
+      if (state.soundEnabled) SFX.upgrade();
+      saveGame();
+      updateHud();
+      showToast(state.soundEnabled ? "효과음 켜짐" : "효과음 꺼짐");
+    });
+
+    document.getElementById("btn-layout").addEventListener("click", () => {
+      state.layoutIdx = (state.layoutIdx + 1) % LAYOUTS.length;
+      applyLayout();
+      SFX.upgrade();
+      saveGame();
+      updateHud();
+      showToast(`화면 분할: ${LAYOUTS[state.layoutIdx].name}`);
+    });
+
+    document.getElementById("btn-diff-modal").addEventListener("click", () => {
+      renderDifficultyModal();
+      document.getElementById("diff-modal").classList.add("open");
+    });
+
+    document.getElementById("btn-close-diff").addEventListener("click", () => {
+      document.getElementById("diff-modal").classList.remove("open");
+    });
+
+    document.getElementById("btn-close-summon").addEventListener("click", () => {
+      document.getElementById("summon-modal").classList.remove("open");
+    });
+
+    document.getElementById("btn-modal-summon-1").addEventListener("click", () => doSummon(1));
+    document.getElementById("btn-modal-summon-10").addEventListener("click", () => doSummon(10));
+
+    document.getElementById("btn-prev-stage").addEventListener("click", () => advanceStage(-1));
+    document.getElementById("btn-next-stage").addEventListener("click", () => advanceStage(1));
+    document.getElementById("btn-boss-now").addEventListener("click", () => {
+      state.wave = state.maxWave;
+      spawnWaveEnemies(true);
+      SFX.skill();
+      updateHud();
+      showToast("보스 즉시 소환!");
+    });
+
+    document.getElementById("btn-auto-stage").addEventListener("click", () => {
+      state.autoStage = !state.autoStage;
+      SFX.upgrade();
+      saveGame();
+      updateHud();
+    });
+
+    document.getElementById("btn-ultimate").addEventListener("click", triggerUltimate);
+
+    document.getElementById("btn-bg-upload").addEventListener("click", () => {
+      document.getElementById("file-bg-input").click();
+    });
+
+    document.getElementById("file-bg-input").addEventListener("change", e => {
+      const file = e.target.files && e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = ev => {
+        if (ev.target && typeof ev.target.result === "string") {
+          state.bgImageSrc = ev.target.result;
+          SFX.upgrade();
+          showToast("전장 배경이 변경되었습니다.");
+        }
+      };
+      reader.readAsDataURL(file);
+      e.target.value = "";
+    });
+
+    document.getElementById("file-hero-input").addEventListener("change", e => {
+      const file = e.target.files && e.target.files[0];
+      const targetId = state.pendingHeroImageId;
+      state.pendingHeroImageId = null;
+      if (!file || !targetId) return;
+      const reader = new FileReader();
+      reader.onload = ev => {
+        if (ev.target && typeof ev.target.result === "string") {
+          state.customImages[targetId] = ev.target.result;
+          SFX.upgrade();
+          renderTabContent();
+          showToast("장수 일러스트가 변경되었습니다.");
+        }
+      };
+      reader.readAsDataURL(file);
+      e.target.value = "";
+    });
+  }
+
+  applyLayout();
+  bindEvents();
+  spawnWaveEnemies(false);
+  updateHud();
+  renderTabContent();
+  requestAnimationFrame(loop);
 })();
 </script>
 </body>
 </html>
-
-커밋하고 나면 타격 스파크, 번개 연쇄, 충격파, 화면 흔들림, 그리고 상황별 효과음까지 한 번에 체감될 거야. 혹시 더 다듬고 싶은 연출이나 시스템 있으면 편하게 알려줘!
-
