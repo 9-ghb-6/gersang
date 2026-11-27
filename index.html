@@ -1,0 +1,2543 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>천하제일거상 : 제국 리마스터 v3</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    :root {
+      --hanji: #f9f5eb;
+      --hanji-card: rgba(255, 252, 244, 0.92);
+      --jade-bg: #e6f0ec;
+      --jade-deep: #1e3a34;
+      --jade-mid: #2f5d53;
+      --gold-accent: #c88a1e;
+      --gold-bright: #f5b942;
+      --border-soft: rgba(200, 138, 30, 0.35);
+    }
+
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100dvh;
+      overflow: hidden;
+      background: linear-gradient(135deg, #f4efe2 0%, #e1ede8 100%);
+      color: var(--jade-deep);
+      font-family: "Pretendard", -apple-system, BlinkMacSystemFont, "Noto Sans KR", sans-serif;
+    }
+
+    /* Z Fold 8 Responsive Shell */
+    .app-shell {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      height: 100dvh;
+      max-width: 1440px;
+      margin: 0 auto;
+      background: var(--hanji);
+      box-shadow: 0 0 30px rgba(30, 58, 52, 0.12);
+    }
+
+    .top-bar {
+      height: 44px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 8px;
+      background: linear-gradient(90deg, #fcf8ee 0%, #e5f1ec 100%);
+      border-bottom: 1.5px solid var(--border-soft);
+      gap: 4px;
+      z-index: 20;
+    }
+
+    .main-split {
+      flex: 1;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .arena-panel {
+      position: relative;
+      height: 43%;
+      min-height: 225px;
+      flex-shrink: 0;
+      background: #87ceeb;
+      border-bottom: 2px solid var(--gold-accent);
+      overflow: hidden;
+    }
+
+    .command-panel {
+      flex: 1;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      background: var(--hanji);
+      overflow: hidden;
+    }
+
+    /* Z Fold Unfolded / Tablet Landscape Split */
+    @media (min-width: 760px) {
+      .main-split {
+        flex-direction: row;
+      }
+      .arena-panel {
+        width: 52%;
+        height: 100%;
+        border-bottom: none;
+        border-right: 2px solid var(--gold-accent);
+      }
+      .command-panel {
+        width: 48%;
+        height: 100%;
+      }
+    }
+
+    .hanji-card {
+      background: var(--hanji-card);
+      border: 1px solid var(--border-soft);
+      border-radius: 14px;
+      box-shadow: 0 4px 12px rgba(30, 58, 52, 0.06);
+      backdrop-filter: blur(8px);
+    }
+
+    .jade-pill {
+      background: var(--jade-bg);
+      border: 1px solid rgba(47, 93, 83, 0.25);
+      color: var(--jade-deep);
+      border-radius: 999px;
+      padding: 2px 8px;
+      font-size: 11px;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+      white-space: nowrap;
+    }
+
+    .gold-btn {
+      background: linear-gradient(180deg, #f8c85c 0%, #d49122 100%);
+      color: #fffef9;
+      text-shadow: 0 1px 2px rgba(92, 56, 4, 0.6);
+      border: 1px solid #b57612;
+      border-radius: 12px;
+      font-weight: 800;
+      box-shadow: 0 3px 0 #9e650d, 0 5px 10px rgba(200, 138, 30, 0.25);
+      transition: transform 0.08s ease, filter 0.15s ease;
+    }
+    .gold-btn:active:not(:disabled) {
+      transform: translateY(2px);
+      box-shadow: 0 1px 0 #9e650d;
+    }
+    .gold-btn:disabled {
+      opacity: 0.45;
+      filter: grayscale(0.7);
+      cursor: not-allowed;
+    }
+
+    .jade-btn {
+      background: linear-gradient(180deg, #3b7468 0%, #244b43 100%);
+      color: #f6fbf9;
+      border: 1px solid #1a3832;
+      border-radius: 12px;
+      font-weight: 700;
+      box-shadow: 0 3px 0 #16302b;
+      transition: transform 0.08s ease;
+    }
+    .jade-btn:active:not(:disabled) {
+      transform: translateY(2px);
+      box-shadow: 0 1px 0 #16302b;
+    }
+    .jade-btn:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+    }
+
+    /* Rarity Borders */
+    .rarity-N { border-color: #8c9ba5 !important; }
+    .rarity-R { border-color: #2b8cbe !important; }
+    .rarity-SR { border-color: #8856a7 !important; box-shadow: 0 0 10px rgba(136, 86, 167, 0.25); }
+    .rarity-SSR { border-color: #d99015 !important; box-shadow: 0 0 14px rgba(245, 185, 66, 0.55); }
+
+    /* Custom subtle scrollbar inside sub-panels */
+    .scroll-thin::-webkit-scrollbar {
+      width: 4px;
+      height: 4px;
+    }
+    .scroll-thin::-webkit-scrollbar-thumb {
+      background: rgba(47, 93, 83, 0.25);
+      border-radius: 99px;
+    }
+
+    @keyframes pulseGlow {
+      0%, 100% { box-shadow: 0 0 8px rgba(245, 185, 66, 0.7), 0 0 18px rgba(220, 38, 38, 0.5); transform: scale(1); }
+      50% { box-shadow: 0 0 16px rgba(254, 240, 138, 1), 0 0 28px rgba(234, 88, 12, 0.85); transform: scale(1.04); }
+    }
+    .chain-ready {
+      animation: pulseGlow 1.1s infinite ease-in-out;
+    }
+  </style>
+</head>
+<body>
+  <div class="app-shell">
+    <!-- 1. Compact Top Bar (44px) -->
+    <header class="top-bar">
+      <div class="flex items-center gap-1.5 min-w-0">
+        <span class="font-black text-xs sm:text-sm tracking-tight text-[#1e3a34] truncate">🏯 천하제일거상 v3</span>
+      </div>
+
+      <div class="flex items-center gap-1 sm:gap-1.5">
+        <div class="jade-pill" title="엽전">🪙<span id="uiSilver">0</span></div>
+        <div class="jade-pill" title="영혼석">💎<span id="uiGems">0</span></div>
+        <div class="jade-pill" title="각성석">🔮<span id="uiAwaken">0</span></div>
+      </div>
+
+      <div class="flex items-center gap-1">
+        <button type="button" data-action="open-synergy" class="px-2 py-1 rounded-full text-[11px] font-extrabold bg-amber-100 text-amber-900 border border-amber-400 shadow-sm active:scale-95">
+          🔮 시너지 (<span id="uiSynCount">0</span>)
+        </button>
+        <button type="button" id="btnAuto" data-action="toggle-auto" class="px-2 py-1 rounded-full text-[11px] font-extrabold bg-emerald-700 text-white border border-emerald-900">
+          ⚡자동
+        </button>
+        <button type="button" id="btnSound" data-action="toggle-sound" class="w-7 h-7 rounded-full text-xs bg-[#e6f0ec] border border-emerald-800/20 flex items-center justify-center">
+          🔊
+        </button>
+      </div>
+    </header>
+
+    <!-- 2. Main Split View -->
+    <main class="main-split">
+      <!-- Center/Left: 2.5D Daytime Battle Canvas -->
+      <section class="arena-panel">
+        <canvas id="battleCanvas" class="w-full h-full block"></canvas>
+
+        <!-- Top Overlay Controls on Battle Canvas -->
+        <div class="absolute top-2 left-2 right-2 flex items-center justify-between pointer-events-none gap-1">
+          <div class="flex items-center gap-1 pointer-events-auto">
+            <button type="button" id="btnDiff" data-action="open-diff" class="px-2.5 py-1 rounded-full text-[11px] font-extrabold bg-[#fcf8ee]/95 text-[#1e3a34] border border-amber-500 shadow active:scale-95">
+              난이도: 입문 ▾
+            </button>
+            <button type="button" data-action="upload-bg" class="px-2 py-1 rounded-full text-[11px] font-bold bg-[#fcf8ee]/90 text-[#1e3a34] border border-emerald-700/30 shadow" title="전장 배경 이미지 변경">
+              🏞️
+            </button>
+          </div>
+
+          <div class="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#fcf8ee]/95 border border-amber-500/60 shadow text-[10.5px] font-extrabold">
+            <span id="uiStageLabel" class="text-emerald-950 truncate max-w-[140px]">1-1 한양성 외곽 (1/5)</span>
+            <div class="w-12 h-2 bg-emerald-950/15 rounded-full overflow-hidden shrink-0">
+              <div id="uiWaveBar" class="h-full bg-gradient-to-r from-amber-500 to-emerald-500 transition-all duration-200" style="width: 0%"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Stage Navigation Strip -->
+        <div class="absolute top-10 left-2 right-2 flex items-center justify-between pointer-events-none gap-1">
+          <div class="flex items-center gap-1 pointer-events-auto">
+            <button type="button" data-action="stage-prev" class="px-2 py-0.5 rounded-full text-[10px] font-extrabold bg-[#fcf8ee]/90 text-stone-800 border border-stone-400/50 shadow-xs">◀ 이전</button>
+            <button type="button" data-action="stage-boss" class="px-2 py-0.5 rounded-full text-[10px] font-extrabold bg-red-600/95 text-white border border-amber-300 shadow-xs">👹 보스즉시</button>
+            <button type="button" data-action="stage-next" class="px-2 py-0.5 rounded-full text-[10px] font-extrabold bg-[#fcf8ee]/90 text-stone-800 border border-stone-400/50 shadow-xs">다음 ▶</button>
+          </div>
+          <button type="button" id="btnAutoStage" data-action="toggle-auto-stage" class="pointer-events-auto px-2 py-0.5 rounded-full text-[10px] font-extrabold bg-emerald-700/95 text-amber-100 border border-emerald-900 shadow-xs">
+            🔄 자동진행 ON
+          </button>
+        </div>
+
+        <!-- Bottom Floating 4-Hero Skill Dock + Co-op Resonance Ultimate -->
+        <div class="absolute bottom-1.5 left-2 right-2 flex items-center justify-between gap-2 pointer-events-none">
+          <div id="heroSkillDock" class="flex items-center gap-1.5 pointer-events-auto"></div>
+
+          <button type="button" id="btnChainUlt" data-action="trigger-chain" class="pointer-events-auto px-3 py-2 rounded-2xl text-[11px] font-black bg-stone-800/85 text-amber-200 border border-amber-400/60 shadow-lg flex flex-col items-center leading-tight">
+            <span>⚡ 천지개벽 협동필살</span>
+            <span id="uiChainPct" class="text-[10px] text-amber-300">공명 0%</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- Bottom/Right: Command Deck -->
+      <section class="command-panel">
+        <!-- 5 Navigation Tabs (Dedicated Nation Roster Tab Included) -->
+        <nav class="grid grid-cols-5 gap-1 p-1.5 bg-[#efe9da] border-b border-amber-600/25 shrink-0">
+          <button type="button" data-action="tab" data-val="squad" id="tab-squad" class="py-1.5 rounded-xl text-[11px] font-extrabold bg-[#1e3a34] text-amber-200 shadow">
+            ⚔️ 출전부대
+          </button>
+          <button type="button" data-action="tab" data-val="roster" id="tab-roster" class="py-1.5 rounded-xl text-[11px] font-extrabold bg-[#fcf8ee] text-[#1e3a34]">
+            📜 장수·용병
+          </button>
+          <button type="button" data-action="tab" data-val="summon" id="tab-summon" class="py-1.5 rounded-xl text-[11px] font-extrabold bg-[#fcf8ee] text-[#1e3a34]">
+            🔮 태극소환
+          </button>
+          <button type="button" data-action="tab" data-val="dungeon" id="tab-dungeon" class="py-1.5 rounded-xl text-[11px] font-extrabold bg-[#fcf8ee] text-[#1e3a34]">
+            🗺️ 각성던전
+          </button>
+          <button type="button" data-action="tab" data-val="merchant" id="tab-merchant" class="py-1.5 rounded-xl text-[11px] font-extrabold bg-[#fcf8ee] text-[#1e3a34]">
+            ⚖️ 상단·제련
+          </button>
+        </nav>
+
+        <!-- Dynamic Tab Container -->
+        <div id="deckBody" class="flex-1 min-h-0 p-2 overflow-y-auto scroll-thin flex flex-col gap-2"></div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Hidden File Inputs for Custom Hero Portrait & Battle Background -->
+  <input type="file" id="heroImgInput" accept="image/*" class="hidden" />
+  <input type="file" id="bgImgInput" accept="image/*" class="hidden" />
+
+  <!-- Modal Container -->
+  <div id="modalOverlay" class="fixed inset-0 bg-emerald-950/55 backdrop-blur-xs z-50 hidden items-center justify-center p-3">
+    <div class="hanji-card w-full max-w-md max-h-[84dvh] flex flex-col overflow-hidden border-2 border-amber-500">
+      <div class="flex items-center justify-between px-3.5 py-2.5 bg-[#e6f0ec] border-b border-amber-500/30">
+        <h2 id="modalTitle" class="font-black text-sm text-[#1e3a34]">제목</h2>
+        <button type="button" data-action="close-modal" class="w-7 h-7 rounded-full bg-white/80 text-xs font-black text-stone-700 border border-stone-300">✕</button>
+      </div>
+      <div id="modalContent" class="p-3 overflow-y-auto scroll-thin text-xs text-[#1e3a34] space-y-2.5"></div>
+    </div>
+  </div>
+
+  <!-- Toast Banner -->
+  <div id="toastBox" class="fixed top-12 left-1/2 -translate-x-1/2 z-50 pointer-events-none flex flex-col items-center gap-1"></div>
+
+  <script>
+    /**
+     * =========================================================================
+     * 1. WEB AUDIO SYNTHESIZER (Zero external audio dependencies)
+     * =========================================================================
+     */
+    class SoundEngine {
+      constructor() {
+        this.enabled = true;
+        this.ctx = null;
+      }
+      init() {
+        if (!this.ctx) {
+          const AudioCtx = window.AudioContext || window.webkitAudioContext;
+          if (AudioCtx) this.ctx = new AudioCtx();
+        }
+        if (this.ctx && this.ctx.state === 'suspended') {
+          this.ctx.resume().catch(() => {});
+        }
+      }
+      play(type) {
+        if (!this.enabled) return;
+        this.init();
+        if (!this.ctx) return;
+        const now = this.ctx.currentTime;
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+
+        if (type === 'tap') {
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(640, now);
+          osc.frequency.exponentialRampToValueAtTime(920, now + 0.05);
+          gain.gain.setValueAtTime(0.08, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.06);
+          osc.start(now);
+          osc.stop(now + 0.06);
+        } else if (type === 'hit') {
+          osc.type = 'triangle';
+          osc.frequency.setValueAtTime(190, now);
+          osc.frequency.exponentialRampToValueAtTime(55, now + 0.11);
+          gain.gain.setValueAtTime(0.11, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.12);
+          osc.start(now);
+          osc.stop(now + 0.12);
+        } else if (type === 'combo') {
+          osc.type = 'sawtooth';
+          osc.frequency.setValueAtTime(320, now);
+          osc.frequency.exponentialRampToValueAtTime(760, now + 0.22);
+          gain.gain.setValueAtTime(0.12, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.24);
+          osc.start(now);
+          osc.stop(now + 0.24);
+        } else if (type === 'ult') {
+          osc.type = 'sawtooth';
+          osc.frequency.setValueAtTime(220, now);
+          osc.frequency.exponentialRampToValueAtTime(880, now + 0.35);
+          gain.gain.setValueAtTime(0.15, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.38);
+          osc.start(now);
+          osc.stop(now + 0.38);
+        } else if (type === 'coin') {
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(980, now);
+          osc.frequency.setValueAtTime(1320, now + 0.06);
+          gain.gain.setValueAtTime(0.09, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.16);
+          osc.start(now);
+          osc.stop(now + 0.16);
+        } else if (type === 'error') {
+          osc.type = 'square';
+          osc.frequency.setValueAtTime(150, now);
+          osc.frequency.setValueAtTime(120, now + 0.08);
+          gain.gain.setValueAtTime(0.08, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.16);
+          osc.start(now);
+          osc.stop(now + 0.16);
+        }
+      }
+    }
+
+    /**
+     * =========================================================================
+     * 2. HERO ROSTER, FACTIONS, ROLES, ELEMENTS & SYNERGIES
+     * =========================================================================
+     */
+    const ELEMENTS = {
+      fire:      { id: 'fire',      name: '화염', icon: '🔥', color: '#ea580c' },
+      lightning: { id: 'lightning', name: '뇌전', icon: '⚡', color: '#7c3aed' },
+      water:     { id: 'water',     name: '수빙', icon: '🌊', color: '#0284c7' },
+      celestial: { id: 'celestial', name: '천상', icon: '✨', color: '#d97706' }
+    };
+
+    const TIERS = [
+      { tier: 0, code: 'N',   label: '기본 용병', mult: 1.0,  reqLv: 1,  shards: 0,  awaken: 0,  scrolls: 0,  silver: 0 },
+      { tier: 1, code: 'R',   label: '1차 장수',  mult: 2.3,  reqLv: 10, shards: 10, awaken: 4,  scrolls: 4,  silver: 2500 },
+      { tier: 2, code: 'SR',  label: '2차 개조',  mult: 5.2,  reqLv: 25, shards: 25, awaken: 12, scrolls: 10, silver: 10000 },
+      { tier: 3, code: 'SSR', label: '3차 각성',  mult: 12.5, reqLv: 45, shards: 50, awaken: 30, scrolls: 20, silver: 35000 }
+    ];
+
+    const LINEAGES = [
+      {
+        id: 'yi_sunsin', nation: '조선', role: '맹공', elem: 'fire',
+        names: ['조선 수군장', '이순신', '개조 이순신', '충무공 각성'],
+        coat: '#1d4ed8', trim: '#f59e0b', hat: 'helmet', weapon: 'sword', beard: 'full',
+        hp: 520, atk: 68, def: 26,
+        skills: [
+          { name: '장검 일섬', icon: '⚔️', cd: 2.0, mult: 1.35, type: 'single' },
+          { name: '학익진 포격', icon: '🔥', cd: 4.5, mult: 1.95, type: 'aoe' },
+          { name: '거북선 화염돌격', icon: '🚢', cd: 7.2, mult: 3.6, type: 'ult' }
+        ]
+      },
+      {
+        id: 'seondeok', nation: '조선', role: '책사', elem: 'celestial',
+        names: ['신라 화랑', '선덕여왕', '개조 선덕여왕', '천명여제'],
+        coat: '#be123c', trim: '#fbbf24', hat: 'crown', weapon: 'fan', female: true,
+        hp: 460, atk: 64, def: 24,
+        skills: [
+          { name: '태극 선풍', icon: '🪭', cd: 2.1, mult: 1.4, type: 'aoe' },
+          { name: '성광 가호', icon: '🌟', cd: 4.7, mult: 1.8, type: 'buff' },
+          { name: '여왕의 천명강림', icon: '👑', cd: 7.4, mult: 3.4, type: 'ult' }
+        ]
+      },
+      {
+        id: 'heo_jun', nation: '조선', role: '책사', elem: 'water',
+        names: ['조선 의관', '허준', '개조 허준', '의성 신의'],
+        coat: '#047857', trim: '#6ee7b7', hat: 'scholar', weapon: 'scroll', beard: 'goatee',
+        hp: 450, atk: 58, def: 23,
+        skills: [
+          { name: '약초 침술', icon: '🌿', cd: 2.2, mult: 1.35, type: 'heal' },
+          { name: '수빙 청심환', icon: '💧', cd: 4.7, mult: 1.75, type: 'aoe' },
+          { name: '연꽃 대회춘진', icon: '🪷', cd: 7.5, mult: 3.1, type: 'ult_heal' }
+        ]
+      },
+      {
+        id: 'kim_yusin', nation: '조선', role: '선봉', elem: 'lightning',
+        names: ['신라 국선', '김유신', '개조 김유신', '흥무대왕'],
+        coat: '#1e3a8a', trim: '#93c5fd', hat: 'helmet', weapon: 'sword', beard: 'full',
+        hp: 610, atk: 60, def: 35,
+        skills: [
+          { name: '화랑 뇌전참', icon: '⚡', cd: 2.1, mult: 1.35, type: 'single' },
+          { name: '삼한 일통진', icon: '🛡️', cd: 4.8, mult: 1.85, type: 'buff' },
+          { name: '천둥 단월검파', icon: '🌩️', cd: 7.4, mult: 3.3, type: 'ult' }
+        ]
+      },
+      {
+        id: 'guan_yu', nation: '명나라', role: '선봉', elem: 'fire',
+        names: ['명나라 무장', '관우', '개조 관우', '무성관제'],
+        coat: '#15803d', trim: '#f59e0b', hat: 'helmet', weapon: 'glaive', beard: 'long',
+        hp: 590, atk: 66, def: 33,
+        skills: [
+          { name: '언월 횡베기', icon: '🔱', cd: 2.0, mult: 1.45, type: 'aoe' },
+          { name: '적토마 돌진', icon: '🐎', cd: 4.5, mult: 2.05, type: 'aoe' },
+          { name: '청룡승천대파동', icon: '🐉', cd: 7.3, mult: 3.7, type: 'ult' }
+        ]
+      },
+      {
+        id: 'zhuge_liang', nation: '명나라', role: '책사', elem: 'lightning',
+        names: ['명나라 군사', '제갈량', '개조 제갈량', '와룡선생'],
+        coat: '#312e81', trim: '#c7d2fe', hat: 'scholar', weapon: 'fan', beard: 'goatee',
+        hp: 435, atk: 72, def: 21,
+        skills: [
+          { name: '팔진도 낙뢰', icon: '⚡', cd: 2.1, mult: 1.45, type: 'single' },
+          { name: '동남풍 폭풍', icon: '🌪️', cd: 4.6, mult: 2.1, type: 'aoe' },
+          { name: '칠성단 뇌전천벌', icon: '🌩️', cd: 7.3, mult: 3.8, type: 'ult' }
+        ]
+      },
+      {
+        id: 'nobunaga', nation: '일본', role: '맹공', elem: 'fire',
+        names: ['왜국 사무라이', '오다 노부나가', '개조 노부나가', '제육천마왕'],
+        coat: '#7f1d1d', trim: '#fbbf24', hat: 'kabuto', weapon: 'sword', beard: 'goatee',
+        hp: 530, atk: 70, def: 27,
+        skills: [
+          { name: '업화 발도술', icon: '🗡️', cd: 2.0, mult: 1.45, type: 'single' },
+          { name: '조총 일제사격', icon: '💥', cd: 4.5, mult: 2.05, type: 'aoe' },
+          { name: '천하포무 화염진', icon: '🔥', cd: 7.2, mult: 3.75, type: 'ult' }
+        ]
+      },
+      {
+        id: 'seimei', nation: '일본', role: '책사', elem: 'water',
+        names: ['왜국 음양사', '세이메이', '개조 세이메이', '대음양사'],
+        coat: '#3730a3', trim: '#a5b4fc', hat: 'scholar', weapon: 'scroll',
+        hp: 455, atk: 68, def: 22,
+        skills: [
+          { name: '수룡 식신탄', icon: '🌊', cd: 2.1, mult: 1.45, type: 'aoe' },
+          { name: '결계 반전', icon: '☯️', cd: 4.7, mult: 1.9, type: 'heal' },
+          { name: '백귀야행 빙하폭풍', icon: '❄️', cd: 7.3, mult: 3.6, type: 'ult' }
+        ]
+      },
+      {
+        id: 'genghis', nation: '몽골', role: '맹공', elem: 'lightning',
+        names: ['몽골 기마장', '칭기즈칸', '개조 칭기즈칸', '천상의 칸'],
+        coat: '#78350f', trim: '#fbbf24', hat: 'mongol', weapon: 'bow', beard: 'full',
+        hp: 540, atk: 71, def: 28,
+        skills: [
+          { name: '질풍 기마사격', icon: '🏹', cd: 1.9, mult: 1.45, type: 'single' },
+          { name: '초원 대돌격', icon: '🐎', cd: 4.5, mult: 2.1, type: 'aoe' },
+          { name: '텡그리 천둥군단', icon: '⚡', cd: 7.1, mult: 3.75, type: 'ult' }
+        ]
+      },
+      {
+        id: 'damun', nation: '천상', role: '신수', elem: 'lightning',
+        names: ['북방 수호자', '다문천왕', '각성 다문천왕', '북방 다문천왕'],
+        coat: '#1e1b4b', trim: '#fbbf24', hat: 'crown', weapon: 'lute', beard: 'full',
+        hp: 580, atk: 76, def: 31,
+        skills: [
+          { name: '뇌전 비파음', icon: '🎸', cd: 1.9, mult: 1.5, type: 'aoe' },
+          { name: '천상 결계파', icon: '⚡', cd: 4.4, mult: 2.2, type: 'aoe' },
+          { name: '사천왕 뇌전멸세곡', icon: '🌩️', cd: 7.0, mult: 4.0, type: 'ult' }
+        ]
+      },
+      {
+        id: 'jeungjang', nation: '천상', role: '선봉', elem: 'fire',
+        names: ['남방 수호자', '증장천왕', '각성 증장천왕', '남방 증장천왕'],
+        coat: '#991b1b', trim: '#fbbf24', hat: 'crown', weapon: 'sword', beard: 'full',
+        hp: 640, atk: 70, def: 37,
+        skills: [
+          { name: '홍련 일섬', icon: '🔥', cd: 2.0, mult: 1.45, type: 'single' },
+          { name: '불멸의 화염갑', icon: '🛡️', cd: 4.6, mult: 2.0, type: 'buff' },
+          { name: '남방 업화천지참', icon: '☄️', cd: 7.1, mult: 3.85, type: 'ult' }
+        ]
+      },
+      {
+        id: 'cheongryong', nation: '천상', role: '신수', elem: 'water',
+        names: ['동방 영물', '청룡', '각성 청룡', '천상 청룡신수'],
+        coat: '#065f46', trim: '#34d399', hat: 'crown', weapon: 'glaive', beard: 'long',
+        hp: 565, atk: 77, def: 30,
+        skills: [
+          { name: '창해 용조격', icon: '🐉', cd: 1.9, mult: 1.5, type: 'aoe' },
+          { name: '빙룡 해일파', icon: '🌊', cd: 4.4, mult: 2.2, type: 'aoe' },
+          { name: '창공 수빙승천룡', icon: '❄️', cd: 7.0, mult: 4.05, type: 'ult' }
+        ]
+      }
+    ];
+
+    const SYNERGY_RULES = [
+      { id: 'kr_2',   label: '🇰🇷 조선 2인 · 충무의 기개', desc: '공격력 +18%', req: 2, type: 'nation', target: '조선', atk: 0.18, def: 0, crit: 0, dmg: 0 },
+      { id: 'kr_3',   label: '🇰🇷 조선 3인 · 충무의 함성', desc: '치명타 피해 +45%', req: 3, type: 'nation', target: '조선', atk: 0.12, def: 0, crit: 0.45, dmg: 0 },
+      { id: 'cn_2',   label: '🐉 명나라 2인 · 도원결의', desc: '공격·방어 +20%', req: 2, type: 'nation', target: '명나라', atk: 0.20, def: 0.20, crit: 0, dmg: 0 },
+      { id: 'jp_2',   label: '⛩️ 일본 2인 · 전국무쌍', desc: '치명타 피해 +35%', req: 2, type: 'nation', target: '일본', atk: 0.14, def: 0, crit: 0.35, dmg: 0 },
+      { id: 'cel_2',  label: '⚡ 천상 2인 · 사천왕 위엄', desc: '최종 피해 +30%', req: 2, type: 'nation', target: '천상', atk: 0.10, def: 0, crit: 0, dmg: 0.30 },
+      { id: 'role_3', label: '🛡️ 3역할 조화 · 삼위일체', desc: '공격·방어 +15%', req: 3, type: 'distinctRole', target: null, atk: 0.15, def: 0.15, crit: 0, dmg: 0 },
+      { id: 'role_4', label: '✨ 4역할 완비 · 천하통일', desc: '공·방·최종피해 +25%', req: 4, type: 'distinctRole', target: null, atk: 0.25, def: 0.25, crit: 0, dmg: 0.25 }
+    ];
+
+    const DIFFICULTIES = [
+      { idx: 0, short: '입문',     label: '1. 입문 (쉬움 ×1)',   hpMult: 1.0,    defBonus: 18,   atkMult: 1.0,   rewardMult: 1.0 },
+      { idx: 1, short: '보통',     label: '2. 보통 (표준 ×4)',   hpMult: 4.5,    defBonus: 65,   atkMult: 2.4,   rewardMult: 3.2 },
+      { idx: 2, short: '정예',     label: '3. 정예 (강적 ×18)',  hpMult: 24.0,   defBonus: 180,  atkMult: 6.8,   rewardMult: 11.0 },
+      { idx: 3, short: '지옥',     label: '4. 지옥 (위기 ×90)',  hpMult: 140.0,  defBonus: 460,  atkMult: 19.0,  rewardMult: 42.0 },
+      { idx: 4, short: '수라',     label: '5. 수라 (절망 ×480)', hpMult: 820.0,  defBonus: 1050, atkMult: 52.0,  rewardMult: 165.0 },
+      { idx: 5, short: '천마강림', label: '6. 천마강림 (×2,800)', hpMult: 4800.0, defBonus: 2400, atkMult: 145.0, rewardMult: 680.0 }
+    ];
+
+    const CHAPTER_THEMES = [
+      { ch: 1, title: '한양성 외곽',   bossPrefix: '한양 수문마장' },
+      { ch: 2, title: '적벽 수로',     bossPrefix: '적벽 화염군주' },
+      { ch: 3, title: '설원 요새',     bossPrefix: '빙하 철갑대장' },
+      { ch: 4, title: '천상 낙원',     bossPrefix: '타락한 천상신장' }
+    ];
+
+    const NATIONS_META = [
+      { id: 'ALL',    label: '전체',   icon: '🌏' },
+      { id: '조선',   label: '조선',   icon: '🇰🇷' },
+      { id: '명나라', label: '명나라', icon: '🐉' },
+      { id: '일본',   label: '일본',   icon: '⛩️' },
+      { id: '몽골',   label: '몽골',   icon: '🐎' },
+      { id: '천상',   label: '천상',   icon: '✨' }
+    ];
+
+    const TRADE_ROUTES = [
+      { id: 'r1', name: '한양 ↔ 상해 비단항로', time: 6,  silver: 2600,  gems: 50,  icon: '👘' },
+      { id: 'r2', name: '부산 ↔ 에도 명검교역', time: 10, silver: 6200,  gems: 110, icon: '⚔️' },
+      { id: 'r3', name: '북경 ↔ 초원 천마상단', time: 14, silver: 13500, gems: 210, icon: '🐎' },
+      { id: 'r4', name: '천축 사천왕 황금길',   time: 18, silver: 28000, gems: 380, icon: '👑' }
+    ];
+
+    function getHeroSpec(lineageId, tier) {
+      const lin = LINEAGES.find(l => l.id === lineageId) || LINEAGES[0];
+      const t = TIERS[tier] || TIERS[0];
+      return {
+        key: `${lin.id}_${tier}`,
+        lineageId: lin.id,
+        nation: lin.nation,
+        role: lin.role,
+        elem: ELEMENTS[lin.elem],
+        tier,
+        code: t.code,
+        tierLabel: t.label,
+        name: lin.names[tier],
+        coat: lin.coat,
+        trim: lin.trim,
+        hat: lin.hat,
+        weapon: lin.weapon,
+        beard: lin.beard || 'none',
+        female: !!lin.female,
+        skills: lin.skills,
+        baseHp: Math.round(lin.hp * t.mult),
+        baseAtk: Math.round(lin.atk * t.mult),
+        baseDef: Math.round(lin.def * t.mult)
+      };
+    }
+
+    /**
+     * =========================================================================
+     * 3. HIGH-DETAIL PROCEDURAL PORTRAIT ARTIST (With Custom Image Override)
+     * =========================================================================
+     */
+    class HeroArtist {
+      constructor() {
+        this.cache = new Map();
+        this.customImages = new Map();
+      }
+
+      setCustomImage(lineageId, dataUrl) {
+        if (!dataUrl) return;
+        const img = new Image();
+        img.onload = () => {
+          this.customImages.set(lineageId, img);
+          this.cache.clear();
+        };
+        img.src = dataUrl;
+      }
+
+      getCanvas(spec) {
+        const cacheKey = `${spec.key}_${this.customImages.has(spec.lineageId) ? 'c' : 'p'}`;
+        if (this.cache.has(cacheKey)) return this.cache.get(cacheKey);
+
+        const c = document.createElement('canvas');
+        c.width = 128;
+        c.height = 144;
+        const ctx = c.getContext('2d');
+
+        if (this.customImages.has(spec.lineageId)) {
+          const img = this.customImages.get(spec.lineageId);
+          ctx.drawImage(img, 0, 0, c.width, c.height);
+        } else {
+          this.paintHero(ctx, c.width, c.height, spec);
+        }
+
+        this.cache.set(cacheKey, c);
+        return c;
+      }
+
+      drawTo(canvasEl, spec) {
+        if (!canvasEl || !spec) return;
+        const src = this.getCanvas(spec);
+        const ctx = canvasEl.getContext('2d');
+        ctx.clearRect(0, 0, canvasEl.width, canvasEl.height);
+        ctx.drawImage(src, 0, 0, canvasEl.width, canvasEl.height);
+      }
+
+      paintHero(ctx, w, h, spec) {
+        const cx = w * 0.5;
+        const cy = h * 0.52;
+
+        // Luminous Oriental Aura Backdrop
+        const bg = ctx.createRadialGradient(cx, cy * 0.8, 8, cx, cy, w * 0.85);
+        if (spec.tier === 3) {
+          bg.addColorStop(0, '#fef9c3');
+          bg.addColorStop(0.45, '#f59e0b');
+          bg.addColorStop(1, '#7c2d12');
+        } else if (spec.tier === 2) {
+          bg.addColorStop(0, '#f3e8ff');
+          bg.addColorStop(0.5, '#7e22ce');
+          bg.addColorStop(1, '#1e1b4b');
+        } else if (spec.tier === 1) {
+          bg.addColorStop(0, '#e0f2fe');
+          bg.addColorStop(0.55, '#0369a1');
+          bg.addColorStop(1, '#0f172a');
+        } else {
+          bg.addColorStop(0, '#f1f5f9');
+          bg.addColorStop(1, '#334155');
+        }
+        ctx.fillStyle = bg;
+        ctx.fillRect(0, 0, w, h);
+
+        // Sacred Mandala Halo for Awakened / SR+
+        if (spec.tier >= 1) {
+          ctx.save();
+          ctx.translate(cx, cy - 8);
+          ctx.strokeStyle = spec.tier === 3 ? 'rgba(254, 240, 138, 0.9)' : 'rgba(255, 255, 255, 0.45)';
+          ctx.lineWidth = spec.tier === 3 ? 3 : 2;
+          ctx.beginPath();
+          ctx.arc(0, 0, 44, 0, Math.PI * 2);
+          ctx.stroke();
+          if (spec.tier >= 2) {
+            for (let i = 0; i < 8; i++) {
+              const a = (i * Math.PI) / 4;
+              ctx.beginPath();
+              ctx.moveTo(Math.cos(a) * 38, Math.sin(a) * 38);
+              ctx.lineTo(Math.cos(a) * 49, Math.sin(a) * 49);
+              ctx.stroke();
+            }
+          }
+          ctx.restore();
+        }
+
+        // Weapon Silhouette Behind Shoulder
+        ctx.save();
+        ctx.strokeStyle = spec.trim;
+        ctx.fillStyle = '#e2e8f0';
+        ctx.lineWidth = 3;
+        if (spec.weapon === 'glaive' || spec.weapon === 'sword') {
+          ctx.beginPath();
+          ctx.moveTo(w * 0.78, h * 0.14);
+          ctx.lineTo(w * 0.24, h * 0.92);
+          ctx.stroke();
+          ctx.beginPath();
+          ctx.moveTo(w * 0.78, h * 0.14);
+          ctx.quadraticCurveTo(w * 0.92, h * 0.24, w * 0.72, h * 0.34);
+          ctx.fill();
+        } else if (spec.weapon === 'bow') {
+          ctx.beginPath();
+          ctx.arc(w * 0.75, h * 0.5, 42, -Math.PI * 0.45, Math.PI * 0.45);
+          ctx.stroke();
+        } else if (spec.weapon === 'lute') {
+          ctx.fillStyle = '#d97706';
+          ctx.beginPath();
+          ctx.ellipse(w * 0.74, h * 0.58, 14, 22, 0.35, 0, Math.PI * 2);
+          ctx.fill();
+        }
+        ctx.restore();
+
+        // Ornate Armor & Royal Robe
+        const robeGrad = ctx.createLinearGradient(0, h * 0.55, 0, h);
+        robeGrad.addColorStop(0, spec.coat);
+        robeGrad.addColorStop(1, '#0f172a');
+        ctx.fillStyle = robeGrad;
+        ctx.beginPath();
+        ctx.moveTo(cx - 46, h);
+        ctx.quadraticCurveTo(cx - 42, h * 0.62, cx, h * 0.60);
+        ctx.quadraticCurveTo(cx + 42, h * 0.62, cx + 46, h);
+        ctx.fill();
+
+        // Gold Pauldrons & Collar Trim
+        ctx.strokeStyle = spec.trim;
+        ctx.lineWidth = 3.5;
+        ctx.beginPath();
+        ctx.moveTo(cx - 38, h * 0.74);
+        ctx.quadraticCurveTo(cx, h * 0.56, cx + 38, h * 0.74);
+        ctx.stroke();
+
+        // Chest Medallion
+        ctx.fillStyle = spec.trim;
+        ctx.beginPath();
+        ctx.arc(cx, h * 0.78, 9, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.fillStyle = spec.elem.color;
+        ctx.beginPath();
+        ctx.arc(cx, h * 0.78, 5, 0, Math.PI * 2);
+        ctx.fill();
+
+        // 3D Shaded Face
+        const faceGrad = ctx.createRadialGradient(cx - 6, cy - 8, 3, cx, cy, 28);
+        faceGrad.addColorStop(0, spec.female ? '#fff5eb' : '#fad7b8');
+        faceGrad.addColorStop(0.72, spec.female ? '#f2c5a0' : '#d69765');
+        faceGrad.addColorStop(1, '#854d27');
+        ctx.fillStyle = faceGrad;
+        ctx.beginPath();
+        ctx.ellipse(cx, cy - 2, 20, 24, 0, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Expressive Eyes & Brows
+        ctx.fillStyle = '#1e1b18';
+        ctx.beginPath();
+        ctx.moveTo(cx - 14, cy - 8); ctx.lineTo(cx - 4, cy - 5); ctx.lineTo(cx - 4, cy - 8); ctx.fill();
+        ctx.beginPath();
+        ctx.moveTo(cx + 14, cy - 8); ctx.lineTo(cx + 4, cy - 5); ctx.lineTo(cx + 4, cy - 8); ctx.fill();
+
+        ctx.fillStyle = '#ffffff';
+        ctx.beginPath();
+        ctx.arc(cx - 8, cy - 2, 3.5, 0, Math.PI * 2);
+        ctx.arc(cx + 8, cy - 2, 3.5, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.fillStyle = '#090a0f';
+        ctx.beginPath();
+        ctx.arc(cx - 8, cy - 2, 2.0, 0, Math.PI * 2);
+        ctx.arc(cx + 8, cy - 2, 2.0, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Beard / Lips
+        if (spec.female) {
+          ctx.fillStyle = '#e11d48';
+          ctx.beginPath();
+          ctx.ellipse(cx, cy + 11, 4, 2, 0, 0, Math.PI * 2);
+          ctx.fill();
+        } else if (spec.beard === 'long') {
+          ctx.fillStyle = '#1c1917';
+          ctx.beginPath();
+          ctx.moveTo(cx - 13, cy + 8);
+          ctx.quadraticCurveTo(cx, cy + 52, cx + 13, cy + 8);
+          ctx.fill();
+        } else if (spec.beard === 'full') {
+          ctx.fillStyle = '#334155';
+          ctx.beginPath();
+          ctx.moveTo(cx - 14, cy + 7);
+          ctx.quadraticCurveTo(cx, cy + 34, cx + 14, cy + 7);
+          ctx.fill();
+        } else if (spec.beard === 'goatee') {
+          ctx.fillStyle = '#334155';
+          ctx.beginPath();
+          ctx.moveTo(cx - 5, cy + 12);
+          ctx.lineTo(cx, cy + 26);
+          ctx.lineTo(cx + 5, cy + 12);
+          ctx.fill();
+        }
+
+        // Headgear (Crown / General Helmet / Kabuto / Scholar Hat)
+        ctx.fillStyle = spec.trim;
+        if (spec.hat === 'crown') {
+          ctx.beginPath();
+          ctx.moveTo(cx - 19, cy - 17);
+          ctx.lineTo(cx - 15, cy - 40);
+          ctx.lineTo(cx - 6, cy - 26);
+          ctx.lineTo(cx, cy - 44);
+          ctx.lineTo(cx + 6, cy - 26);
+          ctx.lineTo(cx + 15, cy - 40);
+          ctx.lineTo(cx + 19, cy - 17);
+          ctx.fill();
+        } else if (spec.hat === 'kabuto') {
+          ctx.fillStyle = '#1c1917';
+          ctx.beginPath();
+          ctx.arc(cx, cy - 16, 21, Math.PI, 0);
+          ctx.fill();
+          ctx.strokeStyle = '#fbbf24';
+          ctx.lineWidth = 3.5;
+          ctx.beginPath();
+          ctx.arc(cx, cy - 30, 16, 0.15 * Math.PI, 0.85 * Math.PI);
+          ctx.stroke();
+        } else if (spec.hat === 'scholar') {
+          ctx.fillStyle = '#1e293b';
+          ctx.fillRect(cx - 22, cy - 22, 44, 6);
+          ctx.fillRect(cx - 13, cy - 36, 26, 15);
+        } else {
+          ctx.beginPath();
+          ctx.arc(cx, cy - 16, 21, Math.PI, 0);
+          ctx.fill();
+          ctx.fillStyle = '#dc2626';
+          ctx.beginPath();
+          ctx.ellipse(cx, cy - 40, 5, 11, 0, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
+    }
+
+    /**
+     * =========================================================================
+     * 4. CORE GAME CONTROLLER & 2.5D DAYTIME BATTLE ENGINE
+     * =========================================================================
+     */
+    class GersangEmpireGame {
+      constructor() {
+        this.sfx = new SoundEngine();
+        this.artist = new HeroArtist();
+        this.customBgImg = null;
+
+        this.state = {
+          silver: 36000,
+          gems: 3200,
+          awaken: 18,
+          scrolls: 14,
+          pity: 0,
+          diffIdx: 0,
+          chapter: 1,
+          stage: 1,
+          maxChapter: 1,
+          maxStage: 1,
+          autoStage: true,
+          wave: 1,
+          waveGoal: 5,
+          autoBattle: true,
+          tab: 'squad',
+          nationFilter: 'ALL',
+          selectedSlot: 0,
+          party: ['u1', 'u2', 'u3', 'u4'],
+          roster: [
+            { uid: 'u1', lineageId: 'yi_sunsin', tier: 1, lv: 12, stars: 2, shards: 12 },
+            { uid: 'u2', lineageId: 'seondeok',  tier: 1, lv: 10, stars: 1, shards: 8 },
+            { uid: 'u3', lineageId: 'heo_jun',   tier: 1, lv: 10, stars: 1, shards: 8 },
+            { uid: 'u4', lineageId: 'guan_yu',   tier: 1, lv: 10, stars: 1, shards: 8 },
+            { uid: 'u5', lineageId: 'damun',     tier: 2, lv: 15, stars: 1, shards: 15 }
+          ],
+          gear: { weapon: 3, armor: 2, relic: 2 },
+          trade: { routeIdx: 0, running: true, progress: 0, auto: true },
+          dungeon: { floor: 1, pos: 0, auto: false, tiles: [] }
+        };
+
+        this.loadSavedState();
+        this.loadSavedMedia();
+        this.initDungeon(1);
+
+        // Live Battle Entities
+        this.allies = [];
+        this.enemies = [];
+        this.vfx = [];
+        this.floats = [];
+        this.petals = [];
+        this.clouds = [
+          { x: 0.18, y: 0.12, s: 1.0, v: 0.004 },
+          { x: 0.56, y: 0.17, s: 0.85, v: 0.003 },
+          { x: 0.84, y: 0.10, s: 1.1, v: 0.005 }
+        ];
+        for (let i = 0; i < 16; i++) {
+          this.petals.push({
+            x: Math.random() * 480,
+            y: Math.random() * 260,
+            r: 2 + Math.random() * 2.5,
+            vx: -14 - Math.random() * 14,
+            vy: 10 + Math.random() * 14
+          });
+        }
+
+        this.chainGauge = 35;
+        this.shake = 0;
+        this.hitstop = 0;
+        this.banner = null;
+        this.tick = 0;
+        this.lastTs = performance.now();
+
+        this.spawnWave();
+        this.bindInputs();
+        this.renderAll();
+
+        requestAnimationFrame(ts => this.loop(ts));
+      }
+
+      saveState() {
+        try {
+          localStorage.setItem('gersang_v3_save', JSON.stringify(this.state));
+        } catch (e) {}
+      }
+
+      loadSavedState() {
+        try {
+          const raw = localStorage.getItem('gersang_v3_save');
+          if (!raw) return;
+          const saved = JSON.parse(raw);
+          if (saved && Array.isArray(saved.roster) && saved.roster.length > 0) {
+            this.state = { ...this.state, ...saved };
+          }
+        } catch (e) {}
+      }
+
+      loadSavedMedia() {
+        try {
+          const savedBg = localStorage.getItem('gersang_v2_bg');
+          if (savedBg) {
+            const img = new Image();
+            img.onload = () => { this.customBgImg = img; };
+            img.src = savedBg;
+          }
+          LINEAGES.forEach(l => {
+            const dataUrl = localStorage.getItem(`gersang_v2_hero_${l.id}`);
+            if (dataUrl) this.artist.setCustomImage(l.id, dataUrl);
+          });
+        } catch (e) {}
+      }
+
+      bindInputs() {
+        const heroInput = document.getElementById('heroImgInput');
+        heroInput.addEventListener('change', e => {
+          const file = e.target.files && e.target.files[0];
+          if (!file || !this._uploadHeroLineage) return;
+          const reader = new FileReader();
+          reader.onload = ev => {
+            const url = ev.target.result;
+            this.artist.setCustomImage(this._uploadHeroLineage, url);
+            try { localStorage.setItem(`gersang_v2_hero_${this._uploadHeroLineage}`, url); } catch (err) {}
+            this.toast('📷 영웅 커스텀 일러스트 적용 완료!');
+            this.renderAll();
+          };
+          reader.readAsDataURL(file);
+          heroInput.value = '';
+        });
+
+        const bgInput = document.getElementById('bgImgInput');
+        bgInput.addEventListener('change', e => {
+          const file = e.target.files && e.target.files[0];
+          if (!file) return;
+          const reader = new FileReader();
+          reader.onload = ev => {
+            const url = ev.target.result;
+            const img = new Image();
+            img.onload = () => {
+              this.customBgImg = img;
+              try { localStorage.setItem('gersang_v2_bg', url); } catch (err) {}
+              this.toast('🏞️ 전장 커스텀 배경 적용 완료!');
+            };
+            img.src = url;
+          };
+          reader.readAsDataURL(file);
+          bgInput.value = '';
+        });
+      }
+
+      toast(msg) {
+        const box = document.getElementById('toastBox');
+        if (!box) return;
+        const el = document.createElement('div');
+        el.className = 'px-3 py-1 rounded-full bg-[#1e3a34]/95 text-amber-200 border border-amber-400 text-[11px] font-extrabold shadow-lg';
+        el.textContent = msg;
+        box.appendChild(el);
+        setTimeout(() => el.remove(), 2200);
+      }
+
+      /**
+       * Real-time Synergy Calculator
+       */
+      getActiveSynergies() {
+        const nations = {};
+        const roles = new Set();
+
+        this.state.party.forEach(uid => {
+          const h = this.state.roster.find(r => r.uid === uid);
+          if (!h) return;
+          const lin = LINEAGES.find(l => l.id === h.lineageId);
+          if (!lin) return;
+          nations[lin.nation] = (nations[lin.nation] || 0) + 1;
+          roles.add(lin.role);
+        });
+
+        const list = SYNERGY_RULES.map(rule => {
+          const cur = rule.type === 'nation' ? (nations[rule.target] || 0) : roles.size;
+          return { ...rule, cur, active: cur >= rule.req };
+        });
+
+        const active = list.filter(s => s.active);
+        const totals = active.reduce((acc, s) => ({
+          atk: acc.atk + s.atk,
+          def: acc.def + s.def,
+          crit: acc.crit + s.crit,
+          dmg: acc.dmg + s.dmg
+        }), { atk: 0, def: 0, crit: 0, dmg: 0 });
+
+        return { list, active, totals };
+      }
+
+      computeHero(heroObj) {
+        const spec = getHeroSpec(heroObj.lineageId, heroObj.tier);
+        const syn = this.getActiveSynergies().totals;
+        const lvMult = 1 + (heroObj.lv - 1) * 0.14;
+        const starMult = 1 + ((heroObj.stars || 1) - 1) * 0.18;
+
+        const wBonus = this.state.gear.weapon * 45;
+        const aBonus = this.state.gear.armor * 240;
+        const rBonus = this.state.gear.relic * 30;
+
+        const maxHp = Math.round(spec.baseHp * lvMult * starMult + aBonus);
+        const atk = Math.round((spec.baseAtk * lvMult * starMult + wBonus + rBonus) * (1 + syn.atk));
+        const def = Math.round((spec.baseDef * lvMult * starMult + this.state.gear.armor * 18) * (1 + syn.def));
+
+        return { ...spec, ...heroObj, maxHp, atk, def, syn };
+      }
+
+      spawnWave() {
+        const diff = DIFFICULTIES[this.state.diffIdx] || DIFFICULTIES[0];
+        const prevHpMap = new Map(this.allies.map(a => [a.uid, a.hp]));
+
+        this.allies = this.state.party
+          .map(uid => this.state.roster.find(r => r.uid === uid))
+          .filter(Boolean)
+          .map((h, idx) => {
+            const c = this.computeHero(h);
+            const savedHp = prevHpMap.get(h.uid);
+            return {
+              ...c,
+              side: 'ally',
+              hp: savedHp && savedHp > 0 ? Math.min(c.maxHp, savedHp) : c.maxHp,
+              x: 60,
+              y: 120,
+              lunge: 0,
+              flash: 0,
+              buffTimer: 0,
+              cds: [0.4 + idx * 0.25, 2.0 + idx * 0.35, 3.8 + idx * 0.5]
+            };
+          });
+
+        const totalStage = (this.state.chapter - 1) * 10 + this.state.stage;
+        const isStageBoss = this.state.stage === 10 && this.state.wave === 5;
+        const isWaveBoss = this.state.wave === 5;
+        const count = isWaveBoss ? 1 : 3;
+
+        const chTheme = CHAPTER_THEMES[(this.state.chapter - 1) % CHAPTER_THEMES.length];
+        const hpGrowth = Math.pow(1.28, totalStage - 1) * (1 + (this.state.wave - 1) * 0.14);
+        const atkGrowth = Math.pow(1.20, totalStage - 1) * (1 + (this.state.wave - 1) * 0.10);
+
+        const enemyPool = [
+          { name: `${chTheme.title} 백호`, kind: 'tiger', hp: 620, atk: 34 },
+          { name: `${chTheme.title} 정예병`, kind: 'warrior', hp: 570, atk: 30 },
+          { name: `${chTheme.title} 요괴술사`, kind: 'demon', hp: 600, atk: 32 }
+        ];
+
+        this.enemies = [];
+        for (let i = 0; i < count; i++) {
+          const tpl = isWaveBoss
+            ? {
+                name: isStageBoss
+                  ? `👑 ${this.state.chapter}-${this.state.stage} ${chTheme.bossPrefix}`
+                  : `👹 ${this.state.chapter}-${this.state.stage} 수문장`,
+                kind: 'boss',
+                hp: isStageBoss ? 3600 : 2500,
+                atk: isStageBoss ? 68 : 54
+              }
+            : enemyPool[i % enemyPool.length];
+
+          const maxHp = Math.max(120, Math.round(tpl.hp * hpGrowth * diff.hpMult));
+          const def = Math.round((16 + totalStage * 8 + diff.defBonus) * (isWaveBoss ? 1.4 : 1.0));
+          const atk = Math.max(12, Math.round(tpl.atk * atkGrowth * diff.atkMult));
+          const shieldMax = isStageBoss ? 140 : (isWaveBoss ? 100 : 48);
+
+          this.enemies.push({
+            name: tpl.name,
+            kind: tpl.kind,
+            isBoss: isWaveBoss,
+            side: 'enemy',
+            maxHp,
+            hp: maxHp,
+            def,
+            atk,
+            shieldMax,
+            shield: shieldMax,
+            brokenTimer: 0,
+            aura: null,
+            x: 260,
+            y: 120,
+            lunge: 0,
+            flash: 0,
+            cd: 0.5 + i * 0.35
+          });
+        }
+
+        this.renderHeroSkillDock();
+        this.updateTopHud();
+      }
+
+      applyElementalCombo(en, elemId, scaledDmg) {
+        let extra = 0;
+        if (!en.aura) {
+          en.aura = elemId;
+          en.shield -= 12;
+        } else if (en.aura !== elemId) {
+          const pair = [en.aura, elemId].sort().join('+');
+          en.aura = null;
+          let label = '☀️ 천벌 성광폭발!';
+          let color = '#d97706';
+
+          if (pair === 'fire+lightning') {
+            label = '💥 과부하 대폭발!';
+            color = '#ea580c';
+            extra = Math.round(scaledDmg * 1.45);
+            en.shield -= 34;
+          } else if (pair === 'lightning+water') {
+            label = '❄️ 초전도 빙결!';
+            color = '#0284c7';
+            extra = Math.round(scaledDmg * 1.30);
+            en.brokenTimer = Math.max(en.brokenTimer, 2.3);
+            en.shield -= 28;
+          } else if (pair === 'fire+water') {
+            label = '💨 증발 연쇄일격!';
+            color = '#0369a1';
+            extra = Math.round(scaledDmg * 1.35);
+            en.shield -= 26;
+          } else {
+            extra = Math.round(scaledDmg * 1.60);
+            en.shield -= 38;
+          }
+
+          this.sfx.play('combo');
+          this.shake = Math.max(this.shake, 9);
+          this.floats.push({ x: en.x, y: en.y - 44, text: label, color, life: 1.05 });
+        } else {
+          en.shield -= 14;
+        }
+
+        if (en.shield <= 0 && en.brokenTimer <= 0) {
+          en.shield = en.shieldMax;
+          en.brokenTimer = 3.2;
+          this.shake = 12;
+          this.hitstop = 0.045;
+          this.floats.push({ x: en.x, y: en.y - 56, text: '🛡️ 강인도 파괴! (피해 2배)', color: '#dc2626', life: 1.2 });
+        }
+
+        return extra;
+      }
+
+      castSkill(caster, slotIdx, isManual = false) {
+        const sk = caster.skills[slotIdx];
+        if (!sk) return;
+        if (isManual && caster.cds[slotIdx] > 0) {
+          this.toast(`${caster.name} 궁극기 충전 중 (${caster.cds[slotIdx].toFixed(1)}초)`);
+          return;
+        }
+
+        caster.cds[slotIdx] = sk.cd;
+        caster.lunge = slotIdx === 2 ? 24 : 13;
+        this.chainGauge = Math.min(100, this.chainGauge + (slotIdx === 2 ? 24 : 8));
+
+        if (slotIdx === 2) {
+          this.sfx.play('ult');
+          this.shake = 10 + caster.tier * 2;
+          this.hitstop = 0.04;
+          this.banner = { text: `${caster.elem.icon} ${caster.name} · ${sk.name}!`, life: 1.1 };
+        } else {
+          this.sfx.play('hit');
+        }
+
+        const syn = caster.syn || this.getActiveSynergies().totals;
+        const buffMult = caster.buffTimer > 0 ? 1.3 : 1.0;
+        const power = caster.atk * sk.mult * buffMult * (1 + syn.dmg);
+
+        if (sk.type === 'heal' || sk.type === 'ult_heal') {
+          this.allies.forEach(a => {
+            const heal = Math.round(power * 1.15);
+            a.hp = Math.min(a.maxHp, a.hp + heal);
+            this.floats.push({ x: a.x, y: a.y - 32, text: `+${heal.toLocaleString()}`, color: '#15803d', life: 0.85 });
+            this.vfx.push({ x: a.x, y: a.y - 12, color: '#22c55e', r: 8, maxR: 34, life: 0.36, ult: slotIdx === 2 });
+          });
+        } else if (sk.type === 'buff') {
+          this.allies.forEach(a => {
+            a.buffTimer = 5.0;
+            this.floats.push({ x: a.x, y: a.y - 34, text: '전술 고양!', color: '#0369a1', life: 0.85 });
+            this.vfx.push({ x: a.x, y: a.y - 12, color: '#38bdf8', r: 8, maxR: 32, life: 0.35, ult: false });
+          });
+        } else {
+          const targets = (sk.type === 'aoe' || slotIdx === 2) ? this.enemies : [this.enemies[0]].filter(Boolean);
+          targets.forEach(en => {
+            if (!en || en.hp <= 0) return;
+            const mitigation = 100 / (100 + en.def);
+            const breakMult = en.brokenTimer > 0 ? 2.0 : 1.0;
+            const crit = Math.random() < 0.28 || slotIdx === 2;
+            const critMult = crit ? (1.5 + syn.crit) : 1.0;
+
+            const comboDmg = this.applyElementalCombo(en, caster.elem.id, power * mitigation);
+            const finalDmg = Math.max(1, Math.round(power * mitigation * critMult * breakMult + comboDmg));
+
+            en.hp -= finalDmg;
+            en.flash = 0.16;
+            en.lunge = -6;
+
+            this.floats.push({
+              x: en.x + (Math.random() - 0.5) * 16,
+              y: en.y - 28,
+              text: `${crit ? '⚡' : ''}-${finalDmg.toLocaleString()}`,
+              color: crit ? '#b45309' : caster.elem.color,
+              life: 0.85
+            });
+            this.vfx.push({
+              x: en.x,
+              y: en.y - 14,
+              color: caster.elem.color,
+              r: 10,
+              maxR: slotIdx === 2 ? 52 : 28,
+              life: 0.36,
+              ult: slotIdx === 2
+            });
+          });
+        }
+      }
+
+      triggerChainUlt() {
+        if (this.chainGauge < 100) {
+          this.sfx.play('error');
+          this.toast(`공명 게이지가 100%가 되면 발동됩니다! (현재 ${Math.floor(this.chainGauge)}%)`);
+          return;
+        }
+        this.chainGauge = 0;
+        this.sfx.play('ult');
+        this.shake = 18;
+        this.hitstop = 0.06;
+        this.banner = { text: '🔥⚡🌊✨ 천지개벽 · 4인 협동 연쇄 필살기!!', life: 1.5 };
+
+        this.allies.forEach(ally => {
+          ally.cds[2] = 0;
+          this.castSkill(ally, 2, false);
+        });
+      }
+
+      loop(ts) {
+        const dt = Math.min(0.05, (ts - this.lastTs) / 1000);
+        this.lastTs = ts;
+        this.tick += dt * 60;
+
+        this.update(dt);
+        this.renderBattle();
+        requestAnimationFrame(nextTs => this.loop(nextTs));
+      }
+
+      update(dt) {
+        if (this.shake > 0) this.shake = Math.max(0, this.shake - dt * 34);
+        if (this.banner) {
+          this.banner.life -= dt;
+          if (this.banner.life <= 0) this.banner = null;
+        }
+
+        // Ambient clouds & cherry blossom petals
+        this.clouds.forEach(c => {
+          c.x += c.v * dt;
+          if (c.x > 1.15) c.x = -0.15;
+        });
+        this.petals.forEach(p => {
+          p.x += p.vx * dt;
+          p.y += p.vy * dt;
+          if (p.x < -10) p.x = 490;
+          if (p.y > 270) { p.y = -10; p.x = Math.random() * 480; }
+        });
+
+        // Trade caravan passive loop
+        const tr = this.state.trade;
+        const route = TRADE_ROUTES[tr.routeIdx] || TRADE_ROUTES[0];
+        if (tr.running) {
+          tr.progress += dt;
+          if (tr.progress >= route.time) {
+            tr.progress = 0;
+            this.state.silver += route.silver;
+            this.state.gems += route.gems;
+            this.sfx.play('coin');
+            this.toast(`${route.icon} 상단 정산! +${route.silver.toLocaleString()}🪙 · +${route.gems}💎`);
+            if (!tr.auto) tr.running = false;
+            this.updateTopHud();
+          }
+          const bar = document.getElementById('tradeProgressBar');
+          if (bar) bar.style.width = `${Math.min(100, (tr.progress / route.time) * 100)}%`;
+        }
+
+        // Auto-dungeon exploration
+        if (this.state.dungeon.auto) {
+          this._dunTimer = (this._dunTimer || 0) + dt;
+          if (this._dunTimer >= 1.1) {
+            this._dunTimer = 0;
+            this.autoStepDungeon();
+          }
+        }
+
+        if (this.hitstop > 0) {
+          this.hitstop -= dt;
+          return;
+        }
+
+        // Update Chain Ultimate Button
+        const chainBtn = document.getElementById('btnChainUlt');
+        const chainPct = document.getElementById('uiChainPct');
+        if (chainBtn && chainPct) {
+          const pct = Math.floor(this.chainGauge);
+          chainPct.textContent = pct >= 100 ? '지금 발동 가능!' : `공명 ${pct}%`;
+          if (pct >= 100) {
+            chainBtn.classList.add('chain-ready');
+            chainBtn.style.background = 'linear-gradient(135deg, #dc2626 0%, #d97706 100%)';
+            chainBtn.style.color = '#ffffff';
+          } else {
+            chainBtn.classList.remove('chain-ready');
+            chainBtn.style.background = 'rgba(30, 58, 52, 0.9)';
+            chainBtn.style.color = '#fde68a';
+          }
+        }
+
+        // Allies AI & Cooldowns
+        this.allies.forEach((ally, idx) => {
+          if (ally.lunge > 0) ally.lunge = Math.max(0, ally.lunge - dt * 65);
+          if (ally.flash > 0) ally.flash = Math.max(0, ally.flash - dt);
+          if (ally.buffTimer > 0) ally.buffTimer -= dt;
+
+          for (let s = 0; s < 3; s++) {
+            if (ally.cds[s] > 0) ally.cds[s] = Math.max(0, ally.cds[s] - dt);
+          }
+
+          if (this.enemies.length > 0) {
+            if (this.state.autoBattle && ally.cds[2] <= 0) this.castSkill(ally, 2, false);
+            else if (ally.cds[1] <= 0) this.castSkill(ally, 1, false);
+            else if (ally.cds[0] <= 0) this.castSkill(ally, 0, false);
+          }
+
+          const cdOverlay = document.getElementById(`heroCd_${idx}`);
+          const sk = ally.skills[2];
+          if (cdOverlay && sk) {
+            const ratio = Math.max(0, Math.min(1, ally.cds[2] / sk.cd));
+            cdOverlay.style.height = `${Math.round(ratio * 100)}%`;
+          }
+        });
+
+        // Enemies AI
+        this.enemies.forEach(en => {
+          if (en.lunge !== 0) en.lunge += (0 - en.lunge) * Math.min(1, dt * 15);
+          if (en.flash > 0) en.flash = Math.max(0, en.flash - dt);
+          if (en.brokenTimer > 0) {
+            en.brokenTimer -= dt;
+            return;
+          }
+          en.cd += dt;
+          if (en.cd >= 1.35 && this.allies.length > 0) {
+            en.cd = 0;
+            en.lunge = 14;
+            const target = this.allies[Math.floor(Math.random() * this.allies.length)];
+            const mit = 100 / (100 + target.def);
+            const dmg = Math.max(1, Math.round(en.atk * mit));
+            target.hp = Math.max(1, target.hp - dmg);
+            target.flash = 0.14;
+          }
+        });
+
+        // Check Enemy Defeats
+        const alive = this.enemies.filter(e => e.hp > 0);
+        if (alive.length < this.enemies.length) {
+          const killed = this.enemies.length - alive.length;
+          const diff = DIFFICULTIES[this.state.diffIdx] || DIFFICULTIES[0];
+          const totalStage = (this.state.chapter - 1) * 10 + this.state.stage;
+          const stageRewardMult = 1 + (totalStage - 1) * 0.22;
+
+          this.state.silver += Math.round(240 * stageRewardMult * diff.rewardMult * killed);
+          this.state.gems += Math.round(18 * (1 + this.state.diffIdx * 0.55) * killed);
+          if (Math.random() < 0.32) this.state.awaken += 1;
+
+          this.enemies = alive;
+          this.updateTopHud();
+        }
+
+        if (this.enemies.length === 0) {
+          if (this.state.wave < this.state.waveGoal) {
+            this.state.wave += 1;
+          } else {
+            // Stage Cleared!
+            const diff = DIFFICULTIES[this.state.diffIdx] || DIFFICULTIES[0];
+            const clearBonus = Math.round(1200 * diff.rewardMult);
+            this.state.silver += clearBonus;
+            this.state.gems += 40 + this.state.diffIdx * 20;
+
+            if (this.state.autoStage) {
+              this.state.wave = 1;
+              this.state.stage += 1;
+              if (this.state.stage > 10) {
+                this.state.stage = 1;
+                this.state.chapter += 1;
+                this.toast(`🏯 제${this.state.chapter}장 신규 지역 개방!`);
+              }
+              const curTotal = (this.state.chapter - 1) * 10 + this.state.stage;
+              const maxTotal = (this.state.maxChapter - 1) * 10 + this.state.maxStage;
+              if (curTotal > maxTotal) {
+                this.state.maxChapter = this.state.chapter;
+                this.state.maxStage = this.state.stage;
+              }
+            } else {
+              this.state.wave = 1;
+            }
+            this.saveState();
+          }
+          this.spawnWave();
+        }
+
+        for (let i = this.vfx.length - 1; i >= 0; i--) {
+          this.vfx[i].life -= dt;
+          if (this.vfx[i].life <= 0) this.vfx.splice(i, 1);
+        }
+        for (let i = this.floats.length - 1; i >= 0; i--) {
+          this.floats[i].y -= dt * 26;
+          this.floats[i].life -= dt;
+          if (this.floats[i].life <= 0) this.floats.splice(i, 1);
+        }
+      }
+
+      /**
+       * =======================================================================
+       * 5. HIGH-DENSITY 2.5D DAYTIME BATTLE CANVAS RENDERER
+       * =======================================================================
+       */
+      renderBattle() {
+        const canvas = document.getElementById('battleCanvas');
+        if (!canvas) return;
+        const rect = canvas.getBoundingClientRect();
+        const cw = Math.max(300, Math.floor(rect.width));
+        const ch = Math.max(200, Math.floor(rect.height));
+        if (canvas.width !== cw || canvas.height !== ch) {
+          canvas.width = cw;
+          canvas.height = ch;
+        }
+        const ctx = canvas.getContext('2d');
+
+        ctx.save();
+        if (this.shake > 0) {
+          ctx.translate((Math.random() - 0.5) * this.shake, (Math.random() - 0.5) * this.shake);
+        }
+
+        if (this.customBgImg) {
+          ctx.drawImage(this.customBgImg, 0, 0, cw, ch);
+          ctx.fillStyle = 'rgba(255, 250, 238, 0.14)';
+          ctx.fillRect(0, 0, cw, ch);
+        } else {
+          // 1. Clear Daytime Azure Sky & Sunburst
+          const sky = ctx.createLinearGradient(0, 0, 0, ch * 0.48);
+          sky.addColorStop(0, '#0284c7');
+          sky.addColorStop(0.5, '#7dd3fc');
+          sky.addColorStop(1, '#fef9c3');
+          ctx.fillStyle = sky;
+          ctx.fillRect(0, 0, cw, ch * 0.48);
+
+          const sunX = cw * 0.84, sunY = ch * 0.17;
+          const sun = ctx.createRadialGradient(sunX, sunY, 4, sunX, sunY, 76);
+          sun.addColorStop(0, 'rgba(255, 254, 240, 1)');
+          sun.addColorStop(0.35, 'rgba(253, 224, 71, 0.55)');
+          sun.addColorStop(1, 'rgba(253, 224, 71, 0)');
+          ctx.fillStyle = sun;
+          ctx.beginPath(); ctx.arc(sunX, sunY, 76, 0, Math.PI * 2); ctx.fill();
+
+          // Drifting Clouds
+          ctx.fillStyle = 'rgba(255, 255, 255, 0.65)';
+          this.clouds.forEach(cl => {
+            const x = cl.x * cw, y = cl.y * ch;
+            ctx.beginPath();
+            ctx.ellipse(x, y, 32 * cl.s, 9 * cl.s, 0, 0, Math.PI * 2);
+            ctx.ellipse(x + 18 * cl.s, y - 3 * cl.s, 22 * cl.s, 8 * cl.s, 0, 0, Math.PI * 2);
+            ctx.fill();
+          });
+
+          // 2. Distant Misty Emerald Mountain Ridges
+          ctx.fillStyle = '#5eead4';
+          ctx.beginPath();
+          ctx.moveTo(0, ch * 0.46);
+          ctx.lineTo(cw * 0.22, ch * 0.19);
+          ctx.lineTo(cw * 0.48, ch * 0.34);
+          ctx.lineTo(cw * 0.78, ch * 0.17);
+          ctx.lineTo(cw, ch * 0.31);
+          ctx.lineTo(cw, ch * 0.46);
+          ctx.fill();
+
+          ctx.fillStyle = '#0f766e';
+          ctx.beginPath();
+          ctx.moveTo(0, ch * 0.46);
+          ctx.lineTo(cw * 0.16, ch * 0.28);
+          ctx.lineTo(cw * 0.42, ch * 0.39);
+          ctx.lineTo(cw * 0.70, ch * 0.24);
+          ctx.lineTo(cw, ch * 0.40);
+          ctx.lineTo(cw, ch * 0.46);
+          ctx.fill();
+
+          // 3. Joseon Fortress Gatehouse & Curved Tiled Roof (Left Background)
+          const gx = cw * 0.19, gy = ch * 0.43;
+          ctx.fillStyle = '#78716c';
+          ctx.fillRect(gx - 34, gy - 20, 68, 20);
+          ctx.fillStyle = '#292524';
+          ctx.beginPath();
+          ctx.arc(gx, gy, 8, Math.PI, 0);
+          ctx.fill();
+          // Curved Pavilion Roof
+          ctx.fillStyle = '#1e293b';
+          ctx.beginPath();
+          ctx.moveTo(gx - 42, gy - 20);
+          ctx.quadraticCurveTo(gx, gy - 29, gx + 42, gy - 20);
+          ctx.lineTo(gx + 32, gy - 28);
+          ctx.lineTo(gx - 32, gy - 28);
+          ctx.fill();
+
+          // 4. Warm Cobblestone Courtyard & Shimmering Jade River
+          const gnd = ctx.createLinearGradient(0, ch * 0.42, 0, ch);
+          gnd.addColorStop(0, '#fde68a');
+          gnd.addColorStop(0.32, '#e6c89c');
+          gnd.addColorStop(1, '#c29e6b');
+          ctx.fillStyle = gnd;
+          ctx.fillRect(0, ch * 0.42, cw, ch * 0.58);
+
+          // Jade River on the Right
+          const river = ctx.createLinearGradient(cw * 0.72, ch * 0.42, cw, ch * 0.65);
+          river.addColorStop(0, '#14b8a6');
+          river.addColorStop(1, '#0d9488');
+          ctx.fillStyle = river;
+          ctx.beginPath();
+          ctx.moveTo(cw * 0.76, ch * 0.42);
+          ctx.quadraticCurveTo(cw * 0.67, ch * 0.53, cw * 0.85, ch * 0.64);
+          ctx.lineTo(cw, ch * 0.64);
+          ctx.lineTo(cw, ch * 0.42);
+          ctx.fill();
+
+          // Shimmering Water Ripples
+          ctx.strokeStyle = 'rgba(254, 249, 195, 0.55)';
+          ctx.lineWidth = 1.5;
+          ctx.beginPath();
+          ctx.moveTo(cw * 0.82, ch * 0.49); ctx.lineTo(cw * 0.93, ch * 0.49);
+          ctx.moveTo(cw * 0.79, ch * 0.55); ctx.lineTo(cw * 0.91, ch * 0.55);
+          ctx.stroke();
+        }
+
+        // Sacred Golden/Jade Battle Formation Circle
+        ctx.save();
+        ctx.translate(cw * 0.5, ch * 0.58);
+        ctx.scale(1, 0.34);
+        ctx.strokeStyle = 'rgba(217, 119, 6, 0.38)';
+        ctx.lineWidth = 2.2;
+        ctx.beginPath(); ctx.arc(0, 0, cw * 0.37, 0, Math.PI * 2); ctx.stroke();
+        ctx.restore();
+
+        // 5. Non-Overlapping Tactical Positioning (Safe Zone between Top HUD and Bottom Skill Dock)
+        const arenaTop = Math.max(46, ch * 0.43);
+        const arenaBot = ch - 68;
+        const spanY = Math.max(44, arenaBot - arenaTop);
+
+        this.allies.forEach((a, i) => {
+          const col = i % 2;
+          const row = Math.floor(i / 2);
+          const bx = cw * (col === 0 ? 0.14 : 0.28);
+          const by = arenaTop + spanY * (0.26 + row * 0.48 + col * 0.10);
+          a.x = bx + (a.lunge || 0);
+          a.y = by;
+        });
+
+        this.enemies.forEach((en, i) => {
+          const cnt = this.enemies.length;
+          const bx = en.isBoss ? cw * 0.78 : cw * (i % 2 === 0 ? 0.71 : 0.85);
+          const by = en.isBoss
+            ? arenaTop + spanY * 0.52
+            : arenaTop + spanY * (0.22 + (i / Math.max(1, cnt - 1)) * 0.56);
+          en.x = bx - (en.lunge || 0);
+          en.y = by;
+        });
+
+        // 6. Render Allies & Enemies Sorted by Y-Depth
+        const renderList = [...this.allies, ...this.enemies].sort((a, b) => a.y - b.y);
+        renderList.forEach(u => {
+          const sc = u.isBoss ? 1.24 : 0.98;
+          const bob = u.brokenTimer > 0 ? 0 : Math.sin(this.tick * 0.12 + u.y) * 2.2;
+
+          ctx.save();
+          ctx.translate(u.x, u.y + bob);
+
+          // Glowing Pedestal Magic Circle
+          ctx.save();
+          ctx.scale(1, 0.35);
+          ctx.fillStyle = u.side === 'enemy' ? 'rgba(220, 38, 38, 0.26)' : 'rgba(245, 158, 11, 0.34)';
+          ctx.beginPath(); ctx.arc(0, 8, 22 * sc, 0, Math.PI * 2); ctx.fill();
+          ctx.strokeStyle = u.side === 'enemy' ? (u.brokenTimer > 0 ? '#0284c7' : '#dc2626') : '#d97706';
+          ctx.lineWidth = 2;
+          ctx.beginPath(); ctx.arc(0, 8, 20 * sc, 0, Math.PI * 2); ctx.stroke();
+          ctx.restore();
+
+          // Hero Card / Monster Standee
+          const cardW = 34 * sc;
+          const cardH = 40 * sc;
+          const x0 = -cardW / 2;
+          const y0 = -cardH + 4;
+
+          ctx.save();
+          ctx.beginPath();
+          ctx.roundRect(x0, y0, cardW, cardH, 8);
+          ctx.clip();
+
+          if (u.side === 'ally') {
+            const heroImg = this.artist.getCanvas(u);
+            ctx.drawImage(heroImg, x0, y0, cardW, cardH);
+          } else {
+            const eGrad = ctx.createLinearGradient(x0, y0, x0, y0 + cardH);
+            eGrad.addColorStop(0, u.isBoss ? '#991b1b' : '#78350f');
+            eGrad.addColorStop(1, '#1c1917');
+            ctx.fillStyle = eGrad;
+            ctx.fillRect(x0, y0, cardW, cardH);
+
+            ctx.font = `${Math.round(20 * sc)}px sans-serif`;
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            const icon = u.isBoss ? '👹' : (u.kind === 'tiger' ? '🐯' : (u.kind === 'demon' ? '👺' : '⚔️'));
+            ctx.fillText(icon, 0, y0 + cardH * 0.52);
+          }
+
+          if (u.flash > 0) {
+            ctx.fillStyle = 'rgba(239, 68, 68, 0.55)';
+            ctx.fillRect(x0, y0, cardW, cardH);
+          }
+          ctx.restore();
+
+          // Frame Border
+          ctx.strokeStyle = u.side === 'enemy' ? '#ef4444' : (u.tier === 3 ? '#f59e0b' : '#ffffff');
+          ctx.lineWidth = (u.tier === 3 || u.isBoss) ? 2.4 : 1.6;
+          ctx.beginPath();
+          ctx.roundRect(x0, y0, cardW, cardH, 8);
+          ctx.stroke();
+
+          // Element Badge on Ally Card
+          if (u.side === 'ally') {
+            ctx.font = '10px sans-serif';
+            ctx.textAlign = 'left';
+            ctx.fillText(u.elem.icon, x0 + 2, y0 + 10);
+          }
+
+          // HP & Toughness Shield Bar
+          const barY = y0 - 6;
+          const barW = 36 * sc;
+          ctx.fillStyle = 'rgba(28, 25, 23, 0.85)';
+          ctx.beginPath();
+          ctx.roundRect(-barW / 2 - 1, barY - 1, barW + 2, u.side === 'enemy' ? 7.2 : 5.2, 3);
+          ctx.fill();
+
+          ctx.fillStyle = u.side === 'ally' ? '#16a34a' : '#dc2626';
+          ctx.fillRect(-barW / 2, barY, barW * Math.max(0, u.hp / u.maxHp), 3.4);
+
+          if (u.side === 'enemy') {
+            ctx.fillStyle = u.brokenTimer > 0 ? '#0284c7' : '#f59e0b';
+            const shRatio = u.brokenTimer > 0 ? 1 : Math.max(0, u.shield / u.shieldMax);
+            ctx.fillRect(-barW / 2, barY + 4, barW * shRatio, 2);
+
+            const auraIcon = u.aura ? ELEMENTS[u.aura].icon : '';
+            const stunTxt = u.brokenTimer > 0 ? ' [기절!]' : '';
+            ctx.font = '900 8.5px sans-serif';
+            ctx.textAlign = 'center';
+            ctx.strokeStyle = '#ffffff';
+            ctx.lineWidth = 2.6;
+            ctx.strokeText(`${auraIcon}${u.name}${stunTxt}`, 0, barY - 3);
+            ctx.fillStyle = u.brokenTimer > 0 ? '#0369a1' : (u.isBoss ? '#b91c1c' : '#1c1917');
+            ctx.fillText(`${auraIcon}${u.name}${stunTxt}`, 0, barY - 3);
+          }
+
+          ctx.restore();
+        });
+
+        // 7. Drifting Cherry Blossom Petals
+        ctx.save();
+        ctx.fillStyle = 'rgba(255, 228, 230, 0.88)';
+        this.petals.forEach(p => {
+          ctx.beginPath();
+          ctx.ellipse(p.x, p.y, p.r, p.r * 0.6, p.x * 0.05, 0, Math.PI * 2);
+          ctx.fill();
+        });
+        ctx.restore();
+
+        // 8. Multi-layered Skill & Combo Particle Bursts
+        this.vfx.forEach(v => {
+          const prog = 1 - v.life / 0.36;
+          ctx.save();
+          const rad = v.r + (v.maxR - v.r) * Math.max(0, prog);
+          ctx.strokeStyle = v.color;
+          ctx.lineWidth = v.ult ? 4.5 : 2.6;
+          ctx.beginPath();
+          ctx.arc(v.x, v.y, rad, 0, Math.PI * 2);
+          ctx.stroke();
+          ctx.restore();
+        });
+
+        // 9. Floating Damage & Elemental Reaction Text
+        this.floats.forEach(ft => {
+          ctx.save();
+          ctx.globalAlpha = Math.min(1, ft.life * 1.6);
+          ctx.font = '900 11.5px sans-serif';
+          ctx.textAlign = 'center';
+          ctx.strokeStyle = '#ffffff';
+          ctx.lineWidth = 3.2;
+          ctx.strokeText(ft.text, ft.x, ft.y);
+          ctx.fillStyle = ft.color;
+          ctx.fillText(ft.text, ft.x, ft.y);
+          ctx.restore();
+        });
+
+        // 10. Ultimate Skill Cut-in Banner
+        if (this.banner) {
+          const by = ch * 0.21;
+          ctx.save();
+          ctx.globalAlpha = Math.min(1, this.banner.life * 2.4);
+          const grad = ctx.createLinearGradient(0, by, cw, by);
+          grad.addColorStop(0, 'rgba(185, 28, 28, 0.94)');
+          grad.addColorStop(0.75, 'rgba(217, 119, 6, 0.92)');
+          grad.addColorStop(1, 'rgba(217, 119, 6, 0)');
+          ctx.fillStyle = grad;
+          ctx.fillRect(0, by, cw, 30);
+          ctx.font = '900 11.5px sans-serif';
+          ctx.fillStyle = '#fef9c3';
+          ctx.textAlign = 'left';
+          ctx.fillText(this.banner.text, 12, by + 19);
+          ctx.restore();
+        }
+
+        ctx.restore();
+      }
+
+      /**
+       * =======================================================================
+       * 6. UI RENDERERS (HUD, SQUAD, GACHA, DUNGEON, MERCHANT, SYNERGY CODEX)
+       * =======================================================================
+       */
+      updateTopHud() {
+        document.getElementById('uiSilver').textContent = this.state.silver.toLocaleString();
+        document.getElementById('uiGems').textContent = this.state.gems.toLocaleString();
+        document.getElementById('uiAwaken').textContent = this.state.awaken.toLocaleString();
+
+        const syn = this.getActiveSynergies();
+        document.getElementById('uiSynCount').textContent = syn.active.length;
+
+        const diff = DIFFICULTIES[this.state.diffIdx] || DIFFICULTIES[0];
+        document.getElementById('btnDiff').textContent = `난이도: ${diff.short} ▾`;
+
+        const chTheme = CHAPTER_THEMES[(this.state.chapter - 1) % CHAPTER_THEMES.length];
+        document.getElementById('uiStageLabel').textContent = `${this.state.chapter}-${this.state.stage} ${chTheme.title} (${this.state.wave}/${this.state.waveGoal})`;
+        const pct = Math.min(100, ((this.state.wave - 1) / this.state.waveGoal) * 100);
+        document.getElementById('uiWaveBar').style.width = `${pct}%`;
+
+        const autoStageBtn = document.getElementById('btnAutoStage');
+        if (autoStageBtn) {
+          autoStageBtn.textContent = this.state.autoStage ? '🔄 자동진행 ON' : '⏸️ 반복사냥';
+          autoStageBtn.className = this.state.autoStage
+            ? 'pointer-events-auto px-2 py-0.5 rounded-full text-[10px] font-extrabold bg-emerald-700/95 text-amber-100 border border-emerald-900 shadow-xs'
+            : 'pointer-events-auto px-2 py-0.5 rounded-full text-[10px] font-extrabold bg-amber-100/95 text-amber-950 border border-amber-500 shadow-xs';
+        }
+      }
+
+      renderHeroSkillDock() {
+        const dock = document.getElementById('heroSkillDock');
+        if (!dock) return;
+        dock.innerHTML = this.allies.map((a, idx) => `
+          <button type="button" data-action="cast-ult" data-val="${idx}" class="relative w-11 h-11 rounded-full overflow-hidden border-2 rarity-${a.code} bg-[#fcf8ee] shadow-md active:scale-95" title="${a.name} 궁극기">
+            <canvas id="dockAv_${idx}" width="44" height="44" class="w-full h-full block"></canvas>
+            <div id="heroCd_${idx}" class="absolute bottom-0 left-0 right-0 bg-emerald-950/70 transition-all duration-100" style="height: 0%"></div>
+            <span class="absolute bottom-0 right-0 text-[10px] leading-none bg-white/90 rounded-tl px-0.5">${a.elem.icon}</span>
+          </button>
+        `).join('');
+
+        this.allies.forEach((a, idx) => {
+          this.artist.drawTo(document.getElementById(`dockAv_${idx}`), a);
+        });
+      }
+
+      renderAll() {
+        this.updateTopHud();
+        this.renderHeroSkillDock();
+
+        ['squad', 'roster', 'summon', 'dungeon', 'merchant'].forEach(t => {
+          const btn = document.getElementById(`tab-${t}`);
+          if (!btn) return;
+          if (t === this.state.tab) {
+            btn.className = 'py-1.5 rounded-xl text-[11px] font-extrabold bg-[#1e3a34] text-amber-200 shadow';
+          } else {
+            btn.className = 'py-1.5 rounded-xl text-[11px] font-extrabold bg-[#fcf8ee] text-[#1e3a34] border border-amber-600/20';
+          }
+        });
+
+        const body = document.getElementById('deckBody');
+        if (!body) return;
+
+        if (this.state.tab === 'squad') this.renderSquadTab(body);
+        else if (this.state.tab === 'roster') this.renderRosterTab(body);
+        else if (this.state.tab === 'summon') this.renderSummonTab(body);
+        else if (this.state.tab === 'dungeon') this.renderDungeonTab(body);
+        else if (this.state.tab === 'merchant') this.renderMerchantTab(body);
+      }
+
+      /**
+       * Dedicated Nation/Faction Mercenary & General Catalog Tab
+       */
+      renderRosterTab(body) {
+        const curFilter = this.state.nationFilter || 'ALL';
+        const ownedByLineage = new Map(this.state.roster.map(r => [r.lineageId, r]));
+
+        const filteredLineages = curFilter === 'ALL'
+          ? LINEAGES
+          : LINEAGES.filter(l => l.nation === curFilter);
+
+        body.innerHTML = `
+          <!-- Nation Filter Pills -->
+          <div class="hanji-card p-2 shrink-0">
+            <div class="flex items-center justify-between mb-1.5">
+              <span class="font-black text-xs text-[#1e3a34]">📜 국적별 장수 · 용병 도감 (${this.state.roster.length}/${LINEAGES.length}명 보유)</span>
+              <button type="button" data-action="open-synergy" class="text-[10px] font-extrabold text-amber-800 bg-amber-100 px-2 py-0.5 rounded-full border border-amber-400">
+                🔮 국적 시너지표
+              </button>
+            </div>
+            <div class="flex items-center gap-1 overflow-x-auto scroll-thin pb-0.5">
+              ${NATIONS_META.map(nat => {
+                const totalInNat = nat.id === 'ALL' ? LINEAGES.length : LINEAGES.filter(l => l.nation === nat.id).length;
+                const ownedInNat = nat.id === 'ALL'
+                  ? this.state.roster.length
+                  : LINEAGES.filter(l => l.nation === nat.id && ownedByLineage.has(l.id)).length;
+                const active = curFilter === nat.id;
+                return `
+                  <button type="button" data-action="filter-nation" data-val="${nat.id}" class="px-2.5 py-1 rounded-full text-[11px] font-extrabold shrink-0 border transition-all ${active ? 'bg-[#1e3a34] text-amber-200 border-[#1e3a34] shadow-xs' : 'bg-white text-[#1e3a34] border-amber-500/30'}">
+                    ${nat.icon} ${nat.label} <span class="opacity-80">(${ownedInNat}/${totalInNat})</span>
+                  </button>
+                `;
+              }).join('')}
+            </div>
+          </div>
+
+          <!-- Nation Unit Cards Grid -->
+          <div class="grid grid-cols-2 sm:grid-cols-3 gap-2">
+            ${filteredLineages.map((lin, idx) => {
+              const owned = ownedByLineage.get(lin.id);
+              const tier = owned ? owned.tier : 0;
+              const spec = getHeroSpec(lin.id, tier);
+              const comp = owned ? this.computeHero(owned) : null;
+              const inParty = owned && this.state.party.includes(owned.uid);
+              const natMeta = NATIONS_META.find(n => n.id === lin.nation) || { icon: '🚩' };
+
+              return `
+                <div class="hanji-card p-2 flex flex-col justify-between border-2 ${owned ? `rarity-${spec.code}` : 'border-stone-300 opacity-75'}">
+                  <div>
+                    <!-- Top Nation & Role Header -->
+                    <div class="flex items-center justify-between gap-1 mb-1">
+                      <span class="px-1.5 py-0.5 rounded-full text-[9px] font-black bg-[#e6f0ec] text-[#1e3a34] border border-emerald-700/20">
+                        ${natMeta.icon} ${lin.nation}
+                      </span>
+                      <span class="text-[9px] font-extrabold text-stone-600">${lin.role} · ${spec.elem.icon}</span>
+                    </div>
+
+                    <!-- Portrait + Name -->
+                    <div class="flex items-center gap-2">
+                      <div class="relative w-12 h-14 rounded-xl overflow-hidden border rarity-${spec.code} shrink-0 bg-stone-100">
+                        <canvas id="natAv_${idx}" width="48" height="56" class="w-full h-full block ${owned ? '' : 'grayscale'}"></canvas>
+                        <span class="absolute top-0 left-0 px-1 text-[8px] font-black bg-amber-500 text-white rounded-br">${spec.code}</span>
+                      </div>
+                      <div class="min-w-0 flex-1">
+                        <div class="font-black text-xs truncate text-[#1e3a34]">${spec.name}</div>
+                        <div class="text-[9.5px] font-bold text-amber-800">${spec.tierLabel}</div>
+                        ${owned ? `
+                          <div class="text-[9.5px] font-extrabold text-emerald-800 mt-0.5">Lv.${owned.lv} · ${'★'.repeat(owned.stars || 1)}</div>
+                          <div class="text-[9px] text-stone-600 font-bold">⚔️ ${comp.atk.toLocaleString()}</div>
+                        ` : `
+                          <div class="text-[9.5px] font-extrabold text-stone-400 mt-1">🔒 미보유 장수</div>
+                        `}
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Bottom Action Row -->
+                  <div class="mt-2 pt-1.5 border-t border-amber-500/20 flex gap-1">
+                    ${owned ? `
+                      <button type="button" data-action="toggle-party" data-val="${owned.uid}" class="flex-1 py-1 rounded-lg text-[10px] font-extrabold ${inParty ? 'bg-emerald-700 text-white' : 'bg-[#e6f0ec] text-[#1e3a34] border border-emerald-700/30'}">
+                        ${inParty ? '✓ 출전중' : '+ 출전배치'}
+                      </button>
+                      <button type="button" data-action="inspect-hero" data-val="${owned.uid}" class="px-2 py-1 rounded-lg text-[10px] font-extrabold bg-amber-100 text-amber-900 border border-amber-400">
+                        성장
+                      </button>
+                    ` : `
+                      <button type="button" data-action="tab" data-val="summon" class="w-full py-1 rounded-lg text-[10px] font-extrabold bg-stone-200 text-stone-700">
+                        🔮 태극소환에서 영입
+                      </button>
+                    `}
+                  </div>
+                </div>
+              `;
+            }).join('')}
+          </div>
+        `;
+
+        filteredLineages.forEach((lin, idx) => {
+          const owned = ownedByLineage.get(lin.id);
+          const spec = getHeroSpec(lin.id, owned ? owned.tier : 0);
+          this.artist.drawTo(document.getElementById(`natAv_${idx}`), spec);
+        });
+      }
+
+      renderSummonTab(body) {
+        const pityLeft = 80 - this.state.pity;
+        body.innerHTML = `
+          <div class="hanji-card p-3 flex flex-col gap-2.5">
+            <div class="flex items-center justify-between">
+              <div>
+                <h3 class="font-black text-sm text-[#1e3a34]">🔮 천명 영웅 소환 제단</h3>
+                <p class="text-[11px] text-stone-600">일반(N) 62% · 희귀(R) 26% · 영웅(SR) 10.5% · 신화(SSR) 1.5%</p>
+              </div>
+              <span class="jade-pill bg-amber-100 border-amber-400 text-amber-900">천장까지 ${pityLeft}회</span>
+            </div>
+
+            <div class="w-full h-2.5 bg-stone-200 rounded-full overflow-hidden border border-amber-500/30">
+              <div class="h-full bg-gradient-to-r from-emerald-500 via-amber-400 to-red-500 transition-all" style="width: ${(this.state.pity / 80) * 100}%"></div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-2 pt-1">
+              <button type="button" data-action="summon" data-val="1" class="jade-btn py-3 px-2 flex flex-col items-center" ${this.state.gems < 300 ? 'disabled' : ''}>
+          <!-- Owned Roster Bench for Deck Swapping -->
+          <div class="hanji-card p-2">
+            <div class="flex items-center justify-between mb-1.5">
+              <span class="text-[11px] font-black">📋 보유 장수 빠른 편성 (터치하여 출전/교체)</span>
+              <button type="button" data-action="tab" data-val="roster" class="text-[10px] font-extrabold text-emerald-800 underline">
+                국적별 전체보기 ▸
+              </button>
+            </div>
+
+            <div class="bg-[#e6f0ec] rounded-xl p-2 text-[11px] text-[#1e3a34] font-bold">
+              💡 보유 중인 영웅이 중복 소환되면 자동으로 <strong>영혼 조각(★돌파 재료)</strong>과 <strong>🔮 각성석</strong>으로 변환됩니다.
+            </div>
+          </div>
+        `;
+      }
+
+      summonHeroes(count) {
+        const cost = count === 10 ? 2700 : 300;
+        if (this.state.gems < cost) {
+          this.sfx.play('error');
+          this.toast(`💎 영혼석이 부족합니다! (${cost.toLocaleString()}개 필요)`);
+          return;
+        }
+
+        this.state.gems -= cost;
+        this.sfx.play('ult');
+        const results = [];
+
+        for (let i = 0; i < count; i++) {
+          this.state.pity += 1;
+          let tier = 0;
+          if (this.state.pity >= 80) {
+            tier = 3;
+            this.state.pity = 0;
+          } else {
+            const roll = Math.random() * 100;
+            if (roll < 1.5) { tier = 3; this.state.pity = 0; }
+            else if (roll < 12.0) tier = 2;
+            else if (roll < 38.0) tier = 1;
+            else tier = 0;
+          }
+
+          const lin = LINEAGES[Math.floor(Math.random() * LINEAGES.length)];
+          const spec = getHeroSpec(lin.id, tier);
+          const existing = this.state.roster.find(r => r.lineageId === lin.id);
+
+          let note = '신규 영입!';
+          if (existing) {
+            const shardGain = [5, 12, 25, 50][tier];
+            const awakenGain = [1, 2, 5, 12][tier];
+            existing.shards = (existing.shards || 0) + shardGain;
+            this.state.awaken += awakenGain;
+            if (tier > existing.tier) {
+              existing.tier = tier;
+              note = `즉시 승급 + 조각 ${shardGain}!`;
+            } else {
+              note = `조각 +${shardGain} · 🔮+${awakenGain}`;
+            }
+          } else {
+            this.state.roster.push({
+              uid: `u${Date.now()}_${i}`,
+              lineageId: lin.id,
+              tier,
+              lv: 1,
+              stars: 1,
+              shards: 5
+            });
+          }
+          results.push({ spec, note });
+        }
+
+        this.spawnWave();
+        this.renderAll();
+
+        const html = `
+          <div class="grid ${count === 10 ? 'grid-cols-2' : 'grid-cols-1'} gap-2">
+            ${results.map((res, idx) => `
+              <div class="p-2 rounded-xl border-2 rarity-${res.spec.code} bg-white flex items-center gap-2">
+                <canvas id="pullAv_${idx}" width="42" height="46" class="rounded-lg shrink-0"></canvas>
+                <div class="min-w-0">
+                  <div class="flex items-center gap-1">
+                    <span class="px-1 rounded text-[9px] font-black bg-amber-500 text-white">${res.spec.code}</span>
+                    <span class="font-black text-xs truncate">${res.spec.name}</span>
+                  </div>
+                  <div class="text-[10px] text-emerald-800 font-bold">${res.note}</div>
+                </div>
+              </div>
+            `).join('')}
+          </div>
+        `;
+        this.openModal(`✨ ${count}회 소환 결과`, html);
+        results.forEach((res, idx) => {
+          this.artist.drawTo(document.getElementById(`pullAv_${idx}`), res.spec);
+        });
+      }
+
+      /**
+       * 5x5 Awakening Dungeon Minimap
+       */
+      initDungeon(floor) {
+        const types = ['chest', 'mob', 'mob', 'shrine', 'empty', 'chest', 'mob'];
+        const tiles = [];
+        for (let i = 0; i < 25; i++) {
+          let type = 'empty';
+          if (i === 0) type = 'start';
+          else if (i === 24) type = 'boss';
+          else type = types[Math.floor(Math.random() * types.length)];
+          tiles.push({ idx: i, type, revealed: i === 0 || i === 1 || i === 5, cleared: i === 0 });
+        }
+        this.state.dungeon.floor = floor;
+        this.state.dungeon.pos = 0;
+        this.state.dungeon.tiles = tiles;
+      }
+
+      isAdjacent(a, b) {
+        const ax = a % 5, ay = Math.floor(a / 5);
+        const bx = b % 5, by = Math.floor(b / 5);
+        return Math.abs(ax - bx) + Math.abs(ay - by) === 1;
+      }
+
+      stepDungeon(idx) {
+        const d = this.state.dungeon;
+        if (idx === d.pos) return;
+        const tile = d.tiles[idx];
+        if (!tile) return;
+
+        if (!this.isAdjacent(d.pos, idx) && !tile.cleared) {
+          this.sfx.play('error');
+          this.toast('인접한 칸으로만 이동할 수 있습니다!');
+          return;
+        }
+
+        d.pos = idx;
+        tile.revealed = true;
+        d.tiles.forEach(t => {
+          if (this.isAdjacent(idx, t.idx)) t.revealed = true;
+        });
+
+        const floorMult = 1 + (d.floor - 1) * 0.35;
+        if (!tile.cleared) {
+          tile.cleared = true;
+          if (tile.type === 'chest') {
+            const aw = Math.round(3 * floorMult);
+            const sc = Math.round(2 * floorMult);
+            this.state.awaken += aw;
+            this.state.scrolls += sc;
+            this.sfx.play('coin');
+            this.toast(`🎁 보물상자! 🔮각성석 +${aw} · 📜전직서 +${sc}`);
+          } else if (tile.type === 'mob') {
+            const sil = Math.round(1400 * floorMult);
+            const aw = Math.round(2 * floorMult);
+            this.state.silver += sil;
+            this.state.awaken += aw;
+            this.sfx.play('hit');
+            this.toast(`⚔️ 수호병 격파! +${sil.toLocaleString()}🪙 · 🔮+${aw}`);
+          } else if (tile.type === 'shrine') {
+            this.chainGauge = 100;
+            this.allies.forEach(a => { a.hp = a.maxHp; });
+            this.sfx.play('combo');
+            this.toast('⛩️ 선인의 제단! 부대 생명력 회복 & 협동 공명 100%!');
+          } else if (tile.type === 'boss') {
+            const aw = Math.round(10 * floorMult);
+            const sc = Math.round(6 * floorMult);
+            const gm = Math.round(250 * floorMult);
+            this.state.awaken += aw;
+            this.state.scrolls += sc;
+            this.state.gems += gm;
+            this.sfx.play('ult');
+            this.toast(`👹 ${d.floor}층 수호마왕 격파! 🔮+${aw} · 📜+${sc} · 💎+${gm}`);
+            this.initDungeon(d.floor + 1);
+          } else {
+            this.sfx.play('tap');
+          }
+        } else {
+          this.sfx.play('tap');
+        }
+
+        this.updateTopHud();
+        if (this.state.tab === 'dungeon') this.renderAll();
+      }
+
+      autoStepDungeon() {
+        const d = this.state.dungeon;
+        const neighbors = d.tiles.filter(t => this.isAdjacent(d.pos, t.idx));
+        const unvisited = neighbors.filter(t => !t.cleared);
+        const pick = unvisited.length > 0
+          ? unvisited[Math.floor(Math.random() * unvisited.length)]
+          : neighbors[Math.floor(Math.random() * neighbors.length)];
+        if (pick) this.stepDungeon(pick.idx);
+      }
+
+      renderDungeonTab(body) {
+        const d = this.state.dungeon;
+        const iconMap = {
+          start: '🚩',
+          chest: '🎁',
+          mob: '⚔️',
+          shrine: '⛩️',
+          boss: '👹',
+          empty: '🌿'
+        };
+
+        body.innerHTML = `
+          <div class="hanji-card p-2.5 flex flex-col gap-2">
+            <div class="flex items-center justify-between">
+              <div>
+                <span class="font-black text-sm">🗺️ 각성 미궁 제${d.floor}층</span>
+                <span class="text-[11px] text-emerald-800 font-bold ml-1.5">🔮각성석 · 📜전직서 수급</span>
+              </div>
+              <button type="button" data-action="toggle-auto-dungeon" class="px-2.5 py-1 rounded-full text-[11px] font-extrabold ${d.auto ? 'bg-emerald-700 text-white' : 'bg-[#e6f0ec] text-[#1e3a34] border border-emerald-700/30'}">
+                ${d.auto ? '⚡ 자동탐험 ON' : '🧭 자동탐험 OFF'}
+              </button>
+            </div>
+
+            <div class="grid grid-cols-5 gap-1.5 max-w-[310px] w-full mx-auto">
+              ${d.tiles.map(t => {
+                const isHere = t.idx === d.pos;
+                const canStep = this.isAdjacent(d.pos, t.idx);
+                let bg = 'bg-stone-300/80 border-stone-400 text-stone-500';
+                let label = '?';
+                if (t.revealed) {
+                  bg = t.cleared ? 'bg-emerald-50 border-emerald-300' : 'bg-amber-50 border-amber-400';
+                  label = iconMap[t.type] || '🌿';
+                }
+                if (isHere) {
+                  bg = 'bg-amber-300 border-amber-700 ring-2 ring-amber-500';
+                  label = '🏇';
+                } else if (canStep) {
+                  bg += ' ring-1 ring-emerald-600';
+                }
+                return `
+                  <button type="button" data-action="step-dungeon" data-val="${t.idx}" class="aspect-square rounded-xl border-2 flex items-center justify-center text-base font-bold shadow-xs ${bg}">
+                    ${label}
+                  </button>
+                `;
+              }).join('')}
+            </div>
+
+            <div class="text-center text-[10px] font-bold text-stone-600">
+              인접한 칸을 터치해 안개를 밝히고 우측 하단 👹 보스를 처치해 다음 층으로 올라가세요.
+            </div>
+          </div>
+        `;
+      }
+
+      renderMerchantTab(body) {
+        const tr = this.state.trade;
+        const route = TRADE_ROUTES[tr.routeIdx] || TRADE_ROUTES[0];
+        const pct = Math.min(100, (tr.progress / route.time) * 100);
+        const g = this.state.gear;
+
+        const gearItems = [
+          { key: 'weapon', name: '명품 보검', lv: g.weapon, stat: `공격력 +${g.weapon * 45}`, cost: 500 + g.weapon * 350, icon: '⚔️' },
+          { key: 'armor',  name: '황금 갑주', lv: g.armor,  stat: `생명 +${g.armor * 240}`, cost: 500 + g.armor * 350, icon: '🛡️' },
+          { key: 'relic',  name: '태극 옥새', lv: g.relic,  stat: `공격력 +${g.relic * 30}`,  cost: 500 + g.relic * 350, icon: '🏺' }
+        ];
+
+        body.innerHTML = `
+          <!-- Merchant Caravan Section -->
+          <div class="hanji-card p-2.5 flex flex-col gap-2">
+            <div class="flex items-center justify-between">
+              <button type="button" data-action="cycle-route" class="font-black text-xs text-[#1e3a34] bg-amber-100 px-2.5 py-1 rounded-full border border-amber-400">
+                ${route.icon} ${route.name} ▾
+              </button>
+              <button type="button" data-action="toggle-auto-trade" class="px-2 py-1 rounded-full text-[10px] font-extrabold ${tr.auto ? 'bg-emerald-700 text-white' : 'bg-stone-200 text-stone-700'}">
+                ${tr.auto ? '🔄 자동교역 ON' : '수동교역'}
+              </button>
+            </div>
+
+            <div class="w-full h-2.5 bg-stone-200 rounded-full overflow-hidden">
+              <div id="tradeProgressBar" class="h-full bg-gradient-to-r from-amber-500 to-emerald-600 transition-all duration-150" style="width: ${pct}%"></div>
+            </div>
+
+            <div class="flex items-center justify-between text-[11px] font-bold">
+              <span>보상: <strong class="text-amber-800">+${route.silver.toLocaleString()}🪙</strong> · <strong class="text-sky-700">+${route.gems}💎</strong></span>
+              <button type="button" data-action="start-trade" class="jade-btn px-3 py-1 text-[11px]">
+                ${tr.running ? '교역 운행중...' : '🚢 상단 출발'}
+              </button>
+            </div>
+          </div>
+
+          <!-- +15 Blacksmith Refinement -->
+          <div class="hanji-card p-2.5 flex flex-col gap-1.5">
+            <div class="font-black text-xs">🔨 대장간 공용 장비 제련 (최대 +15강)</div>
+            <div class="grid grid-cols-3 gap-1.5">
+              ${gearItems.map(it => `
+      openDifficultyModal() {
+        const curDiff = this.state.diffIdx;
+        const html = `
+          <p class="text-[11px] text-stone-600 font-bold">
+            높은 난이도를 선택할수록 적의 <strong>체력·방어력·공격력</strong>이 크게 상승하지만, <strong>엽전·영혼석 보상 배율</strong>이 폭발적으로 증가합니다.
+          </p>
+          <div class="space-y-1.5">
+            ${DIFFICULTIES.map(d => {
+              const isCur = d.idx === curDiff;
+              return `
+                <button type="button" data-action="set-diff" data-val="${d.idx}" class="w-full p-2.5 rounded-xl border-2 text-left flex items-center justify-between transition-all ${isCur ? 'bg-amber-100 border-amber-500 shadow-xs' : 'bg-white border-stone-200 hover:border-amber-300'}">
+                  <div>
+                    <div class="font-black text-xs text-[#1e3a34]">${d.label}</div>
+                    <div class="text-[10px] text-stone-600 font-bold">
+                      적 체력 ×${d.hpMult.toLocaleString()} · 방어 +${d.defBonus} · <span class="text-amber-800">보상 ×${d.rewardMult}</span>
+                    </div>
+                  </div>
+                  <span class="px-2 py-0.5 rounded-full text-[10px] font-black ${isCur ? 'bg-[#1e3a34] text-amber-200' : 'bg-stone-100 text-stone-500'}">
+                    ${isCur ? '적용중' : '선택'}
+                  </span>
+                </button>
+              `;
+            }).join('')}
+          </div>
+        `;
+        this.openModal('⚔️ 전장 난이도 조절', html);
+      }
+
+      openSynergyModal() {
+        const { list } = this.getActiveSynergies();
+        const html = `
+          <div class="space-y-1.5">
+            <div class="font-black text-xs text-emerald-900">📜 진영 · 역할군 실시간 시너지</div>
+            ${list.map(s => `
+              <div class="p-2 rounded-xl border ${s.active ? 'bg-emerald-50 border-emerald-600' : 'bg-white/80 border-stone-200'} flex items-center justify-between">
+                <div>
+                  <div class="font-black text-xs ${s.active ? 'text-emerald-900' : 'text-stone-700'}">${s.label}</div>
+                  <div class="text-[11px] text-amber-800 font-bold">${s.desc}</div>
+                </div>
+                <span class="px-2 py-0.5 rounded-full text-[10px] font-black ${s.active ? 'bg-emerald-700 text-white' : 'bg-stone-200 text-stone-600'}">
+                  ${s.active ? '발동중' : `${s.cur}/${s.req}`}
+                </span>
+              </div>
+            `).join('')}
+          </div>
+
+          <div class="pt-2 border-t border-amber-500/30 space-y-1">
+            <div class="font-black text-xs text-amber-900">⚡ 4대 원소 연쇄 반응 가이드</div>
+            <div class="p-2 rounded-xl bg-amber-50 border border-amber-300 text-[11px] space-y-1 font-bold">
+              <div>🔥 화염 + ⚡ 뇌전 = <span class="text-orange-700">💥 과부하 대폭발 (광역 추가피해)</span></div>
+              <div>🌊 수빙 + ⚡ 뇌전 = <span class="text-sky-700">❄️ 초전도 빙결 (적 행동 기절)</span></div>
+              <div>🔥 화염 + 🌊 수빙 = <span class="text-blue-700">💨 증발 연쇄일격 (강인도 대폭 파괴)</span></div>
+              <div>✨ 천상 + 타원소 = <span class="text-amber-700">☀️ 천벌 성광폭발 (최대 연쇄 피해)</span></div>
+            </div>
+          </div>
+        `;
+        this.openModal('🔮 진영 · 병과 · 원소 시너지 도감', html);
+      }
+    }
+
+    /**
+     * =========================================================================
+     * 7. GLOBAL ACTION DELEGATOR
+     * =========================================================================
+     */
+    const game = new GersangEmpireGame();
+
+    document.addEventListener('click', e => {
+      const btn = e.target.closest('[data-action]');
+      if (!btn) {
+        if (e.target.id === 'modalOverlay') game.closeModal();
+        return;
+      }
+
+      const action = btn.dataset.action;
+      const val = btn.dataset.val;
+
+      if (action === 'tab') {
+        game.sfx.play('tap');
+        game.state.tab = val;
+        game.renderAll();
+      } else if (action === 'toggle-auto') {
+        game.state.autoBattle = !game.state.autoBattle;
+        const el = document.getElementById('btnAuto');
+        el.textContent = game.state.autoBattle ? '⚡자동' : '🖐️수동';
+        el.className = game.state.autoBattle
+          ? 'px-2 py-1 rounded-full text-[11px] font-extrabold bg-emerald-700 text-white border border-emerald-900'
+          : 'px-2 py-1 rounded-full text-[11px] font-extrabold bg-stone-200 text-stone-800 border border-stone-400';
+        game.sfx.play('tap');
+      } else if (action === 'toggle-sound') {
+        game.sfx.enabled = !game.sfx.enabled;
+        document.getElementById('btnSound').textContent = game.sfx.enabled ? '🔊' : '🔇';
+        if (game.sfx.enabled) game.sfx.play('tap');
+      } else if (action === 'open-diff') {
+        game.sfx.play('tap');
+        game.openDifficultyModal();
+      } else if (action === 'set-diff') {
+        game.state.diffIdx = parseInt(val, 10) || 0;
+        game.state.wave = 1;
+        game.sfx.play('ult');
+        game.closeModal();
+        game.spawnWave();
+        game.saveState();
+        game.toast(`난이도 변경: ${DIFFICULTIES[game.state.diffIdx].label}`);
+      } else if (action === 'stage-prev') {
+        if (game.state.stage > 1) {
+          game.state.stage -= 1;
+        } else if (game.state.chapter > 1) {
+          game.state.chapter -= 1;
+          game.state.stage = 10;
+        } else {
+          game.sfx.play('error');
+          game.toast('가장 첫 번째 스테이지입니다.');
+          return;
+        }
+        game.state.wave = 1;
+        game.sfx.play('tap');
+        game.spawnWave();
+      } else if (action === 'stage-next') {
+        game.state.stage += 1;
+        if (game.state.stage > 10) {
+          game.state.stage = 1;
+          game.state.chapter += 1;
+        }
+        game.state.wave = 1;
+        game.sfx.play('tap');
+        game.spawnWave();
+        game.toast(`제${game.state.chapter}장 ${game.state.chapter}-${game.state.stage} 스테이지 이동`);
+      } else if (action === 'stage-boss') {
+        game.state.wave = 5;
+        game.sfx.play('ult');
+        game.spawnWave();
+        game.toast(`👹 ${game.state.chapter}-${game.state.stage} 스테이지 보스 즉시 소환!`);
+      } else if (action === 'toggle-auto-stage') {
+        game.state.autoStage = !game.state.autoStage;
+        game.sfx.play('tap');
+        game.updateTopHud();
+      } else if (action === 'filter-nation') {
+        game.state.nationFilter = val;
+        game.sfx.play('tap');
+        game.renderAll();
+      } else if (action === 'inspect-hero') {
+        if (!game.state.party.includes(val)) {
+          if (game.state.party.length >= 4) game.state.party.shift();
+          game.state.party.push(val);
+        }
+        game.state.selectedSlot = game.state.party.indexOf(val);
+        game.state.tab = 'squad';
+        game.sfx.play('tap');
+        game.spawnWave();
+        game.renderAll();
+      } else if (action === 'open-synergy') {
+        game.sfx.play('tap');
+        game.openSynergyModal();
+      } else if (action === 'close-modal') {
+        game.sfx.play('tap');
+        game.closeModal();
+      } else if (action === 'cast-ult') {
+        const idx = parseInt(val, 10);
+        const ally = game.allies[idx];
+        if (ally) game.castSkill(ally, 2, true);
+      } else if (action === 'trigger-chain') {
+        game.triggerChainUlt();
+      } else if (action === 'select-slot') {
+        game.sfx.play('tap');
+        game.state.selectedSlot = parseInt(val, 10);
+        game.renderAll();
+      } else if (action === 'level-up') {
+        const h = game.state.roster.find(r => r.uid === val);
+        if (!h) return;
+        const cost = 300 + h.lv * 90;
+        if (game.state.silver < cost) {
+          game.sfx.play('error');
+          game.toast('🪙 엽전이 부족합니다!');
+          return;
+        }
+        game.state.silver -= cost;
+        h.lv += 1;
+        game.sfx.play('coin');
+        game.spawnWave();
+        game.renderAll();
+      } else if (action === 'star-up') {
+        const h = game.state.roster.find(r => r.uid === val);
+        if (!h || (h.stars || 1) >= 6) return;
+        const req = (h.stars || 1) * 15;
+        if ((h.shards || 0) < req) {
+          game.sfx.play('error');
+          game.toast(`영혼 조각이 부족합니다! (${req}개 필요)`);
+          return;
+        }
+        h.shards -= req;
+        h.stars = (h.stars || 1) + 1;
+        game.sfx.play('ult');
+        game.toast(`⭐ ${h.stars}성 돌파 성공!`);
+        game.spawnWave();
+        game.renderAll();
+      } else if (action === 'promote') {
+        const h = game.state.roster.find(r => r.uid === val);
+        if (!h || h.tier >= 3) return;
+        const nt = TIERS[h.tier + 1];
+        if (h.lv < nt.reqLv) {
+          game.sfx.play('error');
+          game.toast(`레벨 ${nt.reqLv} 달성 후 전직할 수 있습니다!`);
+          return;
+        }
+        if (game.state.awaken < nt.awaken || game.state.scrolls < nt.scrolls || game.state.silver < nt.silver) {
+          game.sfx.play('error');
+          game.toast(`전직 재료 부족! (🔮${nt.awaken}, 📜${nt.scrolls}, ${nt.silver.toLocaleString()}🪙)`);
+          return;
+        }
+        game.state.awaken -= nt.awaken;
+        game.state.scrolls -= nt.scrolls;
+        game.state.silver -= nt.silver;
+        h.tier += 1;
+        game.sfx.play('ult');
+        game.toast(`🔥 [${getHeroSpec(h.lineageId, h.tier).name}] 전직 완료!`);
+        game.spawnWave();
+        game.renderAll();
+      } else if (action === 'toggle-party') {
+        const idx = game.state.party.indexOf(val);
+        if (idx >= 0) {
+          if (game.state.party.length <= 1) {
+            game.sfx.play('error');
+            game.toast('최소 1명의 장수는 출전해야 합니다!');
+            return;
+          }
+          game.state.party.splice(idx, 1);
+        } else {
+          if (game.state.party.length >= 4) {
+            game.state.party.shift();
+          }
+          game.state.party.push(val);
+        }
+        game.sfx.play('tap');
+        game.spawnWave();
+        game.saveState();
+        game.renderAll();
+      } else if (action === 'summon') {
+        game.summonHeroes(parseInt(val, 10));
+        game.saveState();
+      } else if (action === 'step-dungeon') {
+        game.stepDungeon(parseInt(val, 10));
+        game.saveState();
+      } else if (action === 'toggle-auto-dungeon') {
+        game.state.dungeon.auto = !game.state.dungeon.auto;
+        game.sfx.play('tap');
+        game.renderAll();
+      } else if (action === 'cycle-route') {
+        game.state.trade.routeIdx = (game.state.trade.routeIdx + 1) % TRADE_ROUTES.length;
+        game.state.trade.progress = 0;
+        game.sfx.play('tap');
+        game.renderAll();
+      } else if (action === 'toggle-auto-trade') {
+        game.state.trade.auto = !game.state.trade.auto;
+        if (game.state.trade.auto) game.state.trade.running = true;
+        game.sfx.play('tap');
+        game.renderAll();
+      } else if (action === 'start-trade') {
+        game.state.trade.running = true;
+        game.sfx.play('tap');
+        game.renderAll();
+      } else if (action === 'refine') {
+        const curLv = game.state.gear[val] || 0;
+        if (curLv >= 15) return;
+        const cost = 500 + curLv * 350;
+        if (game.state.silver < cost) {
+          game.sfx.play('error');
+          game.toast('🪙 엽전이 부족합니다!');
+          return;
+        }
+        game.state.silver -= cost;
+        game.state.gear[val] = curLv + 1;
+        game.sfx.play('coin');
+        game.toast(`🔨 제련 성공! +${curLv + 1}강 달성!`);
+        game.spawnWave();
+        game.renderAll();
+      } else if (action === 'upload-hero') {
+        game._uploadHeroLineage = val;
+        document.getElementById('heroImgInput').click();
+      } else if (action === 'upload-bg') {
+        document.getElementById('bgImgInput').click();
+      }
+    });
+  </script>
+</body>
+</html>
