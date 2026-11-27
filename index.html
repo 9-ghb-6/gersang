@@ -1,0 +1,3481 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>천하제일거상: 아트워크 리마스터 에디션</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@600;700;900&family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --wood-dark: #1c120a;
+            --wood-mid: #362213;
+            --wood-border: #6e4b2a;
+            --gold-trim: #e8c35a;
+            --hanji-bg: #efe3ca;
+            --hanji-card: #f7eedb;
+            --hanji-slot: #decba6;
+            --ink-dark: #23150b;
+        }
+
+        * {
+            -webkit-tap-highlight-color: transparent;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #0d0805;
+            color: #f6ecd7;
+            font-family: 'Noto Sans KR', sans-serif;
+            background-image:
+                radial-gradient(circle at 50% 0%, rgba(232, 195, 90, 0.14) 0%, transparent 55%),
+                radial-gradient(circle at 15% 90%, rgba(185, 28, 28, 0.12) 0%, transparent 50%);
+            user-select: none;
+            overflow-x: hidden;
+        }
+
+        .font-serif-kr {
+            font-family: 'Noto Serif KR', serif;
+        }
+
+        /* 원목 프레임 */
+        .wood-frame {
+            background: linear-gradient(180deg, #332012 0%, #190f08 100%);
+            border: 2.5px solid #7c5630;
+            box-shadow: 0 14px 40px rgba(0, 0, 0, 0.9), inset 0 1px 0 rgba(255, 236, 179, 0.28);
+        }
+
+        /* 전통 한지(韓紙) 질감 패널 */
+        .hanji-surface {
+            background-color: var(--hanji-bg);
+            background-image:
+                radial-gradient(rgba(58, 39, 24, 0.09) 1px, transparent 0),
+                linear-gradient(180deg, #f5ead4 0%, #e0cfa9 100%);
+            background-size: 12px 12px, 100% 100%;
+            border: 2px solid #4a311c;
+            box-shadow: inset 0 0 16px rgba(46, 30, 16, 0.25);
+            color: var(--ink-dark);
+        }
+
+        .hanji-card {
+            background: linear-gradient(180deg, #fbf4e4 0%, #ead8b5 100%);
+            border: 1.5px solid #7c5832;
+            box-shadow: 0 2px 5px rgba(35, 21, 11, 0.16);
+        }
+
+        .wood-tab-btn {
+            background: linear-gradient(180deg, #52361e 0%, #2c1b0e 100%);
+            border: 1.5px solid #8a6239;
+            color: #e6d5b8;
+            font-weight: 700;
+            transition: all 0.1s ease;
+        }
+        .wood-tab-btn.active {
+            background: linear-gradient(180deg, #f5ead4 0%, #dfc99f 100%);
+            border-color: #4a311c;
+            border-bottom-color: #efe3ca;
+            color: #23150b;
+            font-weight: 900;
+            box-shadow: 0 -2px 6px rgba(0,0,0,0.2);
+        }
+
+        .gold-action-btn {
+            background: linear-gradient(180deg, #e0a934 0%, #996411 100%);
+            border: 1.5px solid #fff0a6;
+            color: #fffbeb;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.85);
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.45);
+            transition: transform 0.08s ease;
+        }
+        .gold-action-btn:active:not(:disabled) { transform: scale(0.96); }
+        .gold-action-btn:disabled { opacity: 0.45; filter: grayscale(0.75); cursor: not-allowed; }
+
+        .crimson-action-btn {
+            background: linear-gradient(180deg, #dc2626 0%, #7f1d1d 100%);
+            border: 1.5px solid #fecaca;
+            color: #fff;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.85);
+            box-shadow: 0 3px 10px rgba(185, 28, 28, 0.5);
+            transition: transform 0.08s ease;
+        }
+        .crimson-action-btn:active:not(:disabled) { transform: scale(0.96); }
+
+        .hanji-action-btn {
+            background: linear-gradient(180deg, #fcf6e8 0%, #d8c398 100%);
+            border: 1.5px solid #593b20;
+            color: #23150b;
+            font-weight: 800;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            transition: transform 0.08s ease;
+        }
+        .hanji-action-btn:active:not(:disabled) { transform: scale(0.96); }
+        .hanji-action-btn:disabled { opacity: 0.45; cursor: not-allowed; }
+
+        /* 세로 한손 모드 vs 가로 와이드 모드 */
+        .device-shell {
+            transition: max-width 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+            margin: 0 auto;
+            width: 100%;
+            position: relative;
+        }
+        .device-shell.mode-portrait {
+            max-width: 440px;
+            border-radius: 26px;
+        }
+        .device-shell.mode-landscape {
+            max-width: 1060px;
+            border-radius: 20px;
+        }
+
+        /* 인벤토리/대장간 정사각형 제련 슬롯 (컨셉 아트 재현) */
+        .gear-square-slot {
+            aspect-ratio: 1 / 1;
+            border-radius: 8px;
+            border: 2px solid #5c3e21;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.45), 0 2px 4px rgba(0, 0, 0, 0.25);
+            transition: transform 0.1s ease, border-color 0.1s ease;
+        }
+        .gear-square-slot:active { transform: scale(0.95); }
+        .slot-bg-UR  { background: radial-gradient(circle, #7f1d1d 0%, #3b0764 100%); border-color: #fde047; }
+        .slot-bg-SSR { background: radial-gradient(circle, #92400e 0%, #451a03 100%); border-color: #f59e0b; }
+        .slot-bg-SR  { background: radial-gradient(circle, #1e3a8a 0%, #172554 100%); border-color: #60a5fa; }
+        .slot-bg-R   { background: radial-gradient(circle, #14532d 0%, #052e16 100%); border-color: #4ade80; }
+
+        /* 불꽃 전직 승급 카드 애니메이션 */
+        @keyframes firePulse {
+            0%, 100% { box-shadow: 0 0 10px rgba(249, 115, 22, 0.7), inset 0 0 12px rgba(239, 68, 68, 0.8); }
+            50% { box-shadow: 0 0 20px rgba(250, 204, 21, 0.95), inset 0 0 18px rgba(249, 115, 22, 0.95); }
+        }
+        .fire-promote-card {
+            background: radial-gradient(circle at 50% 60%, #f97316 0%, #b91c1c 48%, #290d09 100%);
+            border: 2px solid #fde047;
+            animation: firePulse 1.6s infinite;
+        }
+
+        /* 가챠 카드 등급 스타일 */
+        .card-UR  { background: linear-gradient(135deg, #450a0a 0%, #7f1d1d 40%, #78350f 75%, #3b0764 100%); border-color: #fde047 !important; color: #fef9c3; box-shadow: 0 0 18px rgba(250, 204, 21, 0.75); }
+        .card-SSR { background: linear-gradient(135deg, #451a03 0%, #92400e 65%, #78350f 100%); border-color: #f59e0b !important; color: #fef3c7; }
+        .card-SR  { background: linear-gradient(135deg, #1e1b4b 0%, #4c1d95 100%); border-color: #c084fc !important; color: #f3e8ff; }
+        .card-R   { background: linear-gradient(135deg, #064e3b 0%, #065f46 100%); border-color: #34d399 !important; color: #d1fae5; }
+
+        @keyframes spinSlow { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        @keyframes spinReverse { from { transform: rotate(360deg); } to { transform: rotate(0deg); } }
+        .bagua-outer { animation: spinSlow 6s linear infinite; }
+        .bagua-inner { animation: spinReverse 3.5s linear infinite; }
+
+        @keyframes cardFlipReveal {
+            0% { transform: perspective(600px) rotateY(90deg) scale(0.8); opacity: 0; }
+            60% { transform: perspective(600px) rotateY(-8deg) scale(1.06); opacity: 1; }
+            100% { transform: perspective(600px) rotateY(0deg) scale(1); opacity: 1; }
+        }
+        .card-revealed { animation: cardFlipReveal 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+
+        @keyframes lightningFlash { 0% { opacity: 0.92; } 100% { opacity: 0; } }
+        .flash-overlay { animation: lightningFlash 0.55s ease-out forwards; }
+
+        ::-webkit-scrollbar { width: 5px; height: 5px; }
+        ::-webkit-scrollbar-track { background: rgba(0, 0, 0, 0.1); }
+        ::-webkit-scrollbar-thumb { background: #7c5630; border-radius: 3px; }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between p-1.5 sm:p-2.5 gap-2">
+
+    <!-- 최상단: 듀얼 뷰포트 전환 + 효과음 + 세이브 + 6단계 난이도 + 배속 컨트롤 바 -->
+    <div class="max-w-6xl w-full mx-auto wood-frame rounded-2xl px-3 py-1.5 flex flex-wrap items-center justify-between gap-2 z-30">
+        <div class="flex items-center gap-2">
+            <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-[#fde047] to-[#92400e] border border-[#fef9c3] flex items-center justify-center shadow">
+                <span class="font-serif-kr font-black text-base text-[#1c120a]">巨</span>
+            </div>
+            <div>
+                <div class="flex items-center gap-1.5 flex-wrap">
+                    <h1 class="font-serif-kr font-black text-sm sm:text-base text-[#fde047] leading-tight">천하제일거상: 아트워크 리마스터</h1>
+                    <button id="btn-sfx" onclick="sfx.toggle()" class="px-1.5 py-0.5 rounded bg-[#1c120a] border border-[#7c5630] text-[10px] font-bold text-[#86efac]">
+                        🔊 효과음 ON
+                    </button>
+                    <button onclick="app.openSaveModal()" class="px-1.5 py-0.5 rounded bg-[#1e293b] border border-[#60a5fa] text-[10px] font-bold text-[#93c5fd]">
+                        💾 저장·백업
+                    </button>
+                </div>
+                <p class="text-[10px] text-[#cbb89c]">고밀도 2.5D 한양·전장 일러스트 · 16계보 64종 장수 초상화 & 4단계 전직</p>
+            </div>
+        </div>
+
+        <!-- 세로 한손 모드 / 가로 와이드 모드 실시간 전환 버튼 -->
+        <div class="flex items-center gap-1 bg-[#120b06] p-1 rounded-xl border-2 border-[#8c683e] shadow-inner">
+            <button id="btn-mode-portrait" onclick="app.setOrientation('portrait')" class="px-2.5 py-1 rounded-lg text-xs font-black bg-gradient-to-b from-[#e0a934] to-[#996411] text-white border border-[#fff0a6] shadow transition">
+                📱 세로 한손 모드
+            </button>
+            <button id="btn-mode-landscape" onclick="app.setOrientation('landscape')" class="px-2.5 py-1 rounded-lg text-xs font-bold text-[#cbb89c] hover:text-white transition">
+                📲 가로 와이드 모드
+            </button>
+        </div>
+
+        <!-- 난이도 6단계 & 배속 조절 -->
+        <div class="flex flex-wrap items-center gap-1.5">
+            <div class="flex items-center gap-1 bg-[#120b06] px-2 py-1 rounded-lg border border-[#5e4226] text-xs">
+                <span class="text-[#bfa98c] font-bold">난이도:</span>
+                <select id="difficulty-select" onchange="game.setDifficulty(this.value)" class="bg-[#291a0e] text-[#fde047] font-bold rounded px-1.5 py-0.5 border border-[#856037] outline-none cursor-pointer">
+                    <option value="easy">쉬움 (1.0x)</option>
+                    <option value="normal" selected>보통 (1.8x)</option>
+                    <option value="hard">어려움 (3.2x)</option>
+                    <option value="hell">지옥 (6.0x)</option>
+                    <option value="nightmare">악몽 (11.5x)</option>
+                    <option value="inferno">불지옥 (22.0x)</option>
+                </select>
+            </div>
+
+            <div class="flex items-center gap-0.5 bg-[#120b06] p-1 rounded-lg border border-[#5e4226] text-xs">
+                <button onclick="aiEngine.setSpeed(1)" id="spd-1" class="px-2 py-0.5 rounded font-bold bg-[#996411] text-white">1x</button>
+                <button onclick="aiEngine.setSpeed(2)" id="spd-2" class="px-2 py-0.5 rounded font-bold text-[#bfa98c]">2x</button>
+                <button onclick="aiEngine.setSpeed(3)" id="spd-3" class="px-2 py-0.5 rounded font-bold text-[#bfa98c]">3x</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 메인 디바이스 컨테이너 -->
+    <main id="device-shell" class="device-shell mode-portrait wood-frame overflow-hidden flex-1 flex flex-col shadow-2xl">
+
+        <!-- 상단 상태바 -->
+        <header class="bg-[#180f09] border-b-2 border-[#6e4b2a] px-2.5 py-1.5 flex flex-wrap items-center justify-between gap-1 text-[11px]">
+            <div class="flex items-center gap-1.5">
+                <span id="ui-region-badge" class="px-1.5 py-0.5 rounded bg-[#1e3a8a] border border-[#60a5fa] text-[#bfdbfe] font-bold text-[10px]">조선</span>
+                <span id="ui-rank" class="px-1.5 py-0.5 rounded bg-[#422a16] border border-[#a17846] text-[#fde047] font-bold">천하제일거상</span>
+                <span class="font-serif-kr font-bold text-sm text-white">📍<span id="ui-city">한양</span></span>
+                <span class="px-1.5 py-0.5 rounded bg-[#3b1515] border border-[#f87171]/60 text-[#fca5a5] font-bold text-[10px]">⚔️<span id="ui-power">0</span></span>
+            </div>
+
+            <div class="flex items-center gap-1.5 sm:gap-2 font-bold">
+                <span class="text-[#fde047]" title="은전">💰<span id="ui-money">25,000</span></span>
+                <span class="text-[#fef08a]" title="전직서">📜<span id="ui-scrolls">15</span></span>
+                <span class="text-[#67e8f9]" title="영혼석">🔮<span id="ui-soul">350</span></span>
+                <span class="text-[#fb923c]" title="강화석">🔨<span id="ui-forge">150</span></span>
+                <span class="text-[#f0abfc]" title="소환패">🎟️<span id="ui-seals">20</span></span>
+                <span class="text-[#86efac]" title="군량">🌾<span id="ui-food">120</span></span>
+            </div>
+        </header>
+
+        <!-- 1. 고밀도 일러스트 스타일 2.5D 월드 & 전장 캔버스 뷰포트 -->
+        <section id="viewport-section" class="relative w-full h-[275px] sm:h-[325px] bg-[#1e2618] border-b-2 border-[#6e4b2a] overflow-hidden shrink-0">
+            <canvas id="worldCanvas" class="w-full h-full block cursor-pointer"></canvas>
+
+            <!-- 좌상단 장면 타이틀 배지 -->
+            <div class="absolute top-2.5 left-2.5 pointer-events-none">
+                <div class="bg-[#180f09]/85 backdrop-blur-sm border border-[#9c7344] rounded-lg px-3 py-1 text-xs text-[#f6ecd7] shadow-lg">
+                    <div class="flex items-center gap-1.5 font-serif-kr font-bold">
+                        <span id="scene-dot" class="w-2 h-2 rounded-full bg-[#4ade80] animate-pulse"></span>
+                        <span id="scene-badge-text" class="text-[#fde047]">마을 (한양) · 2.5D 저잣거리</span>
+                        <span id="diff-badge" class="px-1.5 py-0.2 rounded bg-[#3b2412] text-[#fbbf24] text-[9px] font-sans border border-[#856037]">보통</span>
+                    </div>
+                    <div id="ai-thought-banner" class="text-[10px] text-[#86efac] font-sans mt-0.5 max-w-[250px] truncate">
+                        🤖 우측 버튼으로 사냥출정 또는 [거북선 출격] 필살기를 시전하세요!
+                    </div>
+                </div>
+            </div>
+
+            <!-- 우측 플로팅 원목 사이드 퀵메뉴 (컨셉 아트 우측 세로 버튼 재현) -->
+            <div class="absolute top-2.5 right-2.5 flex flex-col gap-1.5 z-10">
+                <button id="btn-toggle-battle" onclick="game.toggleBattleAction(false)" class="gold-action-btn px-2.5 py-1.5 rounded-lg text-[11px] font-serif-kr font-black shadow-lg">
+                    ⚔️ 사냥출정
+                </button>
+                <button id="btn-boss-battle" onclick="game.toggleBattleAction(true)" class="crimson-action-btn px-2.5 py-1.5 rounded-lg text-[11px] font-serif-kr font-black shadow-lg">
+                    🐉 대보스전
+                </button>
+                <button onclick="app.switchTab('trade')" class="bg-[#24160c]/90 hover:bg-[#382314] border border-[#9c7344] text-[#fde68a] px-2.5 py-1 rounded-lg text-[10px] font-bold shadow">
+                    🌏 동아시아 24도시
+                </button>
+                <button onclick="game.restAtInn()" class="bg-[#162b20]/90 hover:bg-[#1f3d2d] border border-[#4ade80]/70 text-[#a7f3d0] px-2.5 py-1 rounded-lg text-[10px] font-bold shadow">
+                    🍚 주막 휴식
+                </button>
+            </div>
+
+            <!-- 전투 중 하단 4대 지휘 필살기 & 도력(MP) 바 -->
+            <div id="battle-hud-overlay" class="hidden absolute bottom-2 left-2.5 right-2.5 bg-[#160e08]/90 backdrop-blur-sm border border-[#9c7344] rounded-xl p-1.5 flex flex-col gap-1.5 shadow-xl">
+                <div class="grid grid-cols-4 gap-1">
+                    <button onclick="game.castSkill(1)" class="relative hanji-action-btn rounded-lg py-1 px-1 text-center overflow-hidden">
+                        <div id="cd-mask-1" class="hidden absolute inset-0 bg-black/80 text-[#fde047] font-bold text-xs flex items-center justify-center">0.0s</div>
+                        <div class="text-[10px] font-black text-[#1e3a8a]">⚡ 일격필살 칼바람</div>
+                        <div class="text-[8px] text-[#5c3e21]">도력 20</div>
+                    </button>
+                    <button onclick="game.castSkill(2)" class="relative hanji-action-btn rounded-lg py-1 px-1 text-center overflow-hidden">
+                        <div id="cd-mask-2" class="hidden absolute inset-0 bg-black/80 text-[#6ee7b7] font-bold text-xs flex items-center justify-center">0.0s</div>
+                        <div class="text-[10px] font-black text-[#15803d]">💚 의술: 회춘</div>
+                        <div class="text-[8px] text-[#5c3e21]">도력 25</div>
+                    </button>
+                    <button onclick="game.castSkill(3)" class="relative hanji-action-btn rounded-lg py-1 px-1 text-center overflow-hidden">
+                        <div id="cd-mask-3" class="hidden absolute inset-0 bg-black/80 text-[#fca5a5] font-bold text-xs flex items-center justify-center">0.0s</div>
+                        <div class="text-[10px] font-black text-[#b91c1c]">🔥 화염폭풍</div>
+                        <div class="text-[8px] text-[#5c3e21]">도력 40</div>
+                    </button>
+                    <button onclick="game.castSkill(4)" class="relative gold-action-btn rounded-lg py-1 px-1 text-center overflow-hidden">
+                        <div id="cd-mask-4" class="hidden absolute inset-0 bg-black/80 text-[#fef08a] font-bold text-xs flex items-center justify-center">0.0s</div>
+                        <div class="text-[10px] font-black">🚢 거북선 출격!</div>
+                        <div class="text-[8px] text-[#fef9c3]">도력 60</div>
+                    </button>
+                </div>
+                <div class="flex items-center justify-between gap-2 px-1 text-[10px]">
+                    <div class="flex items-center gap-1.5 flex-1">
+                        <span class="text-[#60a5fa] font-bold shrink-0">💧도력</span>
+                        <div class="flex-1 h-2 bg-[#12161f] rounded-full overflow-hidden border border-[#3b5275]">
+                            <div id="hud-mp-bar" class="h-full bg-gradient-to-r from-[#2563eb] to-[#38bdf8] transition-all duration-100" style="width: 100%"></div>
+                        </div>
+                        <span id="hud-mp-text" class="text-[#93c5fd] font-bold w-7 text-right">100</span>
+                    </div>
+                    <div class="font-bold shrink-0">
+                        <span class="text-[#93c5fd]">아군 <strong id="hud-ally-cnt">6</strong></span>
+                        <span class="mx-1 text-[#785633]">|</span>
+                        <span class="text-[#fca5a5]">적군 <strong id="hud-enemy-cnt">4</strong></span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. 한지(韓紙) & 원목 하단 통합 컨트롤 덱 (컨셉 아트 하단 UI 구조 그대로 재현) -->
+        <section class="bg-[#24160c] p-2 flex-1 flex flex-col justify-between gap-1.5 overflow-y-auto">
+
+            <!-- 상단 탭 바 + 우측 영웅소환/AI 컨트롤 패널 -->
+            <div id="bottom-deck-grid" class="grid grid-cols-1 gap-2 flex-1">
+
+                <!-- 좌측/메인 한지 패널 (부대 / 전직 / 인벤토리 / 대장간 / 교역) -->
+                <div id="main-hanji-column" class="flex flex-col flex-1 min-h-[260px]">
+                    <!-- 한지 노트북 상단 탭 -->
+                    <div class="flex items-end gap-1 px-1">
+                        <button onclick="app.switchTab('squad')" id="tab-squad" class="wood-tab-btn active px-2.5 py-1 rounded-t-lg text-xs font-serif-kr">부대</button>
+                        <button onclick="app.switchTab('evolve')" id="tab-evolve" class="wood-tab-btn px-2.5 py-1 rounded-t-lg text-xs font-serif-kr">전직</button>
+                        <button onclick="app.switchTab('inventory')" id="tab-inventory" class="wood-tab-btn px-2.5 py-1 rounded-t-lg text-xs font-serif-kr">인벤토리</button>
+                        <button onclick="app.switchTab('blacksmith')" id="tab-blacksmith" class="wood-tab-btn px-2.5 py-1 rounded-t-lg text-xs font-serif-kr">대장간</button>
+                        <button onclick="app.switchTab('trade')" id="tab-trade" class="wood-tab-btn px-2.5 py-1 rounded-t-lg text-xs font-serif-kr">교역·지도</button>
+                    </div>
+
+                    <!-- 한지 본문 영역 -->
+                    <div id="tab-content-area" class="hanji-surface rounded-xl rounded-tl-none p-2 flex-1 overflow-y-auto">
+                        <!-- JS로 정밀 렌더링 -->
+                    </div>
+                </div>
+
+                <!-- 우측/하단 고정 원목 조작 박스: [영웅소환(가챠)] + [자동사냥 AI ON/OFF] + [자동교역 AI ON/OFF] + [1x 2x 3x] -->
+                <div id="right-ai-column" class="wood-frame rounded-xl p-2 flex flex-col justify-between gap-1.5 shrink-0">
+                    <button onclick="gachaSystem.openBannerModal()" class="gold-action-btn w-full py-2 rounded-lg font-serif-kr font-black text-sm tracking-wide shadow-lg flex items-center justify-center gap-1.5">
+                        <span>🔮 영웅소환(가챠)</span>
+                        <span class="text-[10px] bg-black/40 px-1.5 py-0.5 rounded text-[#fef08a]">64종</span>
+                    </button>
+
+                    <div class="grid grid-cols-2 sm:grid-cols-1 gap-1.5">
+                        <!-- 자동사냥 AI 토글 스위치 -->
+                        <div onclick="aiEngine.toggleHunt()" class="cursor-pointer bg-[#140c06] border border-[#6e4b2a] rounded-lg px-2.5 py-1.5 flex items-center justify-between">
+                            <span class="text-xs font-bold text-[#f4ead5]">자동사냥 AI</span>
+                            <div id="switch-ai-hunt" class="px-2 py-0.5 rounded text-[10px] font-black bg-[#3b2818] text-[#a8957b] border border-[#5e4226] transition">
+                                OFF
+                            </div>
+                        </div>
+
+                        <!-- 자동교역 AI 토글 스위치 -->
+                        <div onclick="aiEngine.toggleTrade()" class="cursor-pointer bg-[#140c06] border border-[#6e4b2a] rounded-lg px-2.5 py-1.5 flex items-center justify-between">
+                            <span class="text-xs font-bold text-[#f4ead5]">자동교역 AI</span>
+                            <div id="switch-ai-trade" class="px-2 py-0.5 rounded text-[10px] font-black bg-[#3b2818] text-[#a8957b] border border-[#5e4226] transition">
+                                OFF
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 1x / 2x / 3x 배속 버튼 바 -->
+                    <div class="grid grid-cols-3 gap-1 bg-[#140c06] p-1 rounded-lg border border-[#6e4b2a]">
+                        <button onclick="aiEngine.setSpeed(1)" id="deck-spd-1" class="py-1 rounded font-black text-xs bg-[#996411] text-white border border-[#fde047]">1x</button>
+                        <button onclick="aiEngine.setSpeed(2)" id="deck-spd-2" class="py-1 rounded font-bold text-xs text-[#cbb89c]">2x</button>
+                        <button onclick="aiEngine.setSpeed(3)" id="deck-spd-3" class="py-1 rounded font-bold text-xs text-[#cbb89c]">3x</button>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+    </main>
+
+    <!-- 시네마틱 전직 승급 모달 -->
+    <div id="evolve-modal" class="fixed inset-0 bg-black/92 backdrop-blur-md z-50 hidden flex items-center justify-center p-3">
+        <div class="wood-frame rounded-2xl w-full max-w-md p-5 border-2 border-[#fde047] shadow-2xl flex flex-col items-center text-center relative overflow-hidden">
+            <div id="evolve-flash" class="hidden absolute inset-0 bg-gradient-to-tr from-[#fef08a] via-white to-[#f97316] pointer-events-none z-20"></div>
+
+            <div class="text-xs font-black px-3 py-1 rounded-full bg-[#7f1d1d] border border-[#fde047] text-[#fef08a] mb-3">
+                🔥 천명 전직 · 승급 의식 완료 🔥
+            </div>
+
+            <div class="flex items-center justify-center gap-3 my-2 w-full">
+                <div class="bg-black/60 border border-[#785633] rounded-xl p-2 flex-1 flex flex-col items-center opacity-80">
+                    <span id="ev-before-stage" class="text-[9px] font-bold text-[#cbb89c]">기본 용병</span>
+                    <canvas id="ev-before-canvas" width="64" height="64" class="my-1 rounded-lg border border-[#5c3e21]"></canvas>
+                    <div id="ev-before-name" class="font-bold text-xs text-[#e8dec8]">조선 창병</div>
+                </div>
+
+                <div class="text-2xl text-[#fde047] font-black animate-pulse">➔</div>
+
+                <div class="bg-gradient-to-b from-[#78350f] to-[#450a0a] border-2 border-[#fde047] rounded-xl p-2 flex-1 flex flex-col items-center shadow-[0_0_25px_rgba(250,204,21,0.75)]">
+                    <span id="ev-after-stage" class="text-[9px] font-black px-1.5 py-0.2 rounded bg-[#fde047] text-black">1차 장수</span>
+                    <canvas id="ev-after-canvas" width="72" height="72" class="my-1 rounded-lg border-2 border-[#fde047]"></canvas>
+                    <div id="ev-after-name" class="font-serif-kr font-black text-sm text-[#fde047]">이순신</div>
+                </div>
+            </div>
+
+            <div class="bg-[#1c120a] border border-[#856037] rounded-xl p-3 w-full my-3 text-xs space-y-1">
+                <div class="text-[#86efac] font-bold" id="ev-stat-summary">기본 능력치 배율 1.0x ➔ 1.85x 대폭 상승!</div>
+                <div class="text-[#f0abfc] font-bold" id="ev-skill-unlock">신규 고유 무공 개방: [거북선 출격]</div>
+            </div>
+
+            <button onclick="document.getElementById('evolve-modal').classList.add('hidden')" class="gold-action-btn w-full py-2.5 rounded-xl font-serif-kr font-black text-sm">
+                천명을 받들어 출정하기
+            </button>
+        </div>
+    </div>
+
+    <!-- 시네마틱 가챠 소환 & 배너 선택 모달 -->
+    <div id="gacha-modal" class="fixed inset-0 bg-black/90 backdrop-blur-md z-50 hidden flex items-center justify-center p-3">
+        <div class="wood-frame rounded-2xl w-full max-w-xl p-4 border-2 border-[#fde047] shadow-2xl flex flex-col items-center relative overflow-hidden">
+            <div id="gacha-flash-layer" class="hidden absolute inset-0 bg-gradient-to-br from-[#fef08a] via-white to-[#fca5a5] pointer-events-none z-20"></div>
+
+            <!-- 배너 선택 단계 -->
+            <div id="gacha-banner-stage" class="w-full space-y-3">
+                <div class="flex items-center justify-between border-b border-[#6e4b2a] pb-2">
+                    <h3 class="font-serif-kr font-black text-base text-[#fde047]">🔮 태극 팔괘진 영웅 · 명품 장비 소환</h3>
+                    <button onclick="gachaSystem.closeModal()" class="text-[#cbb89c] hover:text-white font-bold text-xs">✕ 닫기</button>
+                </div>
+
+                <div class="bg-gradient-to-r from-[#2e140e] via-[#6b1d18] to-[#2e140e] border-2 border-[#fde047] rounded-xl p-3 text-[#f6ecd7]">
+                    <div class="flex items-center justify-between">
+                        <span class="font-serif-kr font-black text-sm text-[#fde047]">⚔️ 전설 장수 · 사천왕 · 신수 등용 (64종)</span>
+                        <span class="text-[10px] bg-black/60 px-2 py-0.5 rounded border border-[#fde047] text-[#fef08a]">3차 각성 천장 <strong id="gacha-hero-pity">50회</strong></span>
+                    </div>
+                    <p class="text-[10px] text-[#eadec4] mt-1">이순신, 허준, 지국천왕, 다문천왕, 광개토태왕, 제갈량, 관우, 사방신수 등 16계보 64종!</p>
+                    <div class="grid grid-cols-2 gap-2 mt-2.5">
+                        <button onclick="gachaSystem.summon('hero', 1)" class="hanji-action-btn py-2 rounded-xl text-center">
+                            <div class="font-black text-xs">✨ 1회 등용</div>
+                            <div class="text-[10px] text-[#8f3d00]">1,000냥 또는 🎟️1장</div>
+                        </button>
+                        <button onclick="gachaSystem.summon('hero', 10)" class="gold-action-btn py-2 rounded-xl text-center">
+                            <div class="font-black text-xs">🌟 10연차 등용 (SR이상 확정)</div>
+                            <div class="text-[10px] text-[#fef08a]">9,000냥 또는 🎟️10장</div>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="bg-gradient-to-r from-[#172554] via-[#312e81] to-[#172554] border-2 border-[#67e8f9] rounded-xl p-3 text-[#f0f9ff]">
+                    <div class="flex items-center justify-between">
+                        <span class="font-serif-kr font-black text-sm text-[#67e8f9]">🏺 거북선 모형 · 사인참사검 명품 소환 (24종)</span>
+                        <span class="text-[10px] bg-black/60 px-2 py-0.5 rounded border border-[#67e8f9] text-[#a5f3fc]">UR 천장 <strong id="gacha-gear-pity">50회</strong></span>
+                    </div>
+                    <p class="text-[10px] text-[#dbeafe] mt-1">대장간 +15 제련 가능한 최고급 무기·갑옷·거북선 보물!</p>
+                    <div class="grid grid-cols-2 gap-2 mt-2.5">
+                        <button onclick="gachaSystem.summon('gear', 1)" class="hanji-action-btn py-2 rounded-xl text-center">
+                            <div class="font-black text-xs">✨ 장비 1회 소환</div>
+                            <div class="text-[10px] text-[#8f3d00]">1,000냥 또는 🎟️1장</div>
+                        </button>
+                        <button onclick="gachaSystem.summon('gear', 10)" class="gold-action-btn py-2 rounded-xl text-center">
+                            <div class="font-black text-xs">🌟 장비 10연차 (SR확정)</div>
+                            <div class="text-[10px] text-[#fef08a]">9,000냥 또는 🎟️10장</div>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 소환 의식 애니메이션 단계 -->
+            <div id="gacha-ritual-stage" class="hidden py-10 flex flex-col items-center justify-center text-center w-full">
+                <div class="relative w-44 h-44 flex items-center justify-center mb-4">
+                    <div class="bagua-outer absolute inset-0 rounded-full border-4 border-dashed border-[#fde047] flex items-center justify-center shadow-[0_0_35px_rgba(250,204,21,0.6)]">
+                        <span class="absolute -top-3 text-lg">☰</span>
+                        <span class="absolute -bottom-3 text-lg">☷</span>
+                        <span class="absolute -left-3 text-lg">☲</span>
+                        <span class="absolute -right-3 text-lg">☵</span>
+                    </div>
+                    <div class="bagua-inner w-28 h-28 rounded-full border-4 border-[#ef4444] bg-gradient-to-tr from-[#1e3a8a] via-[#991b1b] to-[#facc15] flex items-center justify-center shadow-[0_0_25px_rgba(239,68,68,0.8)]">
+                        <span class="font-serif-kr font-black text-3xl text-white drop-shadow">天命</span>
+                    </div>
+                </div>
+                <div id="ritual-text" class="font-serif-kr font-black text-lg text-[#fde047] animate-pulse">
+                    태극 팔괘진이 영웅을 부릅니다...
+                </div>
+            </div>
+
+            <!-- 소환 결과 카드 공개 단계 -->
+            <div id="gacha-reveal-stage" class="hidden w-full flex flex-col items-center">
+                <div class="flex items-center justify-between w-full mb-2.5 border-b border-[#634528] pb-2">
+                    <h3 id="gacha-modal-title" class="font-serif-kr font-black text-base sm:text-lg text-[#fde047]">✨ 등용 결과</h3>
+                    <button onclick="gachaSystem.flipAllCards()" class="px-2.5 py-1 rounded-lg bg-[#3b2412] border border-[#fde047] text-[#fde047] text-xs font-bold">
+                        ⚡ 모두 뒤집기
+                    </button>
+                </div>
+
+                <div id="gacha-cards-grid" class="grid grid-cols-2 sm:grid-cols-5 gap-2 w-full my-1 max-h-[340px] overflow-y-auto p-1"></div>
+
+                <div class="flex items-center gap-2.5 mt-3.5 w-full">
+                    <button onclick="gachaSystem.resummon(10)" class="flex-1 gold-action-btn py-2.5 rounded-xl font-bold text-xs">
+                        🌟 다시 10연속 소환
+                    </button>
+                    <button onclick="gachaSystem.closeModal()" class="flex-1 hanji-action-btn py-2.5 rounded-xl font-serif-kr font-bold text-sm">
+                        확인 및 닫기
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 세이브 데이터 백업 / 불러오기 모달 -->
+    <div id="save-modal" class="fixed inset-0 bg-black/85 backdrop-blur-sm z-50 hidden flex items-center justify-center p-3">
+        <div class="wood-frame rounded-2xl w-full max-w-md p-4 border-2 border-[#60a5fa] text-xs space-y-3">
+            <div class="flex items-center justify-between border-b border-[#4a3826] pb-2">
+                <h3 class="font-serif-kr font-bold text-base text-[#93c5fd]">💾 상단 기록 자동저장 & 백업 코드</h3>
+                <button onclick="document.getElementById('save-modal').classList.add('hidden')" class="text-[#cbb89c] hover:text-white font-bold">✕ 닫기</button>
+            </div>
+            <p class="text-[#d6c7b2]">게임 진행 내역은 기기에 자동 저장됩니다. APK 업데이트나 기기 변경 시 아래 백업 코드를 복사해 두었다가 붙여넣어 복원할 수 있습니다.</p>
+            <textarea id="save-code-box" rows="4" class="w-full bg-[#110b06] border border-[#634528] rounded-lg p-2 text-[10px] font-mono text-[#86efac] outline-none" placeholder="백업 코드가 여기에 표시됩니다..."></textarea>
+            <div class="grid grid-cols-3 gap-2">
+                <button onclick="app.copySaveCode()" class="gold-action-btn py-2 rounded-lg font-bold">📋 코드 복사</button>
+                <button onclick="app.importSaveCode()" class="hanji-action-btn py-2 rounded-lg font-bold">📥 코드 불러오기</button>
+                <button onclick="app.resetSaveData()" class="crimson-action-btn py-2 rounded-lg font-bold">🗑️ 초기화</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 토스트 알림 컨테이너 -->
+    <div id="toast-box" class="fixed top-16 left-1/2 -translate-x-1/2 z-50 flex flex-col gap-1.5 pointer-events-none w-max max-w-[92vw]"></div>
+
+    <script>
+        /**
+         * 1. Web Audio API 프로시저럴 효과음 엔진
+         */
+        class ProceduralSoundEngine {
+            constructor() {
+                this.enabled = true;
+                this.ctx = null;
+            }
+            ensureCtx() {
+                if (!this.ctx) {
+                    const AudioCtx = window.AudioContext || window.webkitAudioContext;
+                    if (AudioCtx) this.ctx = new AudioCtx();
+                }
+                if (this.ctx && this.ctx.state === 'suspended') this.ctx.resume();
+            }
+            toggle() {
+                this.enabled = !this.enabled;
+                const btn = document.getElementById('btn-sfx');
+                btn.textContent = this.enabled ? '🔊 효과음 ON' : '🔇 효과음 OFF';
+                btn.className = this.enabled
+                    ? 'px-1.5 py-0.5 rounded bg-[#1c120a] border border-[#7c5630] text-[10px] font-bold text-[#86efac]'
+                    : 'px-1.5 py-0.5 rounded bg-[#1c120a] border border-[#7c5630] text-[10px] font-bold text-[#9ca3af]';
+            }
+            playTone(freq, duration, type = 'triangle', vol = 0.12, delay = 0) {
+                if (!this.enabled) return;
+                try {
+                    this.ensureCtx();
+                    if (!this.ctx) return;
+                    const osc = this.ctx.createOscillator();
+                    const gain = this.ctx.createGain();
+                    osc.type = type;
+                    osc.frequency.setValueAtTime(freq, this.ctx.currentTime + delay);
+                    gain.gain.setValueAtTime(vol, this.ctx.currentTime + delay);
+                    gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + delay + duration);
+                    osc.connect(gain);
+                    gain.connect(this.ctx.destination);
+                    osc.start(this.ctx.currentTime + delay);
+                    osc.stop(this.ctx.currentTime + delay + duration);
+                } catch (e) {}
+            }
+            playCoin() {
+                this.playTone(987, 0.09, 'sine', 0.1, 0);
+                this.playTone(1318, 0.16, 'sine', 0.12, 0.06);
+            }
+            playUpgrade(success = true) {
+                if (success) [523, 659, 784, 1046].forEach((f, i) => this.playTone(f, 0.18, 'triangle', 0.13, i * 0.04));
+                else {
+                    this.playTone(220, 0.2, 'sawtooth', 0.12, 0);
+                    this.playTone(175, 0.25, 'sawtooth', 0.12, 0.1);
+                }
+            }
+            playEvolveFanfare() {
+                [392, 523, 659, 784, 1046, 1318, 1568].forEach((f, i) => {
+                    this.playTone(f, 0.42, 'triangle', 0.15, i * 0.065);
+                });
+            }
+            playSkill(num) {
+                if (num === 1) {
+                    this.playTone(340, 0.14, 'sawtooth', 0.14, 0);
+                    this.playTone(680, 0.18, 'square', 0.1, 0.05);
+                } else if (num === 2) {
+                    [523, 659, 784, 1046].forEach((f, i) => this.playTone(f, 0.22, 'sine', 0.1, i * 0.05));
+                } else if (num === 3) {
+                    this.playTone(140, 0.35, 'sawtooth', 0.16, 0);
+                    this.playTone(210, 0.3, 'square', 0.12, 0.06);
+                } else {
+                    [196, 261, 329, 392, 523, 659, 784].forEach((f, i) => this.playTone(f, 0.38, 'triangle', 0.15, i * 0.04));
+                }
+            }
+            playGachaRitual() {
+                [293, 329, 392, 440, 523, 587, 659, 784].forEach((f, idx) => this.playTone(f, 0.18, 'triangle', 0.11, idx * 0.08));
+            }
+            playGachaReveal(rarity) {
+                if (rarity === 'UR') [523, 659, 784, 1046, 1318, 1568].forEach((f, i) => this.playTone(f, 0.45, 'triangle', 0.16, i * 0.06));
+                else if (rarity === 'SSR') [440, 554, 659, 880].forEach((f, i) => this.playTone(f, 0.32, 'triangle', 0.13, i * 0.06));
+                else this.playTone(523, 0.18, 'sine', 0.1, 0);
+            }
+        }
+
+        /**
+         * 2. 거상 4단계 전직·진화 계보 데이터 (16대 계보 × 4단계 = 총 64종)
+         */
+        const STAGE_RULES = [
+            { stage: 0, label: '기본 용병', rarity: 'R',   statMult: 1.0 },
+            { stage: 1, label: '1차 장수',  rarity: 'SR',  statMult: 1.85, reqLv: 10, reqScrolls: 2,  reqSoul: 30,  reqGold: 2500 },
+            { stage: 2, label: '2차 개조',  rarity: 'SSR', statMult: 3.3,  reqLv: 25, reqScrolls: 6,  reqSoul: 90,  reqGold: 9000 },
+            { stage: 3, label: '3차 각성',  rarity: 'UR',  statMult: 6.2,  reqLv: 45, reqScrolls: 15, reqSoul: 220, reqGold: 28000 }
+        ];
+
+        const EVOLUTION_LINEAGES = [
+            // === 조선 (4계보 = 16종) ===
+            {
+                id: 'kr_archer', nation: '조선', baseHp: 350, baseAtk: 56, baseDef: 18, crit: 14, range: 215,
+                stages: [
+                    { name: '조선 궁수', role: '각궁 원거리사수', skill: '일격필살의 칼바람', hat: 'soldier', coat: '#1e3a8a', trim: '#fde047', skin: '#eab991', weapon: 'bow', beard: false },
+                    { name: '이순신', role: '삼도수군통제사', skill: '거북선 출격', hat: 'general', coat: '#1e3a8a', trim: '#facc15', skin: '#f1c29b', weapon: 'sword', beard: true, isAoe: true },
+                    { name: '개조 이순신 [충무공]', role: '불멸의 해상제독', skill: '학익진 거북선 포격', hat: 'general', coat: '#1d4ed8', trim: '#fef08a', skin: '#f1c29b', weapon: 'deva_sword', beard: true, isAoe: true },
+                    { name: '다문천왕', role: '북방수호 사천왕', skill: '빙설팔괘 대폭풍', hat: 'deva', coat: '#1d4ed8', trim: '#93c5fd', skin: '#e2e8f0', weapon: 'pagoda', beard: true, isAoe: true }
+                ]
+            },
+            {
+                id: 'kr_healer', nation: '조선', baseHp: 330, baseAtk: 52, baseDef: 17, crit: 10, range: 195, isHealer: true,
+                stages: [
+                    { name: '조선 의술사', role: '내의원 약초치유', skill: '의술: 회춘', hat: 'bandana', coat: '#f8fafc', trim: '#60a5fa', skin: '#f3c69f', weapon: 'scroll', beard: false, isHealer: true },
+                    { name: '허준', role: '동의보감 어의', skill: '의술: 회춘', hat: 'scholar', coat: '#f8fafc', trim: '#3b82f6', skin: '#eec09a', weapon: 'scroll', beard: true, isHealer: true },
+                    { name: '개조 허준 [신선의성]', role: '만병통치 의성', skill: '불로초 생명의빛', hat: 'scholar', coat: '#e0f2fe', trim: '#facc15', skin: '#eec09a', weapon: 'scroll', beard: true, isHealer: true },
+                    { name: '사명대사·각성', role: '호국대선사·생불', skill: '자비광명 대부활', hat: 'deva', coat: '#d97706', trim: '#fef08a', skin: '#f3c69f', weapon: 'staff', beard: true, isHealer: true }
+                ]
+            },
+            {
+                id: 'kr_spear', nation: '조선', baseHp: 410, baseAtk: 50, baseDef: 23, crit: 12, range: 65,
+                stages: [
+                    { name: '조선 창병', role: '전열 장창병', skill: '일격필살의 칼바람', hat: 'soldier', coat: '#2563eb', trim: '#cbd5e1', skin: '#eab991', weapon: 'spear', beard: false },
+                    { name: '김유신', role: '화랑·신검장수', skill: '화랑 신검파동', hat: 'general', coat: '#1d4ed8', trim: '#fde047', skin: '#f1c29b', weapon: 'sword', beard: true },
+                    { name: '개조 김유신 [화랑대장]', role: '삼국통일 대원수', skill: '천지신검 일섬', hat: 'general', coat: '#b45309', trim: '#fef08a', skin: '#f1c29b', weapon: 'deva_sword', beard: true, isAoe: true },
+                    { name: '광개토태왕', role: '북방정복 전설대왕', skill: '호태왕 천하호령', hat: 'deva', coat: '#991b1b', trim: '#fde047', skin: '#f1c29b', weapon: 'deva_sword', beard: true, isAoe: true }
+                ]
+            },
+            {
+                id: 'kr_cannon', nation: '조선', baseHp: 360, baseAtk: 58, baseDef: 19, crit: 12, range: 205, isAoe: true,
+                stages: [
+                    { name: '조선 화포수', role: '화약·화승총병', skill: '화염폭풍', hat: 'red_soldier', coat: '#991b1b', trim: '#fb923c', skin: '#e5b288', weapon: 'cannon', beard: false },
+                    { name: '권율', role: '행주산성 도원수', skill: '화차 연발포격', hat: 'general', coat: '#b91c1c', trim: '#fde047', skin: '#eab991', weapon: 'cannon', beard: true, isAoe: true },
+                    { name: '개조 권율 [행주대첩]', role: '파천화차 대장군', skill: '비격진천뢰 대폭발', hat: 'general', coat: '#7f1d1d', trim: '#facc15', skin: '#eab991', weapon: 'cannon', beard: true, isAoe: true },
+                    { name: '증장천왕', role: '남방수호 사천왕', skill: '뇌전천벌 대격돌', hat: 'deva', coat: '#15803d', trim: '#fde047', skin: '#eab991', weapon: 'spear', beard: true, isAoe: true }
+                ]
+            },
+
+            // === 명나라 (4계보 = 16종) ===
+            {
+                id: 'cn_axe', nation: '명나라', baseHp: 440, baseAtk: 54, baseDef: 25, crit: 12, range: 65,
+                stages: [
+                    { name: '중원 도끼병', role: '중장갑 보병', skill: '대부 내려찍기', hat: 'soldier', coat: '#166534', trim: '#bbf7d0', skin: '#eab991', weapon: 'sword', beard: false },
+                    { name: '관우', role: '오호대장군 수장', skill: '청룡언월 참격', hat: 'general', coat: '#15803d', trim: '#facc15', skin: '#eab991', weapon: 'spear', beard: true },
+                    { name: '개조 관우 [무신]', role: '천하무적 무성', skill: '무신 청룡파천격', hat: 'general', coat: '#14532d', trim: '#fde047', skin: '#eab991', weapon: 'spear', beard: true, isAoe: true },
+                    { name: '지국천왕', role: '동방수호 사천왕', skill: '업화지옥 대파괴', hat: 'deva', coat: '#b91c1c', trim: '#facc15', skin: '#f1c29b', weapon: 'deva_sword', beard: true, isAoe: true }
+                ]
+            },
+            {
+                id: 'cn_lancer', nation: '명나라', baseHp: 400, baseAtk: 49, baseDef: 21, crit: 12, range: 65,
+                stages: [
+                    { name: '중원 창기병', role: '돌격 기창병', skill: '질풍 돌격', hat: 'soldier', coat: '#0284c7', trim: '#e0f2fe', skin: '#eab991', weapon: 'spear', beard: false },
+                    { name: '조자룡', role: '상산 백마장군', skill: '은창 칠진칠출', hat: 'general', coat: '#e2e8f0', trim: '#3b82f6', skin: '#f1c29b', weapon: 'spear', beard: false },
+                    { name: '개조 조자룡 [상산용장]', role: '일기당천 용장', skill: '백룡승천 연환창', hat: 'general', coat: '#f8fafc', trim: '#facc15', skin: '#f1c29b', weapon: 'spear', beard: false, isAoe: true },
+                    { name: '청룡신수', role: '동방수호 사방신수', skill: '청룡 뇌우폭풍', hat: 'deva', coat: '#0284c7', trim: '#fde047', skin: '#bae6fd', weapon: 'dragon_orb', beard: true, isAoe: true }
+                ]
+            },
+            {
+                id: 'cn_mage', nation: '명나라', baseHp: 305, baseAtk: 60, baseDef: 14, crit: 15, range: 225, isAoe: true,
+                stages: [
+                    { name: '중원 책사', role: '팔괘 도술병', skill: '화염 부적술', hat: 'scholar', coat: '#3730a3', trim: '#c7d2fe', skin: '#f3c69f', weapon: 'fan', beard: false, isAoe: true },
+                    { name: '제갈량', role: '와룡 승상', skill: '동남풍 화공술', hat: 'scholar', coat: '#312e81', trim: '#fef08a', skin: '#f3c69f', weapon: 'fan', beard: true, isAoe: true },
+                    { name: '개조 제갈량 [와룡선생]', role: '팔진도 신산귀모', skill: '칠성단 낙뢰폭풍', hat: 'scholar', coat: '#1e1b4b', trim: '#facc15', skin: '#f3c69f', weapon: 'fan', beard: true, isAoe: true },
+                    { name: '주작신수', role: '남방수호 사방신수', skill: '불사조 태양폭발', hat: 'deva', coat: '#ea580c', trim: '#fef08a', skin: '#fed7aa', weapon: 'fan', beard: false, isAoe: true }
+                ]
+            },
+            {
+                id: 'cn_dancer', nation: '명나라', baseHp: 315, baseAtk: 49, baseDef: 16, crit: 11, range: 200, isHealer: true,
+                stages: [
+                    { name: '중원 무희', role: '선율 지원가', skill: '치유의 선율', hat: 'bandana', coat: '#7e22ce', trim: '#f3e8ff', skin: '#f3c69f', weapon: 'fan', beard: false, isHealer: true },
+                    { name: '초선', role: '경국지색 가희', skill: '월광무 치유진', hat: 'bandana', coat: '#6b21a8', trim: '#f5d0fe', skin: '#f3c69f', weapon: 'fan', beard: false, isHealer: true },
+                    { name: '개조 초선 [선녀강림]', role: '천상 비천선녀', skill: '선계 옥로수 회복', hat: 'bandana', coat: '#581c87', trim: '#fde047', skin: '#f3c69f', weapon: 'fan', beard: false, isHealer: true },
+                    { name: '서왕모·각성', role: '곤륜산 불사여신', skill: '천도복숭아 영생술', hat: 'deva', coat: '#be185d', trim: '#fef08a', skin: '#fce7f3', weapon: 'dragon_orb', beard: false, isHealer: true }
+                ]
+            },
+
+            // === 일본 (4계보 = 16종) ===
+            {
+                id: 'jp_samurai', nation: '일본', baseHp: 410, baseAtk: 49, baseDef: 22, crit: 12, range: 60,
+                stages: [
+                    { name: '왜국 무사', role: '검술 보병', skill: '발도 일섬', hat: 'samurai', coat: '#334155', trim: '#cbd5e1', skin: '#eab991', weapon: 'sword', beard: false },
+                    { name: '사나다 유키무라', role: '적비대 맹장', skill: '십문자창 돌격', hat: 'samurai', coat: '#b91c1c', trim: '#facc15', skin: '#eab991', weapon: 'spear', beard: true },
+                    { name: '개조 사나다 [적비장군]', role: '일본 제일의 병사', skill: '홍련 무쌍창격', hat: 'samurai', coat: '#991b1b', trim: '#fef08a', skin: '#eab991', weapon: 'spear', beard: true, isAoe: true },
+                    { name: '광목천왕', role: '서방수호 사천왕', skill: '용신수호 파천격', hat: 'deva', coat: '#6d28d9', trim: '#f5d0fe', skin: '#f3c69f', weapon: 'dragon_orb', beard: true, isAoe: true }
+                ]
+            },
+            {
+                id: 'jp_musket', nation: '일본', baseHp: 330, baseAtk: 56, baseDef: 16, crit: 14, range: 215, isAoe: true,
+                stages: [
+                    { name: '왜국 조총수', role: '화승총 사수', skill: '조총 사격', hat: 'soldier', coat: '#1e293b', trim: '#94a3b8', skin: '#e5b288', weapon: 'cannon', beard: false },
+                    { name: '오다 노부나가', role: '전국시대 풍운아', skill: '철포 삼단사격', hat: 'samurai', coat: '#18181b', trim: '#ef4444', skin: '#e5b288', weapon: 'cannon', beard: true, isAoe: true },
+                    { name: '개조 노부나가 [제육천마왕]', role: '패왕 마왕강림', skill: '천하포무 화염포격', hat: 'samurai', coat: '#09090b', trim: '#facc15', skin: '#e5b288', weapon: 'cannon', beard: true, isAoe: true },
+                    { name: '백호신수', role: '서방수호 사방신수', skill: '백호 질풍뇌격', hat: 'deva', coat: '#e2e8f0', trim: '#38bdf8', skin: '#f8fafc', weapon: 'deva_sword', beard: true, isAoe: true }
+                ]
+            },
+            {
+                id: 'jp_ninja', nation: '일본', baseHp: 325, baseAtk: 57, baseDef: 16, crit: 18, range: 195,
+                stages: [
+                    { name: '왜국 닌자', role: '암살 수리검병', skill: '수리검 투척', hat: 'ninja', coat: '#1e1b4b', trim: '#818cf8', skin: '#d69e76', weapon: 'sword', beard: false },
+                    { name: '핫토리 한조', role: '이가 닌자두목', skill: '인법 분신연격', hat: 'ninja', coat: '#312e81', trim: '#c084fc', skin: '#d69e76', weapon: 'sword', beard: false },
+                    { name: '개조 한조 [그림자왕]', role: '암흑 신출귀몰', skill: '흑야 암살참극', hat: 'ninja', coat: '#0f172a', trim: '#facc15', skin: '#d69e76', weapon: 'deva_sword', beard: false, isAoe: true },
+                    { name: '아수라·각성', role: '삼면육비 투신', skill: '아수라 파멸난무', hat: 'deva', coat: '#7f1d1d', trim: '#fb923c', skin: '#fca5a5', weapon: 'deva_sword', beard: true, isAoe: true }
+                ]
+            },
+            {
+                id: 'jp_onmyoji', nation: '일본', baseHp: 335, baseAtk: 48, baseDef: 18, crit: 11, range: 200, isHealer: true,
+                stages: [
+                    { name: '왜국 음양사', role: '식신 지원가', skill: '음양 치유부적', hat: 'scholar', coat: '#f8fafc', trim: '#60a5fa', skin: '#f3c69f', weapon: 'scroll', beard: false, isHealer: true },
+                    { name: '아베노 세이메이', role: '전설 음양사', skill: '오행 결계회복', hat: 'scholar', coat: '#e0f2fe', trim: '#2563eb', skin: '#f3c69f', weapon: 'fan', beard: false, isHealer: true },
+                    { name: '개조 세이메이 [대음양사]', role: '백귀야행 지배자', skill: '태극 식신수호진', hat: 'scholar', coat: '#bae6fd', trim: '#facc15', skin: '#f3c69f', weapon: 'fan', beard: false, isHealer: true },
+                    { name: '현무신수', role: '북방수호 사방신수', skill: '현무 대지영생진', hat: 'deva', coat: '#065f46', trim: '#6ee7b7', skin: '#d1fae5', weapon: 'scroll', beard: true, isHealer: true }
+                ]
+            },
+
+            // === 대만 · 몽골 · 서역 (4계보 = 16종) ===
+            {
+                id: 'tw_navy', nation: '대만·서역', baseHp: 395, baseAtk: 49, baseDef: 20, crit: 12, range: 65,
+                stages: [
+                    { name: '대만 수군', role: '해상 결사대', skill: '파도 참격', hat: 'soldier', coat: '#047857', trim: '#a7f3d0', skin: '#eab991', weapon: 'sword', beard: false },
+                    { name: '정성공', role: '국성야 해상제독', skill: '대함대 일제돌격', hat: 'general', coat: '#065f46', trim: '#fde047', skin: '#eab991', weapon: 'sword', beard: true },
+                    { name: '개조 정성공 [해상패왕]', role: '동녕국 수군대제독', skill: '해룡파천 대격류', hat: 'general', coat: '#064e3b', trim: '#facc15', skin: '#eab991', weapon: 'deva_sword', beard: true, isAoe: true },
+                    { name: '해신 마조', role: '남해수호 바다여신', skill: '천리안 해일심판', hat: 'deva', coat: '#0369a1', trim: '#fef08a', skin: '#e0f2fe', weapon: 'dragon_orb', beard: false, isAoe: true }
+                ]
+            },
+            {
+                id: 'mn_horsearcher', nation: '대만·서역', baseHp: 345, baseAtk: 55, baseDef: 17, crit: 15, range: 220,
+                stages: [
+                    { name: '몽골 궁기병', role: '초원 기마사수', skill: '기마 연사', hat: 'soldier', coat: '#92400e', trim: '#fde047', skin: '#d69e76', weapon: 'bow', beard: false },
+                    { name: '수부타이', role: '몽골제국 선봉장', skill: '질풍 화살폭우', hat: 'general', coat: '#78350f', trim: '#facc15', skin: '#d69e76', weapon: 'bow', beard: true, isAoe: true },
+                    { name: '개조 수부타이 [질풍장군]', role: '불패의 기마군단장', skill: '천둥화살 대섬멸', hat: 'general', coat: '#451a03', trim: '#fef08a', skin: '#d69e76', weapon: 'bow', beard: true, isAoe: true },
+                    { name: '칭기즈 칸·각성', role: '초원의 정복대칸', skill: '푸른늑대 천하제패', hat: 'deva', coat: '#b45309', trim: '#fef08a', skin: '#d69e76', weapon: 'bow', beard: true, isAoe: true }
+                ]
+            },
+            {
+                id: 'mn_heavy', nation: '대만·서역', baseHp: 440, baseAtk: 47, baseDef: 25, crit: 10, range: 60,
+                stages: [
+                    { name: '초원 중기병', role: '철갑 돌격기병', skill: '철갑 돌파', hat: 'soldier', coat: '#57534e', trim: '#e7e5e4', skin: '#d69e76', weapon: 'spear', beard: false },
+                    { name: '쿠빌라이', role: '대원제국 세조', skill: '황금기병 돌격진', hat: 'general', coat: '#44403c', trim: '#facc15', skin: '#d69e76', weapon: 'sword', beard: true },
+                    { name: '개조 쿠빌라이 [대칸]', role: '유라시아 대제국황제', skill: '천하통일 황제령', hat: 'general', coat: '#292524', trim: '#fde047', skin: '#d69e76', weapon: 'deva_sword', beard: true, isAoe: true },
+                    { name: '기린신수', role: '태평성대 성수', skill: '황금기린 천지강림', hat: 'deva', coat: '#ca8a04', trim: '#fef9c3', skin: '#fef08a', weapon: 'pagoda', beard: true, isAoe: true }
+                ]
+            },
+            {
+                id: 'sr_warrior', nation: '대만·서역', baseHp: 420, baseAtk: 56, baseDef: 20, crit: 16, range: 70,
+                stages: [
+                    { name: '서역 전사', role: '실크로드 무투가', skill: '쌍월참격', hat: 'bandit', coat: '#7f1d1d', trim: '#fca5a5', skin: '#d69e76', weapon: 'sword', beard: false },
+                    { name: '여포 [서역방랑]', role: '비장 방천화극', skill: '방천화극 일섬', hat: 'general', coat: '#991b1b', trim: '#facc15', skin: '#e5b288', weapon: 'spear', beard: false },
+                    { name: '개조 여포 [귀신무쌍]', role: '귀신 무쌍전신', skill: '귀신폭주 천지파열', hat: 'deva', coat: '#450a0a', trim: '#fde047', skin: '#e5b288', weapon: 'spear', beard: false, isAoe: true },
+                    { name: '치우천왕', role: '고대 전설의 군신', skill: '동두철액 군신강림', hat: 'deva', coat: '#991b1b', trim: '#fde047', skin: '#fca5a5', weapon: 'deva_sword', beard: true, isAoe: true }
+                ]
+            }
+        ];
+
+        function getStageUnitSpec(lineageId, stageIdx) {
+            const lin = EVOLUTION_LINEAGES.find(l => l.id === lineageId) || EVOLUTION_LINEAGES[0];
+            const st = lin.stages[stageIdx] || lin.stages[0];
+            const rule = STAGE_RULES[stageIdx] || STAGE_RULES[0];
+            return {
+                lineageId: lin.id,
+                nation: lin.nation,
+                stage: stageIdx,
+                stageLabel: rule.label,
+                rarity: rule.rarity,
+                statMult: rule.statMult,
+                name: st.name,
+                role: st.role,
+                skill: st.skill,
+                hat: st.hat,
+                coat: st.coat,
+                trim: st.trim,
+                skin: st.skin,
+                weapon: st.weapon,
+                beard: st.beard,
+                isAoe: st.isAoe ?? lin.isAoe ?? false,
+                isHealer: st.isHealer ?? lin.isHealer ?? false,
+                baseHp: Math.round(lin.baseHp * rule.statMult),
+                baseAtk: Math.round(lin.baseAtk * rule.statMult),
+                baseDef: Math.round(lin.baseDef * rule.statMult),
+                crit: lin.crit + stageIdx * 3,
+                range: lin.range
+            };
+        }
+
+        /**
+         * 3. 아시아 6대 권역 · 24개 거점 도시 및 24종 특산품
+         */
+        const REGIONS = {
+            joseon:   { name: '조선', tier: 1, ground: '#c7aa79', grass: '#53733b', roof: '#293241', badge: 'bg-[#1e3a8a] text-[#bfdbfe] border-[#60a5fa]' },
+            ming:     { name: '명나라', tier: 2, ground: '#cba675', grass: '#626934', roof: '#881337', badge: 'bg-[#7f1d1d] text-[#fecaca] border-[#f87171]' },
+            japan:    { name: '일본', tier: 3, ground: '#bfb297', grass: '#477354', roof: '#1e293b', badge: 'bg-[#312e81] text-[#c7d2fe] border-[#818cf8]' },
+            taiwan:   { name: '대만', tier: 4, ground: '#c5af80', grass: '#3b7350', roof: '#9a3412', badge: 'bg-[#065f46] text-[#a7f3d0] border-[#34d399]' },
+            mongol:   { name: '몽골초원', tier: 5, ground: '#bfa77a', grass: '#74823d', roof: '#78350f', badge: 'bg-[#713f12] text-[#fef08a] border-[#facc15]' },
+            silkroad: { name: '서역실크로드', tier: 6, ground: '#d6b47c', grass: '#857344', roof: '#581c87', badge: 'bg-[#581c87] text-[#f3e8ff] border-[#c084fc]' }
+        };
+
+        const CITIES = {
+            hanyang:    { id: 'hanyang', region: 'joseon', name: '한양', spec: 'silk', mob: '백두산 호랑이 & 산적 두목', boss: '북악산 백호대왕', lv: 1, reward: 450 },
+            gaeseong:   { id: 'gaeseong', region: 'joseon', name: '개성', spec: 'ginseng', mob: '송악산 백호군단', boss: '천마산 구미호요괴', lv: 2, reward: 600 },
+            pyeongyang: { id: 'pyeongyang', region: 'joseon', name: '평양', spec: 'iron', mob: '대동강 철갑마적', boss: '묘향산 철갑거인', lv: 3, reward: 780 },
+            busan:      { id: 'busan', region: 'joseon', name: '부산', spec: 'seafood', mob: '동래 해안 왜구단', boss: '대한해협 이무기', lv: 3, reward: 860 },
+            jeonju:     { id: 'jeonju', region: 'joseon', name: '전주', spec: 'hanji', mob: '모악산 도적패거리', boss: '지리산 반달곰왕', lv: 4, reward: 1000 },
+            uiju:       { id: 'uiju', region: 'joseon', name: '의주', spec: 'herb', mob: '압록강 빙설늑대', boss: '백두산 설인대왕', lv: 4, reward: 1180 },
+            beijing:    { id: 'beijing', region: 'ming', name: '북경', spec: 'porcelain', mob: '만리장성 기마단', boss: '자금성 흑룡수호신', lv: 5, reward: 1480 },
+            nanjing:    { id: 'nanjing', region: 'ming', name: '남경', spec: 'gunpowder', mob: '양자강 수적함대', boss: '장강 거대악어왕', lv: 5, reward: 1680 },
+            hangzhou:   { id: 'hangzhou', region: 'ming', name: '항주', spec: 'tea', mob: '서호 백사요괴단', boss: '서호 천년백사왕', lv: 6, reward: 1980 },
+            suzhou:     { id: 'suzhou', region: 'ming', name: '소주', spec: 'embroidery', mob: '태호 무림사파단', boss: '태호 혈검마두', lv: 6, reward: 2250 },
+            guangzhou:  { id: 'guangzhou', region: 'ming', name: '광주', spec: 'spice', mob: '남해 해적선단', boss: '남지나해 해왕신', lv: 7, reward: 2580 },
+            edo:        { id: 'edo', region: 'japan', name: '에도시', spec: 'katana', mob: '관동 흑갑사무라이', boss: '에도성 오니대장군', lv: 7, reward: 2950 },
+            osaka:      { id: 'osaka', region: 'japan', name: '오사카', spec: 'silver', mob: '이가 닌자암살단', boss: '오사카 요괴텐구왕', lv: 8, reward: 3350 },
+            nagasaki:   { id: 'nagasaki', region: 'japan', name: '나가사키', spec: 'musket', mob: '규슈 화승총용병', boss: '아소산 화염거인', lv: 8, reward: 3750 },
+            kyoto:      { id: 'kyoto', region: 'japan', name: '교토', spec: 'lacquerware', mob: '헤이안 원령무사단', boss: '교토 구미호대요괴', lv: 9, reward: 4250 },
+            taipei:     { id: 'taipei', region: 'taiwan', name: '타이베이', spec: 'sugar', mob: '단수이 흑표범단', boss: '양명산 거대비룡', lv: 9, reward: 4650 },
+            kaohsiung:  { id: 'kaohsiung', region: 'taiwan', name: '가오슝', spec: 'coral', mob: '남해 심해아귀단', boss: '심해 크라켄군주', lv: 10, reward: 5250 },
+            tainan:     { id: 'tainan', region: 'taiwan', name: '타이난', spec: 'camphor', mob: '적감루 해적잔당', boss: '대만해협 뇌신수', lv: 10, reward: 5750 },
+            karakorum:  { id: 'karakorum', region: 'mongol', name: '카라코룸', spec: 'horse', mob: '초원 철갑늑대기병', boss: '초원의 패왕 칸', lv: 11, reward: 6550 },
+            ulaanbaatar:{ id: 'ulaanbaatar', region: 'mongol', name: '울란바토르', spec: 'fur', mob: '설원 불곰군단', boss: '알타이 빙하거룡', lv: 11, reward: 7250 },
+            orkhon:     { id: 'orkhon', region: 'mongol', name: '오르혼', spec: 'jade', mob: '고비 사막전갈단', boss: '사막의 대지거신', lv: 12, reward: 8050 },
+            dunhuang:   { id: 'dunhuang', region: 'silkroad', name: '돈황', spec: 'carpet', mob: '명사산 사막도적단', boss: '막고굴 황금수호신', lv: 12, reward: 8950 },
+            samarkand:  { id: 'samarkand', region: 'silkroad', name: '사마르칸트', spec: 'glassware', mob: '서역 쌍검암살단', boss: '사마르칸트 화염진', lv: 13, reward: 9950 },
+            india:      { id: 'india', region: 'silkroad', name: '천축국', spec: 'ivory', mob: '천축 코끼리전차단', boss: '천축 아수라대마왕', lv: 14, reward: 12600 }
+        };
+
+        const ITEMS = [
+            { id: 'silk', name: '한양 비단', base: 240, icon: '👘', origin: 'hanyang' },
+            { id: 'ginseng', name: '개성 인삼', base: 200, icon: '🌿', origin: 'gaeseong' },
+            { id: 'iron', name: '평양 철광', base: 170, icon: '⛏️', origin: 'pyeongyang' },
+            { id: 'seafood', name: '부산 해산물', base: 140, icon: '🐟', origin: 'busan' },
+            { id: 'hanji', name: '전주 한지', base: 190, icon: '📜', origin: 'jeonju' },
+            { id: 'herb', name: '의주 산약재', base: 290, icon: '🌱', origin: 'uiju' },
+            { id: 'porcelain', name: '명나라 청자', base: 420, icon: '🏺', origin: 'beijing' },
+            { id: 'gunpowder', name: '남경 화약', base: 360, icon: '🧨', origin: 'nanjing' },
+            { id: 'tea', name: '항주 용정차', base: 320, icon: '🍵', origin: 'hangzhou' },
+            { id: 'embroidery', name: '소주 자수', base: 460, icon: '🧵', origin: 'suzhou' },
+            { id: 'spice', name: '광주 향신료', base: 490, icon: '🌶️', origin: 'guangzhou' },
+            { id: 'katana', name: '에도 명검', base: 540, icon: '⚔️', origin: 'edo' },
+            { id: 'silver', name: '오사카 은괴', base: 590, icon: '🪙', origin: 'osaka' },
+            { id: 'musket', name: '나가사키 조총', base: 650, icon: '🔫', origin: 'nagasaki' },
+            { id: 'lacquerware', name: '교토 칠기', base: 610, icon: '🍶', origin: 'kyoto' },
+            { id: 'sugar', name: '대만 사탕수수', base: 300, icon: '🎋', origin: 'taipei' },
+            { id: 'coral', name: '가오슝 적산호', base: 760, icon: '🪸', origin: 'kaohsiung' },
+            { id: 'camphor', name: '타이난 장뇌향', base: 690, icon: '🪵', origin: 'tainan' },
+            { id: 'horse', name: '몽골 준마', base: 850, icon: '🐎', origin: 'karakorum' },
+            { id: 'fur', name: '초원 담비모피', base: 820, icon: '🧥', origin: 'ulaanbaatar' },
+            { id: 'jade', name: '오르혼 백옥', base: 920, icon: '💠', origin: 'orkhon' },
+            { id: 'carpet', name: '돈황 양탄자', base: 980, icon: '🧶', origin: 'dunhuang' },
+            { id: 'glassware', name: '서역 유리그릇', base: 1080, icon: '🍷', origin: 'samarkand' },
+            { id: 'ivory', name: '천축 상아공예', base: 1250, icon: '🐘', origin: 'india' }
+        ];
+
+        const DIFFICULTY_CONFIG = {
+            easy:      { label: '쉬움',   enemyMult: 1.0,  rewardMult: 1.0,  tradeMult: 1.0  },
+            normal:    { label: '보통',   enemyMult: 1.8,  rewardMult: 1.65, tradeMult: 1.15 },
+            hard:      { label: '어려움', enemyMult: 3.2,  rewardMult: 2.8,  tradeMult: 1.35 },
+            hell:      { label: '지옥',   enemyMult: 6.0,  rewardMult: 5.0,  tradeMult: 1.65 },
+            nightmare: { label: '악몽',   enemyMult: 11.5, rewardMult: 9.2,  tradeMult: 2.05 },
+            inferno:   { label: '불지옥', enemyMult: 22.0, rewardMult: 17.5, tradeMult: 2.6  }
+        };
+
+        /**
+         * 4. 24종 명품 장비 (컨셉 아트 인벤토리·대장간 슬롯 아이템 재현)
+         */
+        const GEAR_POOL = [
+            { id: 'w_saincham', slot: 'weapon', rarity: 'SSR', name: '사인참사검', icon: '🗡️', atk: 95, crit: 12, hp: 0, def: 0, trade: 0 },
+            { id: 'w_yeouibong', slot: 'weapon', rarity: 'UR', name: '천년 여의신검', icon: '⚔️', atk: 135, crit: 15, hp: 0, def: 0, trade: 0 },
+            { id: 'w_cheongryongdo', slot: 'weapon', rarity: 'UR', name: '청룡언월신도', icon: '🔱', atk: 145, crit: 10, hp: 180, def: 0, trade: 0 },
+            { id: 'w_bangcheon', slot: 'weapon', rarity: 'SSR', name: '방천화극', icon: '🪓', atk: 98, crit: 8, hp: 80, def: 0, trade: 0 },
+            { id: 'w_gakgung', slot: 'weapon', rarity: 'SR', name: '명품 흑각궁', icon: '🏹', atk: 58, crit: 7, hp: 0, def: 0, trade: 0 },
+            { id: 'w_hwacha', slot: 'weapon', rarity: 'SR', name: '신기전 화총', icon: '🔫', atk: 64, crit: 5, hp: 0, def: 0, trade: 0 },
+            { id: 'w_hwando', slot: 'weapon', rarity: 'R', name: '정예 조선환도', icon: '🔪', atk: 34, crit: 3, hp: 0, def: 0, trade: 0 },
+            { id: 'w_spear', slot: 'weapon', rarity: 'R', name: '철제 장창', icon: '🥢', atk: 36, crit: 2, hp: 20, def: 0, trade: 0 },
+
+            { id: 'a_dragonplate', slot: 'armor', rarity: 'UR', name: '황금 용린갑옷', icon: '🥋', atk: 28, crit: 0, hp: 720, def: 60, trade: 0 },
+            { id: 'a_hyeonmu', slot: 'armor', rarity: 'UR', name: '현무 신수전포', icon: '🛡️', atk: 0, crit: 0, hp: 860, def: 70, trade: 0 },
+            { id: 'a_dujeonggap', slot: 'armor', rarity: 'SSR', name: '명장 두정갑', icon: '🦺', atk: 15, crit: 0, hp: 480, def: 40, trade: 0 },
+            { id: 'a_samurai', slot: 'armor', rarity: 'SSR', name: '칠흑 오니갑주', icon: '👺', atk: 22, crit: 4, hp: 440, def: 36, trade: 0 },
+            { id: 'a_silkrobe', slot: 'armor', rarity: 'SR', name: '비단 호위도포', icon: '👘', atk: 0, crit: 0, hp: 300, def: 24, trade: 5 },
+            { id: 'a_chainmail', slot: 'armor', rarity: 'SR', name: '철편 쇄자갑', icon: '⛓️', atk: 0, crit: 0, hp: 330, def: 26, trade: 0 },
+            { id: 'a_leather', slot: 'armor', rarity: 'R', name: '무쇠 가죽갑옷', icon: '🧥', atk: 0, crit: 0, hp: 180, def: 14, trade: 0 },
+            { id: 'a_robe', slot: 'armor', rarity: 'R', name: '상단 무명관복', icon: '👕', atk: 0, crit: 0, hp: 160, def: 11, trade: 3 },
+
+            { id: 'r_geobukseon', slot: 'relic', rarity: 'UR', name: '거북선 모형', icon: '🚢', atk: 75, crit: 10, hp: 460, def: 32, trade: 25 },
+            { id: 'r_oksae', slot: 'relic', rarity: 'UR', name: '천하제일거상 옥새', icon: '👑', atk: 62, crit: 7, hp: 380, def: 26, trade: 35 },
+            { id: 'r_dongui', slot: 'relic', rarity: 'SSR', name: '동의보감 원본', icon: '📕', atk: 38, crit: 4, hp: 340, def: 22, trade: 15 },
+            { id: 'r_sunzi', slot: 'relic', rarity: 'SSR', name: '손자병법 죽간', icon: '📜', atk: 54, crit: 7, hp: 240, def: 18, trade: 12 },
+            { id: 'r_compass', slot: 'relic', rarity: 'SR', name: '실크로드 황금나침반', icon: '🧭', atk: 26, crit: 3, hp: 170, def: 11, trade: 14 },
+            { id: 'r_ginseng', slot: 'relic', rarity: 'SR', name: '천종산삼 보물함', icon: '🌿', atk: 20, crit: 2, hp: 220, def: 13, trade: 10 },
+            { id: 'r_abacus', slot: 'relic', rarity: 'R', name: '거상 황동주판', icon: '🧮', atk: 14, crit: 1, hp: 90, def: 6, trade: 8 },
+            { id: 'r_amulet', slot: 'relic', rarity: 'R', name: '호신 영험부적', icon: '🏷️', atk: 16, crit: 2, hp: 105, def: 7, trade: 4 }
+        ];
+
+        const ENEMY_TYPES = {
+            tiger: { id: 'tiger', name: '백두산 호랑이', isTiger: true, hp: 410, atk: 38, def: 18, range: 58 },
+            bandit: { id: 'bandit', name: '산적 두목', hat: 'bandit', coat: '#7f1d1d', trim: '#fca5a5', skin: '#d69e76', weapon: 'sword', beard: true, hp: 280, atk: 30, def: 14, range: 52 },
+            shadow_demon: { id: 'shadow_demon', name: '어둠의 요괴', isDemon: true, hp: 310, atk: 34, def: 15, range: 55 }
+        };
+
+        /**
+         * 5. 고밀도 수작업 일러스트급 2.5D 렌더러 & 정밀 흉상 초상화 생성기
+         */
+        class HighArtIllustrationRenderer {
+            constructor() {
+                this.portraitCache = new Map();
+            }
+
+            // (A) 64종 모든 캐릭터별 고유 흉상 초상화 일러스트 (컨셉 아트 하단 이순신·허준·지국천왕 초상화 재현)
+            drawBustPortrait(canvas, spec) {
+                if (!canvas) return;
+                const ctx = canvas.getContext('2d');
+                const w = canvas.width;
+                const h = canvas.height;
+                ctx.clearRect(0, 0, w, h);
+
+                // 1. 배경 구름/아우라 그라데이션
+                const bgGrad = ctx.createLinearGradient(0, 0, 0, h);
+                if (spec.stage === 3) {
+                    bgGrad.addColorStop(0, '#78350f');
+                    bgGrad.addColorStop(0.5, '#991b1b');
+                    bgGrad.addColorStop(1, '#2e1065');
+                } else if (spec.stage === 2) {
+                    bgGrad.addColorStop(0, '#92400e');
+                    bgGrad.addColorStop(1, '#451a03');
+                } else if (spec.stage === 1) {
+                    bgGrad.addColorStop(0, '#1e3a8a');
+                    bgGrad.addColorStop(1, '#172554');
+                } else {
+                    bgGrad.addColorStop(0, '#475569');
+                    bgGrad.addColorStop(1, '#1e293b');
+                }
+                ctx.fillStyle = bgGrad;
+                ctx.fillRect(0, 0, w, h);
+
+                // 배경 은은한 구름/후광 원형
+                ctx.fillStyle = spec.stage >= 2 ? 'rgba(253, 224, 71, 0.25)' : 'rgba(255, 255, 255, 0.14)';
+                ctx.beginPath();
+                ctx.arc(w * 0.5, h * 0.42, w * 0.36, 0, Math.PI * 2);
+                ctx.fill();
+
+                const cx = w * 0.5;
+                const cy = h * 0.48;
+
+                // 2. 어깨 갑옷 / 도포 상반신
+                ctx.fillStyle = spec.coat;
+                ctx.strokeStyle = '#1c120a';
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.moveTo(w * 0.08, h);
+                ctx.quadraticCurveTo(w * 0.15, h * 0.66, cx, h * 0.66);
+                ctx.quadraticCurveTo(w * 0.85, h * 0.66, w * 0.92, h);
+                ctx.closePath();
+                ctx.fill();
+                ctx.stroke();
+
+                // 깃 / 갑옷 금장 견갑
+                if (spec.hat === 'general' || spec.hat === 'deva' || spec.hat === 'samurai') {
+                    ctx.fillStyle = spec.trim;
+                    ctx.beginPath();
+                    ctx.ellipse(w * 0.22, h * 0.78, w * 0.13, h * 0.09, -0.3, 0, Math.PI * 2);
+                    ctx.ellipse(w * 0.78, h * 0.78, w * 0.13, h * 0.09, 0.3, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.stroke();
+                } else {
+                    // 의술사/책사 흰색 동정 깃
+                    ctx.strokeStyle = '#cbd5e1';
+                    ctx.lineWidth = 2.5;
+                    ctx.beginPath();
+                    ctx.moveTo(cx - w * 0.12, h * 0.66);
+                    ctx.lineTo(cx, h * 0.86);
+                    ctx.lineTo(cx + w * 0.12, h * 0.66);
+                    ctx.stroke();
+                }
+
+                // 3. 얼굴 윤곽
+                ctx.fillStyle = spec.skin;
+                ctx.strokeStyle = '#1c120a';
+                ctx.lineWidth = 1.8;
+                ctx.beginPath();
+                ctx.ellipse(cx, cy, w * 0.21, h * 0.23, 0, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.stroke();
+
+                // 눈썹 & 눈빛
+                ctx.strokeStyle = '#1c120a';
+                ctx.lineWidth = 1.8;
+                ctx.beginPath();
+                ctx.moveTo(cx - w * 0.12, cy - h * 0.04);
+                ctx.lineTo(cx - w * 0.04, cy - h * 0.02);
+                ctx.moveTo(cx + w * 0.12, cy - h * 0.04);
+                ctx.lineTo(cx + w * 0.04, cy - h * 0.02);
+                ctx.stroke();
+
+                ctx.fillStyle = spec.stage === 3 ? '#fef08a' : '#1c120a';
+                ctx.beginPath();
+                ctx.arc(cx - w * 0.075, cy + h * 0.01, 1.8, 0, Math.PI * 2);
+                ctx.arc(cx + w * 0.075, cy + h * 0.01, 1.8, 0, Math.PI * 2);
+                ctx.fill();
+
+                // 수염 (이순신·허준·관우·사천왕 등)
+                if (spec.beard) {
+                    ctx.fillStyle = '#1e293b';
+                    ctx.beginPath();
+                    ctx.moveTo(cx - w * 0.12, cy + h * 0.1);
+                    ctx.quadraticCurveTo(cx, cy + h * 0.34, cx + w * 0.12, cy + h * 0.1);
+                    ctx.quadraticCurveTo(cx, cy + h * 0.15, cx - w * 0.12, cy + h * 0.1);
+                    ctx.fill();
+                }
+
+                // 4. 투구 / 사모관대 / 천왕관 디테일
+                ctx.strokeStyle = '#1c120a';
+                ctx.lineWidth = 1.8;
+                if (spec.hat === 'deva') {
+                    // 사천왕·신수 화려한 금관
+                    ctx.fillStyle = '#facc15';
+                    ctx.beginPath();
+                    ctx.moveTo(cx - w * 0.24, cy - h * 0.14);
+                    ctx.lineTo(cx - w * 0.16, cy - h * 0.34);
+                    ctx.lineTo(cx, cy - h * 0.42);
+                    ctx.lineTo(cx + w * 0.16, cy - h * 0.34);
+                    ctx.lineTo(cx + w * 0.24, cy - h * 0.14);
+                    ctx.closePath();
+                    ctx.fill();
+                    ctx.stroke();
+                    ctx.fillStyle = '#ef4444';
+                    ctx.beginPath();
+                    ctx.arc(cx, cy - h * 0.25, 3, 0, Math.PI * 2);
+                    ctx.fill();
+                } else if (spec.hat === 'general' || spec.hat === 'samurai') {
+                    // 장군 투구 & 붉은 상모
+                    ctx.fillStyle = '#92400e';
+                    ctx.beginPath();
+                    ctx.arc(cx, cy - h * 0.15, w * 0.24, Math.PI, 0);
+                    ctx.fill();
+                    ctx.stroke();
+                    ctx.fillStyle = '#facc15';
+                    ctx.fillRect(cx - w * 0.24, cy - h * 0.17, w * 0.48, 4);
+                    ctx.fillStyle = '#dc2626';
+                    ctx.beginPath();
+                    ctx.arc(cx, cy - h * 0.36, 3.5, 0, Math.PI * 2);
+                    ctx.fill();
+                } else if (spec.hat === 'scholar') {
+                    // 허준·제갈량 사모관대
+                    ctx.fillStyle = '#1e293b';
+                    ctx.fillRect(cx - w * 0.18, cy - h * 0.34, w * 0.36, h * 0.18);
+                    ctx.strokeRect(cx - w * 0.18, cy - h * 0.34, w * 0.36, h * 0.18);
+                    ctx.fillRect(cx - w * 0.32, cy - h * 0.26, w * 0.64, 3);
+                } else {
+                    // 일반 용병 전립/두건
+                    ctx.fillStyle = '#334155';
+                    ctx.beginPath();
+                    ctx.ellipse(cx, cy - h * 0.18, w * 0.28, h * 0.08, 0, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.stroke();
+                }
+            }
+
+            // (B) 전장 2.5D 캐릭터 + 발밑 회전 룬 마법진 렌더링
+            drawBattleActor(ctx, spec, x, y, scale, state, tick, facing = 1, hitFlash = false) {
+                ctx.save();
+                ctx.translate(x, y);
+
+                // 1. 발밑 회전 룬 마법진 (아군 전원 및 보스급에 컨셉 아트 스타일 마법진 표시)
+                if (spec.side === 'ally' || spec.isMegaBoss) {
+                    const isMystic = spec.isHealer || spec.isAoe || spec.hat === 'scholar';
+                    const ringCol = spec.side === 'enemy' ? '#ef4444' : (isMystic ? '#22d3ee' : '#facc15');
+                    const glowCol = spec.side === 'enemy' ? 'rgba(239, 68, 68, 0.28)' : (isMystic ? 'rgba(34, 211, 238, 0.28)' : 'rgba(250, 204, 21, 0.32)');
+
+                    ctx.save();
+                    ctx.scale(1, 0.44);
+                    ctx.fillStyle = glowCol;
+                    ctx.beginPath();
+                    ctx.arc(0, 0, 24 * scale, 0, Math.PI * 2);
+                    ctx.fill();
+
+                    ctx.strokeStyle = ringCol;
+                    ctx.lineWidth = 2;
+                    ctx.beginPath();
+                    ctx.arc(0, 0, 22 * scale, 0, Math.PI * 2);
+                    ctx.stroke();
+
+                    ctx.rotate(tick * 0.03);
+                    ctx.setLineDash([5, 4]);
+                    ctx.beginPath();
+                    ctx.arc(0, 0, 16 * scale, 0, Math.PI * 2);
+                    ctx.stroke();
+                    ctx.restore();
+                } else {
+                    ctx.fillStyle = 'rgba(0, 0, 0, 0.38)';
+                    ctx.beginPath();
+                    ctx.ellipse(0, 0, 16 * scale, 6 * scale, 0, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+
+                if (facing < 0) ctx.scale(-1, 1);
+
+                const bob = state === 'walk' ? Math.abs(Math.sin(tick * 0.26)) * 3 : Math.sin(tick * 0.1) * 1.2;
+                const swing = state === 'attack' ? Math.sin((tick % 24) / 24 * Math.PI) : 0;
+
+                if (spec.isTiger) {
+                    this.drawDetailedTiger(ctx, scale, bob, swing, hitFlash);
+                } else if (spec.isDemon) {
+                    this.drawShadowDemon(ctx, scale, bob, swing, hitFlash);
+                } else {
+                    this.drawDetailedHero(ctx, spec, scale, bob, swing, tick, hitFlash);
+                }
+
+                ctx.restore();
+            }
+
+            drawDetailedHero(ctx, spec, s, bob, swing, tick, hitFlash) {
+                ctx.save();
+                ctx.scale(s, s);
+                ctx.translate(0, -bob);
+
+                // 3차 각성 불꽃/신광 후광 링
+                if (spec.stage === 3) {
+                    ctx.strokeStyle = 'rgba(251, 146, 60, 0.85)';
+                    ctx.lineWidth = 2.5;
+                    ctx.beginPath();
+                    ctx.arc(0, -24, 17 + Math.sin(tick * 0.15) * 1.5, 0, Math.PI * 2);
+                    ctx.stroke();
+                }
+
+                // 휘날리는 망토 (2차 이상)
+                if (spec.stage >= 2) {
+                    ctx.fillStyle = spec.stage === 3 ? '#b91c1c' : '#78350f';
+                    ctx.strokeStyle = '#1c120a';
+                    ctx.lineWidth = 1.2;
+                    ctx.beginPath();
+                    ctx.moveTo(-4, -24);
+                    ctx.lineTo(-14 - Math.sin(tick * 0.15) * 2, -6);
+                    ctx.lineTo(-3, -6);
+                    ctx.closePath();
+                    ctx.fill();
+                    ctx.stroke();
+                }
+
+                // 다리
+                ctx.fillStyle = '#1e293b';
+                ctx.fillRect(-6, -11, 4, 11);
+                ctx.fillRect(2, -11, 4, 11);
+
+                // 몸통 갑옷/도포
+                ctx.fillStyle = hitFlash ? '#ef4444' : spec.coat;
+                ctx.strokeStyle = '#1c120a';
+                ctx.lineWidth = 1.4;
+                ctx.beginPath();
+                ctx.roundRect(-8, -26, 16, 16, 3);
+                ctx.fill();
+                ctx.stroke();
+
+                // 허리띠 & 갑옷 장식
+                ctx.fillStyle = spec.trim;
+                ctx.fillRect(-7, -16, 14, 3);
+
+                // 머리
+                ctx.fillStyle = hitFlash ? '#fca5a5' : spec.skin;
+                ctx.beginPath();
+                ctx.arc(0, -32, 6.5, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.stroke();
+
+                // 투구/관모
+                if (spec.hat === 'deva') {
+                    ctx.fillStyle = '#facc15';
+                    ctx.beginPath();
+                    ctx.moveTo(-7, -35); ctx.lineTo(0, -45); ctx.lineTo(7, -35);
+                    ctx.closePath(); ctx.fill(); ctx.stroke();
+                } else if (spec.hat === 'general' || spec.hat === 'samurai') {
+                    ctx.fillStyle = '#92400e';
+                    ctx.beginPath();
+                    ctx.arc(0, -34, 7.2, Math.PI, 0);
+                    ctx.fill(); ctx.stroke();
+                    ctx.fillStyle = '#ef4444';
+                    ctx.beginPath(); ctx.arc(0, -42, 2.2, 0, Math.PI * 2); ctx.fill();
+                } else if (spec.hat === 'scholar') {
+                    ctx.fillStyle = '#1e293b';
+                    ctx.fillRect(-6, -41, 12, 6);
+                    ctx.fillRect(-10, -38, 20, 2);
+                } else {
+                    ctx.fillStyle = '#334155';
+                    ctx.beginPath(); ctx.ellipse(0, -36, 9, 2.5, 0, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+                }
+
+                // 무기 렌더링
+                ctx.save();
+                ctx.translate(7, -20);
+                ctx.rotate(-0.4 + swing * 1.4);
+                if (spec.weapon === 'bow') {
+                    ctx.strokeStyle = '#92400e';
+                    ctx.lineWidth = 2;
+                    ctx.beginPath();
+                    ctx.arc(0, 0, 11, -Math.PI * 0.45, Math.PI * 0.45);
+                    ctx.stroke();
+                } else if (spec.weapon === 'spear' || spec.weapon === 'staff') {
+                    ctx.strokeStyle = '#78350f';
+                    ctx.lineWidth = 2;
+                    ctx.beginPath(); ctx.moveTo(0, 10); ctx.lineTo(0, -22); ctx.stroke();
+                    ctx.fillStyle = '#fde047';
+                    ctx.beginPath(); ctx.moveTo(-3, -22); ctx.lineTo(0, -29); ctx.lineTo(3, -22); ctx.fill();
+                } else {
+                    ctx.fillStyle = spec.stage === 3 ? '#fb923c' : '#f8fafc';
+                    ctx.strokeStyle = '#1c120a';
+                    ctx.lineWidth = 1;
+                    ctx.fillRect(-1.5, -18, 3, 18);
+                    ctx.strokeRect(-1.5, -18, 3, 18);
+                }
+                ctx.restore();
+
+                ctx.restore();
+            }
+
+            drawDetailedTiger(ctx, s, bob, swing, hitFlash) {
+                ctx.save();
+                ctx.scale(s, s);
+                ctx.translate(swing * 6, -bob);
+
+                // 꼬리
+                ctx.strokeStyle = '#ea580c';
+                ctx.lineWidth = 3;
+                ctx.beginPath();
+                ctx.moveTo(14, -14);
+                ctx.quadraticCurveTo(24, -22, 22, -10);
+                ctx.stroke();
+
+                // 다리
+                ctx.fillStyle = '#ea580c';
+                ctx.strokeStyle = '#1c120a';
+                ctx.lineWidth = 1.4;
+                ctx.fillRect(-12, -10, 5, 10);
+                ctx.strokeRect(-12, -10, 5, 10);
+                ctx.fillRect(7, -10, 5, 10);
+                ctx.strokeRect(7, -10, 5, 10);
+
+                // 몸통
+                ctx.fillStyle = hitFlash ? '#fca5a5' : '#f97316';
+                ctx.beginPath();
+                ctx.ellipse(0, -14, 16, 9, 0, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.stroke();
+
+                // 호랑이 검은 줄무늬
+                ctx.strokeStyle = '#1c120a';
+                ctx.lineWidth = 2;
+                [-6, 0, 6].forEach(sx => {
+                    ctx.beginPath();
+                    ctx.moveTo(sx, -22);
+                    ctx.lineTo(sx - 1, -13);
+                    ctx.stroke();
+                });
+
+                // 호랑이 머리
+                ctx.fillStyle = hitFlash ? '#fca5a5' : '#fb923c';
+                ctx.beginPath();
+                ctx.arc(-15, -18, 8.5, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.stroke();
+
+                // 눈 & 송곳니
+                ctx.fillStyle = '#fef08a';
+                ctx.fillRect(-19, -20, 2.5, 2.5);
+                ctx.fillStyle = '#fff';
+                ctx.beginPath();
+                ctx.moveTo(-21, -14); ctx.lineTo(-19, -10); ctx.lineTo(-17, -14);
+                ctx.fill();
+
+                ctx.restore();
+            }
+
+            drawShadowDemon(ctx, s, bob, swing, hitFlash) {
+                ctx.save();
+                ctx.scale(s, s);
+                ctx.translate(swing * 5, -bob);
+
+                ctx.fillStyle = hitFlash ? '#ef4444' : '#312e81';
+                ctx.strokeStyle = '#0f172a';
+                ctx.lineWidth = 1.5;
+                ctx.beginPath();
+                ctx.moveTo(-8, 0); ctx.lineTo(-10, -24); ctx.lineTo(0, -32); ctx.lineTo(10, -24); ctx.lineTo(8, 0);
+                ctx.closePath();
+                ctx.fill();
+                ctx.stroke();
+
+                // 뿔
+                ctx.fillStyle = '#1e1b4b';
+                ctx.beginPath();
+                ctx.moveTo(-6, -30); ctx.lineTo(-11, -39); ctx.lineTo(-2, -31);
+                ctx.moveTo(6, -30); ctx.lineTo(11, -39); ctx.lineTo(2, -31);
+                ctx.fill();
+
+                // 붉은 안광
+                ctx.fillStyle = '#f87171';
+                ctx.fillRect(-5, -24, 3, 2);
+                ctx.fillRect(1, -24, 3, 2);
+
+                ctx.restore();
+            }
+        }
+
+        /**
+         * 6. 시네마틱 태극 팔괘진 듀얼 가챠 시스템
+         */
+        class DualGachaSystem {
+            constructor() {
+                this.heroPity = 0;
+                this.gearPity = 0;
+                this.lastBanner = 'hero';
+                this.currentCards = [];
+            }
+
+            openBannerModal() {
+                const modal = document.getElementById('gacha-modal');
+                modal.classList.remove('hidden');
+                document.getElementById('gacha-banner-stage').classList.remove('hidden');
+                document.getElementById('gacha-ritual-stage').classList.add('hidden');
+                document.getElementById('gacha-reveal-stage').classList.add('hidden');
+                document.getElementById('gacha-hero-pity').textContent = `${50 - this.heroPity}회`;
+                document.getElementById('gacha-gear-pity').textContent = `${50 - this.gearPity}회`;
+            }
+
+            rollHeroOrMerc(pityCount, guaranteeSrPlus) {
+                pityCount++;
+                const r = Math.random() * 100;
+                let stageIdx = 0;
+                if (pityCount >= 50 || r < 5.0) {
+                    stageIdx = 3;
+                    pityCount = 0;
+                } else if (r < 19.0) {
+                    stageIdx = 2;
+                } else if (r < 48.0 || guaranteeSrPlus) {
+                    stageIdx = 1;
+                }
+                const lineage = EVOLUTION_LINEAGES[Math.floor(Math.random() * EVOLUTION_LINEAGES.length)];
+                const unitSpec = getStageUnitSpec(lineage.id, stageIdx);
+                return { item: unitSpec, nextPity: pityCount };
+            }
+
+            rollGear(pityCount, guaranteeSrPlus) {
+                pityCount++;
+                const r = Math.random() * 100;
+                let rarity = 'R';
+                if (pityCount >= 50 || r < 5.5) {
+                    rarity = 'UR';
+                    pityCount = 0;
+                } else if (r < 21.0) {
+                    rarity = 'SSR';
+                } else if (r < 55.0 || guaranteeSrPlus) {
+                    rarity = 'SR';
+                }
+                const list = GEAR_POOL.filter(x => x.rarity === rarity);
+                return { item: list[Math.floor(Math.random() * list.length)], nextPity: pityCount };
+            }
+
+            summon(bannerType, times) {
+                this.lastBanner = bannerType;
+                const costMoney = times === 1 ? 1000 : 9000;
+                const costSeals = times;
+
+                if (game.state.seals >= costSeals) {
+                    game.state.seals -= costSeals;
+                } else if (game.state.money >= costMoney) {
+                    game.state.money -= costMoney;
+                } else {
+                    game.toast(`재화가 부족합니다! (${costMoney.toLocaleString()}냥 또는 🎟️소환패 ${costSeals}장 필요)`, 'red');
+                    return;
+                }
+
+                const results = [];
+                for (let i = 0; i < times; i++) {
+                    const isGuarantee = (times === 10 && i === 9);
+                    if (bannerType === 'hero') {
+                        const { item, nextPity } = this.rollHeroOrMerc(this.heroPity, isGuarantee);
+                        this.heroPity = nextPity;
+                        const outcome = game.grantRecruitedUnit(item);
+                        results.push({ bannerType, item, outcome, flipped: false });
+                    } else {
+                        const { item, nextPity } = this.rollGear(this.gearPity, isGuarantee);
+                        this.gearPity = nextPity;
+                        game.grantGearFromGacha(item);
+                        results.push({ bannerType, item, outcome: {}, flipped: false });
+                    }
+                }
+
+                this.currentCards = results;
+                game.saveToStorage();
+                game.renderAllUI();
+                this.playCinematicReveal(bannerType, results);
+            }
+
+            resummon(times) {
+                this.summon(this.lastBanner, times);
+            }
+
+            playCinematicReveal(bannerType, results) {
+                const modal = document.getElementById('gacha-modal');
+                const bannerStage = document.getElementById('gacha-banner-stage');
+                const ritualStage = document.getElementById('gacha-ritual-stage');
+                const revealStage = document.getElementById('gacha-reveal-stage');
+                const ritualText = document.getElementById('ritual-text');
+                const flashLayer = document.getElementById('gacha-flash-layer');
+
+                modal.classList.remove('hidden');
+                bannerStage.classList.add('hidden');
+                ritualStage.classList.remove('hidden');
+                revealStage.classList.add('hidden');
+                flashLayer.classList.add('hidden');
+
+                const hasUR = results.some(r => r.item.rarity === 'UR');
+                const hasSSR = results.some(r => r.item.rarity === 'SSR');
+                const topRarity = hasUR ? 'UR' : hasSSR ? 'SSR' : 'SR';
+
+                ritualText.textContent = hasUR
+                    ? '⚡ 천지가 진동합니다! 전설 사천왕·신수 각성체가 강림합니다!! ⚡'
+                    : hasSSR
+                    ? '✨ 황금빛 서기가 태극 팔괘진에 감돕니다! ✨'
+                    : '태극 팔괘진이 영웅과 용병을 불러옵니다...';
+
+                sfx.playGachaRitual();
+
+                setTimeout(() => {
+                    ritualStage.classList.add('hidden');
+                    revealStage.classList.remove('hidden');
+                    sfx.playGachaReveal(topRarity);
+
+                    if (hasUR || hasSSR) {
+                        flashLayer.classList.remove('hidden');
+                        flashLayer.classList.remove('flash-overlay');
+                        void flashLayer.offsetWidth;
+                        flashLayer.classList.add('flash-overlay');
+                    }
+
+                    document.getElementById('gacha-modal-title').textContent =
+                        bannerType === 'hero' ? '✨ 용병 · 전직 장수 등용 결과' : '🏺 명품 장비 · 보물 소환 결과';
+
+                    this.renderCardsGrid();
+                    setTimeout(() => this.flipAllCards(), 350);
+                }, 760);
+            }
+
+            renderCardsGrid() {
+                const grid = document.getElementById('gacha-cards-grid');
+                const slotLabel = { weapon: '무기', armor: '갑옷', relic: '보물' };
+
+                grid.innerHTML = this.currentCards.map((entry, idx) => {
+                    const obj = entry.item;
+                    if (!entry.flipped) {
+                        return `
+                            <div onclick="gachaSystem.flipSingle(${idx})" class="cursor-pointer bg-gradient-to-b from-[#3b2412] to-[#1a0f08] border-2 border-[#a17846] rounded-xl p-2 h-32 flex flex-col items-center justify-center text-center shadow hover:border-[#fde047] transition">
+                                <span class="text-2xl mb-1">☯️</span>
+                                <span class="font-serif-kr font-bold text-[11px] text-[#fde047]">천명 카드</span>
+                                <span class="text-[9px] text-[#cbb89c] mt-0.5">터치하여 개봉</span>
+                            </div>
+                        `;
+                    }
+
+                    const topBadge = entry.bannerType === 'hero'
+                        ? `${obj.rarity} · ${obj.stageLabel}`
+                        : `${obj.rarity} · ${slotLabel[obj.slot]}`;
+
+                    const bottomBadge = entry.bannerType === 'hero'
+                        ? (entry.outcome.mode === 'promoted_existing'
+                            ? `<span class="mt-1 text-[9px] font-black px-1.5 py-0.2 rounded bg-[#9333ea] text-white">상위 단계 승급!</span>`
+                            : entry.outcome.mode === 'awakened_star'
+                            ? `<span class="mt-1 text-[9px] font-black px-1.5 py-0.2 rounded bg-[#16a34a] text-white">★${entry.outcome.stars} 초월각성!</span>`
+                            : `<span class="mt-1 text-[9px] font-black px-1.5 py-0.2 rounded bg-[#fde047] text-black">NEW 합류!</span>`)
+                        : `<span class="mt-1 text-[9px] font-black px-1.5 py-0.2 rounded bg-[#38bdf8] text-black">장비 획득!</span>`;
+
+                    return `
+                        <div style="animation-delay: ${idx * 35}ms" class="card-revealed card-${obj.rarity} border-2 rounded-xl p-2 flex flex-col items-center text-center shadow-lg">
+                            <span class="text-[9px] font-black px-1.5 py-0.2 rounded bg-black/60 mb-1">${topBadge}</span>
+                            ${entry.bannerType === 'hero'
+                                ? `<canvas id="gc-hero-${idx}" width="48" height="48" class="rounded-lg border border-white/40 my-0.5"></canvas>`
+                                : `<div class="w-12 h-12 rounded-lg bg-black/35 border border-white/30 flex items-center justify-center text-2xl my-0.5">${obj.icon}</div>`
+                            }
+                            <div class="font-serif-kr font-bold text-[11px] truncate w-full mt-0.5">${obj.name}</div>
+                            <div class="text-[9px] opacity-85 truncate w-full">${entry.bannerType === 'hero' ? obj.role : `공+${obj.atk} 체+${obj.hp}`}</div>
+                            ${bottomBadge}
+                        </div>
+                    `;
+                }).join('');
+
+                this.currentCards.forEach((entry, idx) => {
+                    if (entry.flipped && entry.bannerType === 'hero') {
+                        const c = document.getElementById(`gc-hero-${idx}`);
+                        if (c) game.renderer.drawBustPortrait(c, entry.item);
+                    }
+                });
+            }
+
+            flipSingle(idx) {
+                if (this.currentCards[idx] && !this.currentCards[idx].flipped) {
+                    this.currentCards[idx].flipped = true;
+                    sfx.playGachaReveal(this.currentCards[idx].item.rarity);
+                    this.renderCardsGrid();
+                }
+            }
+
+            flipAllCards() {
+                let changed = false;
+                this.currentCards.forEach(c => { if (!c.flipped) { c.flipped = true; changed = true; } });
+                if (changed) this.renderCardsGrid();
+            }
+
+            closeModal() {
+                document.getElementById('gacha-modal').classList.add('hidden');
+            }
+        }
+
+        /**
+         * 7. 메인 게임 시뮬레이션 엔진
+         */
+        class ArtworkRemasterGame {
+            constructor() {
+                this.SAVE_KEY = 'gersang_artwork_remaster_v1';
+                this.state = this.createDefaultState();
+                this.loadFromStorage();
+
+                ITEMS.forEach(it => {
+                    if (this.state.inventory[it.id] === undefined) this.state.inventory[it.id] = 0;
+                });
+                this.syncAllHeroHp();
+
+                this.inBattle = false;
+                this.isBossFight = false;
+                this.battleUnits = [];
+                this.projectiles = [];
+                this.particles = [];
+                this.cutinBanner = null;
+                this.mp = 100;
+                this.skills = {
+                    1: { cd: 0, maxCd: 4.0, mp: 20 },
+                    2: { cd: 0, maxCd: 5.5, mp: 25 },
+                    3: { cd: 0, maxCd: 7.0, mp: 40 },
+                    4: { cd: 0, maxCd: 9.5, mp: 60 }
+                };
+
+                this.wagonX = 110;
+                this.smoke = [];
+                this.petals = Array.from({ length: 24 }, () => ({
+                    x: Math.random() * 1050,
+                    y: Math.random() * 320,
+                    vx: 0.4 + Math.random() * 0.6,
+                    vy: 0.45 + Math.random() * 0.65,
+                    size: 2.2 + Math.random() * 2.2,
+                    isAutumn: Math.random() > 0.5
+                }));
+                this.tick = 0;
+                this.screenShake = 0;
+
+                this.renderer = new HighArtIllustrationRenderer();
+                this.refreshAllPrices();
+                this.renderAllUI();
+
+                this.lastTime = performance.now();
+                requestAnimationFrame((t) => this.loop(t));
+            }
+
+            createDefaultState() {
+                // 컨셉 아트 하단 주인공 부대(이순신 · 허준 · 지국천왕 · 김유신) 즉시 세팅!
+                const initialRoster = [
+                    { uid: 'u_1', lineageId: 'kr_archer', stage: 1, level: 85, stars: 2, skillLv: 4 }, // 이순신
+                    { uid: 'u_2', lineageId: 'kr_healer', stage: 1, level: 85, stars: 2, skillLv: 4 }, // 허준
+                    { uid: 'u_3', lineageId: 'cn_axe',    stage: 3, level: 85, stars: 3, skillLv: 6 }, // 지국천왕
+                    { uid: 'u_4', lineageId: 'kr_spear',  stage: 0, level: 12, stars: 1, skillLv: 1 }  // 조선 창병 (전직 테스트용)
+                ];
+
+                // 컨셉 아트 인벤토리 슬롯(+12 사인참사검, +12 거북선 모형, +15 명품 장비들) 재현
+                const initialGear = [
+                    { uid: 'g_1', ...GEAR_POOL.find(g => g.id === 'w_saincham'), enhance: 12, pityBonus: 0, equippedBy: 'u_1' },
+                    { uid: 'g_2', ...GEAR_POOL.find(g => g.id === 'r_geobukseon'), enhance: 12, pityBonus: 0, equippedBy: 'u_1' },
+                    { uid: 'g_3', ...GEAR_POOL.find(g => g.id === 'a_dragonplate'), enhance: 12, pityBonus: 0, equippedBy: 'u_3' },
+                    { uid: 'g_4', ...GEAR_POOL.find(g => g.id === 'w_cheongryongdo'), enhance: 15, pityBonus: 0, equippedBy: 'u_3' },
+                    { uid: 'g_5', ...GEAR_POOL.find(g => g.id === 'r_dongui'), enhance: 12, pityBonus: 0, equippedBy: 'u_2' },
+                    { uid: 'g_6', ...GEAR_POOL.find(g => g.id === 'r_oksae'), enhance: 15, pityBonus: 0, equippedBy: null },
+                    { uid: 'g_7', ...GEAR_POOL.find(g => g.id === 'w_yeouibong'), enhance: 15, pityBonus: 0, equippedBy: null },
+                    { uid: 'g_8', ...GEAR_POOL.find(g => g.id === 'a_hyeonmu'), enhance: 12, pityBonus: 0, equippedBy: null }
+                ];
+
+                return {
+                    city: 'hanyang',
+                    difficulty: 'normal',
+                    money: 25000,
+                    scrolls: 15,
+                    soulStones: 350,
+                    forgeStones: 150,
+                    seals: 20,
+                    credit: 100,
+                    food: 120,
+                    maxFood: 120,
+                    maxCargo: 60,
+                    inventory: { silk: 4, ginseng: 2 },
+                    prices: {},
+                    roster: initialRoster,
+                    activePartyUids: ['u_1', 'u_2', 'u_3', 'u_4'],
+                    armyHpMap: {},
+                    gearBag: initialGear,
+                    nextUnitUid: 5,
+                    nextGearUid: 9
+                };
+            }
+
+            saveToStorage() {
+                try { localStorage.setItem(this.SAVE_KEY, JSON.stringify(this.state)); } catch (e) {}
+            }
+
+            loadFromStorage() {
+                try {
+                    const raw = localStorage.getItem(this.SAVE_KEY);
+                    if (raw) {
+                        const parsed = JSON.parse(raw);
+                        if (parsed && Array.isArray(parsed.roster) && parsed.roster.length > 0) {
+                            this.state = { ...this.createDefaultState(), ...parsed };
+                            const diffEl = document.getElementById('difficulty-select');
+                            if (diffEl) diffEl.value = this.state.difficulty;
+                        }
+                    }
+                } catch (e) {}
+            }
+
+            getGearEffectiveStats(gear) {
+                const enhMult = 1 + gear.enhance * 0.18;
+                return {
+                    ...gear,
+                    effAtk: Math.round(gear.atk * enhMult),
+                    effHp: Math.round(gear.hp * enhMult),
+                    effDef: Math.round(gear.def * enhMult),
+                    effCrit: Math.round((gear.crit + gear.enhance * 0.6) * 10) / 10,
+                    effTrade: Math.round(gear.trade * (1 + gear.enhance * 0.1))
+                };
+            }
+
+            getUnitEffectiveStats(unitInst) {
+                const stageSpec = getStageUnitSpec(unitInst.lineageId, unitInst.stage);
+                const levelMult = 1 + (unitInst.level - 1) * 0.08;
+                const starMult = 1 + (unitInst.stars - 1) * 0.22;
+                const totalScale = levelMult * starMult;
+
+                let gearAtk = 0, gearHp = 0, gearDef = 0, gearCrit = 0, gearTrade = 0;
+                const equippedGears = this.state.gearBag.filter(g => g.equippedBy === unitInst.uid);
+                equippedGears.forEach(g => {
+                    const eg = this.getGearEffectiveStats(g);
+                    gearAtk += eg.effAtk;
+                    gearHp += eg.effHp;
+                    gearDef += eg.effDef;
+                    gearCrit += eg.effCrit;
+                    gearTrade += eg.effTrade;
+                });
+
+                const maxHp = Math.round(stageSpec.baseHp * totalScale + gearHp);
+                const atk = Math.round(stageSpec.baseAtk * totalScale + gearAtk);
+                const def = Math.round(stageSpec.baseDef * totalScale + gearDef);
+                const crit = Math.min(85, Math.round((stageSpec.crit + (unitInst.stars - 1) * 1.5 + gearCrit) * 10) / 10);
+                const skillMult = 1 + (unitInst.skillLv - 1) * 0.14;
+                const combatPower = Math.round(atk * 2.2 * skillMult + maxHp * 0.35 + def * 2.5);
+
+                return {
+                    ...stageSpec,
+                    ...unitInst,
+                    maxHp,
+                    atk,
+                    def,
+                    crit,
+                    skillMult,
+                    gearTrade,
+                    combatPower,
+                    equippedGears
+                };
+            }
+
+            getTotalSquadPower() {
+                return this.getActivePartyUnits().reduce((sum, u) => sum + u.combatPower, 0);
+            }
+
+            getTotalSquadTradeBonusPct() {
+                return this.getActivePartyUnits().reduce((sum, u) => sum + u.gearTrade, 0);
+            }
+
+            syncAllHeroHp() {
+                this.state.roster.forEach(u => {
+                    const eff = this.getUnitEffectiveStats(u);
+                    if (this.state.armyHpMap[u.uid] === undefined || this.state.armyHpMap[u.uid] > eff.maxHp) {
+                        this.state.armyHpMap[u.uid] = eff.maxHp;
+                    }
+                });
+            }
+
+            getActivePartyUnits() {
+                return this.state.activePartyUids
+                    .map(uid => this.state.roster.find(u => u.uid === uid))
+                    .filter(Boolean)
+                    .map(u => {
+                        const eff = this.getUnitEffectiveStats(u);
+                        return { ...eff, hp: this.state.armyHpMap[u.uid] ?? eff.maxHp };
+                    });
+            }
+
+            trainUnit(uid, levels = 1) {
+                const unit = this.state.roster.find(u => u.uid === uid);
+                if (!unit) return;
+                if (unit.level >= 100) {
+                    this.toast('이미 최대 단련 레벨(Lv.100)입니다!', 'gold');
+                    return;
+                }
+                const gain = Math.min(levels, 100 - unit.level);
+                const goldCost = gain * (160 + unit.level * 18);
+                const soulCost = gain * (4 + Math.floor(unit.level / 10));
+
+                if (this.state.money < goldCost || this.state.soulStones < soulCost) {
+                    this.toast(`단련 재화 부족! (${goldCost.toLocaleString()}냥 + 🔮영혼석 ${soulCost}개 필요)`, 'red');
+                    return;
+                }
+
+                this.state.money -= goldCost;
+                this.state.soulStones -= soulCost;
+                unit.level += gain;
+                this.state.armyHpMap[unit.uid] = this.getUnitEffectiveStats(unit).maxHp;
+
+                sfx.playUpgrade(true);
+                const spec = getStageUnitSpec(unit.lineageId, unit.stage);
+                this.toast(`🔥 [${spec.name}] 단련 성공! Lv.${unit.level} 달성`, 'green');
+                this.saveToStorage();
+                this.renderAllUI();
+            }
+
+            evolveUnit(uid) {
+                const unit = this.state.roster.find(u => u.uid === uid);
+                if (!unit) return;
+                if (unit.stage >= 3) {
+                    this.toast('이미 최종 단계인 [3차 각성]에 도달한 영웅입니다!', 'gold');
+                    return;
+                }
+
+                const nextStage = unit.stage + 1;
+                const rule = STAGE_RULES[nextStage];
+                const beforeSpec = getStageUnitSpec(unit.lineageId, unit.stage);
+                const afterSpec = getStageUnitSpec(unit.lineageId, nextStage);
+
+                if (unit.level < rule.reqLv) {
+                    this.toast(`단련 레벨 부족! (Lv.${rule.reqLv} 이상 필요 · 현재 Lv.${unit.level})`, 'red');
+                    return;
+                }
+                if (this.state.scrolls < rule.reqScrolls || this.state.soulStones < rule.reqSoul || this.state.money < rule.reqGold) {
+                    this.toast(`전직 재료 부족! (📜전직서 ${rule.reqScrolls} + 🔮영혼석 ${rule.reqSoul} + ${rule.reqGold.toLocaleString()}냥)`, 'red');
+                    return;
+                }
+
+                this.state.scrolls -= rule.reqScrolls;
+                this.state.soulStones -= rule.reqSoul;
+                this.state.money -= rule.reqGold;
+                unit.stage = nextStage;
+                unit.skillLv += 1;
+                this.state.armyHpMap[unit.uid] = this.getUnitEffectiveStats(unit).maxHp;
+
+                sfx.playEvolveFanfare();
+                this.saveToStorage();
+                this.renderAllUI();
+                this.showEvolveCeremony(beforeSpec, afterSpec, rule);
+            }
+
+            showEvolveCeremony(beforeSpec, afterSpec, rule) {
+                const modal = document.getElementById('evolve-modal');
+                const flash = document.getElementById('evolve-flash');
+                modal.classList.remove('hidden');
+
+                flash.classList.remove('hidden');
+                flash.classList.remove('flash-overlay');
+                void flash.offsetWidth;
+                flash.classList.add('flash-overlay');
+
+                document.getElementById('ev-before-stage').textContent = beforeSpec.stageLabel;
+                document.getElementById('ev-before-name').textContent = beforeSpec.name;
+                document.getElementById('ev-after-stage').textContent = `${afterSpec.rarity} · ${afterSpec.stageLabel}`;
+                document.getElementById('ev-after-name').textContent = afterSpec.name;
+
+                document.getElementById('ev-stat-summary').textContent =
+                    `기본 능력치 배율 ${beforeSpec.statMult}x ➔ ${afterSpec.statMult}x 대폭 상승!`;
+                document.getElementById('ev-skill-unlock').textContent =
+                    `신규 고유 무공 개방: [${afterSpec.skill}]`;
+
+                this.renderer.drawBustPortrait(document.getElementById('ev-before-canvas'), beforeSpec);
+                this.renderer.drawBustPortrait(document.getElementById('ev-after-canvas'), afterSpec);
+            }
+
+            grantRecruitedUnit(pulledSpec) {
+                const existing = this.state.roster.find(u => u.lineageId === pulledSpec.lineageId);
+                if (existing) {
+                    if (pulledSpec.stage > existing.stage) {
+                        existing.stage = pulledSpec.stage;
+                        existing.stars = Math.min(10, existing.stars + 1);
+                        this.state.armyHpMap[existing.uid] = this.getUnitEffectiveStats(existing).maxHp;
+                        return { mode: 'promoted_existing', stars: existing.stars };
+                    } else {
+                        existing.stars = Math.min(10, existing.stars + 1);
+                        this.state.soulStones += 25;
+                        this.state.armyHpMap[existing.uid] = this.getUnitEffectiveStats(existing).maxHp;
+                        return { mode: 'awakened_star', stars: existing.stars };
+                    }
+                } else {
+                    const newUnit = {
+                        uid: 'u_' + (this.state.nextUnitUid++),
+                        lineageId: pulledSpec.lineageId,
+                        stage: pulledSpec.stage,
+                        level: pulledSpec.stage === 0 ? 1 : STAGE_RULES[pulledSpec.stage].reqLv,
+                        stars: 1,
+                        skillLv: 1 + pulledSpec.stage
+                    };
+                    this.state.roster.push(newUnit);
+                    this.syncAllHeroHp();
+                    if (this.state.activePartyUids.length < 6) {
+                        this.state.activePartyUids.push(newUnit.uid);
+                    }
+                    return { mode: 'new', stars: 1 };
+                }
+            }
+
+            grantGearFromGacha(gearTpl) {
+                this.state.gearBag.push({
+                    uid: 'g_' + (this.state.nextGearUid++),
+                    ...gearTpl,
+                    enhance: 0,
+                    pityBonus: 0,
+                    equippedBy: null
+                });
+            }
+
+            togglePartyMember(uid) {
+                const idx = this.state.activePartyUids.indexOf(uid);
+                if (idx >= 0) {
+                    if (this.state.activePartyUids.length <= 1) {
+                        this.toast('최소 1명의 장수는 편성되어야 합니다.', 'red');
+                        return;
+                    }
+                    this.state.activePartyUids.splice(idx, 1);
+                } else {
+                    if (this.state.activePartyUids.length >= 6) {
+                        this.toast('출정 부대는 최대 6명까지 편성 가능합니다.', 'red');
+                        return;
+                    }
+                    this.state.activePartyUids.push(uid);
+                }
+                this.saveToStorage();
+                this.renderAllUI();
+            }
+
+            autoAssembleBestSquad() {
+                const sorted = [...this.state.roster].sort((a, b) => {
+                    return this.getUnitEffectiveStats(b).combatPower - this.getUnitEffectiveStats(a).combatPower;
+                });
+                this.state.activePartyUids = sorted.slice(0, 6).map(u => u.uid);
+                this.syncAllHeroHp();
+                sfx.playUpgrade(true);
+                this.toast(`⚡ 전투력 상위 ${this.state.activePartyUids.length}명의 최강 부대로 편성했습니다!`, 'gold');
+                this.saveToStorage();
+                this.renderAllUI();
+            }
+
+            equipGearToUnit(gearUid, unitUid) {
+                const gear = this.state.gearBag.find(g => g.uid === gearUid);
+                if (!gear) return;
+                if (gear.equippedBy === unitUid) {
+                    gear.equippedBy = null;
+                } else {
+                    const prev = this.state.gearBag.find(g => g.equippedBy === unitUid && g.slot === gear.slot);
+                    if (prev) prev.equippedBy = null;
+                    gear.equippedBy = unitUid;
+                }
+                this.syncAllHeroHp();
+                sfx.playCoin();
+                this.saveToStorage();
+                this.renderAllUI();
+            }
+
+            autoEquipBestGear() {
+                this.state.gearBag.forEach(g => g.equippedBy = null);
+                const sortedGears = [...this.state.gearBag].sort((a, b) => {
+                    const ea = this.getGearEffectiveStats(a);
+                    const eb = this.getGearEffectiveStats(b);
+                    return (eb.effAtk * 2 + eb.effHp * 0.3 + eb.effDef * 2 + eb.effTrade * 5) - (ea.effAtk * 2 + ea.effHp * 0.3 + ea.effDef * 2 + ea.effTrade * 5);
+                });
+                ['weapon', 'armor', 'relic'].forEach(slot => {
+                    this.state.activePartyUids.forEach(uid => {
+                        const best = sortedGears.find(g => !g.equippedBy && g.slot === slot);
+                        if (best) best.equippedBy = uid;
+                    });
+                });
+                this.syncAllHeroHp();
+                sfx.playUpgrade(true);
+                this.toast('🛡️ 출전 부대 전원에게 최상급 무기·갑옷·거북선 보물을 일괄 장착했습니다!', 'gold');
+                this.saveToStorage();
+                this.renderAllUI();
+            }
+
+            forgeGear(gearUid) {
+                const gear = this.state.gearBag.find(g => g.uid === gearUid);
+                if (!gear || gear.enhance >= 15) return;
+                const goldCost = 350 + gear.enhance * 260;
+                const stoneCost = 8 + gear.enhance * 4;
+                if (this.state.money < goldCost || this.state.forgeStones < stoneCost) {
+                    this.toast(`제련 재료 부족! (${goldCost.toLocaleString()}냥 + 🔨강화석 ${stoneCost}개 필요)`, 'red');
+                    return;
+                }
+                this.state.money -= goldCost;
+                this.state.forgeStones -= stoneCost;
+                const baseRate = gear.enhance < 5 ? 100 : (gear.enhance < 10 ? 75 : 48);
+                const finalRate = Math.min(100, baseRate + gear.pityBonus);
+
+                if (Math.random() * 100 < finalRate) {
+                    gear.enhance += 1;
+                    gear.pityBonus = 0;
+                    this.syncAllHeroHp();
+                    sfx.playUpgrade(true);
+                    this.toast(`🔨 제련 대성공! [+${gear.enhance} ${gear.name}] 완성!`, 'green');
+                } else {
+                    gear.pityBonus = Math.min(50, gear.pityBonus + 10);
+                    sfx.playUpgrade(false);
+                    this.toast(`💨 제련 실패 (장비 보존 · 축복 +${gear.pityBonus}% 누적)`, 'red');
+                }
+                this.saveToStorage();
+                this.renderAllUI();
+            }
+
+            exchangeShop(type) {
+                if (type === 'scroll') {
+                    if (this.state.money < 3000) { this.toast('은전이 부족합니다 (3,000냥 필요).', 'red'); return; }
+                    this.state.money -= 3000;
+                    this.state.scrolls += 3;
+                    sfx.playCoin();
+                    this.toast('💰 3,000냥으로 📜 전직서 3장을 교환했습니다!', 'green');
+                } else {
+                    if (this.state.money < 4500) { this.toast('은전이 부족합니다 (4,500냥 필요).', 'red'); return; }
+                    this.state.money -= 4500;
+                    this.state.seals += 5;
+                    sfx.playCoin();
+                    this.toast('💰 4,500냥으로 🎟️ 소환패 5장을 교환했습니다!', 'green');
+                }
+                this.saveToStorage();
+                this.renderAllUI();
+            }
+
+            setDifficulty(diffKey) {
+                this.state.difficulty = diffKey;
+                const cfg = DIFFICULTY_CONFIG[diffKey];
+                document.getElementById('diff-badge').textContent = cfg.label;
+                this.refreshAllPrices();
+                this.toast(`난이도 [${cfg.label}] 적용 (적 배율 ${cfg.enemyMult}x / 보상 ${cfg.rewardMult}x)`, 'gold');
+                this.saveToStorage();
+                this.renderAllUI();
+            }
+
+            toast(msg, tone = 'gold') {
+                const box = document.getElementById('toast-box');
+                const el = document.createElement('div');
+                const border = tone === 'red' ? 'border-[#f87171] text-[#fecaca]' : tone === 'green' ? 'border-[#34d399] text-[#a7f3d0]' : 'border-[#fde047] text-[#fef9c3]';
+                el.className = `bg-[#1b1109]/95 border ${border} px-3.5 py-1.5 rounded-full text-xs font-bold shadow-xl transition-opacity duration-300`;
+                el.textContent = msg;
+                box.appendChild(el);
+                setTimeout(() => {
+                    el.style.opacity = '0';
+                    setTimeout(() => el.remove(), 280);
+                }, 2100);
+            }
+
+            refreshAllPrices() {
+                const diffTradeMult = DIFFICULTY_CONFIG[this.state.difficulty].tradeMult;
+                const gearTradeBonus = 1 + this.getTotalSquadTradeBonusPct() / 100;
+                Object.keys(CITIES).forEach(cid => {
+                    this.state.prices[cid] = {};
+                    ITEMS.forEach(item => {
+                        const isOrigin = item.origin === cid;
+                        const mult = isOrigin ? (0.58 + Math.random() * 0.2) : (0.95 + Math.random() * 0.8);
+                        const price = Math.round(item.base * mult * (isOrigin ? 1 : diffTradeMult * gearTradeBonus));
+                        let tag = '보통';
+                        if (mult < 0.72) tag = '폭락';
+                        else if (mult < 0.9) tag = '하락';
+                        else if (mult > 1.55) tag = '폭등';
+                        else if (mult > 1.28) tag = '상승';
+                        this.state.prices[cid][item.id] = { price, tag };
+                    });
+                });
+            }
+
+            getCargoCount() {
+                return Object.values(this.state.inventory).reduce((a, b) => a + b, 0);
+            }
+
+            getRankTitle() {
+                if (this.state.money >= 200000) return '천하제일거상';
+                if (this.state.money >= 80000) return '대상인';
+                if (this.state.money >= 35000) return '객주';
+                if (this.state.money >= 15000) return '시전상인';
+                return '보부상';
+            }
+
+            renderAllUI() {
+                const city = CITIES[this.state.city];
+                const reg = REGIONS[city.region];
+                const rBadge = document.getElementById('ui-region-badge');
+                rBadge.textContent = reg.name;
+                rBadge.className = `px-1.5 py-0.5 rounded border font-bold text-[10px] ${reg.badge}`;
+
+                document.getElementById('ui-rank').textContent = this.getRankTitle();
+                document.getElementById('ui-city').textContent = city.name;
+                document.getElementById('ui-power').textContent = this.getTotalSquadPower().toLocaleString();
+                document.getElementById('ui-money').textContent = this.state.money.toLocaleString();
+                document.getElementById('ui-scrolls').textContent = this.state.scrolls;
+                document.getElementById('ui-soul').textContent = this.state.soulStones;
+                document.getElementById('ui-forge').textContent = this.state.forgeStones;
+                document.getElementById('ui-seals').textContent = this.state.seals;
+                document.getElementById('ui-food').textContent = `${this.state.food}/${this.state.maxFood}`;
+
+                if (!this.inBattle) {
+                    document.getElementById('scene-badge-text').textContent = `마을 (${city.name}) · 2.5D 저잣거리`;
+                }
+
+                app.renderCurrentTab();
+            }
+
+            restAtInn(silent = false) {
+                if (this.state.money < 50) {
+                    if (!silent) this.toast('주막 휴식 비용(50냥)이 부족합니다.', 'red');
+                    return false;
+                }
+                this.state.money -= 50;
+                this.state.food = this.state.maxFood;
+                this.state.roster.forEach(u => {
+                    this.state.armyHpMap[u.uid] = this.getUnitEffectiveStats(u).maxHp;
+                });
+                if (!silent) {
+                    sfx.playCoin();
+                    this.toast('주막 휴식 완료! 군량과 부대 체력이 100% 회복되었습니다.', 'green');
+                }
+                this.renderAllUI();
+                return true;
+            }
+
+            buyItem(itemId, qty = 1) {
+                const info = this.state.prices[this.state.city][itemId];
+                const space = this.state.maxCargo - this.getCargoCount();
+                const maxBuy = Math.min(qty, space, Math.floor(this.state.money / info.price));
+                if (maxBuy <= 0) {
+                    this.toast('은전 또는 마차 적재 공간이 부족합니다.', 'red');
+                    return false;
+                }
+                this.state.money -= info.price * maxBuy;
+                this.state.inventory[itemId] = (this.state.inventory[itemId] || 0) + maxBuy;
+                sfx.playCoin();
+                this.saveToStorage();
+                this.renderAllUI();
+                return true;
+            }
+
+            sellItem(itemId, qty = 1) {
+                const owned = this.state.inventory[itemId] || 0;
+                const sellQty = Math.min(qty, owned);
+                if (sellQty <= 0) return false;
+                const info = this.state.prices[this.state.city][itemId];
+                this.state.money += info.price * sellQty;
+                this.state.credit += sellQty * 5;
+                this.state.inventory[itemId] -= sellQty;
+                sfx.playCoin();
+                this.saveToStorage();
+                this.renderAllUI();
+                return true;
+            }
+
+            travelTo(cityId) {
+                if (cityId === this.state.city) return;
+                if (this.inBattle) {
+                    this.toast('전투 중에는 도시를 이동할 수 없습니다!', 'red');
+                    return;
+                }
+                const targetCity = CITIES[cityId];
+                const foodCost = targetCity.region !== CITIES[this.state.city].region ? 14 : 7;
+                if (this.state.food < foodCost) {
+                    this.toast(`군량이 부족합니다 (${foodCost} 필요)! 주막에서 휴식하세요.`, 'red');
+                    return;
+                }
+                this.state.food -= foodCost;
+                this.state.city = cityId;
+                this.refreshAllPrices();
+                this.toast(`${REGIONS[targetCity.region].name} · ${targetCity.name} 도착! 시세 갱신 완료`, 'gold');
+                this.saveToStorage();
+                this.renderAllUI();
+            }
+
+            toggleBattleAction(isBoss = false) {
+                if (this.inBattle) this.endBattle(false, true);
+                else this.startBattle(isBoss);
+            }
+
+            startBattle(isBoss = false) {
+                const foodReq = isBoss ? 18 : 10;
+                if (this.state.food < foodReq) {
+                    this.toast(`군량이 부족하여 출정할 수 없습니다 (${foodReq} 필요)!`, 'red');
+                    return false;
+                }
+                this.state.food -= foodReq;
+                this.inBattle = true;
+                this.isBossFight = isBoss;
+                this.mp = 100;
+                this.projectiles = [];
+                this.particles = [];
+                this.battleUnits = [];
+
+                const cityInfo = CITIES[this.state.city];
+                const regTier = REGIONS[cityInfo.region].tier;
+                const diff = DIFFICULTY_CONFIG[this.state.difficulty];
+                const party = this.getActivePartyUnits();
+
+                party.forEach((member, idx) => {
+                    this.battleUnits.push({
+                        ...member,
+                        side: 'ally',
+                        x: 68 + (idx % 2) * 44,
+                        y: 132 + idx * 28,
+                        state: 'idle',
+                        atkTimer: 0,
+                        hitFlash: 0
+                    });
+                });
+
+                const enemyCount = isBoss ? 4 : 3;
+                const tierScale = 1 + (regTier - 1) * 0.45 + (cityInfo.lv - 1) * 0.22;
+
+                // 컨셉 아트 전장 적군 구성: 백두산 호랑이 + 산적 두목 + 어둠의 요괴
+                const rosterTypes = [ENEMY_TYPES.tiger, ENEMY_TYPES.bandit, ENEMY_TYPES.shadow_demon, ENEMY_TYPES.tiger];
+                for (let i = 0; i < enemyCount; i++) {
+                    const baseSpec = rosterTypes[i % rosterTypes.length];
+                    const isMegaBoss = isBoss && i === 0;
+                    const bossMult = isMegaBoss ? 2.5 : 1.0;
+
+                    this.battleUnits.push({
+                        ...baseSpec,
+                        name: isMegaBoss ? cityInfo.boss : baseSpec.name,
+                        isMegaBoss,
+                        uid: 'e' + i,
+                        side: 'enemy',
+                        x: 290 + (i % 2) * 48,
+                        y: 138 + i * 34,
+                        maxHp: Math.round(baseSpec.hp * tierScale * diff.enemyMult * bossMult),
+                        hp: Math.round(baseSpec.hp * tierScale * diff.enemyMult * bossMult),
+                        atk: Math.round(baseSpec.atk * tierScale * diff.enemyMult * (isMegaBoss ? 1.55 : 1.0)),
+                        def: Math.round(baseSpec.def * tierScale * Math.sqrt(diff.enemyMult)),
+                        state: 'idle',
+                        atkTimer: 0,
+                        hitFlash: 0
+                    });
+                }
+
+                document.getElementById('btn-toggle-battle').innerHTML = '🏃 마을복귀';
+                document.getElementById('btn-boss-battle').classList.add('hidden');
+                document.getElementById('scene-badge-text').textContent = isBoss
+                    ? `🔥 원경 2.5D 전장 · [대보스] ${cityInfo.boss}`
+                    : `⚔️ 원경 2.5D 전장 · ${cityInfo.mob}`;
+                document.getElementById('battle-hud-overlay').classList.remove('hidden');
+                this.renderAllUI();
+                return true;
+            }
+
+            computeCombatDamage(rawAtk, targetDef, critChance = 10) {
+                const isCrit = Math.random() * 100 < critChance;
+                const critMult = isCrit ? 1.68 : 1.0;
+                const mitigation = 100 / (100 + (targetDef || 0) * 0.4);
+                const dmg = Math.max(12, Math.round(rawAtk * critMult * mitigation));
+                return { dmg, isCrit };
+            }
+
+            endBattle(victory, retreated = false) {
+                const wasBoss = this.isBossFight;
+                this.inBattle = false;
+                this.isBossFight = false;
+                document.getElementById('btn-toggle-battle').innerHTML = '⚔️ 사냥출정';
+                document.getElementById('btn-boss-battle').classList.remove('hidden');
+                document.getElementById('battle-hud-overlay').classList.add('hidden');
+
+                this.battleUnits.filter(u => u.side === 'ally').forEach(bu => {
+                    this.state.armyHpMap[bu.uid] = Math.max(1, Math.round(bu.hp));
+                });
+
+                const cityInfo = CITIES[this.state.city];
+                const diff = DIFFICULTY_CONFIG[this.state.difficulty];
+
+                if (victory) {
+                    const bossBonus = wasBoss ? 2.4 : 1.0;
+                    const goldGain = Math.round(cityInfo.reward * diff.rewardMult * bossBonus);
+                    const soulGain = Math.round((wasBoss ? 25 : 12) * Math.sqrt(diff.rewardMult));
+                    const forgeGain = Math.round((wasBoss ? 18 : 8) * Math.sqrt(diff.rewardMult));
+
+                    this.state.money += goldGain;
+                    this.state.soulStones += soulGain;
+                    this.state.forgeStones += forgeGain;
+                    this.state.credit += wasBoss ? 50 : 20;
+
+                    let extraMsg = ` + 🔮${soulGain} + 🔨${forgeGain}`;
+                    if (wasBoss) {
+                        const scrollGain = Math.max(2, Math.round(2 * Math.sqrt(diff.rewardMult)));
+                        this.state.scrolls += scrollGain;
+                        this.state.seals += 2;
+                        extraMsg += ` + 📜전직서 ${scrollGain} + 🎟️2`;
+                    } else if (Math.random() < 0.45) {
+                        this.state.scrolls += 1;
+                        extraMsg += ' + 📜전직서 1장';
+                    }
+                    sfx.playCoin();
+                    this.toast(`🎉 전장 승리! (+${goldGain.toLocaleString()}냥${extraMsg})`, 'green');
+                } else if (!retreated) {
+                    this.toast('부대가 후퇴했습니다. 주막에서 휴식하거나 전직 승급을 진행하세요!', 'red');
+                }
+                this.saveToStorage();
+                this.renderAllUI();
+            }
+
+            castSkill(num) {
+                if (!this.inBattle) {
+                    this.toast('전투 중에만 필살기를 시전할 수 있습니다.', 'red');
+                    return false;
+                }
+                const sk = this.skills[num];
+                if (sk.cd > 0 || this.mp < sk.mp) return false;
+
+                const allies = this.battleUnits.filter(u => u.side === 'ally' && u.hp > 0);
+                const enemies = this.battleUnits.filter(u => u.side === 'enemy' && u.hp > 0);
+                if (!allies.length || !enemies.length) return false;
+
+                this.mp -= sk.mp;
+                sk.cd = sk.maxCd;
+                sfx.playSkill(num);
+
+                const weightedAtk = allies.reduce((s, u) => s + u.atk * (u.skillMult || 1), 0);
+                const leeSunSin = allies.find(a => a.lineageId === 'kr_archer') || allies[0];
+
+                if (num === 1) {
+                    // 일격필살의 칼바람 (청록 번개 검기)
+                    enemies.sort((a, b) => a.x - b.x);
+                    const t = enemies[0];
+                    const { dmg } = this.computeCombatDamage(weightedAtk * 1.45, t.def, 100);
+                    t.hp -= dmg;
+                    t.hitFlash = 8;
+                    this.screenShake = 11;
+                    this.triggerCutin(allies[0], '일격필살의 칼바람', '#38bdf8');
+                    this.spawnParticles(t.x, t.y - 20, '#38bdf8', 18, `치명타! -${dmg.toLocaleString()}`);
+                } else if (num === 2) {
+                    // 의술: 회춘 (초록 치유 기둥)
+                    const heal = Math.round(weightedAtk * 0.95);
+                    const healer = allies.find(a => a.isHealer) || allies[0];
+                    this.triggerCutin(healer, '의술: 회춘', '#4ade80');
+                    allies.forEach(a => {
+                        a.hp = Math.min(a.maxHp, a.hp + heal);
+                        this.spawnParticles(a.x, a.y - 20, '#4ade80', 12, `의술 +${heal.toLocaleString()}`);
+                    });
+                } else if (num === 3) {
+                    // 화염폭풍 (거대한 주황·황금 불기둥)
+                    this.screenShake = 14;
+                    this.triggerCutin(allies[0], '화염폭풍', '#fb923c');
+                    enemies.forEach(e => {
+                        const { dmg } = this.computeCombatDamage(weightedAtk * 0.95, e.def, 30);
+                        e.hp -= dmg;
+                        e.hitFlash = 8;
+                        this.spawnParticles(e.x, e.y - 20, '#f97316', 20, `-${dmg.toLocaleString()}`);
+                    });
+                } else if (num === 4) {
+                    // 컨셉 아트 핵심 컷인: [이순신 · 거북선 출격] + 화염 폭격 + 치명타 -3,890!
+                    this.screenShake = 20;
+                    this.triggerCutin(leeSunSin, '거북선 출격', '#fde047');
+                    enemies.forEach(e => {
+                        const { dmg } = this.computeCombatDamage(weightedAtk * 1.65, e.def, 100);
+                        e.hp -= dmg;
+                        e.hitFlash = 10;
+                        this.spawnParticles(e.x, e.y - 22, '#facc15', 26, `치명타! -${dmg.toLocaleString()}`);
+                    });
+                }
+                return true;
+            }
+
+            triggerCutin(heroSpec, skillName, color) {
+                this.cutinBanner = { heroSpec, skillName, color, life: 1.35 };
+            }
+
+            spawnParticles(x, y, color, count, floatingText = null) {
+                for (let i = 0; i < count; i++) {
+                    this.particles.push({
+                        x: x + (Math.random() - 0.5) * 38,
+                        y: y + (Math.random() - 0.5) * 24,
+                        vx: (Math.random() - 0.5) * 3.2,
+                        vy: -1.4 - Math.random() * 2.5,
+                        size: 3.5 + Math.random() * 4.5,
+                        color,
+                        life: 32
+                    });
+                }
+                if (floatingText) {
+                    this.particles.push({ x, y: y - 16, vx: 0, vy: -0.95, text: floatingText, color, life: 44 });
+                }
+            }
+
+            loop(now) {
+                const rawDt = Math.min(0.05, (now - this.lastTime) / 1000);
+                this.lastTime = now;
+                const spd = aiEngine ? aiEngine.speed : 1;
+                const dt = rawDt * spd;
+                this.tick += dt * 60;
+
+                this.updateSimulation(dt);
+                this.renderCanvas();
+
+                requestAnimationFrame((t) => this.loop(t));
+            }
+
+            updateSimulation(dt) {
+                if (this.screenShake > 0) this.screenShake = Math.max(0, this.screenShake - dt * 36);
+                if (this.cutinBanner) {
+                    this.cutinBanner.life -= dt;
+                    if (this.cutinBanner.life <= 0) this.cutinBanner = null;
+                }
+
+                this.wagonX += dt * 34;
+                if (this.wagonX > 1150) this.wagonX = -100;
+                if (Math.random() < dt * 8) {
+                    this.smoke.push({ x: 138, y: 74, vy: -14, vx: 6, size: 4, life: 2.3 });
+                }
+                for (let i = this.smoke.length - 1; i >= 0; i--) {
+                    const s = this.smoke[i];
+                    s.x += s.vx * dt;
+                    s.y += s.vy * dt;
+                    s.size += dt * 2.6;
+                    s.life -= dt;
+                    if (s.life <= 0) this.smoke.splice(i, 1);
+                }
+
+                this.petals.forEach(p => {
+                    p.x += p.vx * dt * 26;
+                    p.y += p.vy * dt * 26;
+                    if (p.x > 1100) p.x = 0;
+                    if (p.y > 340) p.y = 0;
+                });
+
+                if (this.inBattle) {
+                    this.mp = Math.min(100, this.mp + dt * 11);
+                    document.getElementById('hud-mp-bar').style.width = `${Math.round(this.mp)}%`;
+                    document.getElementById('hud-mp-text').textContent = Math.floor(this.mp);
+
+                    [1, 2, 3, 4].forEach(n => {
+                        const sk = this.skills[n];
+                        const mask = document.getElementById(`cd-mask-${n}`);
+                        if (sk.cd > 0) {
+                            sk.cd = Math.max(0, sk.cd - dt);
+                            mask.classList.remove('hidden');
+                            mask.textContent = sk.cd.toFixed(1) + 's';
+                        } else {
+                            mask.classList.add('hidden');
+                        }
+                    });
+
+                    const allies = this.battleUnits.filter(u => u.side === 'ally' && u.hp > 0);
+                    const enemies = this.battleUnits.filter(u => u.side === 'enemy' && u.hp > 0);
+
+                    document.getElementById('hud-ally-cnt').textContent = allies.length;
+                    document.getElementById('hud-enemy-cnt').textContent = enemies.length;
+
+                    if (aiEngine.huntActive && allies.length && enemies.length) {
+                        aiEngine.onBattleTick(allies, enemies);
+                    }
+
+                    if (enemies.length === 0) { this.endBattle(true); return; }
+                    if (allies.length === 0) { this.endBattle(false); return; }
+
+                    const canvas = document.getElementById('worldCanvas');
+                    const cw = canvas.width || 420;
+
+                    this.battleUnits.forEach(u => {
+                        if (u.hp <= 0) return;
+                        if (u.hitFlash > 0) u.hitFlash -= dt * 30;
+                        u.atkTimer += dt;
+
+                        if (u.side === 'enemy' && u.x > cw - 55) u.x = cw - 65;
+
+                        if (u.isHealer && u.side === 'ally') {
+                            const hurt = allies.filter(a => a.hp < a.maxHp).sort((a, b) => (a.hp / a.maxHp) - (b.hp / b.maxHp))[0];
+                            if (hurt) {
+                                u.state = 'attack';
+                                if (u.atkTimer >= 1.2) {
+                                    u.atkTimer = 0;
+                                    const healAmt = Math.round(u.atk * (u.skillMult || 1));
+                                    hurt.hp = Math.min(hurt.maxHp, hurt.hp + healAmt);
+                                    this.spawnParticles(hurt.x, hurt.y - 18, '#4ade80', 8, `의술 +${healAmt}`);
+                                }
+                                return;
+                            }
+                        }
+
+                        const targets = u.side === 'ally' ? enemies : allies;
+                        let target = targets[0];
+                        let minDist = Infinity;
+                        targets.forEach(t => {
+                            const d = Math.hypot(t.x - u.x, t.y - u.y);
+                            if (d < minDist) { minDist = d; target = t; }
+                        });
+
+                        if (minDist > u.range) {
+                            u.state = 'walk';
+                            const ang = Math.atan2(target.y - u.y, target.x - u.x);
+                            u.x += Math.cos(ang) * dt * 45;
+                            u.y += Math.sin(ang) * dt * 45;
+                        } else {
+                            u.state = 'attack';
+                            if (u.atkTimer >= 0.95) {
+                                u.atkTimer = 0;
+                                const rawPower = u.atk * (u.skillMult || 1);
+                                if (u.range > 90) {
+                                    this.projectiles.push({
+                                        x: u.x, y: u.y - 18, target, rawPower, crit: u.crit || 10,
+                                        color: u.isAoe ? '#fb923c' : '#fef08a', isAoe: u.isAoe
+                                    });
+                                } else {
+                                    const { dmg, isCrit } = this.computeCombatDamage(rawPower, target.def, u.crit || 10);
+                                    target.hp -= dmg;
+                                    target.hitFlash = 6;
+                                    this.spawnParticles(target.x, target.y - 16, isCrit ? '#facc15' : '#ffffff', isCrit ? 9 : 4, `${isCrit ? '치명타! ' : ''}-${dmg}`);
+                                }
+                            }
+                        }
+                    });
+
+                    for (let i = this.projectiles.length - 1; i >= 0; i--) {
+                        const p = this.projectiles[i];
+                        if (!p.target || p.target.hp <= 0) { this.projectiles.splice(i, 1); continue; }
+                        const dx = p.target.x - p.x;
+                        const dy = p.target.y - p.y;
+                        const dist = Math.hypot(dx, dy);
+                        if (dist < 14) {
+                            if (p.isAoe) {
+                                const splash = this.battleUnits.filter(u => u.side === 'enemy' && u.hp > 0 && Math.hypot(u.x - p.target.x, u.y - p.target.y) <= 72);
+                                splash.forEach(s => {
+                                    const { dmg } = this.computeCombatDamage(p.rawPower, s.def, p.crit);
+                                    s.hp -= dmg;
+                                    s.hitFlash = 6;
+                                });
+                                this.spawnParticles(p.target.x, p.target.y - 16, '#f97316', 14, `🔥광역폭격`);
+                            } else {
+                                const { dmg, isCrit } = this.computeCombatDamage(p.rawPower, p.target.def, p.crit);
+                                p.target.hp -= dmg;
+                                p.target.hitFlash = 6;
+                                this.spawnParticles(p.target.x, p.target.y - 16, isCrit ? '#facc15' : p.color, 6, `-${dmg}`);
+                            }
+                            this.projectiles.splice(i, 1);
+                        } else {
+                            p.x += (dx / dist) * dt * 270;
+                            p.y += (dy / dist) * dt * 270;
+                        }
+                    }
+                }
+
+                for (let i = this.particles.length - 1; i >= 0; i--) {
+                    const pt = this.particles[i];
+                    pt.x += pt.vx * dt * 30;
+                    pt.y += pt.vy * dt * 30;
+                    pt.life -= dt * 35;
+                    if (pt.life <= 0) this.particles.splice(i, 1);
+                }
+            }
+
+            renderCanvas() {
+                const canvas = document.getElementById('worldCanvas');
+                const rect = canvas.getBoundingClientRect();
+                if (canvas.width !== Math.floor(rect.width) || canvas.height !== Math.floor(rect.height)) {
+                    canvas.width = Math.floor(rect.width);
+                    canvas.height = Math.floor(rect.height);
+                }
+                const ctx = canvas.getContext('2d');
+                const w = canvas.width;
+                const h = canvas.height;
+
+                ctx.save();
+                if (this.screenShake > 0) {
+                    ctx.translate((Math.random() - 0.5) * this.screenShake, (Math.random() - 0.5) * this.screenShake);
+                }
+
+                if (!this.inBattle) this.drawHandPaintedVillageScene(ctx, w, h);
+                else this.drawHandPaintedBattleScene(ctx, w, h);
+
+                // 파티클 및 데미지 플로팅 텍스트
+                this.particles.forEach(pt => {
+                    ctx.save();
+                    ctx.globalAlpha = Math.max(0, pt.life / 40);
+                    if (pt.text) {
+                        ctx.font = '900 13px "Noto Sans KR"';
+                        ctx.strokeStyle = '#140c06';
+                        ctx.lineWidth = 3;
+                        ctx.textAlign = 'center';
+                        ctx.strokeText(pt.text, pt.x, pt.y);
+                        ctx.fillStyle = pt.color;
+                        ctx.fillText(pt.text, pt.x, pt.y);
+                    } else {
+                        ctx.fillStyle = pt.color;
+                        ctx.beginPath();
+                        ctx.arc(pt.x, pt.y, pt.size, 0, Math.PI * 2);
+                        ctx.fill();
+                    }
+                    ctx.restore();
+                });
+
+                // 컨셉 아트 스타일 필살기 영웅 초상화 컷인 배너 ([이순신] 거북선 출격!)
+                if (this.cutinBanner) {
+                    const b = this.cutinBanner;
+                    const by = h * 0.42;
+                    ctx.save();
+                    ctx.globalAlpha = Math.min(1, b.life * 2.4);
+
+                    // 붉은/황금 화염 에너지 배너 스트립
+                    const grad = ctx.createLinearGradient(0, by, w, by);
+                    grad.addColorStop(0, 'rgba(20, 12, 6, 0.95)');
+                    grad.addColorStop(0.5, 'rgba(153, 27, 27, 0.92)');
+                    grad.addColorStop(1, 'rgba(234, 88, 12, 0.15)');
+                    ctx.fillStyle = grad;
+                    ctx.fillRect(0, by, w, 54);
+
+                    ctx.strokeStyle = b.color;
+                    ctx.lineWidth = 2;
+                    ctx.beginPath();
+                    ctx.moveTo(0, by); ctx.lineTo(w, by);
+                    ctx.moveTo(0, by + 54); ctx.lineTo(w, by + 54);
+                    ctx.stroke();
+
+                    // 좌측 컷인 초상화 프레임
+                    const pCanvas = document.createElement('canvas');
+                    pCanvas.width = 48; pCanvas.height = 48;
+                    this.renderer.drawBustPortrait(pCanvas, b.heroSpec);
+                    ctx.drawImage(pCanvas, 12, by + 3, 48, 48);
+                    ctx.strokeStyle = '#fde047';
+                    ctx.strokeRect(12, by + 3, 48, 48);
+
+                    ctx.font = '900 17px "Noto Serif KR"';
+                    ctx.strokeStyle = '#140c06';
+                    ctx.lineWidth = 3.5;
+                    ctx.textAlign = 'left';
+                    ctx.strokeText(b.skillName, 70, by + 34);
+                    ctx.fillStyle = '#fef9c3';
+                    ctx.fillText(b.skillName, 70, by + 34);
+                    ctx.restore();
+                }
+
+                ctx.restore();
+            }
+
+            // (1) 고밀도 한양 마을 2.5D 일러스트 씬 (처마 기와집, 벚꽃·단풍나무, 노점상, 상단원, 황소마차)
+            drawHandPaintedVillageScene(ctx, w, h) {
+                const city = CITIES[this.state.city];
+                const reg = REGIONS[city.region];
+
+                // 따뜻한 흙바닥 & 잔디 언덕
+                ctx.fillStyle = reg.ground;
+                ctx.fillRect(0, 0, w, h);
+
+                ctx.fillStyle = reg.grass;
+                ctx.beginPath();
+                ctx.moveTo(0, 0); ctx.lineTo(w * 0.45, 0); ctx.lineTo(0, h * 0.38);
+                ctx.fill();
+                ctx.beginPath();
+                ctx.moveTo(w, h); ctx.lineTo(w * 0.55, h); ctx.lineTo(w, h * 0.55);
+                ctx.fill();
+
+                // 대각선 저잣거리 큰길
+                ctx.fillStyle = '#b89764';
+                ctx.beginPath();
+                ctx.moveTo(0, h * 0.68);
+                ctx.lineTo(w * 0.85, 0);
+                ctx.lineTo(w, 0);
+                ctx.lineTo(w, h * 0.34);
+                ctx.lineTo(w * 0.28, h);
+                ctx.lineTo(0, h);
+                ctx.fill();
+
+                // 여러 채의 입체 기와집 단지 (컨셉 아트 한양 마을 재현)
+                const houses = [
+                    { x: 48,  y: 42,  w: 118, h: 46, label: `${city.name} 시전` },
+                    { x: 185, y: 18,  w: 105, h: 40, label: '객주상단' },
+                    { x: 315, y: 52,  w: 120, h: 46, label: '전직도장' },
+                    { x: w - 165, y: 85, w: 125, h: 48, label: '대장간' }
+                ];
+
+                houses.forEach(hs => {
+                    if (hs.x > w - 40) return;
+                    // 돌담 기단
+                    ctx.fillStyle = '#78716c';
+                    ctx.strokeStyle = '#1c120a';
+                    ctx.lineWidth = 1.5;
+                    ctx.fillRect(hs.x, hs.y + hs.h - 8, hs.w, 10);
+                    ctx.strokeRect(hs.x, hs.y + hs.h - 8, hs.w, 10);
+
+                    // 회벽 & 나무 기둥
+                    ctx.fillStyle = '#f5ebd6';
+                    ctx.fillRect(hs.x + 6, hs.y + 14, hs.w - 12, hs.h - 22);
+                    ctx.strokeRect(hs.x + 6, hs.y + 14, hs.w - 12, hs.h - 22);
+
+                    ctx.fillStyle = '#4a2c16';
+                    ctx.fillRect(hs.x + 6, hs.y + 14, 4, hs.h - 22);
+                    ctx.fillRect(hs.x + hs.w / 2 - 2, hs.y + 14, 4, hs.h - 22);
+                    ctx.fillRect(hs.x + hs.w - 10, hs.y + 14, 4, hs.h - 22);
+
+                    // 처마 곡선 기와 지붕
+                    ctx.fillStyle = reg.roof;
+                    ctx.beginPath();
+                    ctx.moveTo(hs.x - 10, hs.y + 16);
+                    ctx.quadraticCurveTo(hs.x + hs.w * 0.2, hs.y - 4, hs.x + hs.w * 0.25, hs.y - 6);
+                    ctx.lineTo(hs.x + hs.w * 0.75, hs.y - 6);
+                    ctx.quadraticCurveTo(hs.x + hs.w * 0.8, hs.y - 4, hs.x + hs.w + 10, hs.y + 16);
+                    ctx.closePath();
+                    ctx.fill();
+                    ctx.stroke();
+
+                    // 기와 골 세로선 디테일
+                    ctx.strokeStyle = 'rgba(255,255,255,0.16)';
+                    ctx.lineWidth = 1;
+                    for (let rx = hs.x + 4; rx < hs.x + hs.w - 2; rx += 8) {
+                        ctx.beginPath();
+                        ctx.moveTo(rx, hs.y - 4);
+                        ctx.lineTo(rx - 2, hs.y + 15);
+                        ctx.stroke();
+                    }
+
+                    // 현판
+                    ctx.fillStyle = '#24160c';
+                    ctx.fillRect(hs.x + hs.w * 0.28, hs.y + 11, hs.w * 0.44, 11);
+                    ctx.fillStyle = '#fde047';
+                    ctx.font = 'bold 8px "Noto Sans KR"';
+                    ctx.textAlign = 'center';
+                    ctx.fillText(hs.label, hs.x + hs.w * 0.5, hs.y + 19);
+                });
+
+                // 저잣거리 노점상 매대 (비단·곡물 가판대)
+                const stalls = [
+                    { x: 95, y: h * 0.48, awning: '#15803d' },
+                    { x: 225, y: h * 0.36, awning: '#b45309' }
+                ];
+                stalls.forEach(st => {
+                    ctx.fillStyle = '#78350f';
+                    ctx.fillRect(st.x, st.y + 10, 36, 12);
+                    ctx.fillStyle = st.awning;
+                    ctx.strokeStyle = '#1c120a';
+                    ctx.lineWidth = 1.2;
+                    ctx.beginPath();
+                    ctx.moveTo(st.x - 4, st.y + 2);
+                    ctx.lineTo(st.x + 40, st.y + 2);
+                    ctx.lineTo(st.x + 36, st.y - 5);
+                    ctx.lineTo(st.x, st.y - 5);
+                    ctx.closePath();
+                    ctx.fill();
+                    ctx.stroke();
+                });
+
+                // 굴뚝 연기
+                this.smoke.forEach(s => {
+                    ctx.fillStyle = `rgba(250, 250, 245, ${Math.max(0, s.life / 2.3)})`;
+                    ctx.beginPath();
+                    ctx.arc(s.x, s.y, s.size, 0, Math.PI * 2);
+                    ctx.fill();
+                });
+
+                // 황소가 끄는 덮개 교역 마차 (컨셉 아트 중앙 하단 황소 수레 재현)
+                const wx = (this.wagonX % (w + 150)) - 75;
+                const wy = h * 0.62 - (wx * 0.14);
+                const bounce = Math.abs(Math.sin(this.tick * 0.22)) * 2;
+                ctx.save();
+                // 황소
+                ctx.fillStyle = '#92400e';
+                ctx.strokeStyle = '#1c120a';
+                ctx.lineWidth = 1.4;
+                ctx.beginPath();
+                ctx.roundRect(wx + 48, wy + 8 - bounce, 20, 11, 4);
+                ctx.fill(); ctx.stroke();
+                ctx.beginPath();
+                ctx.arc(wx + 69, wy + 9 - bounce, 5.5, 0, Math.PI * 2);
+                ctx.fill(); ctx.stroke();
+                // 황소 뿔
+                ctx.strokeStyle = '#fef08a';
+                ctx.beginPath(); ctx.moveTo(wx + 71, wy + 5 - bounce); ctx.lineTo(wx + 75, wy + 1 - bounce); ctx.stroke();
+
+                // 천막 짐수레
+                ctx.fillStyle = '#f5ebd6';
+                ctx.strokeStyle = '#1c120a';
+                ctx.beginPath();
+                ctx.arc(wx + 24, wy + 10 - bounce, 16, Math.PI, 0);
+                ctx.fill(); ctx.stroke();
+                ctx.fillStyle = '#5c3a21';
+                ctx.fillRect(wx + 6, wy + 10 - bounce, 36, 10);
+                ctx.strokeRect(wx + 6, wy + 10 - bounce, 36, 10);
+                // 큰 나무 수레바퀴
+                ctx.fillStyle = '#291d12';
+                ctx.beginPath();
+                ctx.arc(wx + 16, wy + 22 - bounce, 7, 0, Math.PI * 2);
+                ctx.arc(wx + 34, wy + 22 - bounce, 7, 0, Math.PI * 2);
+                ctx.fill(); ctx.stroke();
+                ctx.restore();
+
+                // 좌측 분홍 벚꽃나무 & 우측 붉은 단풍나무 (컨셉 아트 테두리 수목 재현)
+                this.drawStylizedTree(ctx, 26, h * 0.62, '#f9a8d4', '#fbcfe8');
+                this.drawStylizedTree(ctx, 56, h * 0.78, '#f472b6', '#fce7f3');
+                this.drawStylizedTree(ctx, w - 34, h * 0.74, '#dc2626', '#f97316');
+                this.drawStylizedTree(ctx, w - 70, h * 0.86, '#b91c1c', '#fbbf24');
+
+                // 아군 대표 장수 4인 마을 순찰 도열
+                const party = this.getActivePartyUnits();
+                party.forEach((member, i) => {
+                    const ux = 110 + i * 48;
+                    const uy = h * 0.80 + (i % 2) * 14;
+                    this.renderer.drawBattleActor(ctx, member, ux, uy, 1.05, 'idle', this.tick + i * 11, 1, false);
+                });
+
+                // 흩날리는 꽃잎 & 단풍잎
+                this.petals.forEach(p => {
+                    ctx.fillStyle = p.isAutumn ? 'rgba(239, 68, 68, 0.8)' : 'rgba(251, 207, 232, 0.85)';
+                    ctx.beginPath();
+                    ctx.arc(p.x % w, p.y % h, p.size, 0, Math.PI * 2);
+                    ctx.fill();
+                });
+            }
+
+            drawStylizedTree(ctx, x, y, mainCol, hiCol) {
+                ctx.fillStyle = '#4a2c16';
+                ctx.fillRect(x - 3, y - 14, 6, 18);
+                ctx.fillStyle = mainCol;
+                ctx.strokeStyle = '#1c120a';
+                ctx.lineWidth = 1.4;
+                ctx.beginPath();
+                ctx.arc(x, y - 24, 18, 0, Math.PI * 2);
+                ctx.arc(x - 12, y - 18, 13, 0, Math.PI * 2);
+                ctx.arc(x + 12, y - 18, 13, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.stroke();
+
+                ctx.fillStyle = hiCol;
+                ctx.beginPath();
+                ctx.arc(x - 4, y - 28, 8, 0, Math.PI * 2);
+                ctx.fill();
+            }
+
+            // (2) 원경 2.5D 월드 & 전장 씬 (안개 낀 산맥, 소나무 숲, 적진 망루와 횃불, 마법진 장수 vs 백두산 호랑이)
+            drawHandPaintedBattleScene(ctx, w, h) {
+                // 안개 낀 하늘과 원경 첩첩산중
+                const skyGrad = ctx.createLinearGradient(0, 0, 0, h * 0.38);
+                skyGrad.addColorStop(0, this.isBossFight ? '#451a1a' : '#cbd5e1');
+                skyGrad.addColorStop(1, this.isBossFight ? '#7f1d1d' : '#e2e8f0');
+                ctx.fillStyle = skyGrad;
+                ctx.fillRect(0, 0, w, h * 0.38);
+
+                // 원경 산맥 실루엣
+                ctx.fillStyle = this.isBossFight ? '#3b1515' : '#64748b';
+                ctx.beginPath();
+                ctx.moveTo(0, h * 0.36);
+                ctx.lineTo(w * 0.18, h * 0.10);
+                ctx.lineTo(w * 0.38, h * 0.25);
+                ctx.lineTo(w * 0.62, h * 0.08);
+                ctx.lineTo(w * 0.84, h * 0.22);
+                ctx.lineTo(w, h * 0.12);
+                ctx.lineTo(w, h * 0.38);
+                ctx.lineTo(0, h * 0.38);
+                ctx.fill();
+
+                // 중경 소나무 수림대
+                ctx.fillStyle = '#2f4528';
+                for (let tx = 10; tx < w; tx += 22) {
+                    const th = 22 + (tx % 15);
+                    ctx.beginPath();
+                    ctx.moveTo(tx, h * 0.36);
+                    ctx.lineTo(tx + 9, h * 0.36 - th);
+                    ctx.lineTo(tx + 18, h * 0.36);
+                    ctx.fill();
+                }
+
+                // 전장 흙·초원 지면
+                const groundGrad = ctx.createLinearGradient(0, h * 0.34, 0, h);
+                groundGrad.addColorStop(0, '#6d7c47');
+                groundGrad.addColorStop(0.5, '#8c7a53');
+                groundGrad.addColorStop(1, '#5c6b3c');
+                ctx.fillStyle = groundGrad;
+                ctx.fillRect(0, h * 0.34, w, h * 0.66);
+
+                // 우측 적진 목조 망루 & 군기 & 타오르는 횃불 (컨셉 아트 우상단 재현)
+                const towerX = w - 135;
+                const towerY = h * 0.14;
+                if (towerX > 180) {
+                    ctx.strokeStyle = '#1c120a';
+                    ctx.lineWidth = 2;
+                    ctx.fillStyle = '#5c3a21';
+                    ctx.fillRect(towerX + 12, towerY + 28, 6, 46);
+                    ctx.fillRect(towerX + 46, towerY + 28, 6, 46);
+                    ctx.fillRect(towerX + 6, towerY + 24, 52, 10);
+                    // 망루 기와지붕
+                    ctx.fillStyle = '#292524';
+                    ctx.beginPath();
+                    ctx.moveTo(towerX, towerY + 24);
+                    ctx.lineTo(towerX + 32, towerY + 4);
+                    ctx.lineTo(towerX + 64, towerY + 24);
+                    ctx.closePath();
+                    ctx.fill(); ctx.stroke();
+
+                    // 좌/우 횃불 화로
+                    [towerX - 10, towerX + 68].forEach(bx => {
+                        ctx.fillStyle = '#292524';
+                        ctx.fillRect(bx - 3, towerY + 56, 6, 16);
+                        const flicker = Math.sin(this.tick * 0.3 + bx) * 2;
+                        ctx.fillStyle = '#f97316';
+                        ctx.beginPath();
+                        ctx.arc(bx, towerY + 52, 6 + flicker * 0.4, 0, Math.PI * 2);
+                        ctx.fill();
+                        ctx.fillStyle = '#fde047';
+                        ctx.beginPath();
+                        ctx.arc(bx, towerY + 53, 3, 0, Math.PI * 2);
+                        ctx.fill();
+                    });
+                }
+
+                // 모든 전투 유닛 Y축 정렬 렌더링 (발밑 룬 마법진 + 상단 이름·체력바)
+                const sorted = [...this.battleUnits].filter(u => u.hp > 0).sort((a, b) => a.y - b.y);
+                sorted.forEach(u => {
+                    const facing = u.side === 'ally' ? 1 : -1;
+                    const scale = u.isMegaBoss ? 1.55 : (u.isTiger ? 1.25 : (u.stage === 3 ? 1.25 : 1.12));
+                    this.renderer.drawBattleActor(ctx, u, u.x, u.y, scale, u.state, this.tick, facing, u.hitFlash > 0);
+
+                    // 유닛 머리 위 이름 및 깔끔한 체력바
+                    const topY = u.y - (u.isMegaBoss ? 62 : 48);
+                    const bw = u.isMegaBoss ? 52 : 34;
+                    const pct = Math.max(0, u.hp / u.maxHp);
+
+                    if (u.side === 'enemy') {
+                        ctx.font = 'bold 9px "Noto Sans KR"';
+                        ctx.textAlign = 'center';
+                        ctx.fillStyle = '#fef9c3';
+                        ctx.fillText(u.name, u.x, topY - 4);
+                    }
+
+                    ctx.fillStyle = '#140c06';
+                    ctx.fillRect(u.x - bw / 2 - 1, topY - 1, bw + 2, 6);
+                    ctx.fillStyle = u.side === 'ally' ? '#4ade80' : '#ef4444';
+                    ctx.fillRect(u.x - bw / 2, topY, bw * pct, 4);
+                });
+
+                // 투사체 렌더링
+                this.projectiles.forEach(p => {
+                    ctx.fillStyle = p.color;
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, p.isAoe ? 5.5 : 4, 0, Math.PI * 2);
+                    ctx.fill();
+                });
+            }
+        }
+
+        /**
+         * 8. 스마트 자동사냥 & 아시아 24도시 광역 자동교역 AI 엔진
+         */
+        class MobileAIEngine {
+            constructor() {
+                this.huntActive = false;
+                this.tradeActive = false;
+                this.speed = 1;
+                this.lastTick = 0;
+
+                setInterval(() => this.step(), 650);
+            }
+
+            setSpeed(s) {
+                this.speed = s;
+                [1, 2, 3].forEach(n => {
+                    const topBtn = document.getElementById(`spd-${n}`);
+                    if (topBtn) topBtn.className = n === s ? 'px-2 py-0.5 rounded font-bold bg-[#996411] text-white' : 'px-2 py-0.5 rounded font-bold text-[#bfa98c]';
+                    const deckBtn = document.getElementById(`deck-spd-${n}`);
+                    if (deckBtn) deckBtn.className = n === s ? 'py-1 rounded font-black text-xs bg-[#996411] text-white border border-[#fde047]' : 'py-1 rounded font-bold text-xs text-[#cbb89c]';
+                });
+            }
+
+            setThought(txt) {
+                document.getElementById('ai-thought-banner').textContent = `🤖 ${txt}`;
+            }
+
+            refreshSwitches() {
+                const swHunt = document.getElementById('switch-ai-hunt');
+                const swTrade = document.getElementById('switch-ai-trade');
+
+                if (this.huntActive) {
+                    swHunt.textContent = 'ON';
+                    swHunt.className = 'px-2.5 py-0.5 rounded text-[10px] font-black bg-[#16a34a] text-white border border-[#86efac] shadow';
+                } else {
+                    swHunt.textContent = 'OFF';
+                    swHunt.className = 'px-2.5 py-0.5 rounded text-[10px] font-black bg-[#3b2818] text-[#a8957b] border border-[#5e4226]';
+                }
+
+                if (this.tradeActive) {
+                    swTrade.textContent = 'ON';
+                    swTrade.className = 'px-2.5 py-0.5 rounded text-[10px] font-black bg-[#16a34a] text-white border border-[#86efac] shadow';
+                } else {
+                    swTrade.textContent = 'OFF';
+                    swTrade.className = 'px-2.5 py-0.5 rounded text-[10px] font-black bg-[#3b2818] text-[#a8957b] border border-[#5e4226]';
+                }
+
+                if (!this.huntActive && !this.tradeActive) {
+                    this.setThought('우측 버튼으로 사냥출정 또는 [거북선 출격] 필살기를 시전하세요!');
+                }
+            }
+
+            toggleHunt() {
+                this.huntActive = !this.huntActive;
+                if (this.huntActive) this.tradeActive = false;
+                this.refreshSwitches();
+                if (this.huntActive) this.setThought('자동사냥 AI 가동! 전황 분석 및 출정...');
+            }
+
+            toggleTrade() {
+                this.tradeActive = !this.tradeActive;
+                if (this.tradeActive) this.huntActive = false;
+                this.refreshSwitches();
+                if (this.tradeActive) this.setThought('자동교역 AI 가동! 아시아 24도시 시세 탐색...');
+            }
+
+            onBattleTick(allies, enemies) {
+                const avgHp = allies.reduce((s, u) => s + u.hp / u.maxHp, 0) / allies.length;
+                if (avgHp < 0.65 && game.mp >= 25 && game.skills[2].cd <= 0) {
+                    if (game.castSkill(2)) this.setThought('아군 체력 65% 미만 → [의술: 회춘] 자동 시전');
+                } else if (game.mp >= 60 && game.skills[4].cd <= 0) {
+                    if (game.castSkill(4)) this.setThought('도력 완충 → [거북선 출격] 필살기 시전!');
+                } else if (enemies.length >= 2 && game.mp >= 40 && game.skills[3].cd <= 0) {
+                    if (game.castSkill(3)) this.setThought('적 다수 포착 → [화염폭풍] 광역 시전');
+                } else if (game.mp >= 20 && game.skills[1].cd <= 0) {
+                    if (game.castSkill(1)) this.setThought('선두 적 타격 → [일격필살 칼바람] 자동 시전');
+                }
+            }
+
+            step() {
+                if (!this.huntActive && !this.tradeActive) return;
+                if (game.inBattle) return;
+
+                const now = performance.now();
+                if (now - this.lastTick < Math.max(450, 1200 / this.speed)) return;
+                this.lastTick = now;
+
+                if (this.huntActive) {
+                    const party = game.getActivePartyUnits();
+                    const avgHp = party.reduce((s, u) => s + u.hp / u.maxHp, 0) / party.length;
+                    if (avgHp < 0.45 || game.state.food < 15) {
+                        if (game.restAtInn(true)) this.setThought('체력·군량 부족 → 주막 자동 휴식 완료');
+                        else this.toggleHunt();
+                        return;
+                    }
+                    this.setThought(`${CITIES[game.state.city].name} 외곽 전장 자동 출정!`);
+                    game.startBattle(false);
+                } else if (this.tradeActive) {
+                    const cid = game.state.city;
+                    const prices = game.state.prices[cid];
+
+                    for (const item of ITEMS) {
+                        const qty = game.state.inventory[item.id] || 0;
+                        if (qty > 0 && prices[item.id].price >= item.base * 1.05) {
+                            game.sellItem(item.id, qty);
+                            this.setThought(`${CITIES[cid].name} [${item.name}] ${qty}개 고가 매도 완료!`);
+                            return;
+                        }
+                    }
+
+                    if (game.getCargoCount() > 0) {
+                        const loaded = ITEMS.find(i => (game.state.inventory[i.id] || 0) > 0);
+                        let bestCity = null, bestP = -1;
+                        Object.keys(CITIES).forEach(other => {
+                            if (other !== cid && game.state.prices[other][loaded.id].price > bestP) {
+                                bestP = game.state.prices[other][loaded.id].price;
+                                bestCity = other;
+                            }
+                        });
+                        if (bestCity) {
+                            if (game.state.food < 18) { game.restAtInn(true); return; }
+                            this.setThought(`[${loaded.name}] 최고가(${bestP}냥) → ${CITIES[bestCity].name} 행군`);
+                            game.travelTo(bestCity);
+                            return;
+                        }
+                    }
+
+                    let cheapItem = null, minRatio = Infinity;
+                    ITEMS.forEach(item => {
+                        const r = prices[item.id].price / item.base;
+                        if (r < minRatio && game.state.money >= prices[item.id].price) {
+                            minRatio = r;
+                            cheapItem = item;
+                        }
+                    });
+
+                    if (cheapItem && minRatio <= 0.95) {
+                        game.buyItem(cheapItem.id, 99);
+                        this.setThought(`${CITIES[cid].name} [${cheapItem.name}] 폭락가 대량 매입!`);
+                    } else {
+                        if (game.state.food < 18) { game.restAtInn(true); return; }
+                        const others = Object.keys(CITIES).filter(c => c !== cid);
+                        const next = others[Math.floor(Math.random() * others.length)];
+                        this.setThought(`폭락 특산품 탐색 → ${CITIES[next].name} 이동`);
+                        game.travelTo(next);
+                    }
+                }
+            }
+        }
+
+        /**
+         * 9. 컨셉 아트 기반 하단 한지 UI 컨트롤러 (부대 / 전직 / 인벤토리 / 대장간 / 교역·지도)
+         */
+        class ArtworkLayoutController {
+            constructor() {
+                this.orientation = 'portrait';
+                this.currentTab = 'squad';
+                this.selectedUnitUid = 'u_1';
+                this.selectedGearUid = 'g_1';
+                this.mapRegionFilter = 'all';
+            }
+
+            setOrientation(mode) {
+                this.orientation = mode;
+                const shell = document.getElementById('device-shell');
+                const vp = document.getElementById('viewport-section');
+                const deckGrid = document.getElementById('bottom-deck-grid');
+                const mainCol = document.getElementById('main-hanji-column');
+                const rightCol = document.getElementById('right-ai-column');
+                const btnP = document.getElementById('btn-mode-portrait');
+                const btnL = document.getElementById('btn-mode-landscape');
+
+                const activeCls = 'px-2.5 py-1 rounded-lg text-xs font-black bg-gradient-to-b from-[#e0a934] to-[#996411] text-white border border-[#fff0a6] shadow transition';
+                const idleCls = 'px-2.5 py-1 rounded-lg text-xs font-bold text-[#cbb89c] hover:text-white transition';
+
+                if (mode === 'portrait') {
+                    shell.className = 'device-shell mode-portrait wood-frame overflow-hidden flex-1 flex flex-col shadow-2xl';
+                    vp.className = 'relative w-full h-[275px] sm:h-[310px] bg-[#1e2618] border-b-2 border-[#6e4b2a] overflow-hidden shrink-0';
+                    deckGrid.className = 'grid grid-cols-1 gap-2 flex-1';
+                    mainCol.className = 'flex flex-col flex-1 min-h-[260px]';
+                    rightCol.className = 'wood-frame rounded-xl p-2 flex flex-col justify-between gap-1.5 shrink-0';
+                    btnP.className = activeCls;
+                    btnL.className = idleCls;
+                } else {
+                    // 가로 와이드 모드: 컨셉 아트 하단과 동일하게 좌측 9컬럼(부대·장수초상화·장비그리드) + 우측 3컬럼(영웅소환·AI토글·1x2x3x) 배치!
+                    shell.className = 'device-shell mode-landscape wood-frame overflow-hidden flex-1 flex flex-col shadow-2xl';
+                    vp.className = 'relative w-full h-[335px] bg-[#1e2618] border-b-2 border-[#6e4b2a] overflow-hidden shrink-0';
+                    deckGrid.className = 'grid grid-cols-1 md:grid-cols-12 gap-2.5 flex-1';
+                    mainCol.className = 'md:col-span-9 flex flex-col min-h-[235px]';
+                    rightCol.className = 'md:col-span-3 wood-frame rounded-xl p-2.5 flex flex-col justify-between gap-2';
+                    btnL.className = activeCls;
+                    btnP.className = idleCls;
+                }
+            }
+
+            switchTab(tab) {
+                this.currentTab = tab;
+                ['squad', 'evolve', 'inventory', 'blacksmith', 'trade'].forEach(t => {
+                    const btn = document.getElementById(`tab-${t}`);
+                    if (btn) btn.classList.toggle('active', t === tab);
+                });
+                this.renderCurrentTab();
+            }
+
+            selectUnit(uid) {
+                this.selectedUnitUid = uid;
+                this.renderCurrentTab();
+            }
+
+            selectGear(gid) {
+                this.selectedGearUid = gid;
+                this.renderCurrentTab();
+            }
+
+            setMapFilter(reg) {
+                this.mapRegionFilter = reg;
+                this.renderCurrentTab();
+            }
+
+            openSaveModal() {
+                document.getElementById('save-modal').classList.remove('hidden');
+                try {
+                    const encoded = btoa(unescape(encodeURIComponent(JSON.stringify(game.state))));
+                    document.getElementById('save-code-box').value = encoded;
+                } catch (e) {}
+            }
+
+            copySaveCode() {
+                const box = document.getElementById('save-code-box');
+                box.select();
+                document.execCommand('copy');
+                game.toast('📋 상단 백업 코드가 클립보드에 복사되었습니다!', 'green');
+            }
+
+            importSaveCode() {
+                try {
+                    const raw = document.getElementById('save-code-box').value.trim();
+                    const parsed = JSON.parse(decodeURIComponent(escape(atob(raw))));
+                    if (parsed && Array.isArray(parsed.roster)) {
+                        game.state = { ...game.createDefaultState(), ...parsed };
+                        game.syncAllHeroHp();
+                        game.saveToStorage();
+                        game.renderAllUI();
+                        document.getElementById('save-modal').classList.add('hidden');
+                        game.toast('📥 상단 기록을 성공적으로 불러왔습니다!', 'green');
+                    }
+                } catch (e) {
+                    game.toast('올바르지 않은 백업 코드입니다.', 'red');
+                }
+            }
+
+            resetSaveData() {
+                localStorage.removeItem(game.SAVE_KEY);
+                game.state = game.createDefaultState();
+                game.syncAllHeroHp();
+                game.refreshAllPrices();
+                game.renderAllUI();
+                document.getElementById('save-modal').classList.add('hidden');
+                game.toast('🗑️ 초기화가 완료되었습니다.', 'gold');
+            }
+
+            renderCurrentTab() {
+                const area = document.getElementById('tab-content-area');
+                if (!area || !game) return;
+
+                if (!game.state.roster.some(u => u.uid === this.selectedUnitUid)) {
+                    this.selectedUnitUid = game.state.roster[0].uid;
+                }
+                const selUnit = game.state.roster.find(u => u.uid === this.selectedUnitUid);
+                const selEff = game.getUnitEffectiveStats(selUnit);
+
+                // (1) [부대] 탭: 컨셉 아트 좌하단 레이아웃 완벽 재현 (장수 흉상 초상화 카드 + 불꽃 [전직 승급] 카드 + 우측 장비 슬롯 그리드)
+                if (this.currentTab === 'squad') {
+                    const party = game.getActivePartyUnits();
+                    const slotNames = { weapon: '무기', armor: '갑옷', relic: '보물' };
+
+                    area.innerHTML = `
+                        <div class="grid grid-cols-1 sm:grid-cols-12 gap-2 h-full">
+                            <!-- 좌측: 출전 장수 정밀 초상화 카드들 + 불꽃 [전직 승급] 카드 -->
+                            <div class="sm:col-span-7 flex items-stretch gap-1.5 overflow-x-auto pb-0.5">
+                                ${party.map((u, idx) => {
+                                    const isSel = u.uid === selUnit.uid;
+                                    const hpPct = Math.max(0, Math.round((u.hp / u.maxHp) * 100));
+                                    const starsStr = '★'.repeat(Math.min(5, u.stars));
+                                    return `
+                                        <div onclick="app.selectUnit('${u.uid}')" class="cursor-pointer shrink-0 w-[92px] rounded-xl p-1.5 flex flex-col justify-between border-2 transition ${isSel ? 'bg-[#362010] border-[#fde047] shadow-lg' : 'bg-[#26160b] border-[#6e4b2a]'} text-[#f6ecd7]">
+                                            <div class="relative w-full h-[68px] rounded-lg overflow-hidden border border-[#9c7344]">
+                                                <canvas id="sq-portrait-${idx}" width="84" height="68" class="w-full h-full block"></canvas>
+                                                <span class="absolute top-0.5 left-0.5 px-1 rounded bg-black/75 text-[#fde047] text-[8px] font-black">${u.stageLabel}</span>
+                                            </div>
+                                            <div class="text-center mt-1">
+                                                <div class="text-[9px] text-[#fde047] font-bold leading-none">Lv.${u.level}</div>
+                                                <div class="font-serif-kr font-black text-xs text-white truncate mt-0.5">${u.name.split(' ')[0]}</div>
+                                            </div>
+                                            <div class="space-y-0.5 mt-1 text-[8px]">
+                                                <div class="flex items-center gap-1">
+                                                    <span class="text-[#f87171] font-bold">HP</span>
+                                                    <div class="flex-1 h-1.5 bg-black rounded-full overflow-hidden">
+                                                        <div class="h-full bg-[#dc2626]" style="width:${hpPct}%"></div>
+                                                    </div>
+                                                </div>
+                                                <div class="flex items-center gap-1">
+                                                    <span class="text-[#60a5fa] font-bold">MP</span>
+                                                    <div class="flex-1 h-1.5 bg-black rounded-full overflow-hidden">
+                                                        <div class="h-full bg-[#2563eb]" style="width:100%"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="text-center text-[#fde047] text-[9px] tracking-tighter mt-0.5 leading-none">${starsStr}</div>
+                                        </div>
+                                    `;
+                                }).join('')}
+
+                                <!-- 컨셉 아트 중앙 불꽃 [전직 승급] 카드 -->
+                                <div onclick="app.switchTab('evolve')" class="cursor-pointer shrink-0 w-[86px] fire-promote-card rounded-xl p-1.5 flex flex-col items-center justify-between text-center">
+                                    <div class="text-[9px] font-black text-[#fef08a] bg-black/50 px-1.5 py-0.5 rounded">천명 각성</div>
+                                    <div class="text-3xl my-1 drop-shadow">🔥</div>
+                                    <div class="w-full py-1 rounded-lg bg-[#1c120a]/90 border border-[#fde047] font-serif-kr font-black text-[11px] text-[#fde047]">
+                                        전직 승급
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 우측: 선택 장수 착용 3슬롯 & 보유 명품 장비 그리드 -->
+                            <div class="sm:col-span-5 flex flex-col justify-between bg-[#e3d2b0] border border-[#8a6943] rounded-xl p-1.5">
+                                <div class="flex items-center justify-between text-[10px] font-bold text-[#23150b] mb-1">
+                                    <span>[${selEff.name.split(' ')[0]}] 장착 장비</span>
+                                    <button onclick="game.autoEquipBestGear()" class="px-1.5 py-0.5 rounded bg-[#996411] text-white text-[9px] font-bold">⚡ 최적장착</button>
+                                </div>
+
+                                <div class="grid grid-cols-3 gap-1.5">
+                                    ${['weapon', 'armor', 'relic'].map(slot => {
+                                        const eq = game.state.gearBag.find(g => g.equippedBy === selUnit.uid && g.slot === slot);
+                                        if (!eq) {
+                                            return `
+                                                <div onclick="app.switchTab('inventory')" class="cursor-pointer gear-square-slot bg-[#cbb68d] text-[#6e4e2e] text-center p-1">
+                                                    <span class="text-[9px] font-bold">${slotNames[slot]}</span>
+                                                    <span class="text-[8px]">빈슬롯</span>
+                                                </div>
+                                            `;
+                                        }
+                                        return `
+                                            <div onclick="app.selectGear('${eq.uid}'); app.switchTab('blacksmith')" class="cursor-pointer gear-square-slot slot-bg-${eq.rarity} p-1">
+                                                <span class="absolute top-0.5 right-1 text-[9px] font-black text-[#fde047] drop-shadow">+${eq.enhance}</span>
+                                                <span class="text-xl">${eq.icon}</span>
+                                                <span class="text-[8px] font-bold text-white truncate w-full text-center mt-0.5">${eq.name}</span>
+                                            </div>
+                                        `;
+                                    }).join('')}
+                                </div>
+
+                                <div class="flex items-center justify-between gap-1 mt-1.5">
+                                    <button onclick="game.trainUnit('${selUnit.uid}', 5)" class="hanji-action-btn flex-1 py-1 rounded text-[10px]">
+                                        🔥 +5 단련
+                                    </button>
+                                    <button onclick="game.autoAssembleBestSquad()" class="gold-action-btn flex-1 py-1 rounded text-[10px]">
+                                        ⚡ 최강 편성
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+
+                    // 각 출전 장수 초상화 캔버스 그리기
+                    party.forEach((u, idx) => {
+                        const c = document.getElementById(`sq-portrait-${idx}`);
+                        if (c) game.renderer.drawBustPortrait(c, u);
+                    });
+                }
+                // (2) [전직] 탭: 4단계 진화 로드맵(용병 → 1차 → 2차 → 3차 각성) + 불꽃 전직 실행 + 전체 계보
+                else if (this.currentTab === 'evolve') {
+                    const nextStage = selUnit.stage + 1;
+                    const nextRule = nextStage <= 3 ? STAGE_RULES[nextStage] : null;
+                    const nextSpec = nextStage <= 3 ? getStageUnitSpec(selUnit.lineageId, nextStage) : null;
+
+                    area.innerHTML = `
+                        <div class="space-y-2">
+                            <div class="hanji-card rounded-xl p-2">
+                                <div class="flex items-center justify-between border-b border-[#b89f78] pb-1 mb-1.5">
+                                    <div>
+                                        <span class="text-[9px] font-black px-1.5 py-0.5 rounded bg-[#2c1c10] text-[#fde047]">${selEff.rarity} · ${selEff.stageLabel} ★${selEff.stars}</span>
+                                        <strong class="font-serif-kr text-sm text-[#23150b] ml-1">${selEff.name}</strong>
+                                        <span class="text-[10px] font-bold text-[#1e3a8a] ml-1">Lv.${selEff.level}</span>
+                                    </div>
+                                    <span class="text-[10px] font-black text-[#991b1b]">전투력 ${selEff.combatPower.toLocaleString()}</span>
+                                </div>
+
+                                <!-- 4단계 진화 트리 -->
+                                <div class="grid grid-cols-4 gap-1.5 my-1.5">
+                                    ${[0, 1, 2, 3].map(stIdx => {
+                                        const sp = getStageUnitSpec(selUnit.lineageId, stIdx);
+                                        const isCur = selUnit.stage === stIdx;
+                                        return `
+                                            <div class="rounded-lg p-1 text-center border-2 ${isCur ? 'bg-[#362010] border-[#fde047] text-[#fef08a] shadow-md' : 'bg-[#e3d2b0] border-[#9e825c] text-[#3d2b1f]'}">
+                                                <div class="text-[8px] font-black">${sp.rarity}·${sp.stageLabel}</div>
+                                                <canvas id="ev-node-p-${stIdx}" width="44" height="40" class="mx-auto my-0.5 rounded border border-black/30"></canvas>
+                                                <div class="text-[9px] font-bold truncate">${sp.name.split(' ')[0]}</div>
+                                            </div>
+                                        `;
+                                    }).join('')}
+                                </div>
+
+                                ${nextRule ? `
+                                    <div class="bg-[#26150b] border border-[#fde047] rounded-xl p-2 text-[#f6ecd7] flex items-center justify-between gap-2">
+                                        <div class="text-[10px]">
+                                            <div class="font-bold text-[#fde047]">다음 승급: [${nextSpec.name}] (${nextSpec.stageLabel} · ${nextRule.statMult}x)</div>
+                                            <div class="text-[#d6c7b2]">필요: <strong class="${selUnit.level >= nextRule.reqLv ? 'text-[#4ade80]' : 'text-[#f87171]'}">Lv.${nextRule.reqLv}</strong> · 📜${nextRule.reqScrolls} · 🔮${nextRule.reqSoul} · ${nextRule.reqGold.toLocaleString()}냥</div>
+                                        </div>
+                                        <button onclick="game.evolveUnit('${selUnit.uid}')" class="crimson-action-btn px-3 py-1.5 rounded-lg font-serif-kr font-black text-xs shrink-0">
+                                            🔥 전직 승급
+                                        </button>
+                                    </div>
+                                ` : `
+                                    <div class="bg-[#450a0a] border border-[#fde047] rounded-lg p-1.5 text-center font-serif-kr font-black text-xs text-[#fde047]">
+                                        👑 최고 경지 [3차 각성] 달성 완료!
+                                    </div>
+                                `}
+                            </div>
+
+                            <!-- 보유 장수 전환 선택 바 -->
+                            <div class="grid grid-cols-2 sm:grid-cols-4 gap-1">
+                                ${game.state.roster.map(u => {
+                                    const ue = game.getUnitEffectiveStats(u);
+                                    const inParty = game.state.activePartyUids.includes(u.uid);
+                                    return `
+                                        <div onclick="app.selectUnit('${u.uid}')" class="cursor-pointer rounded-lg p-1.5 border ${u.uid === selUnit.uid ? 'bg-[#362010] text-[#fde047] border-[#fde047]' : 'bg-[#f7eedb] text-[#23150b] border-[#8a6943]'}">
+                                            <div class="text-[9px] font-black truncate">${ue.stageLabel} · Lv.${ue.level}</div>
+                                            <div class="font-bold text-[11px] truncate">${ue.name.split(' ')[0]}</div>
+                                            <button onclick="event.stopPropagation(); game.togglePartyMember('${u.uid}')" class="mt-1 w-full py-0.5 rounded text-[9px] font-bold ${inParty ? 'bg-[#15803d] text-white' : 'bg-[#6e4b2a] text-white'}">
+                                                ${inParty ? '✓ 출전중' : '출전배치'}
+                                            </button>
+                                        </div>
+                                    `;
+                                }).join('')}
+                            </div>
+                        </div>
+                    `;
+
+                    [0, 1, 2, 3].forEach(stIdx => {
+                        const c = document.getElementById(`ev-node-p-${stIdx}`);
+                        if (c) game.renderer.drawBustPortrait(c, getStageUnitSpec(selUnit.lineageId, stIdx));
+                    });
+                }
+                // (3) [인벤토리] 탭: 컨셉 아트 우하단 정사각형 +12 / +15 제련 슬롯 그리드 재현
+                else if (this.currentTab === 'inventory') {
+                    area.innerHTML = `
+                        <div class="space-y-2">
+                            <div class="flex items-center justify-between text-[11px] font-bold text-[#23150b]">
+                                <span>🎒 명품 장비 · 보물함 (${game.state.gearBag.length}점 · 클릭하여 장착/제련)</span>
+                                <button onclick="game.autoEquipBestGear()" class="gold-action-btn px-2 py-0.5 rounded text-[10px]">⚡ 부대 일괄 최적장착</button>
+                            </div>
+
+                            <div class="grid grid-cols-5 sm:grid-cols-8 gap-1.5">
+                                ${game.state.gearBag.map(g => {
+                                    const owner = g.equippedBy ? game.state.roster.find(u => u.uid === g.equippedBy) : null;
+                                    const ownerName = owner ? getStageUnitSpec(owner.lineageId, owner.stage).name.split(' ')[0] : null;
+                                    return `
+                                        <div onclick="app.selectGear('${g.uid}'); app.switchTab('blacksmith')" class="cursor-pointer gear-square-slot slot-bg-${g.rarity} p-1">
+                                            <span class="absolute top-0.5 right-1 text-[10px] font-black text-[#fde047] drop-shadow">+${g.enhance}</span>
+                                            ${ownerName ? `<span class="absolute top-0.5 left-0.5 px-1 rounded bg-[#16a34a] text-white text-[7px] font-black">${ownerName}</span>` : ''}
+                                            <span class="text-2xl mt-1">${g.icon}</span>
+                                            <span class="text-[8px] font-bold text-white truncate w-full text-center mt-0.5">${g.name}</span>
+                                        </div>
+                                    `;
+                                }).join('')}
+                            </div>
+                        </div>
+                    `;
+                }
+                // (4) [대장간] 탭: +0 ~ +15 제련 강화 및 장수별 장착
+                else if (this.currentTab === 'blacksmith') {
+                    if (!game.state.gearBag.some(g => g.uid === this.selectedGearUid)) {
+                        this.selectedGearUid = game.state.gearBag[0].uid;
+                    }
+                    const gear = game.state.gearBag.find(g => g.uid === this.selectedGearUid);
+                    const eg = game.getGearEffectiveStats(gear);
+                    const forgeGold = 350 + gear.enhance * 260;
+                    const forgeStone = 8 + gear.enhance * 4;
+                    const baseRate = gear.enhance < 5 ? 100 : (gear.enhance < 10 ? 75 : 48);
+                    const finalRate = Math.min(100, baseRate + gear.pityBonus);
+
+                    area.innerHTML = `
+                        <div class="space-y-2">
+                            <div class="hanji-card rounded-xl p-2.5 flex flex-col sm:flex-row items-center justify-between gap-2.5">
+                                <div class="flex items-center gap-2.5">
+                                    <div class="w-16 h-16 gear-square-slot slot-bg-${gear.rarity} shrink-0">
+                                        <span class="absolute top-1 right-1 text-xs font-black text-[#fde047]">+${gear.enhance}</span>
+                                        <span class="text-3xl">${gear.icon}</span>
+                                    </div>
+                                    <div>
+                                        <div class="font-serif-kr font-black text-sm text-[#23150b]">+${gear.enhance} ${gear.name} <span class="text-xs text-[#991b1b]">[${gear.rarity}]</span></div>
+                                        <div class="text-[11px] font-bold text-[#4a311c] mt-0.5">공격 +${eg.effAtk} · 체력 +${eg.effHp} · 방어 +${eg.effDef} · 치명 +${eg.effCrit}%</div>
+                                        <div class="text-[10px] text-[#15803d] font-bold mt-0.5">성공 확률: ${finalRate}% (실패 시 장비 보존 · 축복 +${gear.pityBonus}%)</div>
+                                    </div>
+                                </div>
+
+                                <div class="flex flex-col gap-1 w-full sm:w-auto shrink-0">
+                                    <button onclick="game.forgeGear('${gear.uid}')" ${gear.enhance >= 15 ? 'disabled' : ''} class="gold-action-btn px-3 py-2 rounded-lg font-black text-xs">
+                                        ${gear.enhance >= 15 ? 'MAX +15 제련 완료' : `🔨 제련하기 (${forgeGold.toLocaleString()}냥 + 🔨${forgeStone})`}
+                                    </button>
+                                    <button onclick="game.equipGearToUnit('${gear.uid}', '${selUnit.uid}')" class="hanji-action-btn px-3 py-1 rounded-lg text-[10px]">
+                                        ${gear.equippedBy === selUnit.uid ? `[${selEff.name.split(' ')[0]}] 장착 해제` : `[${selEff.name.split(' ')[0]}]에게 장착`}
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- 제련 대상 장비 빠른 선택 -->
+                            <div class="flex items-center gap-1.5 overflow-x-auto pb-1">
+                                ${game.state.gearBag.map(g => `
+                                    <button onclick="app.selectGear('${g.uid}')" class="shrink-0 px-2 py-1 rounded-lg border text-[10px] font-bold ${g.uid === gear.uid ? 'bg-[#362010] text-[#fde047] border-[#fde047]' : 'bg-[#f7eedb] text-[#23150b] border-[#8a6943]'}">
+                                        ${g.icon} +${g.enhance} ${g.name}
+                                    </button>
+                                `).join('')}
+                            </div>
+                        </div>
+                    `;
+                }
+                // (5) [교역·지도] 탭: 동아시아 6대 권역 24도시 시세 차익 교역 및 이동
+                else if (this.currentTab === 'trade') {
+                    const prices = game.state.prices[game.state.city];
+                    const filteredCities = Object.values(CITIES).filter(c => this.mapRegionFilter === 'all' || c.region === this.mapRegionFilter);
+
+                    area.innerHTML = `
+                        <div class="space-y-2">
+                            <div class="hanji-card rounded-lg p-1.5">
+                                <div class="flex items-center justify-between text-[10px] font-bold text-[#3d2b1f] mb-1">
+                                    <span>⚖️ ${CITIES[game.state.city].name} 시전 (적재 ${game.getCargoCount()}/${game.state.maxCargo}칸 · 장비 교역 +${game.getTotalSquadTradeBonusPct()}%)</span>
+                                    <div class="flex gap-1">
+                                        <button onclick="game.exchangeShop('scroll')" class="px-1.5 py-0.5 rounded bg-[#6b21a8] text-white text-[9px]">3,000냥→📜3</button>
+                                        <button onclick="game.exchangeShop('seal')" class="px-1.5 py-0.5 rounded bg-[#1d4ed8] text-white text-[9px]">4,500냥→🎟️5</button>
+                                    </div>
+                                </div>
+                                <div class="space-y-1 max-h-[105px] overflow-y-auto pr-0.5">
+                                    ${ITEMS.map(item => {
+                                        const info = prices[item.id];
+                                        const owned = game.state.inventory[item.id] || 0;
+                                        if (info.tag === '보통' && owned === 0 && item.origin !== game.state.city) return '';
+                                        const badgeMap = {
+                                            '폭락': 'bg-[#166534] text-[#bbf7d0]',
+                                            '하락': 'bg-[#15803d] text-white',
+                                            '보통': 'bg-[#5c4328] text-[#f5ebd6]',
+                                            '상승': 'bg-[#b45309] text-white',
+                                            '폭등': 'bg-[#991b1b] text-[#fecaca]'
+                                        };
+                                        return `
+                                            <div class="flex items-center justify-between bg-[#fbf4e4] border border-[#b89f78] rounded px-1.5 py-1">
+                                                <div>
+                                                    <span class="font-bold text-[#22160c]">${item.icon}${item.name}</span>
+                                                    <span class="text-[9px] px-1 rounded ${badgeMap[info.tag]}">${info.tag}</span>
+                                                    <span class="text-[10px] font-bold text-[#78350f] ml-1">${info.price.toLocaleString()}냥</span>
+                                                    ${owned > 0 ? `<strong class="text-[#1d4ed8] text-[10px] ml-1">[보유 ${owned}]</strong>` : ''}
+                                                </div>
+                                                <div class="flex items-center gap-1">
+                                                    <button onclick="game.buyItem('${item.id}', 99)" class="px-1.5 py-0.5 rounded bg-[#1d4ed8] text-white font-bold text-[10px]">최대매수</button>
+                                                    <button onclick="game.sellItem('${item.id}', 99)" class="px-1.5 py-0.5 rounded bg-[#b45309] text-white font-bold text-[10px]">전량매도</button>
+                                                </div>
+                                            </div>
+                                        `;
+                                    }).join('')}
+                                </div>
+                            </div>
+
+                            <div>
+                                <div class="grid grid-cols-4 sm:grid-cols-7 gap-1 mb-1">
+                                    ${[['all', '전체'], ['joseon', '조선'], ['ming', '명나라'], ['japan', '일본'], ['taiwan', '대만'], ['mongol', '몽골'], ['silkroad', '서역']].map(([k, lbl]) => `
+                                        <button onclick="app.setMapFilter('${k}')" class="py-0.5 rounded font-bold text-[9px] border ${this.mapRegionFilter === k ? 'bg-[#3b2412] text-[#fde047] border-[#d4af37]' : 'bg-[#e3d4b4] text-[#4a3520] border-[#9e825c]'}">
+                                            ${lbl}
+                                        </button>
+                                    `).join('')}
+                                </div>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-1">
+                                    ${filteredCities.map(c => {
+                                        const isHere = c.id === game.state.city;
+                                        const spec = ITEMS.find(i => i.id === c.spec);
+                                        const reg = REGIONS[c.region];
+                                        return `
+                                            <button onclick="game.travelTo('${c.id}')" ${isHere ? 'disabled' : ''}
+                                                class="flex items-center justify-between px-2 py-1 rounded border text-left ${isHere ? 'bg-[#3b2412] border-[#fde047] text-[#fef08a]' : 'bg-[#fbf4e4] border-[#9e825c] text-[#22160c]'}">
+                                                <div>
+                                                    <span class="text-[8px] px-1 rounded border ${reg.badge}">${reg.name}</span>
+                                                    <strong class="font-serif-kr text-[11px]">${c.name} (Lv.${c.lv})</strong>
+                                                    <div class="text-[9px] opacity-85">특산: ${spec.icon}${spec.name}</div>
+                                                </div>
+                                                <span class="text-[9px] font-black">${isHere ? '현재위치' : '이동 ✈️'}</span>
+                                            </button>
+                                        `;
+                                    }).join('')}
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }
+            }
+        }
+
+        const sfx = new ProceduralSoundEngine();
+        const app = new ArtworkLayoutController();
+        const gachaSystem = new DualGachaSystem();
+        const aiEngine = new MobileAIEngine();
+        const game = new ArtworkRemasterGame();
+    </script>
+</body>
+</html>
