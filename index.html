@@ -142,13 +142,49 @@
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
     display: flex;
     flex-direction: column;
-    gap: 4px;
-    min-width: 158px;
+    gap: 5px;
+    min-width: 196px;
+  }
+
+  .team-hp-row {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    font-size: 10px;
+    font-weight: 800;
+  }
+
+  .team-hp-label {
+    display: flex;
+    justify-content: space-between;
+    gap: 6px;
+  }
+
+  .hp-track {
+    width: 100%;
+    height: 6px;
+    background: rgba(0, 0, 0, 0.14);
+    border-radius: 999px;
+    overflow: hidden;
+  }
+
+  .ally-hp-fill {
+    height: 100%;
+    width: 100%;
+    background: linear-gradient(90deg, #10b981, #0284c7);
+    transition: width 0.15s linear;
+  }
+
+  .enemy-hp-fill {
+    height: 100%;
+    width: 100%;
+    background: linear-gradient(90deg, #f97316, #dc2626);
+    transition: width 0.15s linear;
   }
 
   .wave-bar-wrap {
     width: 100%;
-    height: 6px;
+    height: 5px;
     background: rgba(0, 0, 0, 0.1);
     border-radius: 999px;
     overflow: hidden;
@@ -275,6 +311,28 @@
     align-items: center;
     gap: 6px;
     flex-wrap: wrap;
+  }
+
+  .reward-detail-box {
+    background: #fffdf8;
+    border: 1px solid rgba(184, 130, 29, 0.35);
+    border-radius: 10px;
+    padding: 8px 10px;
+    font-size: 11px;
+    line-height: 1.55;
+    color: var(--ink-main);
+  }
+
+  .clear-popup-list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    background: #faf6ee;
+    border: 1px solid var(--border-soft);
+    border-radius: 12px;
+    padding: 12px;
+    font-size: 12px;
+    line-height: 1.55;
   }
 
   .mastery-grid {
@@ -471,6 +529,22 @@
     padding: 3px 6px;
   }
 
+  .equip-slots-strip {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px;
+    margin-bottom: 8px;
+  }
+
+  .equip-slot-pill {
+    border: 1px solid var(--border-soft);
+    background: #faf6ee;
+    border-radius: 8px;
+    padding: 6px;
+    font-size: 10px;
+    line-height: 1.35;
+  }
+
   .eq-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(165px, 1fr));
@@ -598,14 +672,16 @@
     left: 50%;
     bottom: 64px;
     transform: translateX(-50%);
-    background: rgba(34, 29, 24, 0.92);
+    background: rgba(34, 29, 24, 0.94);
     color: #fff;
     padding: 8px 16px;
-    border-radius: 999px;
+    border-radius: 12px;
     font-size: 12px;
     font-weight: 700;
     z-index: 999;
     display: none;
+    max-width: 92vw;
+    text-align: center;
   }
 
   .modal-backdrop {
@@ -626,7 +702,7 @@
 
   .modal-box {
     width: 100%;
-    max-width: 500px;
+    max-width: 520px;
     max-height: 86vh;
     overflow-y: auto;
     background: var(--bg-panel);
@@ -792,6 +868,24 @@
       <div class="hud-group" style="align-items:flex-end;">
         <div class="stage-badge">
           <div id="stage-label">1-1 한양성 외곽 (1/5)</div>
+          <div class="team-hp-row">
+            <div class="team-hp-label">
+              <span>🛡️ 아군 전체</span>
+              <span id="ally-hp-text">0 / 0</span>
+            </div>
+            <div class="hp-track">
+              <div id="ally-hp-bar" class="ally-hp-fill"></div>
+            </div>
+          </div>
+          <div class="team-hp-row">
+            <div class="team-hp-label">
+              <span>⚔️ 적팀 전체</span>
+              <span id="enemy-hp-text">0 / 0</span>
+            </div>
+            <div class="hp-track">
+              <div id="enemy-hp-bar" class="enemy-hp-fill"></div>
+            </div>
+          </div>
           <div class="wave-bar-wrap">
             <div id="wave-bar" class="wave-bar-fill"></div>
           </div>
@@ -823,6 +917,17 @@
 
     <main id="tab-content"></main>
   </aside>
+</div>
+
+<!-- 던전/보스 클리어 & 임무 전체받기 누적 획득 확인 모달 -->
+<div id="clear-reward-modal" class="modal-backdrop" role="dialog" aria-modal="true" aria-label="획득 보상 확인">
+  <div class="modal-box">
+    <div class="section-title">
+      <span id="clear-modal-title">🏆 획득 보상 확인</span>
+      <button id="btn-close-clear-modal" class="mini-btn primary" type="button">확인</button>
+    </div>
+    <div id="clear-modal-body" class="clear-popup-list"></div>
+  </div>
 </div>
 
 <div id="settings-modal" class="modal-backdrop" role="dialog" aria-modal="true" aria-label="게임 설정">
@@ -867,7 +972,7 @@
 <div id="diff-modal" class="modal-backdrop" role="dialog" aria-modal="true" aria-label="난이도 선택">
   <div class="modal-box">
     <div class="section-title">
-      <span>전장 난이도 &amp; 공략 가이드</span>
+      <span>전장 난이도 &amp; 피통/DPS 가이드</span>
       <button id="btn-close-diff" class="mini-btn" type="button">닫기</button>
     </div>
     <div id="diff-list"></div>
@@ -906,7 +1011,7 @@
   "use strict";
 
   const SQUAD_SIZE = 9;
-  const STORAGE_KEY = "cheonha_gersang_empire_v3_mastery_save";
+  const STORAGE_KEY = "cheonha_gersang_empire_v3_team_hp_allclaim";
   const SPEEDS = [1, 2, 3];
   const LAYOUTS = [
     { name: "균형 분할", battleFlex: "1.15", sideMax: "580px", mobileH: "44%" },
@@ -914,67 +1019,22 @@
     { name: "전장 넓게/패널 축소", battleFlex: "1.65", sideMax: "480px", mobileH: "54%" }
   ];
 
+  const ELEMENT_COLORS = {
+    "수(水)": "#38bdf8",
+    "화(火)": "#fb7185",
+    "목(木)": "#4ade80",
+    "풍(風)": "#5eead4",
+    "뇌(雷)": "#fde047",
+    "토(土)": "#eab308"
+  };
+
   const DIFFICULTIES = [
-    {
-      id: 0,
-      name: "입문",
-      mult: 1,
-      hpPow: 1.0,
-      rewardMult: 1,
-      recDps: 900,
-      recHero: "장수 Lv.1+ / ★1+",
-      tip: "초반 구간. 9인 슬롯 채우고 수+뇌/화+풍 연쇄만 맞춰도 충분합니다."
-    },
-    {
-      id: 1,
-      name: "정예",
-      mult: 8,
-      hpPow: 1.12,
-      rewardMult: 2.5,
-      recDps: 4500,
-      recHero: "주력 장수 Lv.5+ / ★2+ / 무기제련 Lv.2+",
-      tip: "국적 3인↑ 결속 + 역할군 시너지를 챙기고 주력 장수 레벨을 올리세요."
-    },
-    {
-      id: 2,
-      name: "무쌍",
-      mult: 45,
-      hpPow: 1.24,
-      rewardMult: 6,
-      recDps: 24000,
-      recHero: "주력 장수 Lv.12+ / ★3+ / 마스터 맹공 투자",
-      tip: "속성 연쇄 2종 이상 조합과 출전 전체 강화 병행을 추천합니다."
-    },
-    {
-      id: 3,
-      name: "패왕",
-      mult: 220,
-      hpPow: 1.38,
-      rewardMult: 15,
-      recDps: 130000,
-      recHero: "주력 장수 Lv.22+ / ★4+ / 장비 +3↑",
-      tip: "시련결계·토벌보스로 영혼석을 모아 성급 돌파를 우선하세요."
-    },
-    {
-      id: 4,
-      name: "신화",
-      mult: 950,
-      hpPow: 1.52,
-      rewardMult: 40,
-      recDps: 750000,
-      recHero: "주력 장수 Lv.35+ / ★5+ / 마스터 Lv.8↑",
-      tip: "무기제련·마스터 맹공·고강화 장비로 DPS를 극대화해야 합니다."
-    },
-    {
-      id: 5,
-      name: "천마강림",
-      mult: 2800,
-      hpPow: 1.68,
-      rewardMult: 100,
-      recDps: 3500000,
-      recHero: "주력 장수 Lv.50+ / ★6 / 마스터 Lv.15↑",
-      tip: "최상위 엔드 난이도. 9인 시너지 + 연쇄 + 천지개벽 필살 순환이 핵심입니다."
-    }
+    { id: 0, name: "입문", mult: 1, hpPow: 1.0, rewardMult: 1, recHero: "장수 Lv.1+ / ★1+", tip: "9인 편성 + 속성 연쇄로 초반 스테이지를 돌파하세요." },
+    { id: 1, name: "정예", mult: 8, hpPow: 1.12, rewardMult: 2.5, recHero: "장수 Lv.8+ / ★2+ / 무기제련 Lv.2+", tip: "국적/역할 시너지와 장비 강화를 병행하세요." },
+    { id: 2, name: "무쌍", mult: 45, hpPow: 1.24, rewardMult: 6, recHero: "장수 Lv.18+ / ★3+ / 마스터 맹공 투자", tip: "연쇄 2종 이상과 출전 전체 강화가 효율적입니다." },
+    { id: 3, name: "패왕", mult: 220, hpPow: 1.38, rewardMult: 15, recHero: "장수 Lv.30+ / ★4+ / 장비 +4↑", tip: "시련결계·토벌보스로 영혼석을 수급해 성급을 올리세요." },
+    { id: 4, name: "신화", mult: 950, hpPow: 1.52, rewardMult: 40, recHero: "장수 Lv.45+ / ★5+ / 마스터 Lv.10↑", tip: "무기제련·마스터 맹공·고강화 장비 세팅이 필요합니다." },
+    { id: 5, name: "천마강림", mult: 2800, hpPow: 1.68, rewardMult: 100, recHero: "장수 Lv.65+ / ★6 / 마스터 Lv.18↑", tip: "최상위 구간. 9인 시너지 + 연쇄 + 천지개벽 필살 순환이 핵심입니다." }
   ];
 
   const STAGE_TITLES = [
@@ -1025,7 +1085,14 @@
         { id: "eulji_mundeok", name: "을지문덕", role: "책략가", element: "수(水)", skillName: "살수 수공격", cd: 3.9, atk: 146, hp: 1120 },
         { id: "jeong_yak_yong", name: "정약용", role: "책략가", element: "토(土)", skillName: "거중기 쇄도", cd: 4.1, atk: 135, hp: 1150 }
       ],
-      titles: ["수군", "무관", "비격", "포수", "척후", "승병", "호위", "의병", "진무", "도원수"]
+      unitNames: [
+        "한양 화승총수", "북벌 신기전병", "동래 판옥수군", "태백 비격진천뢰병", "금강 승병장",
+        "압록 척후기병", "수원 성곽수호병", "해남 포격수군", "안동 유격검객", "평양 창기병",
+        "철원 중갑보병", "진주 의병장", "개성 상단호위무사", "강화 조총수", "백두 산악척후",
+        "울릉 파도수군", "전주 도편수장", "춘천 기마궁수", "경주 신라화랑", "공주 금강산승병",
+        "여수 거북포수", "청주 진무대장", "충주 탄금검객", "제주 탐라기마병", "원주 치악산궁수",
+        "하동 섬진수군", "의성 화염포병"
+      ]
     },
     {
       nation: "명나라",
@@ -1041,7 +1108,14 @@
         { id: "lu_bu", name: "여포", role: "선봉장", element: "화(火)", skillName: "방천화극 무쌍", cd: 3.7, atk: 178, hp: 1260 },
         { id: "cao_cao", name: "조조", role: "지휘관", element: "토(土)", skillName: "천하 호령진", cd: 4.3, atk: 156, hp: 1350 }
       ],
-      titles: ["금의위", "신기영", "청룡", "현무", "도독", "창병", "맹장", "모사", "철기", "대장군"]
+      unitNames: [
+        "금릉 금의위사", "적벽 화공책사", "장안 철갑창병", "낙양 백마선봉", "무당 태극검선",
+        "소림 봉술무승", "황하 수군도독", "형주 연노궁수", "촉중 기문둔갑사", "남경 신기화포병",
+        "오나라 동강수병", "위나라 청주철기", "양자강 전함포수", "화산 검협무사", "곤륜 도술책사",
+        "사천 독침암살자", "하북 대부도끼병", "강남 비단호위장", "태산 석갑수호장", "변경 연화투석병",
+        "한중 산악궁기병", "북경 황성호위대", "운남 흑호맹장", "산서 마상창술사", "복건 해상척후선",
+        "동정호 뇌전법사", "기주 용맹돌격병", "호북 창방수호병"
+      ]
     },
     {
       nation: "일본",
@@ -1057,7 +1131,14 @@
         { id: "date", name: "다테 마사무네", role: "선봉장", element: "뇌(雷)", skillName: "독안룡 뇌격", cd: 3.9, atk: 162, hp: 1160 },
         { id: "sanada", name: "사나다 유키무라", role: "돌격장", element: "화(火)", skillName: "진홍 연격창", cd: 4.0, atk: 165, hp: 1220 }
       ],
-      titles: ["무사", "닌자", "화승", "사무라이", "검호", "기마", "은밀", "홍련", "벽력", "다이묘"]
+      unitNames: [
+        "가마쿠라 철포무사", "에도 태도검객", "이가 그림자닌자", "코가 비술척후", "교토 음양술사",
+        "카와나카지마 창병", "사츠마 대검무사", "오사카 성벽포수", "시나노 적마기병", "나가사키 수군항해사",
+        "미치노쿠 설원검호", "히에이산 무승단", "아즈치 화승조총대", "우지 장창수호대", "이즈 왜선돌격병",
+        "쿠마모토 철갑무사", "치바 바람태도사", "나라 봉술수호장", "카가 야습닌자", "하코네 산길척후",
+        "세토내해 해적선장", "오와리 홍련기병", "아이즈 백호검술사", "기슈 맹화포병", "에치고 빙설무사",
+        "토사 해안궁수", "시코쿠 질풍닌자", "나고야 중무장창병"
+      ]
     },
     {
       nation: "몽골",
@@ -1072,7 +1153,14 @@
         { id: "muqali", name: "무칼리", role: "수호장", element: "목(木)", skillName: "초원 철벽진", cd: 4.7, atk: 148, hp: 1540 },
         { id: "jelme", name: "젤메", role: "선봉장", element: "풍(風)", skillName: "질풍 기습참", cd: 3.8, atk: 156, hp: 1150 }
       ],
-      titles: ["철기병", "궁기병", "초원", "매사냥꾼", "호위기병", "폭풍", "선구자", "만호장", "천호장", "칸의 전사"]
+      unitNames: [
+        "울란바토르 기마궁수", "카라코룸 흑기병", "고비 선풍척후병", "오르혼 창기병장", "알타이 맹수사냥꾼",
+        "만리초원 중갑기병", "천산 백마선봉대", "흑풍 사막궁수", "몽골 울음화살병", "초원 쌍검기마사",
+        "설원 늑대기수", "투르판 화염궁병", "일한국 철기부대", "금장한국 돌격장", "원정 선봉호위대",
+        "초원 축력수호병", "북방 뇌명기마술사", "광야 추격궁수", "대막 정찰기병", "호위 만호기마대",
+        "적풍 기습창병", "황야 태풍사수", "초원 청풍무사", "천하 정복기병", "오아시스 수호창병",
+        "설산 호위궁수", "열풍 돌격기마병", "은하 초원지휘관", "사막 비룡기수"
+      ]
     },
     {
       nation: "천상",
@@ -1088,7 +1176,14 @@
         { id: "nezha", name: "나타태자", role: "선봉장", element: "풍(風)", skillName: "풍화륜 질주", cd: 3.6, atk: 196, hp: 1500 },
         { id: "erlang", name: "이랑진군", role: "돌격장", element: "뇌(雷)", skillName: "천안 신뢰격", cd: 3.8, atk: 194, hp: 1640 }
       ],
-      titles: ["천병", "신장", "선녀", "비천", "수호신", "천궁", "성령", "화신", "뇌신", "천제 호위"]
+      unitNames: [
+        "도솔천 뇌전신장", "수미산 광명선관", "남천문 금강수호병", "백옥경 성화책사", "운하 비천궁수",
+        "선계 청풍검선", "천둥 북두사자", "태양 봉황무사", "월궁 한빙선녀", "동해 용왕호위장",
+        "천상 보탑수호자", "금빛 천마기병", "신화 불사조술사", "천계 풍운선장", "영험 기린수호장",
+        "자미원 천문관", "칠성 뇌격무사", "천지 개벽수호신", "홍련 천화선인", "벽력 천뢰장군",
+        "해탈 금강역사", "성역 광휘선병", "천궁 수호창병", "구천 현무선장", "태극 신성책략가",
+        "서방 정토선관", "북방 현천신장", "광명 천상전사"
+      ]
     }
   ];
 
@@ -1113,8 +1208,8 @@
             unlockedDefault: true
           });
         } else {
-          const title = spec.titles[i % spec.titles.length];
-          const num = i - spec.named.length + 1;
+          const idxInUnits = i - spec.named.length;
+          const unitName = spec.unitNames[idxInUnits % spec.unitNames.length];
           const role = ROLES[i % ROLES.length];
           const element = ELEMENTS[i % ELEMENTS.length];
           const skillName = SKILLS[i % SKILLS.length];
@@ -1122,7 +1217,7 @@
           const tierBoost = i * 4;
           pool.push({
             id: `${spec.prefix}_${i + 1}`,
-            name: `${spec.nation} ${title} ${num}호`,
+            name: unitName,
             nation: spec.nation,
             role,
             element,
@@ -1182,6 +1277,7 @@
     let currentTheme = "field";
     let lastHitTime = 0;
     let lastChainTime = 0;
+    let lastEnemyAtkTime = 0;
 
     const THEMES = {
       field: {
@@ -1285,6 +1381,15 @@
         lastHitTime = t;
         playTone(220 + Math.random() * 60, 95, 0.07, "square", 0.03);
       },
+      enemyAttack() {
+        const t = performance.now();
+        if (t - lastEnemyAtkTime < 260) return;
+        lastEnemyAtkTime = t;
+        playTone(155, 70, 0.11, "sawtooth", 0.045);
+      },
+      crit() {
+        playTone(620, 1280, 0.11, "sawtooth", 0.055);
+      },
       tapStrike() {
         playTone(310, 140, 0.09, "sawtooth", 0.05);
       },
@@ -1332,15 +1437,14 @@
     gold: 5000,
     gem: 800,
     soul: 60,
-    // 장수 레벨과 별개인 제국 마스터 레벨 및 특성 포인트
     mastery: {
       level: 1,
       exp: 0,
       points: 3,
-      atkLv: 0,    // +6% 공격/lv
-      hpLv: 0,     // +8% 체력/lv
-      resLv: 0,    // +10% 공명 충전/lv
-      rewardLv: 0  // +8% 보상/lv
+      atkLv: 0,
+      hpLv: 0,
+      resLv: 0,
+      rewardLv: 0
     },
     difficultyIdx: 0,
     speedIdx: 0,
@@ -1358,6 +1462,9 @@
     comboTimer: 0,
     shakeTime: 0,
     shakeMag: 0,
+    allyHp: 1000,
+    allyMaxHp: 1000,
+    enemyAtkCooldown: 0,
     activeTab: "squad",
     selectedNation: "전체",
     selectedSlotIdx: 0,
@@ -1390,6 +1497,7 @@
       summons: 0,
       forges: 0
     },
+    recentRewardLog: null,
     heroes: {},
     customImages: {},
     bgImageSrc: "./assets/bg_day.png",
@@ -1403,6 +1511,7 @@
     effects: [],
     sparks: [],
     lightningBolts: [],
+    skillBanners: [],
     chainTexts: [],
     floatingDamages: [],
     lastTime: performance.now(),
@@ -1450,6 +1559,7 @@
     state.mastery[key] += 1;
     state.mastery.points -= 1;
     AUDIO.upgrade();
+    refreshAllyTeamHp(false);
     saveGame();
     updateHud();
     renderTabContent();
@@ -1657,6 +1767,7 @@
       saveGame();
       applyLayout();
       spawnWaveEnemies(false);
+      refreshAllyTeamHp(true);
       updateHud();
       renderTabContent();
       showToast("세이브 데이터가 복원되었습니다!");
@@ -1701,11 +1812,13 @@
     state.claimedDaily = {};
     state.repeatCount = {};
     state.stats = { kills: 0, summons: 0, forges: 0 };
+    state.recentRewardLog = null;
     state.activeSpecialEncounter = null;
     state.offlineReward = null;
     initHeroes();
     applyLayout();
     spawnWaveEnemies(false);
+    refreshAllyTeamHp(true);
     updateHud();
     renderTabContent();
     showToast("데이터가 초기화되었습니다.");
@@ -1715,7 +1828,7 @@
 
   function getEquipStats(item) {
     const tpl = EQUIP_TEMPLATES.find(t => t.id === item.tplId);
-    if (!tpl) return { atk: 0, hp: 0, name: "장비", slotType: "장비" };
+    if (!tpl) return { atk: 0, hp: 0, name: "장비", slotType: "무기" };
     const scale = 1 + (item.lv - 1) * 0.25;
     return {
       atk: Math.round(tpl.baseAtk * scale),
@@ -1725,14 +1838,27 @@
     };
   }
 
-  function getHeroEquippedBonus(heroId) {
-    let atk = 0;
-    let hp = 0;
+  function getHeroEquippedBySlot(heroId) {
+    const map = { "무기": null, "방어구": null, "신물": null };
     for (const it of state.equipmentInv) {
       if (it.equippedHeroId === heroId) {
         const st = getEquipStats(it);
-        atk += st.atk;
-        hp += st.hp;
+        if (Object.prototype.hasOwnProperty.call(map, st.slotType)) {
+          map[st.slotType] = { item: it, stats: st };
+        }
+      }
+    }
+    return map;
+  }
+
+  function getHeroEquippedBonus(heroId) {
+    const slotMap = getHeroEquippedBySlot(heroId);
+    let atk = 0;
+    let hp = 0;
+    for (const key of Object.keys(slotMap)) {
+      if (slotMap[key]) {
+        atk += slotMap[key].stats.atk;
+        hp += slotMap[key].stats.hp;
       }
     }
     return { atk, hp };
@@ -1757,7 +1883,7 @@
     saveGame();
     updateHud();
     renderTabContent();
-    showToast(`⚒️ [${tpl.name}] 제작 완료!`);
+    showToast(`⚒️ [${tpl.slotType}: ${tpl.name}] 제작 완료!`);
   }
 
   function toggleEquipOnSelectedHero(uid) {
@@ -1765,15 +1891,25 @@
     if (!item) return;
     const targetHeroId = state.squadSlots[state.selectedSlotIdx] || getActiveSquadIds()[0] || "yi_sunsin";
     const heroName = HERO_POOL.find(h => h.id === targetHeroId)?.name || "장수";
+    const st = getEquipStats(item);
 
     if (item.equippedHeroId === targetHeroId) {
       item.equippedHeroId = null;
-      showToast(`${heroName}에게서 장비를 해제했습니다.`);
+      showToast(`${heroName}의 [${st.slotType}] 슬롯을 비웠습니다.`);
     } else {
+      for (const other of state.equipmentInv) {
+        if (other.uid !== item.uid && other.equippedHeroId === targetHeroId) {
+          const otherSt = getEquipStats(other);
+          if (otherSt.slotType === st.slotType) {
+            other.equippedHeroId = null;
+          }
+        }
+      }
       item.equippedHeroId = targetHeroId;
-      showToast(`${heroName}에게 [${getEquipStats(item).name}] 장착!`);
+      showToast(`${heroName} [${st.slotType}] 슬롯에 [${st.name}] 장착!`);
     }
     AUDIO.upgrade();
+    refreshAllyTeamHp(false);
     saveGame();
     renderTabContent();
   }
@@ -1790,6 +1926,7 @@
     item.lv += 1;
     state.stats.forges += 1;
     AUDIO.upgrade();
+    refreshAllyTeamHp(false);
     saveGame();
     updateHud();
     renderTabContent();
@@ -1965,6 +2102,7 @@
     }
     state.squadSlots = sanitized;
     AUDIO.upgrade();
+    refreshAllyTeamHp(true);
     saveGame();
     renderTabContent();
     showToast(`프리셋 ${slotKey}번 불러오기 완료!`);
@@ -2004,6 +2142,7 @@
 
     state.squadSlots = Array.from({ length: SQUAD_SIZE }, (_, idx) => picked[idx] || null);
     AUDIO.upgrade();
+    refreshAllyTeamHp(true);
     saveGame();
     renderTabContent();
     showToast("⚡ 9인 시너지 자동배치 완료!");
@@ -2045,7 +2184,18 @@
     clearTimeout(showToast._timer);
     showToast._timer = setTimeout(() => {
       el.style.display = "none";
-    }, 1800);
+    }, 2400);
+  }
+
+  function openClearRewardModal(info) {
+    const modal = document.getElementById("clear-reward-modal");
+    const titleEl = document.getElementById("clear-modal-title");
+    const bodyEl = document.getElementById("clear-modal-body");
+    if (!modal || !titleEl || !bodyEl) return;
+
+    titleEl.textContent = `🏆 ${info.source}`;
+    bodyEl.innerHTML = info.lines.map(line => `<div>${line}</div>`).join("");
+    modal.classList.add("open");
   }
 
   function formatNum(n) {
@@ -2077,6 +2227,28 @@
     };
   }
 
+  function getTotalAllyMaxHp() {
+    const activeIds = getActiveSquadIds();
+    const syn = getSynergySummary(activeIds);
+    let sumHp = 0;
+    for (const hid of activeIds) {
+      sumHp += getHeroPower(hid).maxHp;
+    }
+    return Math.max(500, Math.round(sumHp * (1 + syn.hpBonusPct / 100)));
+  }
+
+  function refreshAllyTeamHp(fullHeal = false) {
+    const nextMax = getTotalAllyMaxHp();
+    if (fullHeal || state.allyMaxHp <= 0) {
+      state.allyMaxHp = nextMax;
+      state.allyHp = nextMax;
+    } else {
+      const ratio = Math.min(1, Math.max(0, state.allyHp / state.allyMaxHp));
+      state.allyMaxHp = nextMax;
+      state.allyHp = Math.max(1, Math.round(nextMax * ratio));
+    }
+  }
+
   function getTotalSquadDps() {
     const activeIds = getActiveSquadIds();
     const syn = getSynergySummary(activeIds);
@@ -2085,6 +2257,14 @@
       baseSum += getHeroPower(hid).atk;
     }
     return Math.round(baseSum * (1 + syn.atkBonusPct / 100));
+  }
+
+  function getDifficultyMetrics(diffObj) {
+    const sIdx = Math.max(0, getStageIndex());
+    const mobHp = Math.round(450 * Math.pow(1.22, sIdx) * Math.pow(diffObj.hpPow, sIdx));
+    const bossHp = Math.round(mobHp * 3.8);
+    const recDps = Math.max(400, Math.round(bossHp / 10));
+    return { mobHp, bossHp, recDps };
   }
 
   function syncBgmTheme() {
@@ -2132,18 +2312,32 @@
     }
   }
 
-  function pushDamagePopup(xRatio, yRatio, amount, label = "") {
+  function pushDamagePopup(xRatio, yRatio, amount, label = "", element = "화(火)", isCrit = false, isEnemyHit = false) {
     const dmgVal = Math.max(1, Math.round(amount));
-    state.combo += 1;
-    state.comboTimer = 2.4;
+    const elemColor = ELEMENT_COLORS[element] || "#ffffff";
+    if (!isEnemyHit) {
+      state.combo += 1;
+      state.comboTimer = 2.4;
+    }
+
+    let text = isEnemyHit ? `-${formatNum(dmgVal)}` : `-${formatNum(dmgVal)}`;
+    if (isCrit && label) {
+      text = `💥${label} -${formatNum(dmgVal)}!`;
+    } else if (isCrit) {
+      text = `💥-${formatNum(dmgVal)}!`;
+    } else if (label) {
+      text = `${label} -${formatNum(dmgVal)}`;
+    }
+
     state.floatingDamages.push({
-      text: label ? `${label} -${formatNum(dmgVal)}` : `-${formatNum(dmgVal)}`,
+      text,
       xRatio: xRatio + (Math.random() - 0.5) * 0.06,
       yRatio: Math.max(0.18, yRatio - 0.06),
       alpha: 1,
-      isSkill: Boolean(label)
+      isCrit: Boolean(isCrit),
+      color: isEnemyHit ? "#fca5a5" : (isCrit ? "#fde047" : elemColor)
     });
-    if (state.floatingDamages.length > 28) {
+    if (state.floatingDamages.length > 32) {
       state.floatingDamages.shift();
     }
   }
@@ -2156,20 +2350,31 @@
     const xRatio = Math.min(0.92, Math.max(0.12, (e.clientX - rect.left) / rect.width));
     const yRatio = Math.min(0.86, Math.max(0.24, (e.clientY - rect.top) / rect.height));
 
-    AUDIO.tapStrike();
-    triggerShake(0.08, 2.5);
+    const isCrit = Math.random() < 0.35;
+    if (isCrit) AUDIO.crit();
+    else AUDIO.tapStrike();
+
+    triggerShake(isCrit ? 0.12 : 0.08, isCrit ? 4 : 2.5);
     const resMult = 1 + state.mastery.resLv * 0.1;
     state.resonance = Math.min(100, state.resonance + 3 * resMult);
 
-    const tapDmg = Math.max(40, Math.round(getTotalSquadDps() * 0.45));
+    const baseTap = Math.max(40, Math.round(getTotalSquadDps() * 0.45));
+    const tapDmg = isCrit ? Math.round(baseTap * 1.75) : baseTap;
     for (const en of state.enemies) {
       en.hp -= tapDmg;
       en.hitFlash = 0.16;
     }
 
-    pushDamagePopup(xRatio, yRatio, tapDmg, "⚔️일격");
-    spawnHitSparks(xRatio, yRatio, "#fde047", 8);
-    state.effects.push({ xRatio, yRatio, radius: 14, maxRadius: 54, alpha: 0.85, color: "#fde047" });
+    pushDamagePopup(xRatio, yRatio, tapDmg, "⚔️일격", "뇌(雷)", isCrit, false);
+    spawnHitSparks(xRatio, yRatio, isCrit ? "#fde047" : "#38bdf8", isCrit ? 11 : 7);
+    state.effects.push({
+      xRatio,
+      yRatio,
+      radius: 14,
+      maxRadius: isCrit ? 68 : 50,
+      alpha: 0.85,
+      color: isCrit ? "#fde047" : "#38bdf8"
+    });
 
     const prevEnemies = state.enemies.length;
     state.enemies = state.enemies.filter(en => en.hp > 0);
@@ -2187,11 +2392,11 @@
   function spawnWaveEnemies(isBossForce = false) {
     state.activeSpecialEncounter = null;
     const diff = DIFFICULTIES[state.difficultyIdx] || DIFFICULTIES[0];
-    const sIdx = getStageIndex();
+    const metrics = getDifficultyMetrics(diff);
     const isBoss = isBossForce || state.wave === state.maxWave;
     const count = isBoss ? 1 : 3;
-    const baseHp = Math.round(450 * Math.pow(1.22, sIdx) * Math.pow(diff.hpPow, sIdx) * (isBoss ? 3.8 : 1));
-    const baseAtk = Math.round(32 * Math.pow(1.16, sIdx) * Math.sqrt(diff.mult) * (isBoss ? 1.5 : 1));
+    const baseHp = isBoss ? metrics.bossHp : metrics.mobHp;
+    const baseAtk = Math.max(18, Math.round(26 * Math.pow(1.12, getStageIndex()) * Math.pow(diff.hpPow, Math.min(8, getStageIndex())) * (isBoss ? 1.5 : 1)));
 
     state.enemies = [];
     for (let i = 0; i < count; i++) {
@@ -2204,9 +2409,11 @@
         atk: baseAtk,
         xRatio: 0.72 + i * 0.08,
         yRatio: isBoss ? 0.64 : 0.56 + i * 0.11,
-        hitFlash: 0
+        hitFlash: 0,
+        startedAt: Date.now()
       });
     }
+    state.enemyAtkCooldown = 1.2;
     syncBgmTheme();
   }
 
@@ -2220,11 +2427,13 @@
         const diff = DIFFICULTIES[state.difficultyIdx] || DIFFICULTIES[0];
         const sIdx = getStageIndex();
         const hp = Math.round(1400 * Math.pow(1.22, sIdx) * cfg.hpMult * Math.max(1, diff.hpPow));
+        const bossAtk = Math.max(35, Math.round(45 * Math.pow(1.12, sIdx) * (isRaid ? 1.4 : 1.1)));
         state.activeSpecialEncounter = {
           title: cfg.name,
           soulReward: cfg.soulReward,
           gemReward: cfg.gemReward,
-          goldReward: cfg.goldReward
+          goldReward: cfg.goldReward,
+          startedAt: Date.now()
         };
         state.enemies = [{
           id: "sp_" + Math.random().toString(36).slice(2, 8),
@@ -2232,14 +2441,16 @@
           isBoss: true,
           hp,
           maxHp: hp,
-          atk: 50,
+          atk: bossAtk,
           xRatio: 0.76,
           yRatio: 0.62,
           hitFlash: 0
         }];
+        state.enemyAtkCooldown = 1.0;
+        refreshAllyTeamHp(true);
         syncBgmTheme();
         updateHud();
-        showToast(`${cfg.name} 전투 시작! 격파 시 보상 지급`);
+        showToast(`${cfg.name} 출정! (HP ${formatNum(hp)}) · 격파 시 보상 지급`);
       }
     );
   }
@@ -2251,6 +2462,7 @@
     state.stageNum = (clamped % 10) + 1;
     state.wave = 1;
     spawnWaveEnemies(false);
+    refreshAllyTeamHp(true);
     AUDIO.upgrade();
     saveGame();
     updateHud();
@@ -2266,45 +2478,81 @@
     if (state.activeSpecialEncounter) {
       const sp = state.activeSpecialEncounter;
       const gGain = Math.round(sp.goldReward * rewardMult);
+      const expGain = 85;
+      const secTaken = Math.max(1, Math.round((Date.now() - (sp.startedAt || Date.now())) / 1000));
       state.gold += gGain;
       state.gem += sp.gemReward;
       state.soul += sp.soulReward;
       state.resonance = Math.min(100, state.resonance + 30);
-      gainMasteryExp(85);
+      gainMasteryExp(expGain);
+
+      const logObj = {
+        source: `${sp.title} 격파`,
+        lines: [
+          `<strong>획득 재화:</strong> 💰 +${formatNum(gGain)}냥 · 💎 +${formatNum(sp.gemReward)}옥 · 🔥 +${formatNum(sp.soulReward)} 영혼석`,
+          `<strong>성장/전투 정보:</strong> 👑 마스터EXP +${formatNum(expGain)} · 소요 ${secTaken}초 · 공명 +30%`
+        ]
+      };
+      state.recentRewardLog = {
+        source: sp.title,
+        detail: `소요 ${secTaken}초 · +${formatNum(gGain)}냥 · +${sp.gemReward}옥 · +${sp.soulReward} 영혼석 · +${expGain} 마스터EXP`
+      };
+      openClearRewardModal(logObj);
+
       state.activeSpecialEncounter = null;
       spawnWaveEnemies(false);
+      refreshAllyTeamHp(true);
       saveGame();
       updateHud();
-      showToast(`${sp.title} 격파! +${sp.soulReward}석 · +${sp.gemReward}옥 · +${formatNum(gGain)}냥`);
+      if (state.activeTab === "dungeon" || state.activeTab === "squad") {
+        renderTabContent();
+      }
       return;
     }
 
+    const wasBossWave = state.wave === state.maxWave;
     const goldGain = Math.round((150 + getStageIndex() * 40) * diff.rewardMult * rewardMult);
-    const gemGain = state.wave === state.maxWave ? Math.max(8, Math.round(14 * Math.sqrt(diff.rewardMult) * rewardMult)) : 0;
+    const gemGain = wasBossWave ? Math.max(8, Math.round(14 * Math.sqrt(diff.rewardMult) * rewardMult)) : 0;
+    const expGain = wasBossWave ? 65 : 30;
     state.gold += goldGain;
     state.gem += gemGain;
     state.resonance = Math.min(100, state.resonance + 25);
-    gainMasteryExp(state.wave === state.maxWave ? 65 : 30);
+    gainMasteryExp(expGain);
+
+    state.recentRewardLog = {
+      source: `${state.chapter}-${state.stageNum} (${state.wave}/${state.maxWave} 웨이브)`,
+      detail: `+${formatNum(goldGain)}냥${gemGain ? ` · +${gemGain}옥` : ""} · +${expGain} 마스터EXP · 공명 +25%`
+    };
+
+    if (wasBossWave) {
+      openClearRewardModal({
+        source: `${state.chapter}-${state.stageNum} 보스 돌파`,
+        lines: [
+          `<strong>획득 재화:</strong> 💰 +${formatNum(goldGain)}냥 · 💎 +${formatNum(gemGain)}옥`,
+          `<strong>성장/전투 정보:</strong> 👑 마스터EXP +${formatNum(expGain)} · 공명 +25%`
+        ]
+      });
+    } else {
+      showToast(`웨이브 클리어! +${formatNum(goldGain)}냥`);
+    }
 
     if (state.wave < state.maxWave) {
       state.wave += 1;
       spawnWaveEnemies(false);
-      showToast(`웨이브 클리어! +${formatNum(goldGain)}냥`);
     } else if (state.autoStage) {
       const nextTotal = getStageIndex() + 1;
       state.chapter = Math.floor(nextTotal / 10) + 1;
       state.stageNum = (nextTotal % 10) + 1;
       state.wave = 1;
       spawnWaveEnemies(false);
-      showToast(`스테이지 돌파! +${formatNum(goldGain)}냥${gemGain ? ` · +${gemGain}옥` : ""}`);
+      refreshAllyTeamHp(true);
     } else {
       state.wave = 1;
       spawnWaveEnemies(false);
-      showToast(`보스 토벌 완료! +${formatNum(goldGain)}냥`);
     }
     saveGame();
     updateHud();
-    if (state.activeTab === "squad" || state.activeTab === "roster") {
+    if (state.activeTab === "squad" || state.activeTab === "roster" || state.activeTab === "dungeon") {
       renderTabContent();
     }
   }
@@ -2323,7 +2571,7 @@
     for (const en of state.enemies) {
       en.hp -= totalDmg;
       en.hitFlash = 0.25;
-      pushDamagePopup(en.xRatio, en.yRatio, totalDmg, "⚡천지개벽");
+      pushDamagePopup(en.xRatio, en.yRatio, totalDmg, "⚡천지개벽", "뇌(雷)", true, false);
       spawnHitSparks(en.xRatio, en.yRatio, "#fde047", 14);
       state.effects.push({ xRatio: en.xRatio, yRatio: en.yRatio, radius: en.isBoss ? 78 : 52, maxRadius: 120, alpha: 0.95, color: "#f59e0b" });
     }
@@ -2371,6 +2619,7 @@
     }
 
     AUDIO.upgrade();
+    refreshAllyTeamHp(false);
     saveGame();
     renderTabContent();
   }
@@ -2387,6 +2636,7 @@
     }
     state.squadSlots[slotIdx] = null;
     AUDIO.upgrade();
+    refreshAllyTeamHp(false);
     saveGame();
     showToast(`${slotIdx + 1}번 칸을 비웠습니다.`);
     renderTabContent();
@@ -2403,6 +2653,7 @@
     state.gold -= cost;
     st.level += 1;
     AUDIO.upgrade();
+    refreshAllyTeamHp(false);
     saveGame();
     updateHud();
     renderTabContent();
@@ -2427,6 +2678,7 @@
       return;
     }
     AUDIO.upgrade();
+    refreshAllyTeamHp(false);
     saveGame();
     updateHud();
     renderTabContent();
@@ -2448,6 +2700,7 @@
     state.soul -= cost;
     st.star += 1;
     AUDIO.summonSpecial();
+    refreshAllyTeamHp(false);
     saveGame();
     updateHud();
     renderTabContent();
@@ -2585,7 +2838,13 @@
     saveGame();
     updateHud();
     renderTabContent();
-    showToast(`일일 퀘스트 완료! +${formatNum(qDef.gold)}냥 · +${qDef.soul}석 · +${qDef.gem}옥`);
+    openClearRewardModal({
+      source: "일일 퀘스트 완료",
+      lines: [
+        `<strong>완료 항목:</strong> ${qDef.title}`,
+        `<strong>획득 보상:</strong> 💰 +${formatNum(qDef.gold)}냥 · 💎 +${formatNum(qDef.gem)}옥 · 🔥 +${formatNum(qDef.soul)} 영혼석`
+      ]
+    });
   }
 
   function claimRepeatMission(rDef) {
@@ -2604,7 +2863,74 @@
     saveGame();
     updateHud();
     renderTabContent();
-    showToast(`반복 미션 ${repIdx + 1}회차 보상 수령! 다음 목표 갱신됨`);
+    openClearRewardModal({
+      source: `반복 미션 ${repIdx + 1}회차 완료`,
+      lines: [
+        `<strong>완료 항목:</strong> ${rDef.title} (${repIdx + 1}회차)`,
+        `<strong>획득 보상:</strong> 💰 +${formatNum(rDef.gold)}냥 · 💎 +${formatNum(rDef.gem)}옥 · 🔥 +${formatNum(rDef.soul)} 영혼석`
+      ]
+    });
+  }
+
+  // 달성된 일일/반복 미션 전체 수령 및 누적 획득 모달 표시
+  function claimAllReadyMissions() {
+    checkDailyReset();
+    let totalGold = 0;
+    let totalGem = 0;
+    let totalSoul = 0;
+    let claimedCount = 0;
+    const doneTitles = [];
+
+    for (const qDef of DAILY_QUEST_DEFS) {
+      const curVal = state.stats[qDef.targetKey] || 0;
+      if (curVal >= qDef.target && !state.claimedDaily[qDef.id]) {
+        state.claimedDaily[qDef.id] = true;
+        totalGold += qDef.gold;
+        totalGem += qDef.gem;
+        totalSoul += qDef.soul;
+        claimedCount += 1;
+        doneTitles.push(qDef.title);
+      }
+    }
+
+    for (const rDef of REPEAT_MISSION_DEFS) {
+      while (true) {
+        const repIdx = state.repeatCount[rDef.id] || 0;
+        const goal = rDef.baseTarget + repIdx * rDef.stepTarget;
+        const curVal = state.stats[rDef.targetKey] || 0;
+        if (curVal >= goal) {
+          state.repeatCount[rDef.id] = repIdx + 1;
+          totalGold += rDef.gold;
+          totalGem += rDef.gem;
+          totalSoul += rDef.soul;
+          claimedCount += 1;
+          doneTitles.push(`${rDef.title} (${repIdx + 1}회차)`);
+        } else {
+          break;
+        }
+      }
+    }
+
+    if (claimedCount === 0) {
+      showToast("수령 가능한 완료 미션이 없습니다.");
+      return;
+    }
+
+    state.gold += totalGold;
+    state.gem += totalGem;
+    state.soul += totalSoul;
+    AUDIO.summonSpecial();
+    saveGame();
+    updateHud();
+    renderTabContent();
+
+    openClearRewardModal({
+      source: `임무 전체 받기 (${claimedCount}건 수령)`,
+      lines: [
+        `<strong>누적 획득 재화:</strong> 💰 +${formatNum(totalGold)}냥 · 💎 +${formatNum(totalGem)}옥 · 🔥 +${formatNum(totalSoul)} 영혼석`,
+        `<strong>수령 내역:</strong> ${doneTitles.join(", ")}`
+      ]
+    });
   }
 
   function renderHeroCard(hero, mode) {
@@ -2644,7 +2970,7 @@
       </div>
       <div class="hero-meta">${hero.nation} · ${hero.role} · ${hero.element}</div>
       <div class="hero-meta">Lv.${st.level} · 공 ${formatNum(pwr.atk)} · 체 ${formatNum(pwr.maxHp)}</div>
-      <div class="hero-meta">장착 장비: ${eqList.length ? eqList.map(x => `${getEquipStats(x).name}+${x.lv}`).join(", ") : "없음"}</div>
+      <div class="hero-meta">장착(${eqList.length}/3): ${eqList.length ? eqList.map(x => `${getEquipStats(x).slotType}:${getEquipStats(x).name}+${x.lv}`).join(", ") : "없음"}</div>
       <div class="hero-syn-tag">${synHint}</div>
       <div class="btn-row">
         <button class="${deployBtnClass}" data-act="deploy" data-id="${hero.id}" ${st.unlocked ? "" : "disabled"}>
@@ -2710,7 +3036,6 @@
     }
 
     if (state.activeTab === "squad") {
-      // 장수 레벨과 별개인 마스터 레벨 & 특성 찍기 카드
       const needExp = getMasteryNeedExp(state.mastery.level);
       const mCard = document.createElement("div");
       mCard.className = "section-card";
@@ -2719,7 +3044,7 @@
           <span>👑 제국 마스터 Lv.${state.mastery.level} (경험치 ${state.mastery.exp}/${needExp})</span>
           <span style="font-size:12px;color:var(--accent-gold);">특성 포인트: ${state.mastery.points} MP</span>
         </h3>
-        <div class="hero-meta">전투/웨이브 돌파로 오르는 계정 공용 마스터 레벨입니다. 특성에 MP를 투자하세요.</div>
+        <div class="hero-meta">장수 레벨과 별개인 마스터 레벨입니다. 전투/소환/웨이브 돌파로 경험치가 쌓입니다.</div>
         <div class="mastery-grid">
           <div class="mastery-node">
             <strong>맹공 특화 Lv.${state.mastery.atkLv}</strong>
@@ -2826,13 +3151,29 @@
 
       const selHeroId = state.squadSlots[state.selectedSlotIdx] || getActiveSquadIds()[0] || "yi_sunsin";
       const selHeroName = HERO_POOL.find(h => h.id === selHeroId)?.name || "이순신";
+      const heroSlotMap = getHeroEquippedBySlot(selHeroId);
+
       const eqCard = document.createElement("div");
       eqCard.className = "section-card";
       eqCard.innerHTML = `
         <h3 class="section-title">
-          <span>🗡️ 장비 착용·강화 (대상: ${selHeroName})</span>
+          <span>🗡️ 부위별 장비 착용 (대상: ${selHeroName})</span>
           <button id="btn-craft-eq" class="mini-btn gold" type="button" style="flex:none;padding:4px 9px;">장비 제작 (900냥)</button>
         </h3>
+        <div class="equip-slots-strip">
+          <div class="equip-slot-pill">
+            <strong>무기 슬롯</strong>
+            <div>${heroSlotMap["무기"] ? `${heroSlotMap["무기"].stats.name} +${heroSlotMap["무기"].item.lv}` : "비어 있음"}</div>
+          </div>
+          <div class="equip-slot-pill">
+            <strong>방어구 슬롯</strong>
+            <div>${heroSlotMap["방어구"] ? `${heroSlotMap["방어구"].stats.name} +${heroSlotMap["방어구"].item.lv}` : "비어 있음"}</div>
+          </div>
+          <div class="equip-slot-pill">
+            <strong>신물 슬롯</strong>
+            <div>${heroSlotMap["신물"] ? `${heroSlotMap["신물"].stats.name} +${heroSlotMap["신물"].item.lv}` : "비어 있음"}</div>
+          </div>
+        </div>
         <div id="eq-grid" class="eq-grid"></div>
       `;
       eqCard.querySelector("#btn-craft-eq").addEventListener("click", craftEquipment);
@@ -2845,11 +3186,11 @@
         const box = document.createElement("div");
         box.className = `eq-card ${isOnSel ? "equipped" : ""}`;
         box.innerHTML = `
-          <div style="font-size:12px;font-weight:800;">${st.name} +${it.lv}</div>
-          <div class="hero-meta">${st.slotType} · 공 +${st.atk} · 체 +${st.hp}</div>
-          <div class="hero-meta">착용: ${ownerName}</div>
+          <div style="font-size:12px;font-weight:800;">[${st.slotType}] ${st.name} +${it.lv}</div>
+          <div class="hero-meta">공 +${st.atk} · 체 +${st.hp}</div>
+          <div class="hero-meta">착용자: ${ownerName}</div>
           <div class="btn-row">
-            <button class="mini-btn ${isOnSel ? "gold" : "primary"}" data-eq-toggle="${it.uid}" type="button">${isOnSel ? "해제" : "장착"}</button>
+            <button class="mini-btn ${isOnSel ? "gold" : "primary"}" data-eq-toggle="${it.uid}" type="button">${isOnSel ? "해제" : `${st.slotType} 장착`}</button>
             <button class="mini-btn" data-eq-up="${it.uid}" type="button">강화(${upCost}냥)</button>
           </div>
         `;
@@ -2930,6 +3271,18 @@
       card.querySelector("#btn-summon-10").addEventListener("click", () => doSummon(10));
       container.appendChild(card);
     } else if (state.activeTab === "dungeon") {
+      const logCard = document.createElement("div");
+      logCard.className = "section-card";
+      logCard.innerHTML = `
+        <h3 class="section-title">📜 최근 클리어 상세 내역</h3>
+        <div class="reward-detail-box">
+          ${state.recentRewardLog
+            ? `<div><strong>[${state.recentRewardLog.source}]</strong></div><div>${state.recentRewardLog.detail}</div>`
+            : `아직 기록된 클리어 내역이 없습니다. 웨이브 돌파나 시련결계·토벌보스를 클리어하면 상세 보상이 표시됩니다.`}
+        </div>
+      `;
+      container.appendChild(logCard);
+
       const trialCard = document.createElement("div");
       trialCard.className = "section-card";
       trialCard.innerHTML = `
@@ -2945,7 +3298,7 @@
             <strong>${tr.name}</strong>
             <div style="font-size:11px;color:var(--ink-sub);">${tr.desc}</div>
             <div style="font-size:11px;font-weight:700;color:var(--accent-jade);margin-top:2px;">
-              영혼석 +${tr.soulReward} · 옥 +${tr.gemReward} · +${formatNum(tr.goldReward)}냥
+              보상: 영혼석 +${tr.soulReward} · 옥 +${tr.gemReward} · +${formatNum(tr.goldReward)}냥 · 마스터EXP +85
             </div>
           </div>
           <button class="mini-btn primary" type="button" style="flex:none;padding:8px 12px;">전투 출정</button>
@@ -2970,7 +3323,7 @@
             <strong>${rb.name}</strong>
             <div style="font-size:11px;color:var(--ink-sub);">${rb.desc}</div>
             <div style="font-size:11px;font-weight:700;color:var(--accent-gold);margin-top:2px;">
-              영혼석 +${rb.soulReward} · 옥 +${rb.gemReward} · +${formatNum(rb.goldReward)}냥
+              보상: 영혼석 +${rb.soulReward} · 옥 +${rb.gemReward} · +${formatNum(rb.goldReward)}냥 · 마스터EXP +85
             </div>
           </div>
           <button class="mini-btn gold" type="button" style="flex:none;padding:8px 12px;">보스 출정</button>
@@ -2980,13 +3333,22 @@
       }
       container.appendChild(raidCard);
 
-      const dailyCard = document.createElement("div");
-      dailyCard.className = "section-card";
-      dailyCard.innerHTML = `
-        <h3 class="section-title">📅 일일 퀘스트 (${state.dailyDateKey})</h3>
-        <div id="daily-quest-list" style="display:flex;flex-direction:column;gap:8px;"></div>
+      // 미션 전체 받기 버튼 포함 일일 퀘스트 & 반복 미션 카드
+      const missionBundleCard = document.createElement("div");
+      missionBundleCard.className = "section-card";
+      missionBundleCard.innerHTML = `
+        <h3 class="section-title">
+          <span>🎯 일일 퀘스트 &amp; 반복 미션</span>
+          <button id="btn-claim-all-missions" class="mini-btn gold" type="button" style="flex:none;padding:5px 10px;">🎁 달성 미션 전체 받기</button>
+        </h3>
+        <div class="hero-meta" style="margin-bottom:8px;">날짜 기준: ${state.dailyDateKey} · 일일 퀘스트는 매일 1회, 반복 미션은 달성 시마다 무한 반복 수령 가능</div>
+        <div id="daily-quest-list" style="display:flex;flex-direction:column;gap:8px;margin-bottom:10px;"></div>
+        <div id="repeat-mission-list" style="display:flex;flex-direction:column;gap:8px;"></div>
       `;
-      const dList = dailyCard.querySelector("#daily-quest-list");
+
+      missionBundleCard.querySelector("#btn-claim-all-missions").addEventListener("click", claimAllReadyMissions);
+
+      const dList = missionBundleCard.querySelector("#daily-quest-list");
       for (const qDef of DAILY_QUEST_DEFS) {
         const cur = state.stats[qDef.targetKey] || 0;
         const done = cur >= qDef.target;
@@ -3007,15 +3369,8 @@
         row.querySelector("button").addEventListener("click", () => claimDailyQuest(qDef));
         dList.appendChild(row);
       }
-      container.appendChild(dailyCard);
 
-      const repeatCard = document.createElement("div");
-      repeatCard.className = "section-card";
-      repeatCard.innerHTML = `
-        <h3 class="section-title">🔁 반복 미션 (무한 반복)</h3>
-        <div id="repeat-mission-list" style="display:flex;flex-direction:column;gap:8px;"></div>
-      `;
-      const rList = repeatCard.querySelector("#repeat-mission-list");
+      const rList = missionBundleCard.querySelector("#repeat-mission-list");
       for (const rDef of REPEAT_MISSION_DEFS) {
         const repIdx = state.repeatCount[rDef.id] || 0;
         const goal = rDef.baseTarget + repIdx * rDef.stepTarget;
@@ -3037,7 +3392,8 @@
         row.querySelector("button").addEventListener("click", () => claimRepeatMission(rDef));
         rList.appendChild(row);
       }
-      container.appendChild(repeatCard);
+
+      container.appendChild(missionBundleCard);
     } else if (state.activeTab === "merchant") {
       const attCard = document.createElement("div");
       attCard.className = "section-card";
@@ -3121,6 +3477,7 @@
         state.forge.armorLv += 1;
         state.stats.forges += 1;
         AUDIO.upgrade();
+        refreshAllyTeamHp(false);
         saveGame();
         updateHud();
         renderTabContent();
@@ -3198,22 +3555,34 @@
     const list = document.getElementById("diff-list");
     if (!list) return;
     list.innerHTML = "";
-    const curDps = getTotalSquadDps();
+    const curDps = Math.max(1, getTotalSquadDps());
 
     for (const d of DIFFICULTIES) {
+      const m = getDifficultyMetrics(d);
+      const estBossSec = (m.bossHp / curDps).toFixed(1);
+      let fitLabel = "화력 부족";
+      let fitColor = "var(--accent-crimson)";
+      if (curDps >= m.recDps) {
+        fitLabel = "여유 (10초 내 보스 처치)";
+        fitColor = "var(--accent-jade)";
+      } else if (curDps >= m.recDps * 0.45) {
+        fitLabel = `접전 (보스 약 ${estBossSec}초)`;
+        fitColor = "var(--accent-gold)";
+      }
+
       const btn = document.createElement("button");
       btn.type = "button";
       btn.className = `diff-item ${state.difficultyIdx === d.id ? "active" : ""}`;
-      const statusTag = curDps >= d.recDps ? "적정 DPS 충족" : "DPS 육성 권장";
       btn.innerHTML = `
         <div>
           <strong>${d.id + 1}. ${d.name}</strong>
-          <div style="font-size:11px;color:var(--ink-sub);">권장 DPS ${formatNum(d.recDps)} · ${d.recHero}</div>
+          <div style="font-size:11px;color:var(--ink-sub);">일반 HP ${formatNum(m.mobHp)} · 보스 HP ${formatNum(m.bossHp)}</div>
+          <div style="font-size:11px;color:var(--ink-sub);">권장 DPS ${formatNum(m.recDps)} (내 DPS ${formatNum(curDps)}) · ${d.recHero}</div>
           <div style="font-size:11px;color:var(--ink-main);margin-top:2px;">💡 ${d.tip}</div>
         </div>
         <div style="text-align:right;flex:none;">
           <div style="font-size:12px;font-weight:700;color:var(--accent-jade);">보상 ×${d.rewardMult}</div>
-          <div style="font-size:10px;color:${curDps >= d.recDps ? "var(--accent-jade)" : "var(--accent-gold)"};">${statusTag}</div>
+          <div style="font-size:10px;font-weight:700;color:${fitColor};">${fitLabel}</div>
         </div>
       `;
       btn.addEventListener("click", () => {
@@ -3224,7 +3593,7 @@
         updateHud();
         renderDifficultyModal();
         document.getElementById("diff-modal").classList.remove("open");
-        showToast(`난이도 변경: ${d.name}`);
+        showToast(`난이도 변경: ${d.name} (보스 HP ${formatNum(getDifficultyMetrics(d).bossHp)})`);
       });
       list.appendChild(btn);
     }
@@ -3277,6 +3646,17 @@
     document.getElementById("btn-speed").textContent = `⚡ ${spd}x`;
     document.getElementById("combo-badge").textContent = `${state.combo} COMBO`;
     document.getElementById("stage-label").textContent = getStageName();
+
+    const allyPct = Math.max(0, Math.min(100, (state.allyHp / Math.max(1, state.allyMaxHp)) * 100));
+    document.getElementById("ally-hp-text").textContent = `${formatNum(state.allyHp)} / ${formatNum(state.allyMaxHp)}`;
+    document.getElementById("ally-hp-bar").style.width = `${allyPct}%`;
+
+    const enemyCurHp = state.enemies.reduce((acc, e) => acc + Math.max(0, e.hp), 0);
+    const enemyMaxHp = Math.max(1, state.enemies.reduce((acc, e) => acc + Math.max(1, e.maxHp), 0));
+    const enemyPct = state.enemies.length > 0 ? Math.max(0, Math.min(100, (enemyCurHp / enemyMaxHp) * 100)) : 0;
+    document.getElementById("enemy-hp-text").textContent = `${formatNum(enemyCurHp)} / ${formatNum(enemyMaxHp)}`;
+    document.getElementById("enemy-hp-bar").style.width = `${enemyPct}%`;
+
     document.getElementById("wave-bar").style.width = `${(state.wave / state.maxWave) * 100}%`;
 
     const autoBtn = document.getElementById("btn-auto-stage");
@@ -3334,6 +3714,7 @@
       return;
     }
 
+    const activeIds = getActiveSquadIds();
     const totalDps = getTotalSquadDps();
     const deal = totalDps * dt * 1.15;
     const resMult = 1 + state.mastery.resLv * 0.1;
@@ -3344,32 +3725,66 @@
       state.resonance = Math.min(100, state.resonance + dt * 9 * resMult);
 
       if (Math.random() < dt * 4) {
-        state.projectiles.push({ x: 0.34, y: 0.62, tx: target.xRatio, ty: target.yRatio, t: 0 });
-        AUDIO.hit();
-        spawnHitSparks(target.xRatio, target.yRatio, "#fde047", 5);
-        pushDamagePopup(target.xRatio, target.yRatio, Math.max(12, totalDps * 0.28));
+        const attackerId = activeIds[Math.floor(Math.random() * activeIds.length)];
+        const attacker = HERO_POOL.find(x => x.id === attackerId);
+        const elem = attacker ? attacker.element : "화(火)";
+        const isCrit = Math.random() < 0.28;
+        if (isCrit) AUDIO.crit();
+        else AUDIO.hit();
+
+        const popDmg = isCrit
+          ? Math.max(24, totalDps * 0.48)
+          : Math.max(12, totalDps * 0.26);
+
+        state.projectiles.push({
+          x: 0.34,
+          y: 0.62,
+          tx: target.xRatio,
+          ty: target.yRatio,
+          t: 0,
+          color: ELEMENT_COLORS[elem] || "#fbbf24"
+        });
+        spawnHitSparks(target.xRatio, target.yRatio, ELEMENT_COLORS[elem] || "#fde047", isCrit ? 9 : 5);
+        pushDamagePopup(target.xRatio, target.yRatio, popDmg, "", elem, isCrit, false);
       }
 
-      for (const hid of getActiveSquadIds()) {
+      for (const hid of activeIds) {
         const hero = HERO_POOL.find(x => x.id === hid);
         if (!hero) continue;
         state.skillTimers[hid] = (state.skillTimers[hid] || 0) + dt;
         if (state.skillTimers[hid] >= hero.cd) {
           state.skillTimers[hid] = 0;
+          const isCrit = Math.random() < 0.35;
           AUDIO.skill();
           triggerShake(0.1, 3);
-          const skillDmg = Math.max(80, Math.round(getHeroPower(hid).atk * 2.2));
+          const baseSkill = Math.max(80, Math.round(getHeroPower(hid).atk * 2.2));
+          const skillDmg = isCrit ? Math.round(baseSkill * 1.5) : baseSkill;
           for (const en of state.enemies) {
             en.hp -= skillDmg;
             en.hitFlash = 0.2;
           }
-          pushDamagePopup(target.xRatio, target.yRatio, skillDmg, `${hero.name}·${hero.skillName}`);
-          spawnHitSparks(target.xRatio, target.yRatio, hero.color, 9);
-          state.effects.push({ xRatio: target.xRatio, yRatio: target.yRatio, radius: 20, maxRadius: 68, alpha: 0.9, color: hero.color });
+          state.skillBanners.push({
+            text: `${hero.name} · ${hero.skillName}!`,
+            color: ELEMENT_COLORS[hero.element] || hero.color,
+            alpha: 1,
+            yRatio: 0.28 + Math.random() * 0.14
+          });
+          if (state.skillBanners.length > 4) state.skillBanners.shift();
+
+          pushDamagePopup(target.xRatio, target.yRatio, skillDmg, `${hero.name}·${hero.skillName}`, hero.element, isCrit, false);
+          spawnHitSparks(target.xRatio, target.yRatio, ELEMENT_COLORS[hero.element] || hero.color, 9);
+          state.effects.push({
+            xRatio: target.xRatio,
+            yRatio: target.yRatio,
+            radius: 20,
+            maxRadius: 68,
+            alpha: 0.9,
+            color: ELEMENT_COLORS[hero.element] || hero.color
+          });
         }
       }
 
-      const chains = getElementChains(getActiveSquadIds()).chains;
+      const chains = getElementChains(activeIds).chains;
       if (chains.length > 0 && Math.random() < dt * 1.6) {
         const pickedChain = chains[Math.floor(Math.random() * chains.length)];
         spawnChainEffect(pickedChain, target.xRatio, target.yRatio);
@@ -3379,6 +3794,27 @@
           yRatio: Math.max(0.2, target.yRatio - 0.12),
           alpha: 1
         });
+      }
+
+      // 적 몬스터의 아군 공격 루프
+      state.enemyAtkCooldown -= dt;
+      if (state.enemyAtkCooldown <= 0) {
+        state.enemyAtkCooldown = 1.6;
+        let enemyDmgSum = 0;
+        for (const en of state.enemies) {
+          enemyDmgSum += en.atk;
+        }
+        enemyDmgSum = Math.max(8, Math.round(enemyDmgSum * 0.45));
+        state.allyHp = Math.max(0, state.allyHp - enemyDmgSum);
+        AUDIO.enemyAttack();
+        triggerShake(0.09, 3);
+        pushDamagePopup(0.22, 0.56, enemyDmgSum, "👹적격", "화(火)", false, true);
+        spawnHitSparks(0.22, 0.58, "#f87171", 6);
+
+        if (state.allyHp <= 0) {
+          refreshAllyTeamHp(true);
+          showToast("🛡️ 아군 진형 재정비 완료! 체력이 회복되었습니다.");
+        }
       }
     }
 
@@ -3418,6 +3854,12 @@
       lb.alpha -= dt * 3.4;
     }
     state.lightningBolts = state.lightningBolts.filter(lb => lb.alpha > 0);
+
+    for (const sb of state.skillBanners) {
+      sb.yRatio -= dt * 0.05;
+      sb.alpha -= dt * 1.15;
+    }
+    state.skillBanners = state.skillBanners.filter(sb => sb.alpha > 0);
 
     for (const ct of state.chainTexts) {
       ct.yRatio -= dt * 0.08;
@@ -3466,6 +3908,7 @@
       ctx.fillRect(0, h * 0.54, w, h * 0.46);
     }
 
+    // 9칸(3x3) 아군 진형 (개별 머리 위 체력바 제거, 전체 피통은 상단 통합 게이지로 표시)
     state.squadSlots.forEach((hid, idx) => {
       if (!hid) return;
       const hero = HERO_POOL.find(x => x.id === hid);
@@ -3505,6 +3948,7 @@
       ctx.fillText(`${idx + 1}.${shortName}`, x, y + 20);
     });
 
+    // 적 진형 (개별 머리 위 체력바 제거, 전체 피통은 상단 통합 게이지로 표시)
     for (const en of state.enemies) {
       const x = w * en.xRatio;
       const y = h * en.yRatio;
@@ -3515,13 +3959,6 @@
       ctx.arc(x, y, r, 0, Math.PI * 2);
       ctx.fill();
 
-      const ratio = Math.max(0, en.hp / en.maxHp);
-      const barW = en.isBoss ? 68 : 44;
-      ctx.fillStyle = "rgba(0,0,0,0.45)";
-      ctx.fillRect(x - barW / 2, y - r - 12, barW, 6);
-      ctx.fillStyle = "#ef4444";
-      ctx.fillRect(x - barW / 2, y - r - 12, barW * ratio, 6);
-
       ctx.fillStyle = "#fff";
       ctx.font = "bold 11px sans-serif";
       ctx.textAlign = "center";
@@ -3531,7 +3968,7 @@
     for (const p of state.projectiles) {
       const cx = w * (p.x + (p.tx - p.x) * p.t);
       const cy = h * (p.y + (p.ty - p.y) * p.t);
-      ctx.fillStyle = "#fbbf24";
+      ctx.fillStyle = p.color || "#fbbf24";
       ctx.beginPath();
       ctx.arc(cx, cy, 5, 0, Math.PI * 2);
       ctx.fill();
@@ -3572,6 +4009,18 @@
       ctx.restore();
     }
 
+    for (const sb of state.skillBanners) {
+      ctx.save();
+      ctx.globalAlpha = Math.max(0, sb.alpha);
+      ctx.fillStyle = "rgba(25, 20, 15, 0.82)";
+      ctx.fillRect(w * 0.5 - 88, h * sb.yRatio - 11, 176, 20);
+      ctx.fillStyle = sb.color || "#fde047";
+      ctx.font = "bold 11px sans-serif";
+      ctx.textAlign = "center";
+      ctx.fillText(sb.text, w * 0.5, h * sb.yRatio + 3);
+      ctx.restore();
+    }
+
     for (const ct of state.chainTexts) {
       ctx.save();
       ctx.globalAlpha = Math.max(0, ct.alpha);
@@ -3590,10 +4039,12 @@
     for (const fd of state.floatingDamages) {
       ctx.save();
       ctx.globalAlpha = Math.max(0, fd.alpha);
-      ctx.fillStyle = fd.isSkill ? "#fde047" : "#ffffff";
-      ctx.strokeStyle = "rgba(0,0,0,0.7)";
-      ctx.lineWidth = 3;
-      ctx.font = fd.isSkill ? "bold 12px sans-serif" : "bold 11px sans-serif";
+      ctx.fillStyle = fd.color || "#ffffff";
+      ctx.strokeStyle = fd.isCrit ? "rgba(127, 29, 29, 0.92)" : "rgba(0, 0, 0, 0.72)";
+      ctx.lineWidth = fd.isCrit ? 4 : 2.5;
+      ctx.font = fd.isCrit
+        ? '900 15px Georgia, "Batang", serif'
+        : '600 11px "Trebuchet MS", "Malgun Gothic", sans-serif';
       ctx.textAlign = "center";
       const fx = w * fd.xRatio;
       const fy = h * fd.yRatio;
@@ -3618,6 +4069,10 @@
     window.addEventListener("beforeunload", saveGame);
     window.addEventListener("pointerdown", () => AUDIO.unlock(), { once: true });
     canvas.addEventListener("click", handleBattleTap);
+
+    document.getElementById("btn-close-clear-modal").addEventListener("click", () => {
+      document.getElementById("clear-reward-modal").classList.remove("open");
+    });
 
     document.querySelectorAll(".nav-tab").forEach(btn => {
       btn.addEventListener("click", () => {
@@ -3767,6 +4222,7 @@
   applyLayout();
   bindEvents();
   spawnWaveEnemies(false);
+  refreshAllyTeamHp(true);
   updateHud();
   renderTabContent();
   requestAnimationFrame(loop);
