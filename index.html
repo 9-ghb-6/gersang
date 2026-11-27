@@ -277,6 +277,23 @@
     flex-wrap: wrap;
   }
 
+  .mastery-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 6px;
+    margin-top: 8px;
+  }
+
+  .mastery-node {
+    border: 1px solid var(--border-soft);
+    background: #faf6ee;
+    border-radius: 10px;
+    padding: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
   .preset-row {
     display: flex;
     gap: 6px;
@@ -299,21 +316,22 @@
 
   .slot-selector-grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 8px;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px;
     margin-bottom: 8px;
   }
 
   .slot-box {
     border: 2px solid var(--border-soft);
     background: #fffdf9;
-    border-radius: 12px;
-    padding: 8px;
+    border-radius: 10px;
+    padding: 6px 7px;
     cursor: pointer;
     text-align: left;
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: 2px;
+    min-width: 0;
   }
 
   .slot-box.selected {
@@ -325,15 +343,18 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    font-size: 11px;
+    font-size: 10px;
     font-weight: 800;
     color: var(--ink-sub);
   }
 
   .slot-hero-name {
-    font-size: 13px;
+    font-size: 12px;
     font-weight: 800;
     color: var(--ink-main);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   .synergy-guide-box {
@@ -395,7 +416,7 @@
 
   .hero-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(145px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
     gap: 8px;
   }
 
@@ -406,7 +427,7 @@
     background: #fffdf9;
     display: flex;
     flex-direction: column;
-    gap: 6px;
+    gap: 5px;
   }
 
   .hero-card.synergy-match {
@@ -421,22 +442,23 @@
 
   .hero-thumb {
     width: 100%;
-    height: 84px;
+    height: 78px;
     border-radius: 8px;
     object-fit: cover;
     background: #e7decb;
   }
 
   .hero-name {
-    font-size: 13px;
+    font-size: 12px;
     font-weight: 800;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: 4px;
   }
 
   .hero-meta {
-    font-size: 11px;
+    font-size: 10px;
     color: var(--ink-sub);
   }
 
@@ -447,6 +469,54 @@
     background: var(--accent-jade-soft);
     border-radius: 6px;
     padding: 3px 6px;
+  }
+
+  .eq-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(165px, 1fr));
+    gap: 8px;
+  }
+
+  .eq-card {
+    border: 1px solid var(--border-soft);
+    border-radius: 10px;
+    padding: 8px;
+    background: #fffdf9;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .eq-card.equipped {
+    border-color: var(--accent-gold);
+    background: #fffaf0;
+  }
+
+  .attend-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(115px, 1fr));
+    gap: 6px;
+  }
+
+  .attend-day {
+    border: 1px solid var(--border-soft);
+    border-radius: 10px;
+    padding: 7px;
+    background: #faf6ee;
+    font-size: 11px;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+
+  .attend-day.claimed {
+    background: var(--accent-jade-soft);
+    border-color: rgba(30, 122, 101, 0.4);
+  }
+
+  .attend-day.today {
+    border-color: var(--accent-gold);
+    background: #fffaf0;
   }
 
   .btn-row {
@@ -461,7 +531,7 @@
     background: #f5efe3;
     color: var(--ink-main);
     border-radius: 8px;
-    padding: 6px 6px;
+    padding: 5px 6px;
     font-size: 11px;
     font-weight: 700;
     cursor: pointer;
@@ -503,6 +573,26 @@
     resize: vertical;
   }
 
+  .setting-row {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--border-soft);
+  }
+
+  .setting-row:last-child {
+    border-bottom: none;
+  }
+
+  .setting-label-line {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 12px;
+    font-weight: 700;
+  }
+
   .toast {
     position: fixed;
     left: 50%;
@@ -536,7 +626,7 @@
 
   .modal-box {
     width: 100%;
-    max-width: 480px;
+    max-width: 500px;
     max-height: 86vh;
     overflow-y: auto;
     background: var(--bg-panel);
@@ -687,8 +777,7 @@
         <div class="hud-row">
           <button id="btn-diff-modal" class="pill-btn" type="button">난이도: 입문 ▾</button>
           <button id="btn-speed" class="pill-btn active" type="button">⚡ 1x</button>
-          <button id="btn-sound" class="pill-btn active" type="button">🔊 소리 ON</button>
-          <button id="btn-layout" class="pill-btn" type="button">📐 분할</button>
+          <button id="btn-settings-modal" class="pill-btn" type="button">⚙️ 설정</button>
           <button id="btn-bg-upload" class="pill-btn" type="button" title="배경 이미지 변경">🏞️</button>
           <input id="file-bg-input" type="file" accept="image/*" style="display:none" />
         </div>
@@ -718,9 +807,10 @@
 
   <aside id="side-pane">
     <div class="top-resource-strip">
-      <span id="res-gold">💰 1,500냥</span>
-      <span id="res-gem">💎 360옥</span>
-      <span id="res-soul">🔥 영혼석 20</span>
+      <span id="res-gold">💰 5,000냥</span>
+      <span id="res-gem">💎 800옥</span>
+      <span id="res-soul">🔥 영혼석 60</span>
+      <span id="res-master">👑 마스터 Lv.1 (MP 3)</span>
     </div>
 
     <nav class="nav-tabs" aria-label="주요 메뉴">
@@ -735,10 +825,49 @@
   </aside>
 </div>
 
+<div id="settings-modal" class="modal-backdrop" role="dialog" aria-modal="true" aria-label="게임 설정">
+  <div class="modal-box">
+    <div class="section-title">
+      <span>⚙️ 환경 설정</span>
+      <button id="btn-close-settings" class="mini-btn" type="button">닫기</button>
+    </div>
+
+    <div class="setting-row">
+      <div class="setting-label-line">
+        <span>🔊 전체 소리</span>
+        <button id="btn-toggle-mute" class="mini-btn primary" type="button" style="flex:none;padding:5px 10px;">ON</button>
+      </div>
+      <div class="setting-label-line">
+        <span>🎵 BGM 볼륨</span>
+        <span id="lbl-bgm-vol">35%</span>
+      </div>
+      <input id="rng-bgm-vol" type="range" min="0" max="100" value="35" />
+
+      <div class="setting-label-line">
+        <span>🔔 효과음 볼륨</span>
+        <span id="lbl-sfx-vol">70%</span>
+      </div>
+      <input id="rng-sfx-vol" type="range" min="0" max="100" value="70" />
+    </div>
+
+    <div class="setting-row">
+      <div class="setting-label-line">
+        <span>📐 화면 비율 조절</span>
+        <span id="lbl-layout-cur">균형 분할</span>
+      </div>
+      <div class="btn-row" id="layout-btn-group">
+        <button class="mini-btn" data-layout-idx="0" type="button">균형 분할</button>
+        <button class="mini-btn" data-layout-idx="1" type="button">전장 축소/패널 넓게</button>
+        <button class="mini-btn" data-layout-idx="2" type="button">전장 넓게/패널 축소</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div id="diff-modal" class="modal-backdrop" role="dialog" aria-modal="true" aria-label="난이도 선택">
   <div class="modal-box">
     <div class="section-title">
-      <span>전장 난이도 선택</span>
+      <span>전장 난이도 &amp; 공략 가이드</span>
       <button id="btn-close-diff" class="mini-btn" type="button">닫기</button>
     </div>
     <div id="diff-list"></div>
@@ -776,21 +905,76 @@
 (function () {
   "use strict";
 
-  const STORAGE_KEY = "cheonha_gersang_empire_v3_save";
+  const SQUAD_SIZE = 9;
+  const STORAGE_KEY = "cheonha_gersang_empire_v3_mastery_save";
   const SPEEDS = [1, 2, 3];
   const LAYOUTS = [
     { name: "균형 분할", battleFlex: "1.15", sideMax: "580px", mobileH: "44%" },
-    { name: "전장 집중", battleFlex: "1.65", sideMax: "480px", mobileH: "54%" },
-    { name: "관리 집중", battleFlex: "0.85", sideMax: "720px", mobileH: "34%" }
+    { name: "전장 축소/패널 넓게", battleFlex: "0.78", sideMax: "740px", mobileH: "33%" },
+    { name: "전장 넓게/패널 축소", battleFlex: "1.65", sideMax: "480px", mobileH: "54%" }
   ];
 
   const DIFFICULTIES = [
-    { id: 0, name: "입문", mult: 1, hpPow: 1.0, rewardMult: 1 },
-    { id: 1, name: "정예", mult: 8, hpPow: 1.12, rewardMult: 2.5 },
-    { id: 2, name: "무쌍", mult: 45, hpPow: 1.24, rewardMult: 6 },
-    { id: 3, name: "패왕", mult: 220, hpPow: 1.38, rewardMult: 15 },
-    { id: 4, name: "신화", mult: 950, hpPow: 1.52, rewardMult: 40 },
-    { id: 5, name: "천마강림", mult: 2800, hpPow: 1.68, rewardMult: 100 }
+    {
+      id: 0,
+      name: "입문",
+      mult: 1,
+      hpPow: 1.0,
+      rewardMult: 1,
+      recDps: 900,
+      recHero: "장수 Lv.1+ / ★1+",
+      tip: "초반 구간. 9인 슬롯 채우고 수+뇌/화+풍 연쇄만 맞춰도 충분합니다."
+    },
+    {
+      id: 1,
+      name: "정예",
+      mult: 8,
+      hpPow: 1.12,
+      rewardMult: 2.5,
+      recDps: 4500,
+      recHero: "주력 장수 Lv.5+ / ★2+ / 무기제련 Lv.2+",
+      tip: "국적 3인↑ 결속 + 역할군 시너지를 챙기고 주력 장수 레벨을 올리세요."
+    },
+    {
+      id: 2,
+      name: "무쌍",
+      mult: 45,
+      hpPow: 1.24,
+      rewardMult: 6,
+      recDps: 24000,
+      recHero: "주력 장수 Lv.12+ / ★3+ / 마스터 맹공 투자",
+      tip: "속성 연쇄 2종 이상 조합과 출전 전체 강화 병행을 추천합니다."
+    },
+    {
+      id: 3,
+      name: "패왕",
+      mult: 220,
+      hpPow: 1.38,
+      rewardMult: 15,
+      recDps: 130000,
+      recHero: "주력 장수 Lv.22+ / ★4+ / 장비 +3↑",
+      tip: "시련결계·토벌보스로 영혼석을 모아 성급 돌파를 우선하세요."
+    },
+    {
+      id: 4,
+      name: "신화",
+      mult: 950,
+      hpPow: 1.52,
+      rewardMult: 40,
+      recDps: 750000,
+      recHero: "주력 장수 Lv.35+ / ★5+ / 마스터 Lv.8↑",
+      tip: "무기제련·마스터 맹공·고강화 장비로 DPS를 극대화해야 합니다."
+    },
+    {
+      id: 5,
+      name: "천마강림",
+      mult: 2800,
+      hpPow: 1.68,
+      rewardMult: 100,
+      recDps: 3500000,
+      recHero: "주력 장수 Lv.50+ / ★6 / 마스터 Lv.15↑",
+      tip: "최상위 엔드 난이도. 9인 시너지 + 연쇄 + 천지개벽 필살 순환이 핵심입니다."
+    }
   ];
 
   const STAGE_TITLES = [
@@ -803,54 +987,221 @@
   ];
 
   const NATIONS = ["전체", "조선", "명나라", "일본", "몽골", "천상"];
+  const ROLES = ["지휘관", "책략가", "돌격장", "선봉장", "수호장"];
+  const ELEMENTS = ["수(水)", "화(火)", "목(木)", "풍(風)", "뇌(雷)", "토(土)"];
+  const SKILLS = ["거북선 포격", "첨성대 성화", "현가 선풍", "청룡 언월참", "팔괘 질풍진", "천하포무 화염", "초원 폭풍기병", "천둥보탑 심판"];
 
-  const HERO_POOL = [
-    { id: "yi_sunsin", name: "이순신", nation: "조선", role: "지휘관", element: "수(水)", skillName: "거북선 포격", cd: 4.5, baseAtk: 145, baseHp: 1400, color: "#1d4ed8", emblem: "⚓", unlockedDefault: true },
-    { id: "seondeok", name: "선덕여왕", nation: "조선", role: "책략가", element: "화(火)", skillName: "첨성대 성화", cd: 4.0, baseAtk: 132, baseHp: 1050, color: "#dc2626", emblem: "🌙", unlockedDefault: true },
-    { id: "hwang_jini", name: "황진이", nation: "조선", role: "책략가", element: "풍(風)", skillName: "현가 선풍", cd: 3.8, baseAtk: 124, baseHp: 960, color: "#be185d", emblem: "🎐", unlockedDefault: true },
-    { id: "kwon_yul", name: "권율", nation: "조선", role: "수호장", element: "토(土)", skillName: "행주 대지진", cd: 5.0, baseAtk: 136, baseHp: 1480, color: "#3f6212", emblem: "🛡️", unlockedDefault: false },
+  const EQUIP_TEMPLATES = [
+    { id: "eq_blade", name: "청룡 언월도", slotType: "무기", baseAtk: 45, baseHp: 120 },
+    { id: "eq_bow", name: "신기전 연노", slotType: "무기", baseAtk: 52, baseHp: 80 },
+    { id: "eq_armor", name: "천마 쇄자갑", slotType: "방어구", baseAtk: 15, baseHp: 380 },
+    { id: "eq_helm", name: "태극 투구", slotType: "방어구", baseAtk: 22, baseHp: 290 },
+    { id: "eq_seal", name: "어사패 신물", slotType: "신물", baseAtk: 38, baseHp: 260 }
+  ];
 
-    { id: "guan_yu", name: "관우", nation: "명나라", role: "돌격장", element: "목(木)", skillName: "청룡 언월참", cd: 4.2, baseAtk: 155, baseHp: 1320, color: "#15803d", emblem: "🐉", unlockedDefault: true },
-    { id: "zhuge_liang", name: "제갈량", nation: "명나라", role: "책략가", element: "풍(風)", skillName: "팔괘 질풍진", cd: 3.6, baseAtk: 148, baseHp: 980, color: "#0f766e", emblem: "🪶", unlockedDefault: true },
-    { id: "zhao_yun", name: "조운", nation: "명나라", role: "선봉장", element: "뇌(雷)", skillName: "용담 뇌격창", cd: 4.0, baseAtk: 160, baseHp: 1180, color: "#0284c7", emblem: "⚡", unlockedDefault: false },
+  const ATTENDANCE_REWARDS = [
+    { day: 1, label: "1일차", gold: 1000, gem: 40, soul: 8 },
+    { day: 2, label: "2일차", gold: 1500, gem: 60, soul: 12 },
+    { day: 3, label: "3일차", gold: 2000, gem: 80, soul: 16 },
+    { day: 4, label: "4일차", gold: 2500, gem: 100, soul: 20 },
+    { day: 5, label: "5일차", gold: 3500, gem: 120, soul: 25 },
+    { day: 6, label: "6일차", gold: 4500, gem: 150, soul: 30 },
+    { day: 7, label: "7일차(대박)", gold: 7000, gem: 240, soul: 50 }
+  ];
 
-    { id: "oda", name: "오다 노부나가", nation: "일본", role: "선봉장", element: "화(火)", skillName: "천하포무 화염", cd: 3.9, baseAtk: 162, baseHp: 1120, color: "#b45309", emblem: "🔥", unlockedDefault: true },
-    { id: "uesugi", name: "우에스기 겐신", nation: "일본", role: "돌격장", element: "수(水)", skillName: "비룡 한빙검", cd: 4.3, baseAtk: 154, baseHp: 1220, color: "#1e40af", emblem: "❄️", unlockedDefault: false },
-    { id: "miyamoto", name: "미야모토 무사시", nation: "일본", role: "선봉장", element: "풍(風)", skillName: "이도 회오리", cd: 3.7, baseAtk: 168, baseHp: 1080, color: "#7c2d12", emblem: "⚔️", unlockedDefault: false },
+  const NATION_SPECS = [
+    {
+      nation: "조선",
+      prefix: "joseon",
+      emblem: "⚓",
+      palette: ["#1d4ed8", "#1e40af", "#be185d", "#3f6212", "#0f766e"],
+      named: [
+        { id: "yi_sunsin", name: "이순신", role: "지휘관", element: "수(水)", skillName: "거북선 포격", cd: 4.5, atk: 155, hp: 1450 },
+        { id: "seondeok", name: "선덕여왕", role: "책략가", element: "화(火)", skillName: "첨성대 성화", cd: 4.0, atk: 138, hp: 1080 },
+        { id: "hwang_jini", name: "황진이", role: "책략가", element: "풍(風)", skillName: "현가 선풍", cd: 3.8, atk: 130, hp: 990 },
+        { id: "kwon_yul", name: "권율", role: "수호장", element: "토(土)", skillName: "행주 대지진", cd: 5.0, atk: 142, hp: 1520 },
+        { id: "kim_yusin", name: "김유신", role: "돌격장", element: "화(火)", skillName: "삼국 통일검", cd: 4.2, atk: 158, hp: 1340 },
+        { id: "gang_gamchan", name: "강감찬", role: "지휘관", element: "수(水)", skillName: "귀주 대첩파", cd: 4.4, atk: 150, hp: 1400 },
+        { id: "eulji_mundeok", name: "을지문덕", role: "책략가", element: "수(水)", skillName: "살수 수공격", cd: 3.9, atk: 146, hp: 1120 },
+        { id: "jeong_yak_yong", name: "정약용", role: "책략가", element: "토(土)", skillName: "거중기 쇄도", cd: 4.1, atk: 135, hp: 1150 }
+      ],
+      titles: ["수군", "무관", "비격", "포수", "척후", "승병", "호위", "의병", "진무", "도원수"]
+    },
+    {
+      nation: "명나라",
+      prefix: "ming",
+      emblem: "🐉",
+      palette: ["#15803d", "#0f766e", "#0284c7", "#166534", "#0e7490"],
+      named: [
+        { id: "guan_yu", name: "관우", role: "돌격장", element: "목(木)", skillName: "청룡 언월참", cd: 4.2, atk: 162, hp: 1360 },
+        { id: "zhuge_liang", name: "제갈량", role: "책략가", element: "풍(風)", skillName: "팔괘 질풍진", cd: 3.6, atk: 154, hp: 1020 },
+        { id: "zhao_yun", name: "조운", role: "선봉장", element: "뇌(雷)", skillName: "용담 뇌격창", cd: 4.0, atk: 166, hp: 1210 },
+        { id: "zhang_fei", name: "장비", role: "돌격장", element: "뇌(雷)", skillName: "장판교 포효", cd: 4.1, atk: 160, hp: 1380 },
+        { id: "zhou_yu", name: "주유", role: "책략가", element: "화(火)", skillName: "적벽 화공계", cd: 3.8, atk: 152, hp: 1060 },
+        { id: "lu_bu", name: "여포", role: "선봉장", element: "화(火)", skillName: "방천화극 무쌍", cd: 3.7, atk: 178, hp: 1260 },
+        { id: "cao_cao", name: "조조", role: "지휘관", element: "토(土)", skillName: "천하 호령진", cd: 4.3, atk: 156, hp: 1350 }
+      ],
+      titles: ["금의위", "신기영", "청룡", "현무", "도독", "창병", "맹장", "모사", "철기", "대장군"]
+    },
+    {
+      nation: "일본",
+      prefix: "japan",
+      emblem: "🔥",
+      palette: ["#b45309", "#7c2d12", "#92400e", "#991b1b", "#4338ca"],
+      named: [
+        { id: "oda", name: "오다 노부나가", role: "선봉장", element: "화(火)", skillName: "천하포무 화염", cd: 3.9, atk: 168, hp: 1150 },
+        { id: "uesugi", name: "우에스기 겐신", role: "돌격장", element: "수(水)", skillName: "비룡 한빙검", cd: 4.3, atk: 159, hp: 1250 },
+        { id: "miyamoto", name: "미야모토 무사시", role: "선봉장", element: "풍(風)", skillName: "이도 회오리", cd: 3.7, atk: 174, hp: 1110 },
+        { id: "takeda", name: "타케다 신겐", role: "돌격장", element: "화(火)", skillName: "풍림화산 돌격", cd: 4.0, atk: 164, hp: 1320 },
+        { id: "toyotomi", name: "도요토미 히데요시", role: "지휘관", element: "화(火)", skillName: "황금 기마대", cd: 4.2, atk: 152, hp: 1180 },
+        { id: "date", name: "다테 마사무네", role: "선봉장", element: "뇌(雷)", skillName: "독안룡 뇌격", cd: 3.9, atk: 162, hp: 1160 },
+        { id: "sanada", name: "사나다 유키무라", role: "돌격장", element: "화(火)", skillName: "진홍 연격창", cd: 4.0, atk: 165, hp: 1220 }
+      ],
+      titles: ["무사", "닌자", "화승", "사무라이", "검호", "기마", "은밀", "홍련", "벽력", "다이묘"]
+    },
+    {
+      nation: "몽골",
+      prefix: "mongol",
+      emblem: "🐎",
+      palette: ["#0369a1", "#075985", "#9a3412", "#1d4ed8", "#312e81"],
+      named: [
+        { id: "genghis", name: "칭기즈칸", role: "돌격장", element: "풍(風)", skillName: "초원 폭풍기병", cd: 4.1, atk: 165, hp: 1290 },
+        { id: "subutai", name: "수부타이", role: "선봉장", element: "화(火)", skillName: "맹화 유성우", cd: 4.4, atk: 155, hp: 1180 },
+        { id: "jebe", name: "제베", role: "책략가", element: "뇌(雷)", skillName: "신궁 낙뢰시", cd: 3.9, atk: 152, hp: 1050 },
+        { id: "kublai", name: "쿠빌라이", role: "지휘관", element: "토(土)", skillName: "대제국 창공진", cd: 4.3, atk: 158, hp: 1360 },
+        { id: "muqali", name: "무칼리", role: "수호장", element: "목(木)", skillName: "초원 철벽진", cd: 4.7, atk: 148, hp: 1540 },
+        { id: "jelme", name: "젤메", role: "선봉장", element: "풍(風)", skillName: "질풍 기습참", cd: 3.8, atk: 156, hp: 1150 }
+      ],
+      titles: ["철기병", "궁기병", "초원", "매사냥꾼", "호위기병", "폭풍", "선구자", "만호장", "천호장", "칸의 전사"]
+    },
+    {
+      nation: "천상",
+      prefix: "celestial",
+      emblem: "👑",
+      palette: ["#6d28d9", "#5b21b6", "#047857", "#b91c1c", "#7e22ce"],
+      named: [
+        { id: "sacheonwang", name: "다문천왕", role: "지휘관", element: "뇌(雷)", skillName: "천둥보탑 심판", cd: 4.0, atk: 192, hp: 1700 },
+        { id: "ji_guk", name: "지국천왕", role: "수호장", element: "목(木)", skillName: "동방 신목결계", cd: 4.6, atk: 182, hp: 1780 },
+        { id: "gwang_mok", name: "광목천왕", role: "책략가", element: "화(火)", skillName: "업화 천안광", cd: 3.8, atk: 198, hp: 1540 },
+        { id: "jeung_jang", name: "증장천왕", role: "돌격장", element: "풍(風)", skillName: "남방 천풍참", cd: 3.9, atk: 190, hp: 1620 },
+        { id: "sun_wukong", name: "제천대성", role: "선봉장", element: "화(火)", skillName: "여의봉 천지타", cd: 3.5, atk: 205, hp: 1580 },
+        { id: "nezha", name: "나타태자", role: "선봉장", element: "풍(風)", skillName: "풍화륜 질주", cd: 3.6, atk: 196, hp: 1500 },
+        { id: "erlang", name: "이랑진군", role: "돌격장", element: "뇌(雷)", skillName: "천안 신뢰격", cd: 3.8, atk: 194, hp: 1640 }
+      ],
+      titles: ["천병", "신장", "선녀", "비천", "수호신", "천궁", "성령", "화신", "뇌신", "천제 호위"]
+    }
+  ];
 
-    { id: "genghis", name: "칭기즈칸", nation: "몽골", role: "돌격장", element: "풍(風)", skillName: "초원 폭풍기병", cd: 4.1, baseAtk: 158, baseHp: 1250, color: "#0369a1", emblem: "🐎", unlockedDefault: true },
-    { id: "subutai", name: "수부타이", nation: "몽골", role: "선봉장", element: "화(火)", skillName: "맹화 유성우", cd: 4.4, baseAtk: 150, baseHp: 1140, color: "#9a3412", emblem: "☄️", unlockedDefault: false },
-    { id: "jebe", name: "제베", nation: "몽골", role: "책략가", element: "뇌(雷)", skillName: "신궁 낙뢰시", cd: 3.9, baseAtk: 146, baseHp: 1020, color: "#1d4ed8", emblem: "🏹", unlockedDefault: false },
+  function buildHeroPool() {
+    const pool = [];
+    for (const spec of NATION_SPECS) {
+      for (let i = 0; i < 35; i++) {
+        if (i < spec.named.length) {
+          const nm = spec.named[i];
+          pool.push({
+            id: nm.id,
+            name: nm.name,
+            nation: spec.nation,
+            role: nm.role,
+            element: nm.element,
+            skillName: nm.skillName,
+            cd: nm.cd,
+            baseAtk: nm.atk,
+            baseHp: nm.hp,
+            color: spec.palette[i % spec.palette.length],
+            emblem: spec.emblem,
+            unlockedDefault: true
+          });
+        } else {
+          const title = spec.titles[i % spec.titles.length];
+          const num = i - spec.named.length + 1;
+          const role = ROLES[i % ROLES.length];
+          const element = ELEMENTS[i % ELEMENTS.length];
+          const skillName = SKILLS[i % SKILLS.length];
+          const cd = Number((3.5 + (i % 6) * 0.25).toFixed(1));
+          const tierBoost = i * 4;
+          pool.push({
+            id: `${spec.prefix}_${i + 1}`,
+            name: `${spec.nation} ${title} ${num}호`,
+            nation: spec.nation,
+            role,
+            element,
+            skillName,
+            cd,
+            baseAtk: 120 + tierBoost,
+            baseHp: 980 + tierBoost * 11,
+            color: spec.palette[i % spec.palette.length],
+            emblem: spec.emblem,
+            unlockedDefault: true
+          });
+        }
+      }
+    }
+    return pool;
+  }
 
-    { id: "sacheonwang", name: "다문천왕", nation: "천상", role: "지휘관", element: "뇌(雷)", skillName: "천둥보탑 심판", cd: 4.0, baseAtk: 185, baseHp: 1650, color: "#6d28d9", emblem: "👑", unlockedDefault: true },
-    { id: "ji_guk", name: "지국천왕", nation: "천상", role: "수호장", element: "목(木)", skillName: "동방 신목결계", cd: 4.6, baseAtk: 176, baseHp: 1720, color: "#047857", emblem: "🌿", unlockedDefault: false },
-    { id: "gwang_mok", name: "광목천왕", nation: "천상", role: "책략가", element: "화(火)", skillName: "업화 천안광", cd: 3.8, baseAtk: 192, baseHp: 1490, color: "#b91c1c", emblem: "☀️", unlockedDefault: false }
+  const HERO_POOL = buildHeroPool();
+  const DEFAULT_NINE_SLOTS = [
+    "yi_sunsin", "seondeok", "hwang_jini",
+    "guan_yu", "zhuge_liang", "oda",
+    "genghis", "sacheonwang", "kwon_yul"
   ];
 
   const DUNGEON_TRIALS = [
-    { id: "trial_1", name: "청룡 시련 회랑", desc: "동방 청룡의 기운을 모아 영혼석을 수확합니다.", soulReward: 10, gemReward: 20, goldReward: 400 },
-    { id: "trial_2", name: "백호 무혼 전당", desc: "백호의 예리한 기백으로 영혼석과 옥을 획득합니다.", soulReward: 16, gemReward: 35, goldReward: 900 },
-    { id: "trial_3", name: "천상 신단 관문", desc: "천상계 시련을 돌파해 대량의 영혼석과 옥을 얻습니다.", soulReward: 25, gemReward: 60, goldReward: 2000 }
+    { id: "trial_1", name: "청룡 시련 회랑", desc: "결계 수호자를 격파해 영혼석과 옥·냥을 수확합니다.", hpMult: 1.0, soulReward: 15, gemReward: 30, goldReward: 800 },
+    { id: "trial_2", name: "백호 무혼 전당", desc: "백호 수호자를 격파해 영혼석과 옥·냥을 획득합니다.", hpMult: 2.2, soulReward: 25, gemReward: 50, goldReward: 1800 },
+    { id: "trial_3", name: "천상 신단 관문", desc: "천상 수호자를 격파해 대량의 영혼석과 옥·냥을 얻습니다.", hpMult: 4.5, soulReward: 40, gemReward: 90, goldReward: 4000 }
   ];
 
   const RAID_BOSSES = [
-    { id: "raid_1", name: "도전 토벌: 흑룡장군", desc: "거대 흑룡장군 토벌 시 영혼석·옥·냥 대량 지급", soulReward: 18, gemReward: 45, goldReward: 1500 },
-    { id: "raid_2", name: "도전 토벌: 마천황제", desc: "최상위 토벌 보스 격파 시 파격 보상 지급", soulReward: 30, gemReward: 80, goldReward: 3500 }
+    { id: "raid_1", name: "도전 토벌: 흑룡장군", desc: "거대 흑룡장군 토벌 시 영혼석·옥·냥 대량 지급", hpMult: 3.5, soulReward: 30, gemReward: 70, goldReward: 3000 },
+    { id: "raid_2", name: "도전 토벌: 마천황제", desc: "최상위 토벌 보스 격파 시 파격 보상 지급", hpMult: 7.5, soulReward: 50, gemReward: 120, goldReward: 7000 }
   ];
 
-  const MISSION_DEFS = [
-    { id: "m_kills", title: "적 25마리 토벌", targetKey: "kills", target: 25, gold: 500, soul: 4, gem: 15 },
-    { id: "m_summons", title: "태극소환 5회 진행", targetKey: "summons", target: 5, gold: 400, soul: 6, gem: 20 },
-    { id: "m_forges", title: "상단 제련 3회 달성", targetKey: "forges", target: 3, gold: 700, soul: 5, gem: 25 }
+  const DAILY_QUEST_DEFS = [
+    { id: "dq_kills", title: "[일일] 적 40마리 토벌", targetKey: "kills", target: 40, gold: 1500, soul: 12, gem: 40 },
+    { id: "dq_summons", title: "[일일] 태극소환 10회 진행", targetKey: "summons", target: 10, gold: 1200, soul: 15, gem: 50 },
+    { id: "dq_forges", title: "[일일] 제련 또는 장비 강화 3회", targetKey: "forges", target: 3, gold: 1800, soul: 14, gem: 45 }
   ];
 
-  const SFX = (() => {
+  const REPEAT_MISSION_DEFS = [
+    { id: "rm_kills", title: "[반복] 적 25마리 추가 토벌", targetKey: "kills", baseTarget: 25, stepTarget: 25, gold: 700, soul: 6, gem: 20 },
+    { id: "rm_summons", title: "[반복] 태극소환 5회 추가 진행", targetKey: "summons", baseTarget: 5, stepTarget: 5, gold: 600, soul: 8, gem: 25 },
+    { id: "rm_forges", title: "[반복] 제련·장비 강화 3회 추가", targetKey: "forges", baseTarget: 3, stepTarget: 3, gold: 900, soul: 8, gem: 30 }
+  ];
+
+  function getTodayKey() {
+    const d = new Date();
+    return `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`;
+  }
+
+  const AUDIO = (() => {
     let ctx = null;
+    let bgmTimer = null;
+    let stepIdx = 0;
+    let currentTheme = "field";
     let lastHitTime = 0;
     let lastChainTime = 0;
 
+    const THEMES = {
+      field: {
+        tempoMs: 420,
+        wave: "triangle",
+        notes: [261.63, 293.66, 329.63, 392.00, 440.00, 392.00, 329.63, 293.66]
+      },
+      dungeon: {
+        tempoMs: 280,
+        wave: "sawtooth",
+        notes: [220.00, 261.63, 329.63, 440.00, 392.00, 329.63, 293.66, 220.00]
+      },
+      portal: {
+        tempoMs: 340,
+        wave: "sine",
+        notes: [329.63, 440.00, 554.37, 659.25, 554.37, 440.00, 392.00, 329.63]
+      }
+    };
+
     function ensureCtx() {
-      if (!state.soundEnabled) return null;
       const AudioCtx = window.AudioContext || window.webkitAudioContext;
       if (!AudioCtx) return null;
       if (!ctx) ctx = new AudioCtx();
@@ -860,7 +1211,42 @@
       return ctx;
     }
 
-    function tone(freqStart, freqEnd, duration, type = "triangle", gainPeak = 0.06, delay = 0) {
+    function playBgmStep() {
+      if (!state.soundEnabled || state.bgmVol <= 0) return;
+      const c = ensureCtx();
+      if (!c) return;
+      const th = THEMES[currentTheme] || THEMES.field;
+      const freq = th.notes[stepIdx % th.notes.length];
+      stepIdx += 1;
+
+      const now = c.currentTime;
+      const osc = c.createOscillator();
+      const gain = c.createGain();
+      osc.type = th.wave;
+      osc.frequency.setValueAtTime(freq, now);
+
+      const peak = 0.045 * state.bgmVol;
+      gain.gain.setValueAtTime(0.0001, now);
+      gain.gain.linearRampToValueAtTime(peak, now + 0.03);
+      gain.gain.exponentialRampToValueAtTime(0.0001, now + (th.tempoMs / 1000) * 0.9);
+
+      osc.connect(gain);
+      gain.connect(c.destination);
+      osc.start(now);
+      osc.stop(now + th.tempoMs / 1000);
+    }
+
+    function restartBgmLoop() {
+      if (bgmTimer) {
+        clearInterval(bgmTimer);
+        bgmTimer = null;
+      }
+      const th = THEMES[currentTheme] || THEMES.field;
+      bgmTimer = setInterval(playBgmStep, th.tempoMs);
+    }
+
+    function playTone(freqStart, freqEnd, duration, type = "triangle", baseGain = 0.06, delay = 0) {
+      if (!state.soundEnabled || state.sfxVol <= 0) return;
       const c = ensureCtx();
       if (!c) return;
       const now = c.currentTime + delay;
@@ -870,8 +1256,9 @@
       osc.frequency.setValueAtTime(Math.max(40, freqStart), now);
       osc.frequency.exponentialRampToValueAtTime(Math.max(40, freqEnd), now + duration);
 
+      const peak = baseGain * state.sfxVol;
       gain.gain.setValueAtTime(0.0001, now);
-      gain.gain.linearRampToValueAtTime(gainPeak, now + 0.012);
+      gain.gain.linearRampToValueAtTime(peak, now + 0.012);
       gain.gain.exponentialRampToValueAtTime(0.0001, now + duration);
 
       osc.connect(gain);
@@ -881,57 +1268,86 @@
     }
 
     return {
+      unlock() {
+        ensureCtx();
+        if (!bgmTimer) restartBgmLoop();
+      },
+      setTheme(themeName) {
+        if (currentTheme !== themeName) {
+          currentTheme = themeName;
+          stepIdx = 0;
+          restartBgmLoop();
+        }
+      },
       hit() {
         const t = performance.now();
         if (t - lastHitTime < 95) return;
         lastHitTime = t;
-        tone(220 + Math.random() * 60, 95, 0.07, "square", 0.025);
+        playTone(220 + Math.random() * 60, 95, 0.07, "square", 0.03);
       },
       tapStrike() {
-        tone(310, 140, 0.09, "sawtooth", 0.045);
+        playTone(310, 140, 0.09, "sawtooth", 0.05);
       },
       chain() {
         const t = performance.now();
         if (t - lastChainTime < 220) return;
         lastChainTime = t;
-        tone(520, 980, 0.14, "sawtooth", 0.045);
-        tone(780, 1240, 0.12, "sine", 0.035, 0.05);
+        playTone(520, 980, 0.14, "sawtooth", 0.05);
+        playTone(780, 1240, 0.12, "sine", 0.04, 0.05);
       },
       skill() {
-        tone(340, 760, 0.18, "triangle", 0.06);
-        tone(510, 1020, 0.16, "sine", 0.04, 0.04);
+        playTone(340, 760, 0.18, "triangle", 0.065);
+        playTone(510, 1020, 0.16, "sine", 0.045, 0.04);
       },
       ultimate() {
-        tone(140, 580, 0.28, "sawtooth", 0.08);
-        tone(280, 920, 0.34, "triangle", 0.07, 0.06);
-        tone(440, 1320, 0.38, "sine", 0.06, 0.12);
+        playTone(140, 580, 0.28, "sawtooth", 0.085);
+        playTone(280, 920, 0.34, "triangle", 0.075, 0.06);
+        playTone(440, 1320, 0.38, "sine", 0.065, 0.12);
       },
       clear() {
-        tone(523.25, 523.25, 0.11, "triangle", 0.06, 0);
-        tone(659.25, 659.25, 0.11, "triangle", 0.06, 0.09);
-        tone(783.99, 1046.5, 0.22, "triangle", 0.07, 0.18);
+        playTone(523.25, 523.25, 0.11, "triangle", 0.065, 0);
+        playTone(659.25, 659.25, 0.11, "triangle", 0.065, 0.09);
+        playTone(783.99, 1046.5, 0.22, "triangle", 0.075, 0.18);
       },
-      summon() {
-        tone(440, 880, 0.16, "sine", 0.055, 0);
-        tone(660, 1320, 0.2, "triangle", 0.05, 0.08);
+      summonNormal() {
+        playTone(440, 660, 0.14, "sine", 0.055, 0);
+        playTone(554.37, 880, 0.16, "triangle", 0.05, 0.07);
+      },
+      summonSpecial() {
+        playTone(523.25, 783.99, 0.14, "triangle", 0.08, 0);
+        playTone(659.25, 987.77, 0.16, "sine", 0.075, 0.08);
+        playTone(783.99, 1174.66, 0.18, "triangle", 0.08, 0.16);
+        playTone(1046.5, 1567.98, 0.28, "sine", 0.085, 0.24);
       },
       upgrade() {
-        tone(390, 620, 0.12, "triangle", 0.055);
+        playTone(390, 620, 0.12, "triangle", 0.06);
       },
       portal() {
-        tone(220, 660, 0.35, "sine", 0.06);
+        playTone(220, 660, 0.35, "sine", 0.065);
       }
     };
   })();
 
   const state = {
-    gold: 1500,
-    gem: 360,
-    soul: 20,
+    gold: 5000,
+    gem: 800,
+    soul: 60,
+    // 장수 레벨과 별개인 제국 마스터 레벨 및 특성 포인트
+    mastery: {
+      level: 1,
+      exp: 0,
+      points: 3,
+      atkLv: 0,    // +6% 공격/lv
+      hpLv: 0,     // +8% 체력/lv
+      resLv: 0,    // +10% 공명 충전/lv
+      rewardLv: 0  // +8% 보상/lv
+    },
     difficultyIdx: 0,
     speedIdx: 0,
     layoutIdx: 0,
     soundEnabled: true,
+    bgmVol: 0.35,
+    sfxVol: 0.7,
     chapter: 1,
     stageNum: 1,
     wave: 1,
@@ -945,11 +1361,11 @@
     activeTab: "squad",
     selectedNation: "전체",
     selectedSlotIdx: 0,
-    squadSlots: ["yi_sunsin", "seondeok", "guan_yu", null],
+    squadSlots: [...DEFAULT_NINE_SLOTS],
     presets: {
-      1: ["yi_sunsin", "seondeok", "guan_yu", null],
-      2: ["yi_sunsin", "seondeok", "hwang_jini", "guan_yu"],
-      3: ["sacheonwang", "genghis", "oda", "guan_yu"]
+      1: [...DEFAULT_NINE_SLOTS],
+      2: [...DEFAULT_NINE_SLOTS],
+      3: [...DEFAULT_NINE_SLOTS]
     },
     skillTimers: {},
     forge: {
@@ -957,17 +1373,29 @@
       armorLv: 0,
       tradeLv: 0
     },
+    equipmentInv: [
+      { uid: "eq_init_1", tplId: "eq_blade", lv: 1, equippedHeroId: "yi_sunsin" },
+      { uid: "eq_init_2", tplId: "eq_armor", lv: 1, equippedHeroId: "guan_yu" },
+      { uid: "eq_init_3", tplId: "eq_seal", lv: 1, equippedHeroId: "seondeok" }
+    ],
+    attendance: {
+      dayIndex: 0,
+      lastClaimDate: null
+    },
+    dailyDateKey: getTodayKey(),
+    claimedDaily: {},
+    repeatCount: {},
     stats: {
       kills: 0,
       summons: 0,
       forges: 0
     },
-    claimedMissions: {},
     heroes: {},
     customImages: {},
     bgImageSrc: "./assets/bg_day.png",
     pendingHeroImageId: null,
     dungeonRunning: false,
+    activeSpecialEncounter: null,
     offlineReward: null,
     lastSavedAt: Date.now(),
     enemies: [],
@@ -994,10 +1422,52 @@
     }
   }
 
+  function getMasteryNeedExp(lv) {
+    return 100 + (lv - 1) * 60;
+  }
+
+  function gainMasteryExp(amount) {
+    state.mastery.exp += Math.max(0, amount);
+    let leveledUp = false;
+    while (state.mastery.exp >= getMasteryNeedExp(state.mastery.level)) {
+      state.mastery.exp -= getMasteryNeedExp(state.mastery.level);
+      state.mastery.level += 1;
+      state.mastery.points += 1;
+      leveledUp = true;
+    }
+    if (leveledUp) {
+      AUDIO.summonSpecial();
+      showToast(`👑 마스터 Lv.${state.mastery.level} 달성! 특성 포인트 +1`);
+    }
+  }
+
+  function investMasteryTrait(key) {
+    if (state.mastery.points <= 0) {
+      showToast("사용 가능한 마스터 포인트가 없습니다.");
+      return;
+    }
+    if (!Object.prototype.hasOwnProperty.call(state.mastery, key)) return;
+    state.mastery[key] += 1;
+    state.mastery.points -= 1;
+    AUDIO.upgrade();
+    saveGame();
+    updateHud();
+    renderTabContent();
+    showToast("마스터 특성이 강화되었습니다!");
+  }
+
+  function checkDailyReset() {
+    const today = getTodayKey();
+    if (state.dailyDateKey !== today) {
+      state.dailyDateKey = today;
+      state.claimedDaily = {};
+    }
+  }
+
   function sanitizeSlots(arr) {
-    if (!Array.isArray(arr)) return ["yi_sunsin", "seondeok", "guan_yu", null];
-    const out = [null, null, null, null];
-    for (let i = 0; i < 4; i++) {
+    const out = Array(SQUAD_SIZE).fill(null);
+    if (!Array.isArray(arr)) return out;
+    for (let i = 0; i < SQUAD_SIZE; i++) {
       const id = arr[i];
       if (id && HERO_POOL.some(h => h.id === id)) out[i] = id;
     }
@@ -1009,10 +1479,13 @@
       gold: state.gold,
       gem: state.gem,
       soul: state.soul,
+      mastery: state.mastery,
       difficultyIdx: state.difficultyIdx,
       speedIdx: state.speedIdx,
       layoutIdx: state.layoutIdx,
       soundEnabled: state.soundEnabled,
+      bgmVol: state.bgmVol,
+      sfxVol: state.sfxVol,
       chapter: state.chapter,
       stageNum: state.stageNum,
       wave: state.wave,
@@ -1021,8 +1494,12 @@
       squadSlots: state.squadSlots,
       presets: state.presets,
       forge: state.forge,
+      equipmentInv: state.equipmentInv,
+      attendance: state.attendance,
+      dailyDateKey: state.dailyDateKey,
+      claimedDaily: state.claimedDaily,
+      repeatCount: state.repeatCount,
       stats: state.stats,
-      claimedMissions: state.claimedMissions,
       heroes: state.heroes,
       lastSavedAt: Date.now()
     };
@@ -1034,10 +1511,25 @@
     if (typeof d.gold === "number") state.gold = Math.max(0, d.gold);
     if (typeof d.gem === "number") state.gem = Math.max(0, d.gem);
     if (typeof d.soul === "number") state.soul = Math.max(0, d.soul);
+
+    if (d.mastery && typeof d.mastery === "object") {
+      state.mastery = {
+        level: Math.max(1, Number(d.mastery.level) || 1),
+        exp: Math.max(0, Number(d.mastery.exp) || 0),
+        points: Math.max(0, Number(d.mastery.points) || 0),
+        atkLv: Math.max(0, Number(d.mastery.atkLv) || 0),
+        hpLv: Math.max(0, Number(d.mastery.hpLv) || 0),
+        resLv: Math.max(0, Number(d.mastery.resLv) || 0),
+        rewardLv: Math.max(0, Number(d.mastery.rewardLv) || 0)
+      };
+    }
+
     if (typeof d.difficultyIdx === "number") state.difficultyIdx = Math.min(DIFFICULTIES.length - 1, Math.max(0, d.difficultyIdx));
     if (typeof d.speedIdx === "number") state.speedIdx = Math.min(SPEEDS.length - 1, Math.max(0, d.speedIdx));
     if (typeof d.layoutIdx === "number") state.layoutIdx = Math.min(LAYOUTS.length - 1, Math.max(0, d.layoutIdx));
     if (typeof d.soundEnabled === "boolean") state.soundEnabled = d.soundEnabled;
+    if (typeof d.bgmVol === "number") state.bgmVol = Math.min(1, Math.max(0, d.bgmVol));
+    if (typeof d.sfxVol === "number") state.sfxVol = Math.min(1, Math.max(0, d.sfxVol));
     if (typeof d.chapter === "number" && d.chapter >= 1) state.chapter = d.chapter;
     if (typeof d.stageNum === "number" && d.stageNum >= 1 && d.stageNum <= 10) state.stageNum = d.stageNum;
     if (typeof d.wave === "number" && d.wave >= 1 && d.wave <= 5) state.wave = d.wave;
@@ -1045,7 +1537,9 @@
     if (typeof d.resonance === "number") state.resonance = Math.min(100, Math.max(0, d.resonance));
 
     state.squadSlots = sanitizeSlots(d.squadSlots);
-    if (!state.squadSlots.some(Boolean)) state.squadSlots[0] = "yi_sunsin";
+    if (!state.squadSlots.some(Boolean)) {
+      state.squadSlots = [...DEFAULT_NINE_SLOTS];
+    }
 
     if (d.presets && typeof d.presets === "object") {
       state.presets = {
@@ -1061,14 +1555,32 @@
       state.forge.tradeLv = Math.max(0, Number(d.forge.tradeLv) || 0);
     }
 
+    if (Array.isArray(d.equipmentInv)) {
+      state.equipmentInv = d.equipmentInv
+        .filter(it => it && EQUIP_TEMPLATES.some(t => t.id === it.tplId))
+        .map(it => ({
+          uid: String(it.uid || ("eq_" + Math.random().toString(36).slice(2, 8))),
+          tplId: it.tplId,
+          lv: Math.max(1, Number(it.lv) || 1),
+          equippedHeroId: it.equippedHeroId && HERO_POOL.some(h => h.id === it.equippedHeroId) ? it.equippedHeroId : null
+        }));
+    }
+
+    if (d.attendance && typeof d.attendance === "object") {
+      state.attendance = {
+        dayIndex: Math.min(6, Math.max(0, Number(d.attendance.dayIndex) || 0)),
+        lastClaimDate: d.attendance.lastClaimDate || null
+      };
+    }
+
+    if (typeof d.dailyDateKey === "string") state.dailyDateKey = d.dailyDateKey;
+    if (d.claimedDaily && typeof d.claimedDaily === "object") state.claimedDaily = { ...d.claimedDaily };
+    if (d.repeatCount && typeof d.repeatCount === "object") state.repeatCount = { ...d.repeatCount };
+
     if (d.stats && typeof d.stats === "object") {
       state.stats.kills = Math.max(0, Number(d.stats.kills) || 0);
       state.stats.summons = Math.max(0, Number(d.stats.summons) || 0);
       state.stats.forges = Math.max(0, Number(d.stats.forges) || 0);
-    }
-
-    if (d.claimedMissions && typeof d.claimedMissions === "object") {
-      state.claimedMissions = { ...d.claimedMissions };
     }
 
     if (d.heroes && typeof d.heroes === "object") {
@@ -1082,6 +1594,8 @@
         }
       }
     }
+
+    checkDailyReset();
     return true;
   }
 
@@ -1111,10 +1625,10 @@
           const cappedSec = Math.min(elapsedSec, 3600 * 12);
           const mins = Math.max(1, Math.floor(cappedSec / 60));
           const diff = DIFFICULTIES[state.difficultyIdx] || DIFFICULTIES[0];
-          const tradeBonus = 1 + state.forge.tradeLv * 0.12;
+          const rewardMult = 1 + state.forge.tradeLv * 0.12 + state.mastery.rewardLv * 0.08;
           state.offlineReward = {
             minutes: mins,
-            gold: Math.round(mins * 25 * diff.rewardMult * tradeBonus),
+            gold: Math.round(mins * 25 * diff.rewardMult * rewardMult),
             soul: Math.max(1, Math.floor(mins / 5) * 2),
             gem: Math.max(1, Math.floor(mins / 10) * 5)
           };
@@ -1153,28 +1667,41 @@
 
   function resetAllData() {
     try { localStorage.removeItem(STORAGE_KEY); } catch (_) {}
-    state.gold = 1500;
-    state.gem = 360;
-    state.soul = 20;
+    state.gold = 5000;
+    state.gem = 800;
+    state.soul = 60;
+    state.mastery = { level: 1, exp: 0, points: 3, atkLv: 0, hpLv: 0, resLv: 0, rewardLv: 0 };
     state.difficultyIdx = 0;
     state.speedIdx = 0;
     state.layoutIdx = 0;
     state.soundEnabled = true;
+    state.bgmVol = 0.35;
+    state.sfxVol = 0.7;
     state.chapter = 1;
     state.stageNum = 1;
     state.wave = 1;
     state.autoStage = true;
     state.resonance = 0;
     state.combo = 0;
-    state.squadSlots = ["yi_sunsin", "seondeok", "guan_yu", null];
+    state.selectedSlotIdx = 0;
+    state.squadSlots = [...DEFAULT_NINE_SLOTS];
     state.presets = {
-      1: ["yi_sunsin", "seondeok", "guan_yu", null],
-      2: ["yi_sunsin", "seondeok", "hwang_jini", "guan_yu"],
-      3: ["sacheonwang", "genghis", "oda", "guan_yu"]
+      1: [...DEFAULT_NINE_SLOTS],
+      2: [...DEFAULT_NINE_SLOTS],
+      3: [...DEFAULT_NINE_SLOTS]
     };
     state.forge = { weaponLv: 0, armorLv: 0, tradeLv: 0 };
+    state.equipmentInv = [
+      { uid: "eq_init_1", tplId: "eq_blade", lv: 1, equippedHeroId: "yi_sunsin" },
+      { uid: "eq_init_2", tplId: "eq_armor", lv: 1, equippedHeroId: "guan_yu" },
+      { uid: "eq_init_3", tplId: "eq_seal", lv: 1, equippedHeroId: "seondeok" }
+    ];
+    state.attendance = { dayIndex: 0, lastClaimDate: null };
+    state.dailyDateKey = getTodayKey();
+    state.claimedDaily = {};
+    state.repeatCount = {};
     state.stats = { kills: 0, summons: 0, forges: 0 };
-    state.claimedMissions = {};
+    state.activeSpecialEncounter = null;
     state.offlineReward = null;
     initHeroes();
     applyLayout();
@@ -1186,7 +1713,114 @@
 
   loadGame();
 
-  // 16명 장수·용병 전용 SVG 데이터 URL 초상화 생성기 (파일/외부 생성 없이 고유 초상화 제공)
+  function getEquipStats(item) {
+    const tpl = EQUIP_TEMPLATES.find(t => t.id === item.tplId);
+    if (!tpl) return { atk: 0, hp: 0, name: "장비", slotType: "장비" };
+    const scale = 1 + (item.lv - 1) * 0.25;
+    return {
+      atk: Math.round(tpl.baseAtk * scale),
+      hp: Math.round(tpl.baseHp * scale),
+      name: tpl.name,
+      slotType: tpl.slotType
+    };
+  }
+
+  function getHeroEquippedBonus(heroId) {
+    let atk = 0;
+    let hp = 0;
+    for (const it of state.equipmentInv) {
+      if (it.equippedHeroId === heroId) {
+        const st = getEquipStats(it);
+        atk += st.atk;
+        hp += st.hp;
+      }
+    }
+    return { atk, hp };
+  }
+
+  function craftEquipment() {
+    const costGold = 900;
+    if (state.gold < costGold) {
+      showToast("냥이 부족합니다 (900냥 필요).");
+      return;
+    }
+    state.gold -= costGold;
+    const tpl = EQUIP_TEMPLATES[Math.floor(Math.random() * EQUIP_TEMPLATES.length)];
+    const newItem = {
+      uid: "eq_" + Date.now() + "_" + Math.random().toString(36).slice(2, 6),
+      tplId: tpl.id,
+      lv: 1,
+      equippedHeroId: null
+    };
+    state.equipmentInv.push(newItem);
+    AUDIO.summonNormal();
+    saveGame();
+    updateHud();
+    renderTabContent();
+    showToast(`⚒️ [${tpl.name}] 제작 완료!`);
+  }
+
+  function toggleEquipOnSelectedHero(uid) {
+    const item = state.equipmentInv.find(x => x.uid === uid);
+    if (!item) return;
+    const targetHeroId = state.squadSlots[state.selectedSlotIdx] || getActiveSquadIds()[0] || "yi_sunsin";
+    const heroName = HERO_POOL.find(h => h.id === targetHeroId)?.name || "장수";
+
+    if (item.equippedHeroId === targetHeroId) {
+      item.equippedHeroId = null;
+      showToast(`${heroName}에게서 장비를 해제했습니다.`);
+    } else {
+      item.equippedHeroId = targetHeroId;
+      showToast(`${heroName}에게 [${getEquipStats(item).name}] 장착!`);
+    }
+    AUDIO.upgrade();
+    saveGame();
+    renderTabContent();
+  }
+
+  function upgradeEquipmentItem(uid) {
+    const item = state.equipmentInv.find(x => x.uid === uid);
+    if (!item) return;
+    const cost = item.lv * 350;
+    if (state.gold < cost) {
+      showToast("장비 강화 냥이 부족합니다.");
+      return;
+    }
+    state.gold -= cost;
+    item.lv += 1;
+    state.stats.forges += 1;
+    AUDIO.upgrade();
+    saveGame();
+    updateHud();
+    renderTabContent();
+    showToast(`${getEquipStats(item).name} +${item.lv} 강화 성공!`);
+  }
+
+  function canClaimAttendanceToday() {
+    checkDailyReset();
+    return state.attendance.lastClaimDate !== getTodayKey();
+  }
+
+  function claimAttendanceReward() {
+    checkDailyReset();
+    if (!canClaimAttendanceToday()) {
+      showToast("오늘 출석 보상은 이미 받았습니다.");
+      return;
+    }
+    const idx = state.attendance.dayIndex % ATTENDANCE_REWARDS.length;
+    const rew = ATTENDANCE_REWARDS[idx];
+    state.gold += rew.gold;
+    state.gem += rew.gem;
+    state.soul += rew.soul;
+    state.attendance.lastClaimDate = getTodayKey();
+    state.attendance.dayIndex = (idx + 1) % ATTENDANCE_REWARDS.length;
+    AUDIO.clear();
+    saveGame();
+    updateHud();
+    renderTabContent();
+    showToast(`${rew.label} 출석 보상 수령! +${formatNum(rew.gold)}냥 · +${rew.gem}옥 · +${rew.soul}석`);
+  }
+
   const builtInPortraitCache = new Map();
   function getBuiltInPortraitUrl(hero) {
     if (builtInPortraitCache.has(hero.id)) {
@@ -1200,6 +1834,7 @@
       "천상": "#6d28d9"
     }[hero.nation] || "#334155";
 
+    const shortLabel = hero.name.length > 6 ? hero.name.slice(0, 6) : hero.name;
     const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128">
       <defs>
         <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
@@ -1208,10 +1843,10 @@
         </linearGradient>
       </defs>
       <rect width="128" height="128" rx="16" fill="url(#g)"/>
-      <circle cx="64" cy="54" r="30" fill="rgba(255,255,255,0.14)" stroke="#fde68a" stroke-width="2.5"/>
-      <text x="64" y="64" text-anchor="middle" font-size="28" font-weight="800" fill="#fff">${hero.name[0]}</text>
-      <rect x="14" y="92" width="100" height="24" rx="10" fill="${nationBadge}" stroke="rgba(255,255,255,0.4)" stroke-width="1"/>
-      <text x="64" y="108" text-anchor="middle" font-size="12" font-weight="700" fill="#fef9c3">${hero.emblem} ${hero.nation}</text>
+      <circle cx="64" cy="52" r="28" fill="rgba(255,255,255,0.14)" stroke="#fde68a" stroke-width="2.5"/>
+      <text x="64" y="61" text-anchor="middle" font-size="22" font-weight="800" fill="#fff">${shortLabel}</text>
+      <rect x="12" y="90" width="104" height="24" rx="10" fill="${nationBadge}" stroke="rgba(255,255,255,0.4)" stroke-width="1"/>
+      <text x="64" y="106" text-anchor="middle" font-size="11" font-weight="700" fill="#fef9c3">${hero.emblem} ${hero.nation}</text>
     </svg>`;
     const url = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(svg);
     builtInPortraitCache.set(hero.id, url);
@@ -1262,19 +1897,19 @@
     }
 
     const activeItems = [];
-    let atkBonusPct = state.forge.weaponLv * 8;
-    let hpBonusPct = state.forge.armorLv * 10;
+    let atkBonusPct = state.forge.weaponLv * 8 + state.mastery.atkLv * 6;
+    let hpBonusPct = state.forge.armorLv * 10 + state.mastery.hpLv * 8;
 
     for (const [nat, cnt] of Object.entries(nationCount)) {
       if (cnt >= 2) {
-        const bonus = cnt * 12;
+        const bonus = cnt * 10;
         atkBonusPct += bonus;
         activeItems.push({ label: `${nat} ${cnt}인 결속 (공격 +${bonus}%)`, on: true });
       }
     }
     for (const [role, cnt] of Object.entries(roleCount)) {
       if (cnt >= 2) {
-        const bonus = cnt * 14;
+        const bonus = cnt * 12;
         hpBonusPct += bonus;
         activeItems.push({ label: `${role} 진형 (체력 +${bonus}%)`, on: true });
       }
@@ -1301,21 +1936,21 @@
     const isInSquad = activeIds.includes(hero.id);
 
     if (isInSquad) {
-      if (sameNat >= 2 && sameRole >= 2) return `출전중 · ${hero.nation}·${hero.role} 이중 시너지 활성`;
+      if (sameNat >= 2 && sameRole >= 2) return `출전중 · ${hero.nation}·${hero.role} 시너지 활성`;
       if (sameNat >= 2) return `출전중 · ${hero.nation} 결속 활성`;
       if (sameRole >= 2) return `출전중 · ${hero.role} 진형 활성`;
-      return `출전중 · 스킬: ${hero.skillName} (${hero.cd}초)`;
+      return `출전중 · 스킬: ${hero.skillName}`;
     }
 
     if (sameNat >= 1 || sameRole >= 1) {
       return `합류 시 ${sameNat >= 1 ? `${hero.nation} 결속` : ""}${sameNat >= 1 && sameRole >= 1 ? " + " : ""}${sameRole >= 1 ? `${hero.role} 진형` : ""} 활성!`;
     }
-    return `스킬: ${hero.skillName} · ${hero.nation}/${hero.role} 2인↑ 시너지`;
+    return `스킬: ${hero.skillName} · ${hero.nation}/${hero.role}`;
   }
 
   function savePreset(slotKey) {
     state.presets[slotKey] = [...state.squadSlots];
-    SFX.upgrade();
+    AUDIO.upgrade();
     saveGame();
     renderTabContent();
     showToast(`프리셋 ${slotKey}번 저장 완료!`);
@@ -1329,7 +1964,7 @@
       return;
     }
     state.squadSlots = sanitized;
-    SFX.upgrade();
+    AUDIO.upgrade();
     saveGame();
     renderTabContent();
     showToast(`프리셋 ${slotKey}번 불러오기 완료!`);
@@ -1352,7 +1987,7 @@
     for (const grp of sortedNations) {
       const grpSorted = [...grp].sort((x, y) => getHeroPower(y.id).atk - getHeroPower(x.id).atk);
       for (const h of grpSorted) {
-        if (picked.length < 4 && !usedIds.has(h.id)) {
+        if (picked.length < SQUAD_SIZE && !usedIds.has(h.id)) {
           picked.push(h.id);
           usedIds.add(h.id);
         }
@@ -1361,17 +1996,17 @@
 
     const remainSorted = [...owned].sort((x, y) => getHeroPower(y.id).atk - getHeroPower(x.id).atk);
     for (const h of remainSorted) {
-      if (picked.length < 4 && !usedIds.has(h.id)) {
+      if (picked.length < SQUAD_SIZE && !usedIds.has(h.id)) {
         picked.push(h.id);
         usedIds.add(h.id);
       }
     }
 
-    state.squadSlots = [picked[0] || null, picked[1] || null, picked[2] || null, picked[3] || null];
-    SFX.upgrade();
+    state.squadSlots = Array.from({ length: SQUAD_SIZE }, (_, idx) => picked[idx] || null);
+    AUDIO.upgrade();
     saveGame();
     renderTabContent();
-    showToast("⚡ 시너지 중심 자동배치 완료!");
+    showToast("⚡ 9인 시너지 자동배치 완료!");
   }
 
   const imgCache = new Map();
@@ -1395,7 +2030,7 @@
     return `./assets/${heroId}.png`;
   }
 
-  function renderHeroVisualHtml(hero, heightPx = 84) {
+  function renderHeroVisualHtml(hero, heightPx = 78) {
     const imgSrc = getHeroImageSrc(hero.id);
     const loadedImg = getLoadedImage(imgSrc);
     const displaySrc = (loadedImg && imgSrc) ? imgSrc : getBuiltInPortraitUrl(hero);
@@ -1422,6 +2057,9 @@
   }
 
   function getStageName() {
+    if (state.activeSpecialEncounter) {
+      return `${state.activeSpecialEncounter.title} 전투 중`;
+    }
     const title = STAGE_TITLES[(state.stageNum - 1) % STAGE_TITLES.length];
     return `${state.chapter}-${state.stageNum} ${title} (${state.wave}/${state.maxWave})`;
   }
@@ -1430,11 +2068,12 @@
     const base = HERO_POOL.find(h => h.id === heroId);
     const st = state.heroes[heroId];
     if (!base || !st) return { atk: 100, maxHp: 1000 };
+    const eqBonus = getHeroEquippedBonus(heroId);
     const lvScale = 1 + (st.level - 1) * 0.15;
     const starScale = 1 + (st.star - 1) * 0.35;
     return {
-      atk: Math.round(base.baseAtk * lvScale * starScale),
-      maxHp: Math.round(base.baseHp * lvScale * starScale)
+      atk: Math.round((base.baseAtk + eqBonus.atk) * lvScale * starScale),
+      maxHp: Math.round((base.baseHp + eqBonus.hp) * lvScale * starScale)
     };
   }
 
@@ -1446,6 +2085,16 @@
       baseSum += getHeroPower(hid).atk;
     }
     return Math.round(baseSum * (1 + syn.atkBonusPct / 100));
+  }
+
+  function syncBgmTheme() {
+    if (state.dungeonRunning) {
+      AUDIO.setTheme("portal");
+    } else if (state.activeSpecialEncounter || state.enemies.some(e => e.isBoss)) {
+      AUDIO.setTheme("dungeon");
+    } else {
+      AUDIO.setTheme("field");
+    }
   }
 
   function triggerShake(duration = 0.14, mag = 4) {
@@ -1470,34 +2119,15 @@
   }
 
   function spawnChainEffect(chainObj, xRatio, yRatio) {
-    SFX.chain();
+    AUDIO.chain();
     if (chainObj.id === "shock") {
-      state.lightningBolts.push({
-        xRatio,
-        yRatio,
-        alpha: 1,
-        color: "#38bdf8"
-      });
+      state.lightningBolts.push({ xRatio, yRatio, alpha: 1, color: "#38bdf8" });
       spawnHitSparks(xRatio, yRatio, "#38bdf8", 10);
     } else if (chainObj.id === "gale") {
-      state.effects.push({
-        xRatio,
-        yRatio,
-        radius: 18,
-        maxRadius: 72,
-        alpha: 0.95,
-        color: "#fb923c"
-      });
+      state.effects.push({ xRatio, yRatio, radius: 18, maxRadius: 72, alpha: 0.95, color: "#fb923c" });
       spawnHitSparks(xRatio, yRatio, "#fb923c", 9);
     } else {
-      state.effects.push({
-        xRatio,
-        yRatio,
-        radius: 14,
-        maxRadius: 56,
-        alpha: 0.9,
-        color: "#f87171"
-      });
+      state.effects.push({ xRatio, yRatio, radius: 14, maxRadius: 56, alpha: 0.9, color: "#f87171" });
       spawnHitSparks(xRatio, yRatio, "#f87171", 9);
     }
   }
@@ -1518,17 +2148,18 @@
     }
   }
 
-  // 전장 단순 탭/클릭 일격 (목표 지정 없이 바로 범위 타격 + 공명 충전)
   function handleBattleTap(e) {
+    AUDIO.unlock();
     if (state.dungeonRunning || state.enemies.length === 0) return;
     const rect = canvas.getBoundingClientRect();
     if (!rect.width || !rect.height) return;
     const xRatio = Math.min(0.92, Math.max(0.12, (e.clientX - rect.left) / rect.width));
     const yRatio = Math.min(0.86, Math.max(0.24, (e.clientY - rect.top) / rect.height));
 
-    SFX.tapStrike();
+    AUDIO.tapStrike();
     triggerShake(0.08, 2.5);
-    state.resonance = Math.min(100, state.resonance + 3);
+    const resMult = 1 + state.mastery.resLv * 0.1;
+    state.resonance = Math.min(100, state.resonance + 3 * resMult);
 
     const tapDmg = Math.max(40, Math.round(getTotalSquadDps() * 0.45));
     for (const en of state.enemies) {
@@ -1538,18 +2169,15 @@
 
     pushDamagePopup(xRatio, yRatio, tapDmg, "⚔️일격");
     spawnHitSparks(xRatio, yRatio, "#fde047", 8);
-    state.effects.push({
-      xRatio,
-      yRatio,
-      radius: 14,
-      maxRadius: 54,
-      alpha: 0.85,
-      color: "#fde047"
-    });
+    state.effects.push({ xRatio, yRatio, radius: 14, maxRadius: 54, alpha: 0.85, color: "#fde047" });
 
     const prevEnemies = state.enemies.length;
     state.enemies = state.enemies.filter(en => en.hp > 0);
-    state.stats.kills += Math.max(0, prevEnemies - state.enemies.length);
+    const defeated = Math.max(0, prevEnemies - state.enemies.length);
+    if (defeated > 0) {
+      state.stats.kills += defeated;
+      gainMasteryExp(defeated * 18);
+    }
     if (state.enemies.length === 0) {
       onWaveCleared();
     }
@@ -1557,12 +2185,13 @@
   }
 
   function spawnWaveEnemies(isBossForce = false) {
+    state.activeSpecialEncounter = null;
     const diff = DIFFICULTIES[state.difficultyIdx] || DIFFICULTIES[0];
     const sIdx = getStageIndex();
     const isBoss = isBossForce || state.wave === state.maxWave;
     const count = isBoss ? 1 : 3;
-    const baseHp = Math.round(320 * Math.pow(1.22, sIdx) * Math.pow(diff.hpPow, sIdx) * (isBoss ? 3.6 : 1));
-    const baseAtk = Math.round(28 * Math.pow(1.16, sIdx) * Math.sqrt(diff.mult) * (isBoss ? 1.5 : 1));
+    const baseHp = Math.round(450 * Math.pow(1.22, sIdx) * Math.pow(diff.hpPow, sIdx) * (isBoss ? 3.8 : 1));
+    const baseAtk = Math.round(32 * Math.pow(1.16, sIdx) * Math.sqrt(diff.mult) * (isBoss ? 1.5 : 1));
 
     state.enemies = [];
     for (let i = 0; i < count; i++) {
@@ -1578,6 +2207,41 @@
         hitFlash: 0
       });
     }
+    syncBgmTheme();
+  }
+
+  function startSpecialBattle(cfg, isRaid) {
+    AUDIO.unlock();
+    if (state.dungeonRunning) return;
+    enterDungeonTransition(
+      `${cfg.name} 결계 전개 중...`,
+      isRaid ? "거대 토벌 보스가 전장에 강림합니다" : "시련 결계의 수호자가 출현합니다",
+      () => {
+        const diff = DIFFICULTIES[state.difficultyIdx] || DIFFICULTIES[0];
+        const sIdx = getStageIndex();
+        const hp = Math.round(1400 * Math.pow(1.22, sIdx) * cfg.hpMult * Math.max(1, diff.hpPow));
+        state.activeSpecialEncounter = {
+          title: cfg.name,
+          soulReward: cfg.soulReward,
+          gemReward: cfg.gemReward,
+          goldReward: cfg.goldReward
+        };
+        state.enemies = [{
+          id: "sp_" + Math.random().toString(36).slice(2, 8),
+          name: cfg.name,
+          isBoss: true,
+          hp,
+          maxHp: hp,
+          atk: 50,
+          xRatio: 0.76,
+          yRatio: 0.62,
+          hitFlash: 0
+        }];
+        syncBgmTheme();
+        updateHud();
+        showToast(`${cfg.name} 전투 시작! 격파 시 보상 지급`);
+      }
+    );
   }
 
   function advanceStage(delta) {
@@ -1587,22 +2251,40 @@
     state.stageNum = (clamped % 10) + 1;
     state.wave = 1;
     spawnWaveEnemies(false);
-    SFX.upgrade();
+    AUDIO.upgrade();
     saveGame();
     updateHud();
     showToast(`스테이지 이동: ${state.chapter}-${state.stageNum}`);
   }
 
   function onWaveCleared() {
-    SFX.clear();
+    AUDIO.clear();
     triggerShake(0.16, 5);
     const diff = DIFFICULTIES[state.difficultyIdx] || DIFFICULTIES[0];
-    const tradeMult = 1 + state.forge.tradeLv * 0.12;
-    const goldGain = Math.round((120 + getStageIndex() * 35) * diff.rewardMult * tradeMult);
-    const gemGain = state.wave === state.maxWave ? Math.max(5, Math.round(10 * Math.sqrt(diff.rewardMult) * tradeMult)) : 0;
+    const rewardMult = 1 + state.forge.tradeLv * 0.12 + state.mastery.rewardLv * 0.08;
+
+    if (state.activeSpecialEncounter) {
+      const sp = state.activeSpecialEncounter;
+      const gGain = Math.round(sp.goldReward * rewardMult);
+      state.gold += gGain;
+      state.gem += sp.gemReward;
+      state.soul += sp.soulReward;
+      state.resonance = Math.min(100, state.resonance + 30);
+      gainMasteryExp(85);
+      state.activeSpecialEncounter = null;
+      spawnWaveEnemies(false);
+      saveGame();
+      updateHud();
+      showToast(`${sp.title} 격파! +${sp.soulReward}석 · +${sp.gemReward}옥 · +${formatNum(gGain)}냥`);
+      return;
+    }
+
+    const goldGain = Math.round((150 + getStageIndex() * 40) * diff.rewardMult * rewardMult);
+    const gemGain = state.wave === state.maxWave ? Math.max(8, Math.round(14 * Math.sqrt(diff.rewardMult) * rewardMult)) : 0;
     state.gold += goldGain;
     state.gem += gemGain;
     state.resonance = Math.min(100, state.resonance + 25);
+    gainMasteryExp(state.wave === state.maxWave ? 65 : 30);
 
     if (state.wave < state.maxWave) {
       state.wave += 1;
@@ -1628,32 +2310,30 @@
   }
 
   function triggerUltimate() {
+    AUDIO.unlock();
     if (state.resonance < 100) {
       showToast("공명 게이지 100% 달성 시 발동 가능!");
       return;
     }
     state.resonance = 0;
-    SFX.ultimate();
+    AUDIO.ultimate();
     triggerShake(0.28, 8);
-    const totalDmg = Math.max(250, getTotalSquadDps() * 3);
+    const totalDmg = Math.max(300, getTotalSquadDps() * 3);
 
     for (const en of state.enemies) {
       en.hp -= totalDmg;
       en.hitFlash = 0.25;
       pushDamagePopup(en.xRatio, en.yRatio, totalDmg, "⚡천지개벽");
       spawnHitSparks(en.xRatio, en.yRatio, "#fde047", 14);
-      state.effects.push({
-        xRatio: en.xRatio,
-        yRatio: en.yRatio,
-        radius: en.isBoss ? 78 : 52,
-        maxRadius: 120,
-        alpha: 0.95,
-        color: "#f59e0b"
-      });
+      state.effects.push({ xRatio: en.xRatio, yRatio: en.yRatio, radius: en.isBoss ? 78 : 52, maxRadius: 120, alpha: 0.95, color: "#f59e0b" });
     }
     const beforeLen = state.enemies.length;
     state.enemies = state.enemies.filter(e => e.hp > 0);
-    state.stats.kills += Math.max(0, beforeLen - state.enemies.length);
+    const defeated = Math.max(0, beforeLen - state.enemies.length);
+    if (defeated > 0) {
+      state.stats.kills += defeated;
+      gainMasteryExp(defeated * 20);
+    }
     saveGame();
     showToast(`⚡ 천지개벽 협동필살! (${formatNum(totalDmg)} 피해)`);
     if (state.enemies.length === 0) {
@@ -1680,17 +2360,17 @@
         return;
       }
       state.squadSlots[slotIdx] = null;
-      showToast(`${slotIdx + 1}슬롯에서 ${heroObj.name} 편성을 해제했습니다.`);
+      showToast(`${slotIdx + 1}번 칸에서 ${heroObj.name} 편성을 해제했습니다.`);
     } else if (existingSlotIdx >= 0) {
       state.squadSlots[existingSlotIdx] = currentInSlot;
       state.squadSlots[slotIdx] = heroId;
-      showToast(`${slotIdx + 1}슬롯과 ${existingSlotIdx + 1}슬롯 배치를 맞바꿨습니다.`);
+      showToast(`${slotIdx + 1}번 칸과 ${existingSlotIdx + 1}번 칸 배치를 맞바꿨습니다.`);
     } else {
       state.squadSlots[slotIdx] = heroId;
-      showToast(`${slotIdx + 1}슬롯에 ${heroObj.name} 배치 완료!`);
+      showToast(`${slotIdx + 1}번 칸에 ${heroObj.name} 배치 완료!`);
     }
 
-    SFX.upgrade();
+    AUDIO.upgrade();
     saveGame();
     renderTabContent();
   }
@@ -1698,7 +2378,7 @@
   function clearSelectedSlot() {
     const slotIdx = state.selectedSlotIdx;
     if (!state.squadSlots[slotIdx]) {
-      showToast(`${slotIdx + 1}슬롯이 이미 비어 있습니다.`);
+      showToast(`${slotIdx + 1}번 칸이 이미 비어 있습니다.`);
       return;
     }
     if (getActiveSquadIds().length <= 1) {
@@ -1706,9 +2386,9 @@
       return;
     }
     state.squadSlots[slotIdx] = null;
-    SFX.upgrade();
+    AUDIO.upgrade();
     saveGame();
-    showToast(`${slotIdx + 1}슬롯을 비웠습니다.`);
+    showToast(`${slotIdx + 1}번 칸을 비웠습니다.`);
     renderTabContent();
   }
 
@@ -1722,7 +2402,7 @@
     }
     state.gold -= cost;
     st.level += 1;
-    SFX.upgrade();
+    AUDIO.upgrade();
     saveGame();
     updateHud();
     renderTabContent();
@@ -1746,7 +2426,7 @@
       showToast("강화할 냥이 부족합니다.");
       return;
     }
-    SFX.upgrade();
+    AUDIO.upgrade();
     saveGame();
     updateHud();
     renderTabContent();
@@ -1767,7 +2447,7 @@
     }
     state.soul -= cost;
     st.star += 1;
-    SFX.summon();
+    AUDIO.summonSpecial();
     saveGame();
     updateHud();
     renderTabContent();
@@ -1797,7 +2477,7 @@
         <div style="font-size:12px;font-weight:800;">${item.hero.name}</div>
         <div style="font-size:10px;color:var(--ink-sub);">${item.hero.nation} · ${item.hero.element}</div>
         <div style="font-size:10px;font-weight:700;color:${item.isNew ? "var(--accent-gold)" : "var(--accent-jade)"};">
-          ${item.isNew ? "✨ 신규 영입" : `영혼석 +${item.soulBonus}`}
+          ${item.isNew ? "✨ 특별 영입" : `영혼석 +${item.soulBonus}`}
         </div>
       `;
       gridEl.appendChild(card);
@@ -1807,6 +2487,7 @@
   }
 
   function doSummon(count) {
+    AUDIO.unlock();
     const cost = count === 10 ? 180 : 20;
     if (state.gem < cost) {
       showToast("옥이 부족합니다!");
@@ -1814,9 +2495,10 @@
     }
     state.gem -= cost;
     state.stats.summons += count;
-    SFX.summon();
+    gainMasteryExp(count * 12);
 
     const results = [];
+    let hasSpecial = count === 10;
     for (let i = 0; i < count; i++) {
       const pick = HERO_POOL[Math.floor(Math.random() * HERO_POOL.length)];
       const st = state.heroes[pick.id];
@@ -1825,12 +2507,23 @@
       if (!st.unlocked) {
         st.unlocked = true;
         isNew = true;
+        hasSpecial = true;
       } else {
         soulBonus = 4;
         state.soul += soulBonus;
       }
+      if (pick.nation === "천상" || pick.baseAtk >= 175) {
+        hasSpecial = true;
+      }
       results.push({ hero: pick, isNew, soulBonus });
     }
+
+    if (hasSpecial) {
+      AUDIO.summonSpecial();
+    } else {
+      AUDIO.summonNormal();
+    }
+
     saveGame();
     updateHud();
     if (state.activeTab === "roster" || state.activeTab === "squad" || state.activeTab === "dungeon") {
@@ -1842,7 +2535,8 @@
   function enterDungeonTransition(titleText, subText, onComplete) {
     if (state.dungeonRunning) return;
     state.dungeonRunning = true;
-    SFX.portal();
+    syncBgmTheme();
+    AUDIO.portal();
 
     const overlay = document.getElementById("dungeon-transition");
     const titleEl = document.getElementById("dungeon-tr-title");
@@ -1856,74 +2550,67 @@
 
     let progress = 0;
     const timer = setInterval(() => {
-      progress += 15;
+      progress += 18;
       barEl.style.width = `${Math.min(100, progress)}%`;
       if (progress >= 100) {
         clearInterval(timer);
         setTimeout(() => {
           overlay.classList.remove("active");
           state.dungeonRunning = false;
-          SFX.clear();
           onComplete();
+          syncBgmTheme();
           saveGame();
           updateHud();
-        }, 160);
+        }, 120);
       }
-    }, 85);
+    }, 70);
   }
 
-  function enterDungeonTrial(trial) {
-    enterDungeonTransition(
-      `${trial.name} 진입 중...`,
-      "차원 결계를 전개하고 시련의 수호자를 소환합니다",
-      () => {
-        state.soul += trial.soulReward;
-        state.gem += trial.gemReward;
-        state.gold += trial.goldReward;
-        state.resonance = Math.min(100, state.resonance + 20);
-        showToast(`${trial.name} 돌파! 영혼석 +${trial.soulReward} · 옥 +${trial.gemReward} · +${formatNum(trial.goldReward)}냥`);
-      }
-    );
-  }
-
-  function fightRaidBoss(boss) {
-    enterDungeonTransition(
-      `${boss.name} 결계 전개 중...`,
-      "거대 토벌 보스와 결전을 준비합니다",
-      () => {
-        state.soul += boss.soulReward;
-        state.gem += boss.gemReward;
-        state.gold += boss.goldReward;
-        state.resonance = 100;
-        showToast(`👹 ${boss.name} 격파! 영혼석 +${boss.soulReward} · 옥 +${boss.gemReward} · +${formatNum(boss.goldReward)}냥`);
-      }
-    );
-  }
-
-  function claimMission(mDef) {
-    const curVal = state.stats[mDef.targetKey] || 0;
-    if (curVal < mDef.target) {
-      showToast("아직 목표를 달성하지 못했습니다.");
+  function claimDailyQuest(qDef) {
+    checkDailyReset();
+    const curVal = state.stats[qDef.targetKey] || 0;
+    if (curVal < qDef.target) {
+      showToast("일일 목표를 아직 채우지 못했습니다.");
       return;
     }
-    if (state.claimedMissions[mDef.id]) {
-      showToast("이미 수령한 미션입니다.");
+    if (state.claimedDaily[qDef.id]) {
+      showToast("오늘 이미 수령한 일일 퀘스트입니다.");
       return;
     }
-    state.claimedMissions[mDef.id] = true;
-    state.gold += mDef.gold;
-    state.soul += mDef.soul;
-    state.gem += mDef.gem;
-    SFX.clear();
+    state.claimedDaily[qDef.id] = true;
+    state.gold += qDef.gold;
+    state.soul += qDef.soul;
+    state.gem += qDef.gem;
+    AUDIO.clear();
     saveGame();
     updateHud();
     renderTabContent();
-    showToast(`미션 보상 수령! +${formatNum(mDef.gold)}냥 · +${mDef.soul}석 · +${mDef.gem}옥`);
+    showToast(`일일 퀘스트 완료! +${formatNum(qDef.gold)}냥 · +${qDef.soul}석 · +${qDef.gem}옥`);
+  }
+
+  function claimRepeatMission(rDef) {
+    const repIdx = state.repeatCount[rDef.id] || 0;
+    const goal = rDef.baseTarget + repIdx * rDef.stepTarget;
+    const curVal = state.stats[rDef.targetKey] || 0;
+    if (curVal < goal) {
+      showToast("반복 미션 목표를 아직 채우지 못했습니다.");
+      return;
+    }
+    state.repeatCount[rDef.id] = repIdx + 1;
+    state.gold += rDef.gold;
+    state.soul += rDef.soul;
+    state.gem += rDef.gem;
+    AUDIO.clear();
+    saveGame();
+    updateHud();
+    renderTabContent();
+    showToast(`반복 미션 ${repIdx + 1}회차 보상 수령! 다음 목표 갱신됨`);
   }
 
   function renderHeroCard(hero, mode) {
     const st = state.heroes[hero.id] || { unlocked: false, level: 1, star: 1 };
     const pwr = getHeroPower(hero.id);
+    const eqList = state.equipmentInv.filter(it => it.equippedHeroId === hero.id);
     const slotIdx = state.squadSlots.indexOf(hero.id);
     const isDeployed = slotIdx >= 0;
     const lvCost = st.level * 150;
@@ -1950,13 +2637,14 @@
     }
 
     div.innerHTML = `
-      ${renderHeroVisualHtml(hero, 82)}
+      ${renderHeroVisualHtml(hero, 78)}
       <div class="hero-name">
         <span>${hero.name}</span>
         <span>★${st.star}</span>
       </div>
       <div class="hero-meta">${hero.nation} · ${hero.role} · ${hero.element}</div>
       <div class="hero-meta">Lv.${st.level} · 공 ${formatNum(pwr.atk)} · 체 ${formatNum(pwr.maxHp)}</div>
+      <div class="hero-meta">장착 장비: ${eqList.length ? eqList.map(x => `${getEquipStats(x).name}+${x.lv}`).join(", ") : "없음"}</div>
       <div class="hero-syn-tag">${synHint}</div>
       <div class="btn-row">
         <button class="${deployBtnClass}" data-act="deploy" data-id="${hero.id}" ${st.unlocked ? "" : "disabled"}>
@@ -1990,6 +2678,7 @@
   }
 
   function renderTabContent() {
+    checkDailyReset();
     const container = document.getElementById("tab-content");
     if (!container) return;
     container.innerHTML = "";
@@ -2011,7 +2700,7 @@
         state.soul += rew.soul;
         state.gem += rew.gem;
         state.offlineReward = null;
-        SFX.clear();
+        AUDIO.clear();
         saveGame();
         updateHud();
         renderTabContent();
@@ -2021,13 +2710,53 @@
     }
 
     if (state.activeTab === "squad") {
+      // 장수 레벨과 별개인 마스터 레벨 & 특성 찍기 카드
+      const needExp = getMasteryNeedExp(state.mastery.level);
+      const mCard = document.createElement("div");
+      mCard.className = "section-card";
+      mCard.innerHTML = `
+        <h3 class="section-title">
+          <span>👑 제국 마스터 Lv.${state.mastery.level} (경험치 ${state.mastery.exp}/${needExp})</span>
+          <span style="font-size:12px;color:var(--accent-gold);">특성 포인트: ${state.mastery.points} MP</span>
+        </h3>
+        <div class="hero-meta">전투/웨이브 돌파로 오르는 계정 공용 마스터 레벨입니다. 특성에 MP를 투자하세요.</div>
+        <div class="mastery-grid">
+          <div class="mastery-node">
+            <strong>맹공 특화 Lv.${state.mastery.atkLv}</strong>
+            <span class="hero-meta">전체 공격 +${state.mastery.atkLv * 6}%</span>
+            <button class="mini-btn gold" data-m-key="atkLv" type="button" ${state.mastery.points <= 0 ? "disabled" : ""}>특성 찍기 (1 MP)</button>
+          </div>
+          <div class="mastery-node">
+            <strong>철벽 진형 Lv.${state.mastery.hpLv}</strong>
+            <span class="hero-meta">전체 체력 +${state.mastery.hpLv * 8}%</span>
+            <button class="mini-btn primary" data-m-key="hpLv" type="button" ${state.mastery.points <= 0 ? "disabled" : ""}>특성 찍기 (1 MP)</button>
+          </div>
+          <div class="mastery-node">
+            <strong>태극 공명 Lv.${state.mastery.resLv}</strong>
+            <span class="hero-meta">공명 충전 +${state.mastery.resLv * 10}%</span>
+            <button class="mini-btn" data-m-key="resLv" type="button" ${state.mastery.points <= 0 ? "disabled" : ""}>특성 찍기 (1 MP)</button>
+          </div>
+          <div class="mastery-node">
+            <strong>황금 교역 Lv.${state.mastery.rewardLv}</strong>
+            <span class="hero-meta">획득 보상 +${state.mastery.rewardLv * 8}%</span>
+            <button class="mini-btn" data-m-key="rewardLv" type="button" ${state.mastery.points <= 0 ? "disabled" : ""}>특성 찍기 (1 MP)</button>
+          </div>
+        </div>
+      `;
+      mCard.querySelectorAll("button[data-m-key]").forEach(btn => {
+        btn.addEventListener("click", () => {
+          investMasteryTrait(btn.getAttribute("data-m-key"));
+        });
+      });
+      container.appendChild(mCard);
+
       const syn = getSynergySummary(getActiveSquadIds());
 
       const slotCard = document.createElement("div");
       slotCard.className = "section-card";
       slotCard.innerHTML = `
         <h3 class="section-title">
-          <span>출전 칸 지정 (${getActiveSquadIds().length}/4)</span>
+          <span>출전 칸 지정 (${getActiveSquadIds().length}/${SQUAD_SIZE})</span>
           <div style="display:flex;gap:4px;flex-wrap:wrap;">
             <button id="btn-auto-squad" class="mini-btn primary" type="button" style="flex:none;padding:4px 9px;">⚡ 자동배치</button>
             <button id="btn-upgrade-all" class="mini-btn gold" type="button" style="flex:none;padding:4px 9px;">▲ 출전 전체 강화</button>
@@ -2036,7 +2765,7 @@
         </h3>
         <div class="preset-row" id="preset-row"></div>
         <div class="synergy-guide-box">
-          <strong>시너지 &amp; 속성 연쇄:</strong> 같은 <strong>국적</strong> 2명↑(공격 +12%/인), 같은 <strong>역할군</strong> 2명↑(체력 +14%/인), <strong>수+뇌(감전 +25%) · 화+풍(열풍 +25%) · 목+화(연소 +20%)</strong> 및 <strong>고유 스킬</strong>이 적용됩니다.
+          <strong>9인 부대 시너지 &amp; 속성 연쇄:</strong> 같은 <strong>국적</strong> 2명↑(공격 +10%/인), 같은 <strong>역할군</strong> 2명↑(체력 +12%/인), <strong>수+뇌(감전 +25%) · 화+풍(열풍 +25%) · 목+화(연소 +20%)</strong> 및 <strong>착용 장비 스탯</strong>이 반영됩니다.
           <div style="margin-top:4px;color:var(--ink-main);font-weight:700;">
             총 공격 보정 +${syn.atkBonusPct}% · 체력 보정 +${syn.hpBonusPct}% · 부대 DPS ${formatNum(getTotalSquadDps())}
           </div>
@@ -2049,15 +2778,14 @@
 
       const presetRow = slotCard.querySelector("#preset-row");
       [1, 2, 3].forEach(pKey => {
-        const names = sanitizeSlots(state.presets[pKey])
-          .map(id => (id ? (HERO_POOL.find(h => h.id === id)?.name || "") : ""))
-          .filter(Boolean)
-          .join(", ");
+        const activeList = sanitizeSlots(state.presets[pKey]).filter(Boolean);
         const pBox = document.createElement("div");
         pBox.className = "preset-box";
         pBox.innerHTML = `
-          <strong>프리셋 ${pKey}</strong>
-          <div class="hero-meta" style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${names || "비어 있음"}</div>
+          <strong>프리셋 ${pKey} (${activeList.length}/${SQUAD_SIZE})</strong>
+          <div class="hero-meta" style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">
+            ${activeList.map(id => HERO_POOL.find(h => h.id === id)?.name || "").filter(Boolean).join(", ") || "비어 있음"}
+          </div>
           <div class="btn-row">
             <button class="mini-btn primary" data-p-load="${pKey}" type="button">불러오기</button>
             <button class="mini-btn" data-p-save="${pKey}" type="button">저장</button>
@@ -2081,11 +2809,11 @@
         box.className = `slot-box ${state.selectedSlotIdx === idx ? "selected" : ""}`;
         box.innerHTML = `
           <div class="slot-header">
-            <span>${idx + 1}번 칸</span>
-            <span>${state.selectedSlotIdx === idx ? "선택됨" : "클릭해 지정"}</span>
+            <span>${idx + 1}칸</span>
+            <span>${state.selectedSlotIdx === idx ? "선택됨" : "지정"}</span>
           </div>
-          <div class="slot-hero-name">${h ? `${h.name} (${h.nation}·${h.element})` : "빈 칸 (미배치)"}</div>
-          <div class="hero-meta">${h && pwr ? `공 ${formatNum(pwr.atk)} · 스킬: ${h.skillName}` : "아래에서 장수를 선택하세요"}</div>
+          <div class="slot-hero-name">${h ? h.name : "빈 칸"}</div>
+          <div class="hero-meta">${h && pwr ? `${h.nation} · 공 ${formatNum(pwr.atk)}` : "장수 선택"}</div>
         `;
         box.addEventListener("click", () => {
           state.selectedSlotIdx = idx;
@@ -2096,11 +2824,46 @@
 
       container.appendChild(slotCard);
 
+      const selHeroId = state.squadSlots[state.selectedSlotIdx] || getActiveSquadIds()[0] || "yi_sunsin";
+      const selHeroName = HERO_POOL.find(h => h.id === selHeroId)?.name || "이순신";
+      const eqCard = document.createElement("div");
+      eqCard.className = "section-card";
+      eqCard.innerHTML = `
+        <h3 class="section-title">
+          <span>🗡️ 장비 착용·강화 (대상: ${selHeroName})</span>
+          <button id="btn-craft-eq" class="mini-btn gold" type="button" style="flex:none;padding:4px 9px;">장비 제작 (900냥)</button>
+        </h3>
+        <div id="eq-grid" class="eq-grid"></div>
+      `;
+      eqCard.querySelector("#btn-craft-eq").addEventListener("click", craftEquipment);
+      const eqGrid = eqCard.querySelector("#eq-grid");
+      for (const it of state.equipmentInv) {
+        const st = getEquipStats(it);
+        const isOnSel = it.equippedHeroId === selHeroId;
+        const ownerName = it.equippedHeroId ? (HERO_POOL.find(h => h.id === it.equippedHeroId)?.name || "") : "미장착";
+        const upCost = it.lv * 350;
+        const box = document.createElement("div");
+        box.className = `eq-card ${isOnSel ? "equipped" : ""}`;
+        box.innerHTML = `
+          <div style="font-size:12px;font-weight:800;">${st.name} +${it.lv}</div>
+          <div class="hero-meta">${st.slotType} · 공 +${st.atk} · 체 +${st.hp}</div>
+          <div class="hero-meta">착용: ${ownerName}</div>
+          <div class="btn-row">
+            <button class="mini-btn ${isOnSel ? "gold" : "primary"}" data-eq-toggle="${it.uid}" type="button">${isOnSel ? "해제" : "장착"}</button>
+            <button class="mini-btn" data-eq-up="${it.uid}" type="button">강화(${upCost}냥)</button>
+          </div>
+        `;
+        box.querySelector(`[data-eq-toggle="${it.uid}"]`).addEventListener("click", () => toggleEquipOnSelectedHero(it.uid));
+        box.querySelector(`[data-eq-up="${it.uid}"]`).addEventListener("click", () => upgradeEquipmentItem(it.uid));
+        eqGrid.appendChild(box);
+      }
+      container.appendChild(eqCard);
+
       const pickCard = document.createElement("div");
       pickCard.className = "section-card";
       pickCard.innerHTML = `
         <h3 class="section-title">
-          <span>${state.selectedSlotIdx + 1}번 칸 배치 장수 선택</span>
+          <span>${state.selectedSlotIdx + 1}번 칸 배치 장수 선택 (${HERO_POOL.length}명)</span>
           <span style="font-size:11px;color:var(--ink-sub);">${CHAPTER_NAMES[(state.chapter - 1) % CHAPTER_NAMES.length]}</span>
         </h3>
         <div id="pick-hero-grid" class="hero-grid"></div>
@@ -2156,7 +2919,7 @@
           <span style="font-size:12px;color:var(--ink-sub);">도감 ${ownedCount}/${HERO_POOL.length}</span>
         </h3>
         <p style="margin:0 0 10px 0;font-size:12px;color:var(--ink-sub);">
-          소환 버튼을 누르면 전용 소환창에서 영입 결과를 바로 확인할 수 있습니다. 중복 장수는 영혼석 +4로 변환됩니다.
+          총 175명 장수·용병 풀에서 소환됩니다. 10연 소환이나 신규/천상 영입 시 특별 팡파레 사운드가 울립니다.
         </p>
         <div class="btn-row">
           <button id="btn-summon-1" class="mini-btn primary" type="button">1회 소환 (20옥)</button>
@@ -2170,7 +2933,7 @@
       const trialCard = document.createElement("div");
       trialCard.className = "section-card";
       trialCard.innerHTML = `
-        <h3 class="section-title">📖 시련 결계</h3>
+        <h3 class="section-title">📖 시련 결계 (반복 도전 가능)</h3>
         <div id="dungeon-trial-list" style="display:flex;flex-direction:column;gap:8px;"></div>
       `;
       const listEl = trialCard.querySelector("#dungeon-trial-list");
@@ -2185,9 +2948,9 @@
               영혼석 +${tr.soulReward} · 옥 +${tr.gemReward} · +${formatNum(tr.goldReward)}냥
             </div>
           </div>
-          <button class="mini-btn primary" type="button" style="flex:none;padding:8px 12px;">결계 진입</button>
+          <button class="mini-btn primary" type="button" style="flex:none;padding:8px 12px;">전투 출정</button>
         `;
-        row.querySelector("button").addEventListener("click", () => enterDungeonTrial(tr));
+        row.querySelector("button").addEventListener("click", () => startSpecialBattle(tr, false));
         listEl.appendChild(row);
       }
       container.appendChild(trialCard);
@@ -2195,7 +2958,7 @@
       const raidCard = document.createElement("div");
       raidCard.className = "section-card";
       raidCard.innerHTML = `
-        <h3 class="section-title">👹 도전 토벌 보스</h3>
+        <h3 class="section-title">👹 도전 토벌 보스 (반복 도전 가능)</h3>
         <div id="raid-boss-list" style="display:flex;flex-direction:column;gap:8px;"></div>
       `;
       const raidList = raidCard.querySelector("#raid-boss-list");
@@ -2210,42 +2973,104 @@
               영혼석 +${rb.soulReward} · 옥 +${rb.gemReward} · +${formatNum(rb.goldReward)}냥
             </div>
           </div>
-          <button class="mini-btn gold" type="button" style="flex:none;padding:8px 12px;">토벌 도전</button>
+          <button class="mini-btn gold" type="button" style="flex:none;padding:8px 12px;">보스 출정</button>
         `;
-        row.querySelector("button").addEventListener("click", () => fightRaidBoss(rb));
+        row.querySelector("button").addEventListener("click", () => startSpecialBattle(rb, true));
         raidList.appendChild(row);
       }
       container.appendChild(raidCard);
 
-      const missionCard = document.createElement("div");
-      missionCard.className = "section-card";
-      missionCard.innerHTML = `
-        <h3 class="section-title">🎯 도전 미션</h3>
-        <div id="mission-list" style="display:flex;flex-direction:column;gap:8px;"></div>
+      const dailyCard = document.createElement("div");
+      dailyCard.className = "section-card";
+      dailyCard.innerHTML = `
+        <h3 class="section-title">📅 일일 퀘스트 (${state.dailyDateKey})</h3>
+        <div id="daily-quest-list" style="display:flex;flex-direction:column;gap:8px;"></div>
       `;
-      const mList = missionCard.querySelector("#mission-list");
-      for (const mDef of MISSION_DEFS) {
-        const cur = state.stats[mDef.targetKey] || 0;
-        const done = cur >= mDef.target;
-        const claimed = Boolean(state.claimedMissions[mDef.id]);
+      const dList = dailyCard.querySelector("#daily-quest-list");
+      for (const qDef of DAILY_QUEST_DEFS) {
+        const cur = state.stats[qDef.targetKey] || 0;
+        const done = cur >= qDef.target;
+        const claimed = Boolean(state.claimedDaily[qDef.id]);
         const row = document.createElement("div");
         row.className = "diff-item";
         row.innerHTML = `
           <div>
-            <strong>${mDef.title} (${Math.min(cur, mDef.target)}/${mDef.target})</strong>
+            <strong>${qDef.title} (${Math.min(cur, qDef.target)}/${qDef.target})</strong>
             <div style="font-size:11px;font-weight:700;color:var(--accent-jade);margin-top:2px;">
-              보상: +${formatNum(mDef.gold)}냥 · +${mDef.soul}석 · +${mDef.gem}옥
+              보상: +${formatNum(qDef.gold)}냥 · +${qDef.soul}석 · +${qDef.gem}옥
             </div>
           </div>
           <button class="mini-btn ${claimed ? "" : (done ? "gold" : "primary")}" type="button" style="flex:none;padding:8px 12px;" ${!done || claimed ? "disabled" : ""}>
-            ${claimed ? "수령완료" : (done ? "보상받기" : "진행중")}
+            ${claimed ? "오늘 완료" : (done ? "수령하기" : "진행중")}
           </button>
         `;
-        row.querySelector("button").addEventListener("click", () => claimMission(mDef));
-        mList.appendChild(row);
+        row.querySelector("button").addEventListener("click", () => claimDailyQuest(qDef));
+        dList.appendChild(row);
       }
-      container.appendChild(missionCard);
+      container.appendChild(dailyCard);
+
+      const repeatCard = document.createElement("div");
+      repeatCard.className = "section-card";
+      repeatCard.innerHTML = `
+        <h3 class="section-title">🔁 반복 미션 (무한 반복)</h3>
+        <div id="repeat-mission-list" style="display:flex;flex-direction:column;gap:8px;"></div>
+      `;
+      const rList = repeatCard.querySelector("#repeat-mission-list");
+      for (const rDef of REPEAT_MISSION_DEFS) {
+        const repIdx = state.repeatCount[rDef.id] || 0;
+        const goal = rDef.baseTarget + repIdx * rDef.stepTarget;
+        const cur = state.stats[rDef.targetKey] || 0;
+        const done = cur >= goal;
+        const row = document.createElement("div");
+        row.className = "diff-item";
+        row.innerHTML = `
+          <div>
+            <strong>${rDef.title} · ${repIdx + 1}회차 (${Math.min(cur, goal)}/${goal})</strong>
+            <div style="font-size:11px;font-weight:700;color:var(--accent-gold);margin-top:2px;">
+              보상: +${formatNum(rDef.gold)}냥 · +${rDef.soul}석 · +${rDef.gem}옥
+            </div>
+          </div>
+          <button class="mini-btn ${done ? "gold" : "primary"}" type="button" style="flex:none;padding:8px 12px;" ${!done ? "disabled" : ""}>
+            ${done ? "보상받기" : "진행중"}
+          </button>
+        `;
+        row.querySelector("button").addEventListener("click", () => claimRepeatMission(rDef));
+        rList.appendChild(row);
+      }
+      container.appendChild(repeatCard);
     } else if (state.activeTab === "merchant") {
+      const attCard = document.createElement("div");
+      attCard.className = "section-card";
+      const claimable = canClaimAttendanceToday();
+      const targetIdx = state.attendance.dayIndex % ATTENDANCE_REWARDS.length;
+
+      attCard.innerHTML = `
+        <h3 class="section-title">
+          <span>🗓️ 주간 출석 보상</span>
+          <button id="btn-claim-attend" class="mini-btn ${claimable ? "gold" : ""}" type="button" style="flex:none;padding:5px 10px;" ${claimable ? "" : "disabled"}>
+            ${claimable ? `${ATTENDANCE_REWARDS[targetIdx].label} 받기` : "오늘 수령 완료"}
+          </button>
+        </h3>
+        <div id="attend-grid" class="attend-grid"></div>
+      `;
+      attCard.querySelector("#btn-claim-attend").addEventListener("click", claimAttendanceReward);
+      const aGrid = attCard.querySelector("#attend-grid");
+      ATTENDANCE_REWARDS.forEach((ar, idx) => {
+        const isPastOrClaimed = idx < targetIdx || (!claimable && idx === targetIdx);
+        const isTodayTarget = claimable && idx === targetIdx;
+        const box = document.createElement("div");
+        box.className = `attend-day ${isPastOrClaimed ? "claimed" : ""} ${isTodayTarget ? "today" : ""}`;
+        box.innerHTML = `
+          <strong>${ar.label}</strong>
+          <span class="hero-meta">+${formatNum(ar.gold)}냥 · +${ar.gem}옥 · +${ar.soul}석</span>
+          <span style="font-size:10px;font-weight:700;color:${isPastOrClaimed ? "var(--accent-jade)" : (isTodayTarget ? "var(--accent-gold)" : "var(--ink-sub)")};">
+            ${isPastOrClaimed ? "수령됨" : (isTodayTarget ? "수령 가능" : "대기")}
+          </span>
+        `;
+        aGrid.appendChild(box);
+      });
+      container.appendChild(attCard);
+
       const forgeCard = document.createElement("div");
       forgeCard.className = "section-card";
       const wCost = (state.forge.weaponLv + 1) * 500;
@@ -2284,7 +3109,7 @@
         state.gold -= wCost;
         state.forge.weaponLv += 1;
         state.stats.forges += 1;
-        SFX.upgrade();
+        AUDIO.upgrade();
         saveGame();
         updateHud();
         renderTabContent();
@@ -2295,7 +3120,7 @@
         state.gold -= aCost;
         state.forge.armorLv += 1;
         state.stats.forges += 1;
-        SFX.upgrade();
+        AUDIO.upgrade();
         saveGame();
         updateHud();
         renderTabContent();
@@ -2306,7 +3131,7 @@
         state.gold -= tCost;
         state.forge.tradeLv += 1;
         state.stats.forges += 1;
-        SFX.upgrade();
+        AUDIO.upgrade();
         saveGame();
         updateHud();
         renderTabContent();
@@ -2333,7 +3158,7 @@
         if (state.gold < 800) { showToast("냥이 부족합니다."); return; }
         state.gold -= 800;
         state.gem += 50;
-        SFX.upgrade();
+        AUDIO.upgrade();
         saveGame();
         updateHud();
         showToast("옥 +50 교환 완료!");
@@ -2342,7 +3167,7 @@
         if (state.gold < 600) { showToast("냥이 부족합니다."); return; }
         state.gold -= 600;
         state.soul += 6;
-        SFX.upgrade();
+        AUDIO.upgrade();
         saveGame();
         updateHud();
         showToast("영혼석 +6 교환 완료!");
@@ -2357,7 +3182,7 @@
         if (navigator.clipboard && navigator.clipboard.writeText) {
           navigator.clipboard.writeText(code).catch(() => {});
         }
-        SFX.upgrade();
+        AUDIO.upgrade();
         showToast("세이브 코드가 갱신·복사되었습니다.");
       });
       exCard.querySelector("#btn-import-save").addEventListener("click", () => {
@@ -2373,21 +3198,28 @@
     const list = document.getElementById("diff-list");
     if (!list) return;
     list.innerHTML = "";
+    const curDps = getTotalSquadDps();
+
     for (const d of DIFFICULTIES) {
       const btn = document.createElement("button");
       btn.type = "button";
       btn.className = `diff-item ${state.difficultyIdx === d.id ? "active" : ""}`;
+      const statusTag = curDps >= d.recDps ? "적정 DPS 충족" : "DPS 육성 권장";
       btn.innerHTML = `
         <div>
           <strong>${d.id + 1}. ${d.name}</strong>
-          <div style="font-size:11px;color:var(--ink-sub);">적 전투 배율 ×${formatNum(d.mult)}</div>
+          <div style="font-size:11px;color:var(--ink-sub);">권장 DPS ${formatNum(d.recDps)} · ${d.recHero}</div>
+          <div style="font-size:11px;color:var(--ink-main);margin-top:2px;">💡 ${d.tip}</div>
         </div>
-        <span style="font-size:12px;font-weight:700;color:var(--accent-jade);">보상 ×${d.rewardMult}</span>
+        <div style="text-align:right;flex:none;">
+          <div style="font-size:12px;font-weight:700;color:var(--accent-jade);">보상 ×${d.rewardMult}</div>
+          <div style="font-size:10px;color:${curDps >= d.recDps ? "var(--accent-jade)" : "var(--accent-gold)"};">${statusTag}</div>
+        </div>
       `;
       btn.addEventListener("click", () => {
         state.difficultyIdx = d.id;
         spawnWaveEnemies(false);
-        SFX.upgrade();
+        AUDIO.upgrade();
         saveGame();
         updateHud();
         renderDifficultyModal();
@@ -2398,27 +3230,51 @@
     }
   }
 
+  function syncSettingsModalUi() {
+    const lay = LAYOUTS[state.layoutIdx] || LAYOUTS[0];
+    const muteBtn = document.getElementById("btn-toggle-mute");
+    if (muteBtn) {
+      muteBtn.textContent = state.soundEnabled ? "ON" : "OFF";
+      muteBtn.classList.toggle("primary", state.soundEnabled);
+    }
+    const bgmRng = document.getElementById("rng-bgm-vol");
+    const bgmLbl = document.getElementById("lbl-bgm-vol");
+    if (bgmRng && bgmLbl) {
+      const pct = Math.round(state.bgmVol * 100);
+      bgmRng.value = String(pct);
+      bgmLbl.textContent = `${pct}%`;
+    }
+    const sfxRng = document.getElementById("rng-sfx-vol");
+    const sfxLbl = document.getElementById("lbl-sfx-vol");
+    if (sfxRng && sfxLbl) {
+      const pct = Math.round(state.sfxVol * 100);
+      sfxRng.value = String(pct);
+      sfxLbl.textContent = `${pct}%`;
+    }
+    const layLbl = document.getElementById("lbl-layout-cur");
+    if (layLbl) layLbl.textContent = lay.name;
+
+    document.querySelectorAll("#layout-btn-group button[data-layout-idx]").forEach(btn => {
+      const idx = Number(btn.getAttribute("data-layout-idx"));
+      btn.classList.toggle("primary", idx === state.layoutIdx);
+    });
+  }
+
   function applyLayout() {
     const lay = LAYOUTS[state.layoutIdx] || LAYOUTS[0];
     document.documentElement.style.setProperty("--battle-flex", lay.battleFlex);
     document.documentElement.style.setProperty("--side-max", lay.sideMax);
     document.documentElement.style.setProperty("--mobile-battle-h", lay.mobileH);
+    syncSettingsModalUi();
     resizeCanvas();
   }
 
   function updateHud() {
     const diff = DIFFICULTIES[state.difficultyIdx] || DIFFICULTIES[0];
     const spd = SPEEDS[state.speedIdx] || 1;
-    const lay = LAYOUTS[state.layoutIdx] || LAYOUTS[0];
 
     document.getElementById("btn-diff-modal").textContent = `난이도: ${diff.name} ▾`;
     document.getElementById("btn-speed").textContent = `⚡ ${spd}x`;
-
-    const soundBtn = document.getElementById("btn-sound");
-    soundBtn.textContent = state.soundEnabled ? "🔊 소리 ON" : "🔇 소리 OFF";
-    soundBtn.classList.toggle("active", state.soundEnabled);
-
-    document.getElementById("btn-layout").textContent = `📐 ${lay.name}`;
     document.getElementById("combo-badge").textContent = `${state.combo} COMBO`;
     document.getElementById("stage-label").textContent = getStageName();
     document.getElementById("wave-bar").style.width = `${(state.wave / state.maxWave) * 100}%`;
@@ -2434,6 +3290,8 @@
     document.getElementById("res-gold").textContent = `💰 ${formatNum(state.gold)}냥`;
     document.getElementById("res-gem").textContent = `💎 ${formatNum(state.gem)}옥`;
     document.getElementById("res-soul").textContent = `🔥 영혼석 ${formatNum(state.soul)}`;
+    document.getElementById("res-master").textContent = `👑 마스터 Lv.${state.mastery.level} (MP ${state.mastery.points})`;
+    syncSettingsModalUi();
   }
 
   const canvas = document.getElementById("battle-canvas");
@@ -2478,21 +3336,16 @@
 
     const totalDps = getTotalSquadDps();
     const deal = totalDps * dt * 1.15;
+    const resMult = 1 + state.mastery.resLv * 0.1;
     const target = state.enemies[0];
     if (target) {
       target.hp -= deal;
       target.hitFlash = Math.max(0, target.hitFlash - dt);
-      state.resonance = Math.min(100, state.resonance + dt * 9);
+      state.resonance = Math.min(100, state.resonance + dt * 9 * resMult);
 
       if (Math.random() < dt * 4) {
-        state.projectiles.push({
-          x: 0.28,
-          y: 0.6,
-          tx: target.xRatio,
-          ty: target.yRatio,
-          t: 0
-        });
-        SFX.hit();
+        state.projectiles.push({ x: 0.34, y: 0.62, tx: target.xRatio, ty: target.yRatio, t: 0 });
+        AUDIO.hit();
         spawnHitSparks(target.xRatio, target.yRatio, "#fde047", 5);
         pushDamagePopup(target.xRatio, target.yRatio, Math.max(12, totalDps * 0.28));
       }
@@ -2503,7 +3356,7 @@
         state.skillTimers[hid] = (state.skillTimers[hid] || 0) + dt;
         if (state.skillTimers[hid] >= hero.cd) {
           state.skillTimers[hid] = 0;
-          SFX.skill();
+          AUDIO.skill();
           triggerShake(0.1, 3);
           const skillDmg = Math.max(80, Math.round(getHeroPower(hid).atk * 2.2));
           for (const en of state.enemies) {
@@ -2512,14 +3365,7 @@
           }
           pushDamagePopup(target.xRatio, target.yRatio, skillDmg, `${hero.name}·${hero.skillName}`);
           spawnHitSparks(target.xRatio, target.yRatio, hero.color, 9);
-          state.effects.push({
-            xRatio: target.xRatio,
-            yRatio: target.yRatio,
-            radius: 20,
-            maxRadius: 68,
-            alpha: 0.9,
-            color: hero.color
-          });
+          state.effects.push({ xRatio: target.xRatio, yRatio: target.yRatio, radius: 20, maxRadius: 68, alpha: 0.9, color: hero.color });
         }
       }
 
@@ -2541,6 +3387,7 @@
     const defeated = Math.max(0, prevEnemies - state.enemies.length);
     if (defeated > 0) {
       state.stats.kills += defeated;
+      gainMasteryExp(defeated * 18);
     }
 
     if (state.enemies.length === 0) {
@@ -2606,53 +3453,56 @@
     if (bgImg) {
       ctx.drawImage(bgImg, 0, 0, w, h);
     } else {
-      const sky = ctx.createLinearGradient(0, 0, 0, h * 0.56);
+      const sky = ctx.createLinearGradient(0, 0, 0, h * 0.54);
       sky.addColorStop(0, "#7ec8e3");
       sky.addColorStop(1, "#e0f2fe");
       ctx.fillStyle = sky;
-      ctx.fillRect(0, 0, w, h * 0.56);
+      ctx.fillRect(0, 0, w, h * 0.54);
 
-      const ground = ctx.createLinearGradient(0, h * 0.56, 0, h);
+      const ground = ctx.createLinearGradient(0, h * 0.54, 0, h);
       ground.addColorStop(0, "#dfd2b5");
       ground.addColorStop(1, "#c2b08d");
       ctx.fillStyle = ground;
-      ctx.fillRect(0, h * 0.56, w, h * 0.44);
+      ctx.fillRect(0, h * 0.54, w, h * 0.46);
     }
 
     state.squadSlots.forEach((hid, idx) => {
       if (!hid) return;
       const hero = HERO_POOL.find(x => x.id === hid);
       if (!hero) return;
-      const x = w * (0.16 + (idx % 2) * 0.09);
-      const y = h * (0.56 + Math.floor(idx / 2) * 0.16);
+      const col = idx % 3;
+      const row = Math.floor(idx / 3);
+      const x = w * (0.12 + col * 0.085);
+      const y = h * (0.54 + row * 0.14);
       const fileImg = getLoadedImage(getHeroImageSrc(hid));
       const portraitImg = fileImg || getLoadedImage(getBuiltInPortraitUrl(hero));
 
       if (portraitImg) {
         ctx.save();
         ctx.beginPath();
-        ctx.arc(x, y - 16, 25, 0, Math.PI * 2);
+        ctx.arc(x, y - 12, 19, 0, Math.PI * 2);
         ctx.closePath();
         ctx.clip();
-        ctx.drawImage(portraitImg, x - 25, y - 41, 50, 50);
+        ctx.drawImage(portraitImg, x - 19, y - 31, 38, 38);
         ctx.restore();
       } else {
         ctx.fillStyle = hero.color;
         ctx.beginPath();
-        ctx.arc(x, y - 16, 22, 0, Math.PI * 2);
+        ctx.arc(x, y - 12, 17, 0, Math.PI * 2);
         ctx.fill();
       }
 
       const cdRatio = Math.min(1, (state.skillTimers[hid] || 0) / Math.max(0.1, hero.cd));
       ctx.fillStyle = "rgba(0,0,0,0.45)";
-      ctx.fillRect(x - 20, y + 6, 40, 4);
+      ctx.fillRect(x - 16, y + 8, 32, 3);
       ctx.fillStyle = "#38bdf8";
-      ctx.fillRect(x - 20, y + 6, 40 * cdRatio, 4);
+      ctx.fillRect(x - 16, y + 8, 32 * cdRatio, 3);
 
-      ctx.fillStyle = "rgba(255,255,255,0.92)";
-      ctx.font = "bold 11px sans-serif";
+      ctx.fillStyle = "rgba(255,255,255,0.95)";
+      ctx.font = "bold 10px sans-serif";
       ctx.textAlign = "center";
-      ctx.fillText(`${idx + 1}.${hero.name}`, x, y + 22);
+      const shortName = hero.name.length > 5 ? hero.name.slice(0, 5) : hero.name;
+      ctx.fillText(`${idx + 1}.${shortName}`, x, y + 20);
     });
 
     for (const en of state.enemies) {
@@ -2766,10 +3616,12 @@
   function bindEvents() {
     window.addEventListener("resize", resizeCanvas);
     window.addEventListener("beforeunload", saveGame);
+    window.addEventListener("pointerdown", () => AUDIO.unlock(), { once: true });
     canvas.addEventListener("click", handleBattleTap);
 
     document.querySelectorAll(".nav-tab").forEach(btn => {
       btn.addEventListener("click", () => {
+        AUDIO.unlock();
         document.querySelectorAll(".nav-tab").forEach(b => b.classList.remove("active"));
         btn.classList.add("active");
         state.activeTab = btn.getAttribute("data-tab") || "squad";
@@ -2778,31 +3630,66 @@
     });
 
     document.getElementById("btn-speed").addEventListener("click", () => {
+      AUDIO.unlock();
       state.speedIdx = (state.speedIdx + 1) % SPEEDS.length;
-      SFX.upgrade();
+      AUDIO.upgrade();
       saveGame();
       updateHud();
       showToast(`전투 배속: ${SPEEDS[state.speedIdx]}x`);
     });
 
-    document.getElementById("btn-sound").addEventListener("click", () => {
-      state.soundEnabled = !state.soundEnabled;
-      if (state.soundEnabled) SFX.upgrade();
-      saveGame();
-      updateHud();
-      showToast(state.soundEnabled ? "효과음 켜짐" : "효과음 꺼짐");
+    document.getElementById("btn-settings-modal").addEventListener("click", () => {
+      AUDIO.unlock();
+      syncSettingsModalUi();
+      document.getElementById("settings-modal").classList.add("open");
     });
 
-    document.getElementById("btn-layout").addEventListener("click", () => {
-      state.layoutIdx = (state.layoutIdx + 1) % LAYOUTS.length;
-      applyLayout();
-      SFX.upgrade();
+    document.getElementById("btn-close-settings").addEventListener("click", () => {
+      document.getElementById("settings-modal").classList.remove("open");
+    });
+
+    document.getElementById("btn-toggle-mute").addEventListener("click", () => {
+      state.soundEnabled = !state.soundEnabled;
+      AUDIO.unlock();
+      if (state.soundEnabled) AUDIO.upgrade();
       saveGame();
       updateHud();
-      showToast(`화면 분할: ${LAYOUTS[state.layoutIdx].name}`);
+      showToast(state.soundEnabled ? "소리 켜짐" : "소리 꺼짐");
+    });
+
+    document.getElementById("rng-bgm-vol").addEventListener("input", e => {
+      const v = Math.min(100, Math.max(0, Number(e.target.value) || 0));
+      state.bgmVol = v / 100;
+      AUDIO.unlock();
+      saveGame();
+      updateHud();
+    });
+
+    document.getElementById("rng-sfx-vol").addEventListener("input", e => {
+      const v = Math.min(100, Math.max(0, Number(e.target.value) || 0));
+      state.sfxVol = v / 100;
+      AUDIO.unlock();
+      AUDIO.hit();
+      saveGame();
+      updateHud();
+    });
+
+    document.querySelectorAll("#layout-btn-group button[data-layout-idx]").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const idx = Number(btn.getAttribute("data-layout-idx"));
+        if (!Number.isNaN(idx) && LAYOUTS[idx]) {
+          state.layoutIdx = idx;
+          applyLayout();
+          AUDIO.upgrade();
+          saveGame();
+          updateHud();
+          showToast(`화면 비율: ${LAYOUTS[idx].name}`);
+        }
+      });
     });
 
     document.getElementById("btn-diff-modal").addEventListener("click", () => {
+      AUDIO.unlock();
       renderDifficultyModal();
       document.getElementById("diff-modal").classList.add("open");
     });
@@ -2821,16 +3708,18 @@
     document.getElementById("btn-prev-stage").addEventListener("click", () => advanceStage(-1));
     document.getElementById("btn-next-stage").addEventListener("click", () => advanceStage(1));
     document.getElementById("btn-boss-now").addEventListener("click", () => {
+      AUDIO.unlock();
       state.wave = state.maxWave;
       spawnWaveEnemies(true);
-      SFX.skill();
+      AUDIO.skill();
       updateHud();
       showToast("보스 즉시 소환!");
     });
 
     document.getElementById("btn-auto-stage").addEventListener("click", () => {
+      AUDIO.unlock();
       state.autoStage = !state.autoStage;
-      SFX.upgrade();
+      AUDIO.upgrade();
       saveGame();
       updateHud();
     });
@@ -2848,7 +3737,7 @@
       reader.onload = ev => {
         if (ev.target && typeof ev.target.result === "string") {
           state.bgImageSrc = ev.target.result;
-          SFX.upgrade();
+          AUDIO.upgrade();
           showToast("전장 배경이 변경되었습니다.");
         }
       };
@@ -2865,7 +3754,7 @@
       reader.onload = ev => {
         if (ev.target && typeof ev.target.result === "string") {
           state.customImages[targetId] = ev.target.result;
-          SFX.upgrade();
+          AUDIO.upgrade();
           renderTabContent();
           showToast("장수 일러스트가 변경되었습니다.");
         }
