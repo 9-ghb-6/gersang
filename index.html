@@ -533,21 +533,21 @@
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 6px;
-    margin-bottom: 8px;
+    margin-bottom: 10px;
   }
 
   .equip-slot-pill {
     border: 1px solid var(--border-soft);
     background: #faf6ee;
-    border-radius: 8px;
-    padding: 6px;
-    font-size: 10px;
+    border-radius: 10px;
+    padding: 7px;
+    font-size: 11px;
     line-height: 1.35;
   }
 
   .eq-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(165px, 1fr));
+    grid-template-columns: repeat(2, 1fr);
     gap: 8px;
   }
 
@@ -696,6 +696,11 @@
     padding: 16px;
   }
 
+  .modal-backdrop.bottom-align {
+    align-items: flex-end;
+    padding-bottom: 24px;
+  }
+
   .modal-backdrop.open {
     display: flex;
   }
@@ -721,17 +726,23 @@
     to { opacity: 1; transform: scale(1); }
   }
 
+  .diff-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
   .diff-item {
     border: 1px solid var(--border-soft);
     background: #fff;
-    border-radius: 10px;
+    border-radius: 12px;
     padding: 10px 12px;
-    display: flex;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: 1fr auto;
     align-items: center;
     cursor: pointer;
     text-align: left;
-    gap: 8px;
+    gap: 10px;
   }
 
   .diff-item.active {
@@ -741,19 +752,19 @@
 
   .summon-result-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(112px, 1fr));
+    grid-template-columns: repeat(3, 1fr);
     gap: 8px;
   }
 
   .summon-item-card {
     border: 1px solid var(--border-soft);
     border-radius: 12px;
-    padding: 8px;
+    padding: 7px;
     background: #fff;
     text-align: center;
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: 3px;
     animation: cardReveal 0.26s ease both;
   }
 
@@ -919,14 +930,28 @@
   </aside>
 </div>
 
-<!-- 던전/보스 클리어 & 임무 전체받기 누적 획득 확인 모달 -->
-<div id="clear-reward-modal" class="modal-backdrop" role="dialog" aria-modal="true" aria-label="획득 보상 확인">
+<div id="clear-reward-modal" class="modal-backdrop bottom-align" role="dialog" aria-modal="true" aria-label="획득 보상 확인">
   <div class="modal-box">
     <div class="section-title">
       <span id="clear-modal-title">🏆 획득 보상 확인</span>
       <button id="btn-close-clear-modal" class="mini-btn primary" type="button">확인</button>
     </div>
     <div id="clear-modal-body" class="clear-popup-list"></div>
+  </div>
+</div>
+
+<div id="equip-modal" class="modal-backdrop" role="dialog" aria-modal="true" aria-label="장비창">
+  <div class="modal-box">
+    <div class="section-title">
+      <span id="equip-modal-title">🗡️ 장비창</span>
+      <div style="display:flex;gap:4px;flex-wrap:wrap;">
+        <button id="btn-modal-equip-all" class="mini-btn primary" type="button" style="flex:none;padding:5px 8px;">일괄 장착</button>
+        <button id="btn-modal-upgrade-eq-all" class="mini-btn" type="button" style="flex:none;padding:5px 8px;">일괄 강화</button>
+        <button id="btn-modal-craft-eq" class="mini-btn gold" type="button" style="flex:none;padding:5px 8px;">제작(900냥)</button>
+        <button id="btn-close-equip" class="mini-btn" type="button" style="flex:none;padding:5px 8px;">닫기</button>
+      </div>
+    </div>
+    <div id="equip-modal-content"></div>
   </div>
 </div>
 
@@ -975,7 +1000,7 @@
       <span>전장 난이도 &amp; 피통/DPS 가이드</span>
       <button id="btn-close-diff" class="mini-btn" type="button">닫기</button>
     </div>
-    <div id="diff-list"></div>
+    <div id="diff-list" class="diff-grid"></div>
   </div>
 </div>
 
@@ -988,8 +1013,8 @@
     <div id="summon-modal-summary" style="font-size:12px;color:var(--ink-sub);"></div>
     <div id="summon-modal-grid" class="summon-result-grid"></div>
     <div class="btn-row" style="margin-top:4px;">
-      <button id="btn-modal-summon-1" class="mini-btn primary" type="button">1회 추가 (20옥)</button>
-      <button id="btn-modal-summon-10" class="mini-btn gold" type="button">10회 추가 (180옥)</button>
+      <button id="btn-modal-summon-1" class="mini-btn primary" type="button">1회 뽑기 (20옥)</button>
+      <button id="btn-modal-summon-10" class="mini-btn gold" type="button">10회 뽑기 (180옥)</button>
     </div>
   </div>
 </div>
@@ -1011,7 +1036,7 @@
   "use strict";
 
   const SQUAD_SIZE = 9;
-  const STORAGE_KEY = "cheonha_gersang_empire_v3_team_hp_allclaim";
+  const STORAGE_KEY = "cheonha_gersang_empire_v3_equip_drop_save";
   const SPEEDS = [1, 2, 3];
   const LAYOUTS = [
     { name: "균형 분할", battleFlex: "1.15", sideMax: "580px", mobileH: "44%" },
@@ -1243,14 +1268,14 @@
   ];
 
   const DUNGEON_TRIALS = [
-    { id: "trial_1", name: "청룡 시련 회랑", desc: "결계 수호자를 격파해 영혼석과 옥·냥을 수확합니다.", hpMult: 1.0, soulReward: 15, gemReward: 30, goldReward: 800 },
-    { id: "trial_2", name: "백호 무혼 전당", desc: "백호 수호자를 격파해 영혼석과 옥·냥을 획득합니다.", hpMult: 2.2, soulReward: 25, gemReward: 50, goldReward: 1800 },
-    { id: "trial_3", name: "천상 신단 관문", desc: "천상 수호자를 격파해 대량의 영혼석과 옥·냥을 얻습니다.", hpMult: 4.5, soulReward: 40, gemReward: 90, goldReward: 4000 }
+    { id: "trial_1", name: "청룡 시련 회랑", desc: "결계 수호자 격파 시 보상 + 랜덤 장비 드랍(45%)", hpMult: 1.0, soulReward: 15, gemReward: 30, goldReward: 800, dropChance: 0.45 },
+    { id: "trial_2", name: "백호 무혼 전당", desc: "백호 수호자 격파 시 보상 + 랜덤 장비 드랍(55%)", hpMult: 2.2, soulReward: 25, gemReward: 50, goldReward: 1800, dropChance: 0.55 },
+    { id: "trial_3", name: "천상 신단 관문", desc: "천상 수호자 격파 시 보상 + 랜덤 장비 드랍(65%)", hpMult: 4.5, soulReward: 40, gemReward: 90, goldReward: 4000, dropChance: 0.65 }
   ];
 
   const RAID_BOSSES = [
-    { id: "raid_1", name: "도전 토벌: 흑룡장군", desc: "거대 흑룡장군 토벌 시 영혼석·옥·냥 대량 지급", hpMult: 3.5, soulReward: 30, gemReward: 70, goldReward: 3000 },
-    { id: "raid_2", name: "도전 토벌: 마천황제", desc: "최상위 토벌 보스 격파 시 파격 보상 지급", hpMult: 7.5, soulReward: 50, gemReward: 120, goldReward: 7000 }
+    { id: "raid_1", name: "도전 토벌: 흑룡장군", desc: "거대 흑룡장군 토벌 시 보상 + 랜덤 장비 드랍(70%)", hpMult: 3.5, soulReward: 30, gemReward: 70, goldReward: 3000, dropChance: 0.70 },
+    { id: "raid_2", name: "도전 토벌: 마천황제", desc: "최상위 토벌 보스 격파 시 보상 + 랜덤 장비 드랍(85%)", hpMult: 7.5, soulReward: 50, gemReward: 120, goldReward: 7000, dropChance: 0.85 }
   ];
 
   const DAILY_QUEST_DEFS = [
@@ -1864,6 +1889,145 @@
     return { atk, hp };
   }
 
+  function grantRandomEquipmentDrop(sourceLabel = "던전 전리품") {
+    const tpl = EQUIP_TEMPLATES[Math.floor(Math.random() * EQUIP_TEMPLATES.length)];
+    const newItem = {
+      uid: "eq_drop_" + Date.now() + "_" + Math.random().toString(36).slice(2, 6),
+      tplId: tpl.id,
+      lv: 1,
+      equippedHeroId: null
+    };
+    state.equipmentInv.push(newItem);
+    return {
+      source: sourceLabel,
+      label: `[${tpl.slotType}] ${tpl.name} +1`
+    };
+  }
+
+  function renderEquipModalContent() {
+    const titleEl = document.getElementById("equip-modal-title");
+    const boxEl = document.getElementById("equip-modal-content");
+    if (!titleEl || !boxEl) return;
+
+    const targetHeroId = state.squadSlots[state.selectedSlotIdx] || getActiveSquadIds()[0] || "yi_sunsin";
+    const selHeroName = HERO_POOL.find(h => h.id === targetHeroId)?.name || "이순신";
+    const heroSlotMap = getHeroEquippedBySlot(targetHeroId);
+
+    titleEl.textContent = `🗡️ 장비창 (${selHeroName} · ${state.selectedSlotIdx + 1}칸)`;
+
+    const slotsHtml = `
+      <div class="equip-slots-strip">
+        <div class="equip-slot-pill">
+          <strong>무기 슬롯</strong>
+          <div>${heroSlotMap["무기"] ? `${heroSlotMap["무기"].stats.name} +${heroSlotMap["무기"].item.lv}` : "비어 있음"}</div>
+        </div>
+        <div class="equip-slot-pill">
+          <strong>방어구 슬롯</strong>
+          <div>${heroSlotMap["방어구"] ? `${heroSlotMap["방어구"].stats.name} +${heroSlotMap["방어구"].item.lv}` : "비어 있음"}</div>
+        </div>
+        <div class="equip-slot-pill">
+          <strong>신물 슬롯</strong>
+          <div>${heroSlotMap["신물"] ? `${heroSlotMap["신물"].stats.name} +${heroSlotMap["신물"].item.lv}` : "비어 있음"}</div>
+        </div>
+      </div>
+    `;
+
+    const cardsHtml = state.equipmentInv.map(it => {
+      const st = getEquipStats(it);
+      const isOnSel = it.equippedHeroId === targetHeroId;
+      const ownerName = it.equippedHeroId ? (HERO_POOL.find(h => h.id === it.equippedHeroId)?.name || "") : "미장착";
+      const upCost = it.lv * 350;
+      return `
+        <div class="eq-card ${isOnSel ? "equipped" : ""}">
+          <div style="font-size:12px;font-weight:800;">[${st.slotType}] ${st.name} +${it.lv}</div>
+          <div class="hero-meta">공 +${st.atk} · 체 +${st.hp}</div>
+          <div class="hero-meta">착용자: ${ownerName}</div>
+          <div class="btn-row">
+            <button class="mini-btn ${isOnSel ? "gold" : "primary"}" data-eq-toggle="${it.uid}" type="button">${isOnSel ? "해제" : `${st.slotType} 장착`}</button>
+            <button class="mini-btn" data-eq-up="${it.uid}" type="button">강화(${upCost}냥)</button>
+          </div>
+        </div>
+      `;
+    }).join("");
+
+    boxEl.innerHTML = `${slotsHtml}<div class="eq-grid">${cardsHtml}</div>`;
+
+    boxEl.querySelectorAll("button[data-eq-toggle]").forEach(btn => {
+      btn.addEventListener("click", () => {
+        toggleEquipOnSelectedHero(btn.getAttribute("data-eq-toggle"));
+        renderEquipModalContent();
+      });
+    });
+
+    boxEl.querySelectorAll("button[data-eq-up]").forEach(btn => {
+      btn.addEventListener("click", () => {
+        upgradeEquipmentItem(btn.getAttribute("data-eq-up"));
+        renderEquipModalContent();
+      });
+    });
+  }
+
+  function equipBestForSelectedHero() {
+    const targetHeroId = state.squadSlots[state.selectedSlotIdx] || getActiveSquadIds()[0] || "yi_sunsin";
+    const heroName = HERO_POOL.find(h => h.id === targetHeroId)?.name || "장수";
+    const slotsToFill = ["무기", "방어구", "신물"];
+    let equippedCnt = 0;
+
+    for (const slotType of slotsToFill) {
+      const already = state.equipmentInv.some(it => it.equippedHeroId === targetHeroId && getEquipStats(it).slotType === slotType);
+      if (already) continue;
+      const candidates = state.equipmentInv
+        .filter(it => !it.equippedHeroId && getEquipStats(it).slotType === slotType)
+        .sort((a, b) => (getEquipStats(b).atk + getEquipStats(b).hp) - (getEquipStats(a).atk + getEquipStats(a).hp));
+      if (candidates.length > 0) {
+        candidates[0].equippedHeroId = targetHeroId;
+        equippedCnt += 1;
+      }
+    }
+
+    if (equippedCnt === 0) {
+      showToast(`${heroName}에게 일괄 장착할 빈 슬롯/장비가 없습니다.`);
+      return;
+    }
+    AUDIO.upgrade();
+    refreshAllyTeamHp(false);
+    saveGame();
+    updateHud();
+    renderTabContent();
+    renderEquipModalContent();
+    showToast(`${heroName}에게 ${equippedCnt}부위 일괄 장착 완료!`);
+  }
+
+  function upgradeAllEquipmentBatch() {
+    let upgradedCnt = 0;
+    for (const it of state.equipmentInv) {
+      const cost = it.lv * 350;
+      if (state.gold >= cost) {
+        state.gold -= cost;
+        it.lv += 1;
+        state.stats.forges += 1;
+        upgradedCnt += 1;
+      }
+    }
+    if (upgradedCnt === 0) {
+      showToast("일괄 강화할 냥이 부족합니다.");
+      return;
+    }
+    AUDIO.upgrade();
+    refreshAllyTeamHp(false);
+    saveGame();
+    updateHud();
+    renderTabContent();
+    renderEquipModalContent();
+    showToast(`장비 ${upgradedCnt}건 일괄 강화 완료!`);
+  }
+
+  function openEquipModal() {
+    AUDIO.unlock();
+    renderEquipModalContent();
+    document.getElementById("equip-modal").classList.add("open");
+  }
+
   function craftEquipment() {
     const costGold = 900;
     if (state.gold < costGold) {
@@ -1883,6 +2047,9 @@
     saveGame();
     updateHud();
     renderTabContent();
+    if (document.getElementById("equip-modal").classList.contains("open")) {
+      renderEquipModalContent();
+    }
     showToast(`⚒️ [${tpl.slotType}: ${tpl.name}] 제작 완료!`);
   }
 
@@ -1955,7 +2122,12 @@
     saveGame();
     updateHud();
     renderTabContent();
-    showToast(`${rew.label} 출석 보상 수령! +${formatNum(rew.gold)}냥 · +${rew.gem}옥 · +${rew.soul}석`);
+    openClearRewardModal({
+      source: `${rew.label} 출석 보상`,
+      lines: [
+        `<strong>획득 재화:</strong> 💰 +${formatNum(rew.gold)}냥 · 💎 +${formatNum(rew.gem)}옥 · 🔥 +${formatNum(rew.soul)} 영혼석`
+      ]
+    });
   }
 
   const builtInPortraitCache = new Map();
@@ -2320,7 +2492,7 @@
       state.comboTimer = 2.4;
     }
 
-    let text = isEnemyHit ? `-${formatNum(dmgVal)}` : `-${formatNum(dmgVal)}`;
+    let text = `-${formatNum(dmgVal)}`;
     if (isCrit && label) {
       text = `💥${label} -${formatNum(dmgVal)}!`;
     } else if (isCrit) {
@@ -2433,6 +2605,7 @@
           soulReward: cfg.soulReward,
           gemReward: cfg.gemReward,
           goldReward: cfg.goldReward,
+          dropChance: cfg.dropChance || 0.5,
           startedAt: Date.now()
         };
         state.enemies = [{
@@ -2450,7 +2623,7 @@
         refreshAllyTeamHp(true);
         syncBgmTheme();
         updateHud();
-        showToast(`${cfg.name} 출정! (HP ${formatNum(hp)}) · 격파 시 보상 지급`);
+        showToast(`${cfg.name} 출정! (HP ${formatNum(hp)}) · 격파 시 보상 & 랜덤 장비 드랍`);
       }
     );
   }
@@ -2486,18 +2659,18 @@
       state.resonance = Math.min(100, state.resonance + 30);
       gainMasteryExp(expGain);
 
-      const logObj = {
-        source: `${sp.title} 격파`,
-        lines: [
-          `<strong>획득 재화:</strong> 💰 +${formatNum(gGain)}냥 · 💎 +${formatNum(sp.gemReward)}옥 · 🔥 +${formatNum(sp.soulReward)} 영혼석`,
-          `<strong>성장/전투 정보:</strong> 👑 마스터EXP +${formatNum(expGain)} · 소요 ${secTaken}초 · 공명 +30%`
-        ]
-      };
+      const gotDrop = Math.random() < (sp.dropChance || 0.5) ? grantRandomEquipmentDrop(sp.title) : null;
+      const lines = [
+        `<strong>획득 재화:</strong> 💰 +${formatNum(gGain)}냥 · 💎 +${formatNum(sp.gemReward)}옥 · 🔥 +${formatNum(sp.soulReward)} 영혼석`,
+        `<strong>성장/전투 정보:</strong> 👑 마스터EXP +${formatNum(expGain)} · 소요 ${secTaken}초 · 공명 +30%`,
+        `<strong>랜덤 장비 득템:</strong> ${gotDrop ? `🗡️ <strong>${gotDrop.label}</strong> 획득!` : "아쉽게도 이번엔 장비가 나오지 않았습니다."}`
+      ];
+
       state.recentRewardLog = {
         source: sp.title,
-        detail: `소요 ${secTaken}초 · +${formatNum(gGain)}냥 · +${sp.gemReward}옥 · +${sp.soulReward} 영혼석 · +${expGain} 마스터EXP`
+        detail: `소요 ${secTaken}초 · +${formatNum(gGain)}냥 · +${sp.gemReward}옥 · +${sp.soulReward}석${gotDrop ? ` · 득템: ${gotDrop.label}` : ""}`
       };
-      openClearRewardModal(logObj);
+      openClearRewardModal({ source: `${sp.title} 격파`, lines });
 
       state.activeSpecialEncounter = null;
       spawnWaveEnemies(false);
@@ -2519,18 +2692,26 @@
     state.resonance = Math.min(100, state.resonance + 25);
     gainMasteryExp(expGain);
 
+    const bossDrop = wasBossWave && Math.random() < 0.35
+      ? grantRandomEquipmentDrop(`${state.chapter}-${state.stageNum} 보스`)
+      : null;
+
     state.recentRewardLog = {
       source: `${state.chapter}-${state.stageNum} (${state.wave}/${state.maxWave} 웨이브)`,
-      detail: `+${formatNum(goldGain)}냥${gemGain ? ` · +${gemGain}옥` : ""} · +${expGain} 마스터EXP · 공명 +25%`
+      detail: `+${formatNum(goldGain)}냥${gemGain ? ` · +${gemGain}옥` : ""} · +${expGain} 마스터EXP${bossDrop ? ` · 득템: ${bossDrop.label}` : ""}`
     };
 
     if (wasBossWave) {
+      const lines = [
+        `<strong>획득 재화:</strong> 💰 +${formatNum(goldGain)}냥 · 💎 +${formatNum(gemGain)}옥`,
+        `<strong>성장/전투 정보:</strong> 👑 마스터EXP +${formatNum(expGain)} · 공명 +25%`
+      ];
+      if (bossDrop) {
+        lines.push(`<strong>랜덤 장비 득템:</strong> 🗡️ <strong>${bossDrop.label}</strong> 획득!`);
+      }
       openClearRewardModal({
         source: `${state.chapter}-${state.stageNum} 보스 돌파`,
-        lines: [
-          `<strong>획득 재화:</strong> 💰 +${formatNum(goldGain)}냥 · 💎 +${formatNum(gemGain)}옥`,
-          `<strong>성장/전투 정보:</strong> 👑 마스터EXP +${formatNum(expGain)} · 공명 +25%`
-        ]
+        lines
       });
     } else {
       showToast(`웨이브 클리어! +${formatNum(goldGain)}냥`);
@@ -2724,10 +2905,10 @@
     results.forEach((item, idx) => {
       const card = document.createElement("div");
       card.className = `summon-item-card ${item.isNew ? "new-hero" : ""}`;
-      card.style.animationDelay = `${Math.min(idx * 35, 300)}ms`;
+      card.style.animationDelay = `${Math.min(idx * 30, 240)}ms`;
       card.innerHTML = `
-        ${renderHeroVisualHtml(item.hero, 64)}
-        <div style="font-size:12px;font-weight:800;">${item.hero.name}</div>
+        ${renderHeroVisualHtml(item.hero, 56)}
+        <div style="font-size:11px;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${item.hero.name}</div>
         <div style="font-size:10px;color:var(--ink-sub);">${item.hero.nation} · ${item.hero.element}</div>
         <div style="font-size:10px;font-weight:700;color:${item.isNew ? "var(--accent-gold)" : "var(--accent-jade)"};">
           ${item.isNew ? "✨ 특별 영입" : `영혼석 +${item.soulBonus}`}
@@ -2872,7 +3053,6 @@
     });
   }
 
-  // 달성된 일일/반복 미션 전체 수령 및 누적 획득 모달 표시
   function claimAllReadyMissions() {
     checkDailyReset();
     let totalGold = 0;
@@ -2970,7 +3150,7 @@
       </div>
       <div class="hero-meta">${hero.nation} · ${hero.role} · ${hero.element}</div>
       <div class="hero-meta">Lv.${st.level} · 공 ${formatNum(pwr.atk)} · 체 ${formatNum(pwr.maxHp)}</div>
-      <div class="hero-meta">장착(${eqList.length}/3): ${eqList.length ? eqList.map(x => `${getEquipStats(x).slotType}:${getEquipStats(x).name}+${x.lv}`).join(", ") : "없음"}</div>
+      <div class="hero-meta">장비(${eqList.length}/3): ${eqList.length ? eqList.map(x => `${getEquipStats(x).slotType}:${getEquipStats(x).name}+${x.lv}`).join(", ") : "없음"}</div>
       <div class="hero-syn-tag">${synHint}</div>
       <div class="btn-row">
         <button class="${deployBtnClass}" data-act="deploy" data-id="${hero.id}" ${st.unlocked ? "" : "disabled"}>
@@ -3083,8 +3263,9 @@
         <h3 class="section-title">
           <span>출전 칸 지정 (${getActiveSquadIds().length}/${SQUAD_SIZE})</span>
           <div style="display:flex;gap:4px;flex-wrap:wrap;">
+            <button id="btn-open-equip-modal" class="mini-btn gold" type="button" style="flex:none;padding:4px 9px;">🗡️ 장비창</button>
             <button id="btn-auto-squad" class="mini-btn primary" type="button" style="flex:none;padding:4px 9px;">⚡ 자동배치</button>
-            <button id="btn-upgrade-all" class="mini-btn gold" type="button" style="flex:none;padding:4px 9px;">▲ 출전 전체 강화</button>
+            <button id="btn-upgrade-all" class="mini-btn" type="button" style="flex:none;padding:4px 9px;">▲ 출전 전체 강화</button>
             <button id="btn-clear-slot" class="mini-btn" type="button" style="flex:none;padding:4px 8px;">선택 칸 비우기</button>
           </div>
         </h3>
@@ -3121,6 +3302,7 @@
         presetRow.appendChild(pBox);
       });
 
+      slotCard.querySelector("#btn-open-equip-modal").addEventListener("click", openEquipModal);
       slotCard.querySelector("#btn-auto-squad").addEventListener("click", autoAssignSquad);
       slotCard.querySelector("#btn-upgrade-all").addEventListener("click", upgradeAllSquadHeroes);
       slotCard.querySelector("#btn-clear-slot").addEventListener("click", clearSelectedSlot);
@@ -3149,57 +3331,6 @@
 
       container.appendChild(slotCard);
 
-      const selHeroId = state.squadSlots[state.selectedSlotIdx] || getActiveSquadIds()[0] || "yi_sunsin";
-      const selHeroName = HERO_POOL.find(h => h.id === selHeroId)?.name || "이순신";
-      const heroSlotMap = getHeroEquippedBySlot(selHeroId);
-
-      const eqCard = document.createElement("div");
-      eqCard.className = "section-card";
-      eqCard.innerHTML = `
-        <h3 class="section-title">
-          <span>🗡️ 부위별 장비 착용 (대상: ${selHeroName})</span>
-          <button id="btn-craft-eq" class="mini-btn gold" type="button" style="flex:none;padding:4px 9px;">장비 제작 (900냥)</button>
-        </h3>
-        <div class="equip-slots-strip">
-          <div class="equip-slot-pill">
-            <strong>무기 슬롯</strong>
-            <div>${heroSlotMap["무기"] ? `${heroSlotMap["무기"].stats.name} +${heroSlotMap["무기"].item.lv}` : "비어 있음"}</div>
-          </div>
-          <div class="equip-slot-pill">
-            <strong>방어구 슬롯</strong>
-            <div>${heroSlotMap["방어구"] ? `${heroSlotMap["방어구"].stats.name} +${heroSlotMap["방어구"].item.lv}` : "비어 있음"}</div>
-          </div>
-          <div class="equip-slot-pill">
-            <strong>신물 슬롯</strong>
-            <div>${heroSlotMap["신물"] ? `${heroSlotMap["신물"].stats.name} +${heroSlotMap["신물"].item.lv}` : "비어 있음"}</div>
-          </div>
-        </div>
-        <div id="eq-grid" class="eq-grid"></div>
-      `;
-      eqCard.querySelector("#btn-craft-eq").addEventListener("click", craftEquipment);
-      const eqGrid = eqCard.querySelector("#eq-grid");
-      for (const it of state.equipmentInv) {
-        const st = getEquipStats(it);
-        const isOnSel = it.equippedHeroId === selHeroId;
-        const ownerName = it.equippedHeroId ? (HERO_POOL.find(h => h.id === it.equippedHeroId)?.name || "") : "미장착";
-        const upCost = it.lv * 350;
-        const box = document.createElement("div");
-        box.className = `eq-card ${isOnSel ? "equipped" : ""}`;
-        box.innerHTML = `
-          <div style="font-size:12px;font-weight:800;">[${st.slotType}] ${st.name} +${it.lv}</div>
-          <div class="hero-meta">공 +${st.atk} · 체 +${st.hp}</div>
-          <div class="hero-meta">착용자: ${ownerName}</div>
-          <div class="btn-row">
-            <button class="mini-btn ${isOnSel ? "gold" : "primary"}" data-eq-toggle="${it.uid}" type="button">${isOnSel ? "해제" : `${st.slotType} 장착`}</button>
-            <button class="mini-btn" data-eq-up="${it.uid}" type="button">강화(${upCost}냥)</button>
-          </div>
-        `;
-        box.querySelector(`[data-eq-toggle="${it.uid}"]`).addEventListener("click", () => toggleEquipOnSelectedHero(it.uid));
-        box.querySelector(`[data-eq-up="${it.uid}"]`).addEventListener("click", () => upgradeEquipmentItem(it.uid));
-        eqGrid.appendChild(box);
-      }
-      container.appendChild(eqCard);
-
       const pickCard = document.createElement("div");
       pickCard.className = "section-card";
       pickCard.innerHTML = `
@@ -3222,11 +3353,16 @@
       card.innerHTML = `
         <h3 class="section-title">
           <span>국적별 장수·용병 도감 (대상: ${state.selectedSlotIdx + 1}칸)</span>
-          <span style="font-size:12px;color:var(--accent-jade);">보유 ${ownedCount}/${HERO_POOL.length}</span>
+          <div style="display:flex;gap:6px;align-items:center;">
+            <button id="btn-roster-equip-modal" class="mini-btn gold" type="button" style="flex:none;padding:4px 8px;">🗡️ 장비창</button>
+            <span style="font-size:12px;color:var(--accent-jade);">보유 ${ownedCount}/${HERO_POOL.length}</span>
+          </div>
         </h3>
         <div id="nation-filters" class="nation-filter-bar"></div>
         <div id="roster-grid" class="hero-grid"></div>
       `;
+
+      card.querySelector("#btn-roster-equip-modal").addEventListener("click", openEquipModal);
 
       const filterBar = card.querySelector("#nation-filters");
       for (const nat of NATIONS) {
@@ -3263,8 +3399,8 @@
           총 175명 장수·용병 풀에서 소환됩니다. 10연 소환이나 신규/천상 영입 시 특별 팡파레 사운드가 울립니다.
         </p>
         <div class="btn-row">
-          <button id="btn-summon-1" class="mini-btn primary" type="button">1회 소환 (20옥)</button>
-          <button id="btn-summon-10" class="mini-btn gold" type="button">10회 소환 (180옥)</button>
+          <button id="btn-summon-1" class="mini-btn primary" type="button">1회 뽑기 (20옥)</button>
+          <button id="btn-summon-10" class="mini-btn gold" type="button">10회 뽑기 (180옥)</button>
         </div>
       `;
       card.querySelector("#btn-summon-1").addEventListener("click", () => doSummon(1));
@@ -3278,7 +3414,7 @@
         <div class="reward-detail-box">
           ${state.recentRewardLog
             ? `<div><strong>[${state.recentRewardLog.source}]</strong></div><div>${state.recentRewardLog.detail}</div>`
-            : `아직 기록된 클리어 내역이 없습니다. 웨이브 돌파나 시련결계·토벌보스를 클리어하면 상세 보상이 표시됩니다.`}
+            : `아직 기록된 클리어 내역이 없습니다. 웨이브 돌파나 시련결계·토벌보스를 클리어하면 상세 보상과 장비 득템 내역이 표시됩니다.`}
         </div>
       `;
       container.appendChild(logCard);
@@ -3286,7 +3422,7 @@
       const trialCard = document.createElement("div");
       trialCard.className = "section-card";
       trialCard.innerHTML = `
-        <h3 class="section-title">📖 시련 결계 (반복 도전 가능)</h3>
+        <h3 class="section-title">📖 시련 결계 (반복 도전 · 장비 드랍)</h3>
         <div id="dungeon-trial-list" style="display:flex;flex-direction:column;gap:8px;"></div>
       `;
       const listEl = trialCard.querySelector("#dungeon-trial-list");
@@ -3298,7 +3434,7 @@
             <strong>${tr.name}</strong>
             <div style="font-size:11px;color:var(--ink-sub);">${tr.desc}</div>
             <div style="font-size:11px;font-weight:700;color:var(--accent-jade);margin-top:2px;">
-              보상: 영혼석 +${tr.soulReward} · 옥 +${tr.gemReward} · +${formatNum(tr.goldReward)}냥 · 마스터EXP +85
+              보상: 영혼석 +${tr.soulReward} · 옥 +${tr.gemReward} · +${formatNum(tr.goldReward)}냥 · 장비확률 ${Math.round(tr.dropChance * 100)}%
             </div>
           </div>
           <button class="mini-btn primary" type="button" style="flex:none;padding:8px 12px;">전투 출정</button>
@@ -3311,7 +3447,7 @@
       const raidCard = document.createElement("div");
       raidCard.className = "section-card";
       raidCard.innerHTML = `
-        <h3 class="section-title">👹 도전 토벌 보스 (반복 도전 가능)</h3>
+        <h3 class="section-title">👹 도전 토벌 보스 (반복 도전 · 고확률 장비 드랍)</h3>
         <div id="raid-boss-list" style="display:flex;flex-direction:column;gap:8px;"></div>
       `;
       const raidList = raidCard.querySelector("#raid-boss-list");
@@ -3323,7 +3459,7 @@
             <strong>${rb.name}</strong>
             <div style="font-size:11px;color:var(--ink-sub);">${rb.desc}</div>
             <div style="font-size:11px;font-weight:700;color:var(--accent-gold);margin-top:2px;">
-              보상: 영혼석 +${rb.soulReward} · 옥 +${rb.gemReward} · +${formatNum(rb.goldReward)}냥 · 마스터EXP +85
+              보상: 영혼석 +${rb.soulReward} · 옥 +${rb.gemReward} · +${formatNum(rb.goldReward)}냥 · 장비확률 ${Math.round(rb.dropChance * 100)}%
             </div>
           </div>
           <button class="mini-btn gold" type="button" style="flex:none;padding:8px 12px;">보스 출정</button>
@@ -3333,7 +3469,6 @@
       }
       container.appendChild(raidCard);
 
-      // 미션 전체 받기 버튼 포함 일일 퀘스트 & 반복 미션 카드
       const missionBundleCard = document.createElement("div");
       missionBundleCard.className = "section-card";
       missionBundleCard.innerHTML = `
@@ -3563,10 +3698,10 @@
       let fitLabel = "화력 부족";
       let fitColor = "var(--accent-crimson)";
       if (curDps >= m.recDps) {
-        fitLabel = "여유 (10초 내 보스 처치)";
+        fitLabel = "여유 (10초 내 처치)";
         fitColor = "var(--accent-jade)";
       } else if (curDps >= m.recDps * 0.45) {
-        fitLabel = `접전 (보스 약 ${estBossSec}초)`;
+        fitLabel = `접전 (약 ${estBossSec}초)`;
         fitColor = "var(--accent-gold)";
       }
 
@@ -3576,8 +3711,8 @@
       btn.innerHTML = `
         <div>
           <strong>${d.id + 1}. ${d.name}</strong>
-          <div style="font-size:11px;color:var(--ink-sub);">일반 HP ${formatNum(m.mobHp)} · 보스 HP ${formatNum(m.bossHp)}</div>
-          <div style="font-size:11px;color:var(--ink-sub);">권장 DPS ${formatNum(m.recDps)} (내 DPS ${formatNum(curDps)}) · ${d.recHero}</div>
+          <div class="hero-meta">일반 HP ${formatNum(m.mobHp)} · 보스 HP ${formatNum(m.bossHp)}</div>
+          <div class="hero-meta">권장 DPS ${formatNum(m.recDps)} (내 DPS ${formatNum(curDps)}) · ${d.recHero}</div>
           <div style="font-size:11px;color:var(--ink-main);margin-top:2px;">💡 ${d.tip}</div>
         </div>
         <div style="text-align:right;flex:none;">
@@ -3796,7 +3931,6 @@
         });
       }
 
-      // 적 몬스터의 아군 공격 루프
       state.enemyAtkCooldown -= dt;
       if (state.enemyAtkCooldown <= 0) {
         state.enemyAtkCooldown = 1.6;
@@ -3908,7 +4042,6 @@
       ctx.fillRect(0, h * 0.54, w, h * 0.46);
     }
 
-    // 9칸(3x3) 아군 진형 (개별 머리 위 체력바 제거, 전체 피통은 상단 통합 게이지로 표시)
     state.squadSlots.forEach((hid, idx) => {
       if (!hid) return;
       const hero = HERO_POOL.find(x => x.id === hid);
@@ -3948,7 +4081,6 @@
       ctx.fillText(`${idx + 1}.${shortName}`, x, y + 20);
     });
 
-    // 적 진형 (개별 머리 위 체력바 제거, 전체 피통은 상단 통합 게이지로 표시)
     for (const en of state.enemies) {
       const x = w * en.xRatio;
       const y = h * en.yRatio;
@@ -4072,6 +4204,18 @@
 
     document.getElementById("btn-close-clear-modal").addEventListener("click", () => {
       document.getElementById("clear-reward-modal").classList.remove("open");
+    });
+
+    document.getElementById("btn-close-equip").addEventListener("click", () => {
+      document.getElementById("equip-modal").classList.remove("open");
+    });
+
+    document.getElementById("btn-modal-equip-all").addEventListener("click", equipBestForSelectedHero);
+    document.getElementById("btn-modal-upgrade-eq-all").addEventListener("click", upgradeAllEquipmentBatch);
+
+    document.getElementById("btn-modal-craft-eq").addEventListener("click", () => {
+      craftEquipment();
+      renderEquipModalContent();
     });
 
     document.querySelectorAll(".nav-tab").forEach(btn => {
